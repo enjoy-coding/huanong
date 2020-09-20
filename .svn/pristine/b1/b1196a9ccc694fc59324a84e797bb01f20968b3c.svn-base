@@ -1,0 +1,31 @@
+<!--水质监测-->
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>监测信息</li>
+    </ul>
+    <div class="layui-tab-content rightTabContent">
+        <!--监测详情-->
+        <div class="layui-tab-item nhtjContent layui-show">
+            <ul  class="sbxxList" th:object="${w}">
+                <li>名称：<span>[[*{sname}]]</span></li>
+                <li>类型：<span>[[*{type}]]</span></li>
+            </ul>
+            <div  th:if="${w.type} eq '水质' "  class="title3">水质监测值</div>
+            <ul th:if="${w.type} eq '水质' "  class="sbxxList">
+                <li>荧光法溶解氧：<span id="ygfrjy">0</span>mg/L</li>
+                <li>电磁式电导率：<span id="dcsddl">0</span>μs/cm</li>
+                <li>浊度：<span id="zd">0</span>NTU</li>
+                <li>pH 值：<span id="ph">0</span>ph</li>
+                <li>ORP：<span id="orp">0</span>mV</li>
+                <li>温度：<span id="wd">0</span>°C</li>
+                <li>监测时间：<span id="sz_jcsj">0</span></li>
+            </ul>
+            <div th:if="${w.type} eq '流速水位' " class="title3">流速水位值</div>
+            <ul class="sbxxList" th:if="${w.type} eq '流速水位' ">
+                <li>流速：<span id="ls">0</span>m/s</li>
+                <li>水位：<span id="sw">0</span>米</li>
+                <li>监测时间：<span id="ls_jcsj">0</span></li>
+            </ul>
+        </div>
+    </div>
+</div>

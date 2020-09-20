@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPumpMapper">
+
+    <resultMap type="AupPump" id="AupPumpResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="bfid" column="bfid"/>
+        <result property="pLevel" column="p_level"/>
+        <result property="jyqk" column="jyqk"/>
+    </resultMap>
+
+    <sql id="selectAupPumpVo">
+         select id, name, bfid, pid, p_level, jyqk from aup_pump
+    </sql>
+
+    <select id="selectAupPumpList" parameterType="AupPump" resultMap="AupPumpResult">
+        <include refid="selectAupPumpVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="bfid != null  and bfid != ''">
+
+                and bfid = #{bfid}
+            </if>
+            <if test="pid != null ">
+
+                and pid = #{pid}
+            </if>
+            <!--<if test="pLevel != null ">-->
+
+            <!--and p_level = #{pLevel}-->
+            <!--</if>-->
+            <if test="jyqk != null  and jyqk != ''">
+                <bind name="_jyqk" value="'%'+ jyqk +'%'"/>
+                and jyqk like #{_jyqk}
+            </if>
+        </where>
+        order by p_level
+    </select>
+
+    <select id="selectAupPumpById" parameterType="Long" resultMap="AupPumpResult">
+        <include refid="selectAupPumpVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupPump" parameterType="AupPump">
+        insert into aup_pump
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="bfid != null  and bfid != ''">bfid,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="pLevel != null ">p_level,</if>
+            <if test="jyqk != null  and jyqk != ''">jyqk,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="bfid != null  and bfid != ''">#{bfid},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="pLevel != null ">#{pLevel},</if>
+            <if test="jyqk != null  and jyqk != ''">#{jyqk},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupPump" parameterType="AupPump">
+        update aup_pump
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="bfid != null  and bfid != ''">bfid = #{bfid},</if>
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="pLevel != null ">p_level = #{pLevel},</if>
+            <if test="jyqk != null  and jyqk != ''">jyqk = #{jyqk},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupPumpById" parameterType="String">
+        delete from aup_pump where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPumpByIds" parameterType="String">
+        delete from aup_pump where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

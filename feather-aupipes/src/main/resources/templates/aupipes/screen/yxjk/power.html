@@ -1,0 +1,39 @@
+<!--右侧内容-->
+<div class="title sgfxTitle">管网连接</div>
+<!--<div class="gwlj pw15 ph30" >
+    <p>名称：[[${power.name}]]</p>
+    <p>位于：</p>
+</div>
+<h5 class="title3">追溯结果</h5>
+<ul class="zsjgList">
+    <li class="pr">
+        <label class="pa">名称</label>
+        <p>[[${power.name}]]</p>
+    </li>
+    <li class="pr">
+        <label class="pa">位置</label>
+        <p></p>
+    </li>
+</ul>
+&lt;!&ndash;额定电压&ndash;&gt;
+<div id="eddyEcharts" class="zsjgEcharts"></div>
+<h5 class="title3 txtC">额定电压(v) 380 / 220</h5>
+&lt;!&ndash;额定功率&ndash;&gt;
+<div id="edglEcharts" class="zsjgEcharts"></div>
+<h5 class="title3 txtC mb15">额定功率(Hz) 50</h5>-->
+<div class="txtC mb15 mbTop">
+    <button type="button" class="formBtn" onclick="GWYX.pickPoint()">选择</button>
+    <button type="button" class="formBtn" onclick="GWYX.lookProtry()">查看属性</button>
+    <button type="button" class="formBtn" onclick="GWYX.closePick();GWYX.clearPickPoint()">清除</button>
+</div>
+<div class="txtC zskgBtm">
+    <button type="button" class="formBtn" onclick="GWYX.cxzsFun()">出线追溯</button>
+    <button type="button" class="formBtn" onclick="GWYX.rxzsFun()">进线追溯</button>
+</div>
+<div class="analyseResult" style="margin-top: 2.5vh">
+
+
+
+</div>
+
+

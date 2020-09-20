@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('租用信息发布列表')" />
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>负责人：</p>
+                                <input type="text" name="parkrentName" />
+                            </li>
+                            <li>
+                                <p>标题：</p>
+                                <input type="text" name="parkrentTitle" />
+                            </li>
+                            <li>
+                                <p>任务状态：</p>
+                                <select name="parkrentType" th:with="type=${@dict.getType('sc_task_state1')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+<!--                            <li class="select-time">-->
+<!--                                <label>项目时间：</label>-->
+<!--                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"-->
+<!--                                    name="params[beginTime]" />-->
+<!--                                <span>-</span>-->
+<!--                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"-->
+<!--                                    name="params[endTime]" />-->
+<!--                            </li>-->
+                            <li>
+                                <p>联系电话：</p>
+                                <input type="text" name="parkrentTel" />
+                            </li>
+                            <li>
+                                <p>审核状态：</p>
+                                <select name="parkentAuditState" th:with="type=${@dict.getType('sc_audit_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="sc:shop:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editFull()"
+                    shiro:hasPermission="sc:shop:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                    shiro:hasPermission="sc:shop:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="sc:shop:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:parkrent:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('sc:parkrent:remove') }]];
+        var auditFlag = [[${@permission.hasPermi('sc:parkrent:audit') }]];
+        var prefix = ctx + "sc/parkrent";
+        var types = [[${@dict.getType('sc_task_state1') }]];
+        var auditState = [[${@dict.getType('sc_audit_status') }]];
+        var auditPassState = [[${@dict.getType('sc_audit_type') }]];
+    
+        $(function () {
+            var options = {
+                url: prefix + "/list",
+                removeUrl: prefix + "/remove",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                auditDetailUrl : prefix + "/audit/{id}",
+                modalName: "发布信息",
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        field: 'parkrentId',
+                        title: '编号',
+                        visible: false
+                    },
+                    {
+                        field: 'parkrentName',
+                        title: '负责人'
+                    },
+                    {
+                        field: 'parkrentTitle',
+                        title: '标题'
+                    },
+                    {
+                        field: 'parkrentType',
+                        title: '类型',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return $.table.selectDictLabel(types, value);
+                        }
+                    },
+                    {
+                        field: 'auditState',
+                        title: '审核状态',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return $.table.selectDictLabel(auditState, value);
+                        }
+                    },
+                    {
+                        field: 'auditPassState',
+                        title: '审核通过状态',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return $.table.selectDictLabel(auditPassState, value);
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            if (row.auditState == 0) {
+                                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.parkrentId + '\')"><i class="fa fa-legal"></i>编辑</a> ');
+                                actions.push('<a class="btn btn-info btn-xs ' + auditFlag + '" href="javascript:void(0)" onclick="auditFull(\'' + row.parkrentId + '\')"><i class="fa fa-arrow-up"></i>审核</a> ');
+                            } else {
+                                actions.push('<a class="btn btn-primary btn-xs ' + auditFlag + '" href="javascript:void(0)" onclick="detailFull(\'' + row.parkrentId + '\')"><i class="fa fa-legal"></i>详情</a> ');
+                            }
+                            actions.push('<a class="btn btn-warning btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="over(\'' + row.parkrentId + '\',\'' + row.parkrentType + '\',\'' + row.auditState + '\',\''+row.auditPassState+ '\')"><i class="fa fa-check"></i>结项</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.parkrentId + '\')"><i class="fa fa-remove"></i>删除</a> ');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        });
+
+        /**
+         *  打开审核
+         */ 
+        function auditFull(id, ext) {
+            var url = $.table._option.auditDetailUrl;
+            if ($.common.isNotEmpty(id)) {
+                url = url.replace("{id}", id);
+            }
+            url = url.replace("{ext}", ext || "");
+            $.modal.openFull("审核" + $.table._option.modalName, url);
+        }
+
+  
+
+        /**
+         *  结项页面 
+         */
+        function over(id,parkrentType,auditState,auditPassState){
+            if(parkrentType == 3){
+                $.modal.msg("该任务已结项!");
+                return;
+            }
+            if(auditState == 0){
+                $.modal.msg("该任务未审核!");
+                return;
+            }
+            if(auditState == 1 && auditPassState == 1){
+                $.modal.msg("该任务审核未通过!");
+                return;
+            }
+            var url = prefix + '/over/' + id;
+		    $.modal.openFull("结束任务", url);
+        }
+    </script>
+</body>
+
+</html>

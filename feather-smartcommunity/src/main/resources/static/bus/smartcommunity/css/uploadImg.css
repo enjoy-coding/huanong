@@ -1,0 +1,174 @@
+/**图片**/
+.imageDiv {
+    display:inline-block;
+    width:160px;
+    height:140px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    border:1px dashed darkgray;
+    background:#f8f8f8;
+    position:relative;
+    overflow:hidden;
+    margin:10px
+}
+.img{
+    cursor: pointer;
+}
+.cover {
+    position:absolute;
+    z-index:1;
+    top:0;
+    left:0;
+    width:160px;
+    height:140px;
+    background-color:rgba(0,0,0,.3);
+    display:none;
+    line-height:125px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.imageDiv img{
+    width:160px !important;
+    height:140px !important;
+}
+.cover .delbtn {
+    color:red;
+    font-size:20px;
+}
+.cover .editdelbtn {
+    color:red;
+    font-size:20px;
+}
+.imageDiv:hover .cover {
+    display:block;
+}
+.addImages {
+    display:inline-block;
+    width:160px;
+    height:140px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    border:1px dashed darkgray;
+    background:#f8f8f8;
+    position:relative;
+    overflow:hidden;
+    margin:10px;
+}
+.text-detail {
+    margin-top:40px;
+    text-align:center;
+}
+.text-detail span {
+    font-size:40px;
+}
+.file {
+    position:absolute;
+    top:0;
+    left:0;
+    width:160px;
+    height:140px;
+    opacity:0;
+}
+/**视频**/
+
+.videoDiv {
+    display:inline-block;
+    width:380px;
+    height:260px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    border:1px dashed darkgray;
+    background:#f8f8f8;
+    position:relative;
+    overflow:hidden;
+    margin:10px
+}
+.videoDiv:hover .cover {
+    display:block;
+}
+
+.addVideo {
+    display:inline-block;
+    width:380px;
+    height:260px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    border:1px dashed darkgray;
+    background:#f8f8f8;
+    position:relative;
+    overflow:hidden;
+}
+
+.addVideo em {
+    position: absolute;
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-color: red;
+    color: #fff;
+    font-size: 27px;
+    right: 0px;
+    top: 0px;
+    text-align: center;
+    line-height: 21px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.videofile {
+    position:absolute;
+    top:0;
+    left:0;
+    width:380px;
+    height:260px;
+    opacity:0;
+}
+
+.addVideo .text-detail {
+    margin-top:80px;
+    text-align:center;
+    cursor: pointer;
+}
+
+
+
+.addVideo li video {
+
+    width: 380px !important;
+    height: 260px !important;
+}
+
+ul,li,textarea{
+    margin: 0;
+    padding: 0;
+}
+
+
+.ad-img h3 {
+    font-weight: normal;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+
+
+.upload-btn {
+    height: 260px;
+    width: 380px;
+    position: relative;
+    display: inline-block;
+    background: #f8f8f8;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+}
+
+
+.img_head {
+    max-width: 200px;
+    max-height: 160px;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>能源保障服务平台</title>
+		<!--<link th:href="@{/bus/aupipes/mobile/css/css.css}" rel="stylesheet" type="text/css">-->
+		<link href="../static/bus/aupipes/mobile/css/css.css" th:href="@{/bus/aupipes/mobile/css/css.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div class="box loginBg pr">
+			<div class="loginContent pa">
+				<img th:src="@{/bus/aupipes/mobile/images/loginLogo.png}" alt="" class="loginLogo" />
+				<div class="loginFromBg">
+					<form class="loginFrom">
+						<div class="of from-item">
+							<label for="" class="fl label">用户名</label>
+							<div class="fr input">
+								<input type="text" name="username"  />
+							</div>
+						</div>
+						<div class="of from-item">
+							<label for="" class="fl label">密码</label>
+							<div class="fr input">
+								<input type="password" name="password"  />
+							</div>
+						</div>
+						<p class="prompt hide">内容不能空</p>
+						<div class="of from-item txtC">
+							<button type="button" class="loginBtn"  id="btnSubmit"  data-loading="正在验证登录，请稍后...">登录</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script th:inline="javascript">
+		var ctx = [[@{/}]];
+		var openid = [[${openid}]];
+	</script>
+	<script src="../static/bus/aupipes/js/index-canvas.js" th:src="@{/bus/aupipes/js/index-canvas.js}"></script>
+	<script src="../static/def/js/jquery.min.js" th:src="@{/def/js/jquery.min.js}"></script>
+	<script src="../static/def/libs/layer/layer.min.js" th:src="@{/def/libs/layer/layer.min.js}"></script>
+	<script src="../static/def/feather/js/ry-ui.js" th:src="@{/def/feather/js/ry-ui.js(v=${staticResourcesVersion})}"></script>
+	<script>
+		$(function() {
+			var showImgcode = function(){
+				var url = ctx + "captcha?s=" + Math.random();
+				$(".imgcode").attr("src", url);
+			};
+			$('.imgcode').click(showImgcode);
+			setTimeout(showImgcode, 50);
+		});
+		
+		function login() {
+			var $btnSubmit = $("#btnSubmit");
+			$btnSubmit.attr("disabled", "true");
+	
+			var username = $.common.trim($("input[name='username']").val());
+			var password = $.common.trim($("input[name='password']").val());
+			var validateCode = $("input[name='validateCode']").val();
+	
+			$.ajax({
+				type : "post",
+				url : ctx + "login",
+				data : {
+					"username" : username,
+					"password" : password,
+					"validateCode" : validateCode,
+					"openid" : openid
+				},
+				success : function(r) {
+					$btnSubmit.removeAttr("disabled");
+					if (r.code == 0) {
+						top.location.href = ctx + 'mobile/home?_='+ new Date().getTime();
+					} else {
+						$("#tipTxt").text(r.msg);
+						layerBox(r.msg);
+					}
+				}
+			});
+			return false;
+		}
+		function layerBox(msg) {
+			layer.alert("<font color='red'>"+msg+"</font>");
+		}
+		$(function() {
+			$("#btnSubmit").click(login);
+		});
+	</script>
+</html>

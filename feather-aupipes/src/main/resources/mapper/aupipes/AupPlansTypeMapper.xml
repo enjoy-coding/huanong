@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPlansTypeMapper">
+    
+    <resultMap type="AupPlansType" id="AupPlansTypeResult">
+        <result property="id"    column="id"    />
+        <result property="yatype"    column="yaType"    />
+        <result property="paretid"    column="paretId"    />
+    </resultMap>
+
+    <sql id="selectAupPlansTypeVo">
+        select id, yaType, paretId from aup_plans_type
+    </sql>
+
+    <select id="selectAupPlansTypeList" parameterType="AupPlansType" resultMap="AupPlansTypeResult">
+        <include refid="selectAupPlansTypeVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectAupPlansTypeById" parameterType="Long" resultMap="AupPlansTypeResult">
+    </select>
+        
+    <insert id="insertAupPlansType" parameterType="AupPlansType">
+        insert into aup_plans_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="yatype != null  and yatype != ''">yaType,</if>
+            <if test="paretid != null  and paretid != ''">paretId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="yatype != null  and yatype != ''">#{yatype},</if>
+            <if test="paretid != null  and paretid != ''">#{paretid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupPlansType" parameterType="AupPlansType">
+        update aup_plans_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="yatype != null  and yatype != ''">yaType = #{yatype},</if>
+            <if test="paretid != null  and paretid != ''">paretId = #{paretid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupPlansTypeById" parameterType="Long">
+        delete from aup_plans_type where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPlansTypeByIds" parameterType="String">
+        delete from aup_plans_type where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

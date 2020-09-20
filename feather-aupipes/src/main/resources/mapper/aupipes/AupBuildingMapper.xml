@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupBuildingMapper">
+
+    <resultMap type="AupBuilding" id="AupBuildingResult">
+        <result property="name"    column="Name"    />
+        <result property="no"    column="No"    />
+        <result property="floors"    column="Floors"    />
+        <result property="units"    column="Units"    />
+        <result property="areano"    column="AreaNo"    />
+        <result property="areaname"    column="AreaName"    />
+        <result property="sideno"    column="SideNo"    />
+        <result property="sidename"    column="SideName"    />
+        <result property="waterno"    column="WaterNo"    />
+        <result property="watername"    column="WaterName"    />
+        <result property="electricno"    column="ElectricNo"    />
+        <result property="electricname"    column="ElectricName"    />
+        <result property="mapid"    column="MapId"    />
+        <result property="latitude"    column="Latitude"    />
+        <result property="longitude"    column="Longitude"    />
+        <result property="finishtime"    column="FinishTime"    />
+        <result property="usedarea"    column="UsedArea"    />
+        <result property="buildarea"    column="BuildArea"    />
+        <result property="sortcode"    column="SortCode"    />
+        <result property="id"    column="Id"    />
+        <result property="buildingType" column="buildingType"/>
+    </resultMap>
+
+
+
+    <sql id="selectAupBuildingVo">
+         select Name, No, Floors, Units, AreaNo, AreaName,SideNo
+					, SideName, WaterNo, WaterName, ElectricNo, ElectricName
+					, MapId, Latitude, Longitude,UsedArea, BuildArea,Id
+			from aup_building
+    </sql>
+
+
+    <select id="selectAupBuildingList" parameterType="AupBuilding" resultMap="AupBuildingResult">
+        <include refid="selectAupBuildingVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and Name like #{_name}
+            </if>
+            <if test="no != null  and no != ''"> and No = #{no}</if>
+             <if test="floors != null  and floors != ''"> and Floors = #{floors}</if>
+            <if test="units != null  and units != ''"> and Units = #{units}</if>
+            <if test="areano != null  and areano != ''"> and AreaNo = #{areano}</if>
+
+            <if test="sideno != null  and sideno != ''"> and SideNo = #{sideno}</if>
+            <if test="sidename != null  and sidename != ''">
+                <bind name="_sidename" value="'%'+ sidename +'%'"/>
+                and SideName like #{_sidename}
+            </if>
+            <if test="waterno != null  and waterno != ''"> and WaterNo = #{waterno}</if>
+            <if test="watername != null  and watername != ''">
+                <bind name="_watername" value="'%'+ watername +'%'"/>
+                and WaterName like #{_watername}
+            </if>
+            <if test="electricno != null  and electricno != ''"> and ElectricNo = #{electricno}</if>
+            <if test="electricname != null  and electricname != ''">
+                <bind name="_electricname" value="'%'+ electricname +'%'"/>
+                and ElectricName like #{_electricname}
+            </if>
+            <if test="mapid != null  and mapid != ''"> and MapId = #{mapid}</if>
+            <if test="latitude != null  and latitude != ''"> and Latitude = #{latitude}</if>
+            <if test="longitude != null  and longitude != ''"> and Longitude = #{longitude}</if>
+            <if test="usedarea != null  and usedarea != ''"> and UsedArea = #{usedarea}</if>
+            <if test="buildarea != null  and buildarea != ''"> and BuildArea = #{buildarea}</if>
+        </where>
+    </select>
+
+    <select id="selectAupBuildingById" parameterType="String" resultMap="AupBuildingResult">
+        <include refid="selectAupBuildingVo"/>
+        where Id = #{id}
+    </select>
+
+
+
+    <select id="getFwCount" parameterType="String" resultType="Map">
+        SELECT
+            s.buildingType fwType,
+            COUNT (s.buildingType) fwCount
+        FROM
+            <!-- aup_building s -->
+        aup_buildingType s
+        where s.[No] in
+        <foreach item="fwNo" collection="array" open="(" separator="," close=")">
+            #{fwNo}
+        </foreach>
+        GROUP BY
+            s.buildingType
+    </select>
+
+    <select id="getFwList" parameterType="String" resultType="Map">
+        SELECT
+        s.areaName,
+        s.buildingName,
+        s.buildingType,
+        s.[No]
+        FROM
+        aup_buildingType s
+        where s.[No] in
+        <foreach item="fwNo" collection="array" open="(" separator="," close=")">
+            #{fwNo}
+        </foreach>
+    </select>
+
+    <select id="getLdAdminMap" parameterType="String" resultType="Map">
+        SELECT
+        DISTINCT(j.Id),
+        j.manageType,
+        COUNT (j.manageType) manageCount
+        FROM
+        <!-- aup_building_area ba -->
+        view_building  ba
+        LEFT JOIN aup_jcbz_manager j ON CHARINDEX(ba.code, j.code) > 0
+        WHERE
+        <!-- ba.areaNo IN -->
+        ba.[No] in
+        <foreach item="fwNo" collection="array" open="(" separator="," close=")">
+            #{fwNo}
+        </foreach>
+        GROUP BY j.Id,j.manageType
+    </select>
+
+</mapper>

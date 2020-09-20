@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupBuildingtypeMapper">
+    
+    <resultMap type="AupBuildingtype" id="AupBuildingtypeResult">
+        <result property="id"    column="id"    />
+        <result property="areano"    column="areaNo"    />
+        <result property="no"    column="No"    />
+        <result property="areaname"    column="areaName"    />
+        <result property="buildingname"    column="buildingName"    />
+        <result property="buildingtype"    column="buildingType"    />
+    </resultMap>
+
+    <sql id="selectAupBuildingtypeVo">
+        select id, areaNo, No, areaName, buildingName, buildingType from aup_buildingType
+    </sql>
+
+    <select id="selectAupBuildingtypeList" parameterType="AupBuildingtype" resultMap="AupBuildingtypeResult">
+        <include refid="selectAupBuildingtypeVo"/>
+        <where>  
+            <if test="areaname != null  and areaname != ''">
+            	<bind name="_areaname" value="'%'+ areaname +'%'"/>
+            	and areaName like #{_areaname}
+            </if>
+            <if test="buildingname != null  and buildingname != ''">
+            	<bind name="_buildingname" value="'%'+ buildingname +'%'"/>
+            	and buildingName like #{_buildingname}
+            </if>
+            <if test="buildingtype != null  and buildingtype != ''">
+            	<bind name="_buildingtype" value="'%'+ buildingtype +'%'"/>
+            	and buildingType like #{_buildingtype}
+            </if>
+            <if test="no != null  and no != ''"> and No = #{no}</if>
+            <if test="areano != null  and areano != ''"> and No = #{areano}</if>
+        </where>
+        order by areaName , buildingName
+    </select>
+    
+    <select id="selectAupBuildingtypeById" parameterType="Long" resultMap="AupBuildingtypeResult">
+        <include refid="selectAupBuildingtypeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAupBuildingtype" parameterType="AupBuildingtype">
+        insert into aup_buildingType
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="areano != null  and areano != ''">areaNo,</if>
+            <if test="no != null  and no != ''">No,</if>
+            <if test="areaname != null  and areaname != ''">areaName,</if>
+            <if test="buildingname != null  and buildingname != ''">buildingName,</if>
+            <if test="buildingtype != null  and buildingtype != ''">buildingType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="areano != null  and areano != ''">#{areano},</if>
+            <if test="no != null  and no != ''">#{no},</if>
+            <if test="areaname != null  and areaname != ''">#{areaname},</if>
+            <if test="buildingname != null  and buildingname != ''">#{buildingname},</if>
+            <if test="buildingtype != null  and buildingtype != ''">#{buildingtype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupBuildingtype" parameterType="AupBuildingtype">
+        update aup_buildingType
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areano != null  and areano != ''">areaNo = #{areano},</if>
+            <if test="no != null  and no != ''">No = #{no},</if>
+            <if test="areaname != null  and areaname != ''">areaName = #{areaname},</if>
+            <if test="buildingname != null  and buildingname != ''">buildingName = #{buildingname},</if>
+            <if test="buildingtype != null  and buildingtype != ''">buildingType = #{buildingtype},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupBuildingtypeById" parameterType="Long">
+        delete from aup_buildingType where id = #{id}
+    </delete>
+
+    <delete id="deleteAupBuildingtypeByIds" parameterType="String">
+        delete from aup_buildingType where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

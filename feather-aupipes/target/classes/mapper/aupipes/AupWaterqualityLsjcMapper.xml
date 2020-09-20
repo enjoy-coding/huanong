@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWaterqualityLsjcMapper">
+
+    <resultMap type="AupWaterqualityLsjc" id="AupWaterqualityLsjcResult">
+        <result property="id"    column="id"    />
+        <result property="jcsj"    column="jcsj"    />
+        <result property="ls"    column="ls"    />
+        <result property="sw"    column="sw"    />
+        <result property="oid"    column="oid"    />
+    </resultMap>
+
+    <sql id="selectAupWaterqualityLsjcVo">
+        select id, jcsj, ls, sw,oid from aup_waterQuality_lsjc
+    </sql>
+
+    <select id="selectAupWaterqualityLsjcVoByOid" parameterType="Long" resultMap="AupWaterqualityLsjcResult">
+        select id, jcsj, ls, sw,oid from aup_waterQuality_lsjc
+        where oid = #{oid}
+        order by jcsj desc
+    </select>
+
+    <select id="selectAupWaterqualityLsjcList" parameterType="AupWaterqualityLsjc" resultMap="AupWaterqualityLsjcResult">
+        <include refid="selectAupWaterqualityLsjcVo"/>
+        <where>
+            <if test="oid ! =null ">
+                and oid = #{oid}
+            </if>
+            <if test="startTime !=null and startTime != '' ">
+                and jscj >= #{startTime}
+            </if>
+            <if test="endTime !=null and endTime != '' ">
+                and jscj >= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupWaterqualityLsjcById" parameterType="Long" resultMap="AupWaterqualityLsjcResult">
+        <include refid="selectAupWaterqualityLsjcVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupWaterqualityLsjc" parameterType="AupWaterqualityLsjc">
+        insert into aup_waterQuality_lsjc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">oid,</if>
+            <if test="id != null ">id,</if>
+            <if test="jcsj != null  and jcsj != ''">jcsj,</if>
+            <if test="ls != null ">ls,</if>
+            <if test="sw != null ">sw,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">#{oid},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="jcsj != null  and jcsj != ''">#{jcsj},</if>
+            <if test="ls != null ">#{ls},</if>
+            <if test="sw != null ">#{sw},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupWaterqualityLsjc" parameterType="AupWaterqualityLsjc">
+        update aup_waterQuality_lsjc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jcsj != null  and jcsj != ''">jcsj = #{jcsj},</if>
+            <if test="ls != null ">ls = #{ls},</if>
+            <if test="sw != null ">sw = #{sw},</if>
+            <if test="oid != null ">oid = #{oid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupWaterqualityLsjcById" parameterType="Long">
+        delete from aup_waterQuality_lsjc where id = #{id}
+    </delete>
+
+    <delete id="deleteAupWaterqualityLsjcByIds" parameterType="String">
+        delete from aup_waterQuality_lsjc where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

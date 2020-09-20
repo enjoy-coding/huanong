@@ -1,0 +1,113 @@
+<div class="listDetail">
+    <div class="pr content">
+        <h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>属性信息</h5>
+        <div class="txt">
+            <div class="titleStyle1">设备信息</div>
+            <ul class="list">
+                <li>
+                    <label class="left fl">设备名称:</label>
+                    <p class="right fr">{{ list.formSysName }}</p>
+                </li>
+                <li>
+                    <label class="left fl">设备位置:</label>
+                    <p class="right fr">{{ list.path }}</p>
+                </li>
+                <li>
+                    <label class="left fl">设备类型:</label>
+                    <p class="right fr">{{ list.formSysName }}</p>
+                </li>
+                <li>
+                    <label class="left fl">设备ID:</label>
+                    <p class="right fr">{{ list.code }}</p>
+                </li>
+            </ul>
+            <div class="titleStyle1">预警信息</div>
+            <ul class="list">
+                <li>
+                    <label class="left fl">预警名称:</label>
+                    <p class="right fr">{{ list.formSysName }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警内容警报:</label>
+                    <p class="right fr">{{ list.content }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警原因:</label>
+                    <p class="right fr">{{ list.name }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警时间:</label>
+                    <p class="right fr">{{ list.dateTime }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警状态:</label>
+                    <p class="right fr">{{ list.state }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警等级:</label>
+                    <p class="right fr">{{ list.level }}</p>
+                </li>
+                <li>
+                    <label class="left fl">预警来源:</label>
+                    <p class="right fr">{{ list.author }}</p>
+                </li>
+            </ul>
+            <div class="titleStyle1">监测信息</div>
+            <ul class="list yjdjList" v-if="list.formSysName == '路灯'">
+                <li><label class="left fl">灯头:</label><p class="right fr">{{ info.num }}</p></li>
+                <li><label class="left fl">功率:</label><p class="right fr">{{ info.p }}(W)</p></li>
+                <li><label class="left fl">电流:</label><p class="right fr">{{ info.i }}(A)</p></li>
+                <li><label class="left fl">功率因数:</label><p class="right fr">{{ info.pf }}</p></li>
+                <li><label class="left fl">电压:</label><p class="right fr">{{ info.u }}(V)</p></li>
+                <li><label class="left fl">电量:</label><p class="right fr">{{ info.e }}</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '水表'">
+                <li><label class="left fl">时间:</label><p class="right fr">{{ info.readTime }}</p></li>
+                <li><label class="left fl">电压值:</label><p class="right fr">{{ info.voltage }}(V)</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '电表'">
+                <li><label class="left fl">时间:</label><p class="right fr">{{ info.readTime }}</p></li>
+                <li><label class="left fl">电压值:</label><p class="right fr">{{ info.voltage }}(V)</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '水质' && info.type == '流速水位'">
+                <li><label class="left fl">名称:</label><p class="right fr" >{{ name }}</p></li>
+                <li><label class="left fl">类型:</label><p class="right fr">{{ info.type }}</p></li>
+                <li><label class="left fl">流速:</label><p class="right fr">{{ info.lsjc.ls }}(m/s)</p></li>
+                <li><label class="left fl">水位:</label><p class="right fr">{{ info.lsjc.sw }}(m)</p></li>
+                <li><label class="left fl">监测时间:</label><p class="right fr">{{ info.lsjc.jcsj }}</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '水质' && info.type == '水质'">
+                <li><label class="left fl">名称:</label><p class="right fr">{{ name }}</p></li>
+                <li><label class="left fl">类型:</label><p class="right fr">{{ info.type }}</p></li>
+                <li><label class="left fl">荧光法溶解氧:</label><p class="right fr">{{ info.szjc.ygfrjy }}(mg/L)</p></li>
+                <li><label class="left fl">电磁式电导率:</label><p class="right fr">{{ info.szjc.dcsddl }}(μs/cm)</p></li>
+                <li><label class="left fl">浊度:</label><p class="right fr">{{ info.szjc.zd }}(NTU)</p></li>
+                <li><label class="left fl">pH值:</label><p class="right fr">{{ info.szjc.ph }}(ph)</p></li>
+                <li><label class="left fl">ORP:</label><p class="right fr">{{ info.szjc.orp }}(mV)</p></li>
+                <li><label class="left fl">温度:</label><p class="right fr">{{ info.szjc.wd }}(°C)</p></li>
+                <li><label class="left fl">监测时间:</label><p class="right fr">{{ info.szjc.jcsj }}</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '泵房'">
+                <li><label class="left fl">名称:</label><p class="right fr">{{ info.name }}</p></li>
+                <li><label class="left fl">市政压力值:</label><p class="right fr">{{ info.voltage }}(Mpa)</p></li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '探漏'">
+                <li style="height: 150px;">
+                    <div id="xhbd_Charts" style="width:100%;height: 100%"></div>
+                </li>
+                <li style="height: 150px;">
+                    <div id="ycxs_Charts" style="width:100%;height: 100%"></div>
+                </li>
+            </ul>
+            <ul class="list yjdjList" v-if="list.formSysName == '监控'">
+                <li style="height: 150px;">
+                    <img :src="list.ImageUrl1" alt="" style="width:100%;height: 100%">
+                    <!--<div id="videoMain" style="width:100%;height: 100%"></div>-->
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+

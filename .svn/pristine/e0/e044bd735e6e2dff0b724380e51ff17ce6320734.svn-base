@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>属性信息</title>
+    <style>
+        html,body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,
+        input {
+            margin: 0px;
+            padding: 0px;
+            font-weight: normal;
+        }
+        /* 设置滚动条的样式 */
+        ::-webkit-scrollbar {width:3px;height: 3px;}
+        /* 滚动槽 */
+        ::-webkit-scrollbar-track {border-radius: 10px;background-color:rgba(46,111,187,1);}
+        /* 滚动条滑块 */
+        ::-webkit-scrollbar-thumb {width: 3px;height: 3px;background-color: #19c2c4;border-radius: 4px}
+        .attributesBox{
+            padding:10px;
+            color:#fff;
+            font-size:13px;
+        }
+        .attributesBox p{
+            line-height:22px;
+        }
+        .attributesBox span{
+            margin-right:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="attributesBox">
+        <p><span>batchId:</span>容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+    </div>
+</body>
+</html>

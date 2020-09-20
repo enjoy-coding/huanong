@@ -1,0 +1,81 @@
+<!--关阀分析事故分析 -->
+
+<div class="title sgfxTitle">停水分析</div>
+<h5 class="title3">地图操作</h5>
+<div class="mapEdit tabBtnGroup1 mapEdit2">
+    <ul class='oh zs-mapEdit2'>
+        <li class="bhsg" onclick="GFTS.pick()"><i class="iconfont icon-bi-copy"></i>
+            <h6>标绘事故点</h6></li>
+        <li class="tabBtn" onclick="GFTS.analyse()"><i class="iconfont icon-fenxi"></i>
+            <h6>停水分析</h6></li>
+        <li class="tabBtn" onclick="GFTS.clearPic()"><i class="iconfont icon-shanchu-copy-copy"></i>
+            <h6>清除</h6></li>
+    </ul>
+</div>
+<div class="lzfxList" style="display:none">
+    <div class="title3">关阀分析</div>
+    <ul class="yjtjList lzfxNumber">
+        <li class="active">
+            <p>关闭阀门</p>
+            <h6>[(${rightBox.bdx})]</h6> <i class="iconfont icon-humidity"></i>
+        </li>
+    </ul>
+</div>
+<div class="yxfwList" style="display:none">
+    <div class="title3">影响范围</div>
+    <div class="yxfwNumber pr">
+        <div class="jml pa">
+            <h5>[(${rightBox.jml})]</h5>
+            <p>居民楼</p>
+        </div>
+        <div class="ssl pa">
+            <h5>[(${rightBox.ssl})]</h5>
+            <p>宿舍楼</p>
+        </div>
+        <div class="jxl pa">
+            <h5>[(${rightBox.jxl})]</h5>
+            <p>教学楼</p>
+        </div>
+        <div class="syl pa">
+            <h5>[(${rightBox.syl})]</h5>
+            <p>商业楼</p>
+        </div>
+    </div>
+</div>
+<div class="tsyhList" style="display:none">
+    <div class="title3">推送用户</div>
+    <ul class="pd15 ldqkList tsyhList">
+        <li>
+            <h5>
+                <span class="ssManageCount">[(${rightBox.ssgly})]</span>
+            </h5>
+            <p class="clGreen">
+                <i class="iconfont icon-ren"></i>宿舍管理员
+            </p>
+        </li>
+        <li>
+            <h5>
+                <span class="hqbCount">[(${rightBox.hqb})]</span>
+            </h5>
+            <p class="clGreen">
+                <i class="iconfont icon-admin"></i>后保部
+            </p>
+        </li>
+        <li>
+            <h5>
+                <span class="jmyhCount" >[(${rightBox.jmgly})]</span>
+            </h5>
+            <p class="clGreen">
+                <i class="iconfont icon-guanliyuan"></i>居民用户
+            </p>
+        </li>
+        <li>
+            <h5>
+                <span class="jxManageCount">[(${rightBox.jxgly})]</span>
+            </h5>
+            <p class="clGreen">
+                <i class="iconfont icon-ren1"></i>教学管理员
+            </p>
+        </li>
+    </ul>
+</div>

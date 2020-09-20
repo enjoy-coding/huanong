@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupHouseMapper">
+
+    <resultMap type="AupHouse" id="AupHouseResult">
+        <result property="rid"    column="Rid"    />
+        <result property="name"    column="Name"    />
+        <result property="no"    column="No"    />
+        <result property="floor"    column="Floor"    />
+        <result property="unit"    column="Unit"    />
+        <result property="housetypename"    column="HouseTypeName"    />
+        <result property="housetypeid"    column="HouseTypeId"    />
+        <result property="structureid"    column="StructureId"    />
+        <result property="structurename"    column="StructureName"    />
+        <result property="buildarea"    column="Buildarea"    />
+        <result property="usearea"    column="Usearea"    />
+        <result property="groundarea"    column="Groundarea"    />
+        <result property="ddlareavalue"    column="ddlAreaValue"    />
+        <result property="areano"    column="Areano"    />
+        <result property="areaname"    column="AreaName"    />
+        <result property="buildingid"    column="BuildingId"    />
+        <result property="buildingno"    column="Buildingno"    />
+        <result property="buildingname"    column="BuildingName"    />
+        <result property="finishdate"    column="Finishdate"    />
+        <result property="housepropertyno"    column="HousePropertyNo"    />
+        <result property="houseimage"    column="HouseImage"    />
+        <result property="rent"    column="Rent"    />
+        <result property="houserelationid"    column="HouseRelationId"    />
+        <result property="houserelationname"    column="HouseRelationName"    />
+        <result property="housesortid"    column="HouseSortId"    />
+        <result property="housesortname"    column="HouseSortName"    />
+        <result property="recordstatus"    column="RecordStatus"    />
+        <result property="modifyuserid"    column="ModifyUserId"    />
+        <result property="modifydate"    column="ModifyDate"    />
+        <result property="createusername"    column="CreateUserName"    />
+        <result property="createuserid"    column="CreateUserId"    />
+        <result property="createdate"    column="CreateDate"    />
+        <result property="description"    column="Description"    />
+        <result property="canwrite"    column="CanWrite"    />
+        <result property="enabledmark"    column="EnabledMark"    />
+        <result property="deletemark"    column="DeleteMark"    />
+        <result property="sortcode"    column="SortCode"    />
+        <result property="id"    column="Id"    />
+        <result property="klassname"    column="KlassName"    />
+        <result property="modifyusername"    column="ModifyUserName"    />
+    </resultMap>
+
+    <sql id="selectAupHouseVo">
+        select Rid, Name, No, Floor, Unit, HouseTypeName, HouseTypeId, StructureId, StructureName, Buildarea, Usearea, Groundarea, ddlAreaValue, Areano, AreaName, BuildingId, Buildingno, BuildingName, Finishdate, HousePropertyNo, HouseImage, Rent, HouseRelationId, HouseRelationName, HouseSortId, HouseSortName, RecordStatus, ModifyUserId, ModifyDate, CreateUserName, CreateUserId, CreateDate, Description, CanWrite, EnabledMark, DeleteMark, SortCode, Id, KlassName, ModifyUserName from aup_house
+    </sql>
+
+    <select id="selectAupHouseList" parameterType="AupHouse" resultMap="AupHouseResult">
+        <include refid="selectAupHouseVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and Name like #{_name}
+            </if>
+            <if test="no != null  and no != ''"> and No = #{no}</if>
+            <if test="floor != null  and floor != ''"> and Floor = #{floor}</if>
+            <if test="unit != null  and unit != ''"> and Unit = #{unit}</if>
+            <if test="housetypename != null  and housetypename != ''">
+                <bind name="_housetypename" value="'%'+ housetypename +'%'"/>
+                and HouseTypeName like #{_housetypename}
+            </if>
+            <if test="housetypeid != null  and housetypeid != ''"> and HouseTypeId = #{housetypeid}</if>
+            <if test="structureid != null  and structureid != ''"> and StructureId = #{structureid}</if>
+            <if test="structurename != null  and structurename != ''">
+                <bind name="_structurename" value="'%'+ structurename +'%'"/>
+                and StructureName like #{_structurename}
+            </if>
+            <if test="buildarea != null  and buildarea != ''"> and Buildarea = #{buildarea}</if>
+            <if test="usearea != null  and usearea != ''"> and Usearea = #{usearea}</if>
+            <if test="groundarea != null  and groundarea != ''"> and Groundarea = #{groundarea}</if>
+            <if test="ddlareavalue != null  and ddlareavalue != ''"> and ddlAreaValue = #{ddlareavalue}</if>
+            <if test="areano != null  and areano != ''"> and Areano = #{areano}</if>
+            <if test="areaname != null  and areaname != ''">
+                <bind name="_areaname" value="'%'+ areaname +'%'"/>
+                and AreaName like #{_areaname}
+            </if>
+            <if test="buildingid != null  and buildingid != ''"> and BuildingId = #{buildingid}</if>
+            <if test="buildingno != null  and buildingno != ''"> and Buildingno = #{buildingno}</if>
+            <if test="buildingname != null  and buildingname != ''">
+                <bind name="_buildingname" value="'%'+ buildingname +'%'"/>
+                and BuildingName like #{_buildingname}
+            </if>
+            <if test="finishdate != null  and finishdate != ''"> and Finishdate = #{finishdate}</if>
+            <if test="housepropertyno != null  and housepropertyno != ''"> and HousePropertyNo = #{housepropertyno}</if>
+            <if test="houseimage != null  and houseimage != ''"> and HouseImage = #{houseimage}</if>
+            <if test="rent != null  and rent != ''"> and Rent = #{rent}</if>
+            <if test="houserelationid != null  and houserelationid != ''"> and HouseRelationId = #{houserelationid}</if>
+            <if test="houserelationname != null  and houserelationname != ''">
+                <bind name="_houserelationname" value="'%'+ houserelationname +'%'"/>
+                and HouseRelationName like #{_houserelationname}
+            </if>
+            <if test="housesortid != null  and housesortid != ''"> and HouseSortId = #{housesortid}</if>
+            <if test="housesortname != null  and housesortname != ''">
+                <bind name="_housesortname" value="'%'+ housesortname +'%'"/>
+                and HouseSortName like #{_housesortname}
+            </if>
+            <if test="recordstatus != null  and recordstatus != ''"> and RecordStatus = #{recordstatus}</if>
+            <if test="modifyuserid != null  and modifyuserid != ''"> and ModifyUserId = #{modifyuserid}</if>
+            <if test="modifydate != null  and modifydate != ''"> and ModifyDate = #{modifydate}</if>
+            <if test="createusername != null  and createusername != ''">
+                <bind name="_createusername" value="'%'+ createusername +'%'"/>
+                and CreateUserName like #{_createusername}
+            </if>
+            <if test="createuserid != null  and createuserid != ''"> and CreateUserId = #{createuserid}</if>
+            <if test="createdate != null  and createdate != ''"> and CreateDate = #{createdate}</if>
+            <if test="description != null  and description != ''"> and Description = #{description}</if>
+            <if test="canwrite != null  and canwrite != ''"> and CanWrite = #{canwrite}</if>
+            <if test="enabledmark != null  and enabledmark != ''"> and EnabledMark = #{enabledmark}</if>
+            <if test="deletemark != null  and deletemark != ''"> and DeleteMark = #{deletemark}</if>
+            <if test="sortcode != null  and sortcode != ''"> and SortCode = #{sortcode}</if>
+            <if test="id != null  and id != ''"> and Id = #{id}</if>
+            <if test="klassname != null  and klassname != ''">
+                <bind name="_klassname" value="'%'+ klassname +'%'"/>
+                and KlassName like #{_klassname}
+            </if>
+            <if test="modifyusername != null  and modifyusername != ''">
+                <bind name="_modifyusername" value="'%'+ modifyusername +'%'"/>
+                and ModifyUserName like #{_modifyusername}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupHouseById" parameterType="Long" resultMap="AupHouseResult">
+        <include refid="selectAupHouseVo"/>
+        where Rid = #{rid}
+    </select>
+    <select id="selectAupHouseByNO" parameterType="String" resultMap="AupHouseResult">
+        <include refid="selectAupHouseVo"/>
+        where No = #{no}
+    </select>
+
+    <insert id="insertAupHouse" parameterType="AupHouse">
+        insert into aup_house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rid != null ">Rid,</if>
+            <if test="name != null  and name != ''">Name,</if>
+            <if test="no != null  and no != ''">No,</if>
+            <if test="floor != null  and floor != ''">Floor,</if>
+            <if test="unit != null  and unit != ''">Unit,</if>
+            <if test="housetypename != null  and housetypename != ''">HouseTypeName,</if>
+            <if test="housetypeid != null  and housetypeid != ''">HouseTypeId,</if>
+            <if test="structureid != null  and structureid != ''">StructureId,</if>
+            <if test="structurename != null  and structurename != ''">StructureName,</if>
+            <if test="buildarea != null  and buildarea != ''">Buildarea,</if>
+            <if test="usearea != null  and usearea != ''">Usearea,</if>
+            <if test="groundarea != null  and groundarea != ''">Groundarea,</if>
+            <if test="ddlareavalue != null  and ddlareavalue != ''">ddlAreaValue,</if>
+            <if test="areano != null  and areano != ''">Areano,</if>
+            <if test="areaname != null  and areaname != ''">AreaName,</if>
+            <if test="buildingid != null  and buildingid != ''">BuildingId,</if>
+            <if test="buildingno != null  and buildingno != ''">Buildingno,</if>
+            <if test="buildingname != null  and buildingname != ''">BuildingName,</if>
+            <if test="finishdate != null  and finishdate != ''">Finishdate,</if>
+            <if test="housepropertyno != null  and housepropertyno != ''">HousePropertyNo,</if>
+            <if test="houseimage != null  and houseimage != ''">HouseImage,</if>
+            <if test="rent != null  and rent != ''">Rent,</if>
+            <if test="houserelationid != null  and houserelationid != ''">HouseRelationId,</if>
+            <if test="houserelationname != null  and houserelationname != ''">HouseRelationName,</if>
+            <if test="housesortid != null  and housesortid != ''">HouseSortId,</if>
+            <if test="housesortname != null  and housesortname != ''">HouseSortName,</if>
+            <if test="recordstatus != null  and recordstatus != ''">RecordStatus,</if>
+            <if test="modifyuserid != null  and modifyuserid != ''">ModifyUserId,</if>
+            <if test="modifydate != null  and modifydate != ''">ModifyDate,</if>
+            <if test="createusername != null  and createusername != ''">CreateUserName,</if>
+            <if test="createuserid != null  and createuserid != ''">CreateUserId,</if>
+            <if test="createdate != null  and createdate != ''">CreateDate,</if>
+            <if test="description != null  and description != ''">Description,</if>
+            <if test="canwrite != null  and canwrite != ''">CanWrite,</if>
+            <if test="enabledmark != null  and enabledmark != ''">EnabledMark,</if>
+            <if test="deletemark != null  and deletemark != ''">DeleteMark,</if>
+            <if test="sortcode != null  and sortcode != ''">SortCode,</if>
+            <if test="id != null  and id != ''">Id,</if>
+            <if test="klassname != null  and klassname != ''">KlassName,</if>
+            <if test="modifyusername != null  and modifyusername != ''">ModifyUserName,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rid != null ">#{rid},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="no != null  and no != ''">#{no},</if>
+            <if test="floor != null  and floor != ''">#{floor},</if>
+            <if test="unit != null  and unit != ''">#{unit},</if>
+            <if test="housetypename != null  and housetypename != ''">#{housetypename},</if>
+            <if test="housetypeid != null  and housetypeid != ''">#{housetypeid},</if>
+            <if test="structureid != null  and structureid != ''">#{structureid},</if>
+            <if test="structurename != null  and structurename != ''">#{structurename},</if>
+            <if test="buildarea != null  and buildarea != ''">#{buildarea},</if>
+            <if test="usearea != null  and usearea != ''">#{usearea},</if>
+            <if test="groundarea != null  and groundarea != ''">#{groundarea},</if>
+            <if test="ddlareavalue != null  and ddlareavalue != ''">#{ddlareavalue},</if>
+            <if test="areano != null  and areano != ''">#{areano},</if>
+            <if test="areaname != null  and areaname != ''">#{areaname},</if>
+            <if test="buildingid != null  and buildingid != ''">#{buildingid},</if>
+            <if test="buildingno != null  and buildingno != ''">#{buildingno},</if>
+            <if test="buildingname != null  and buildingname != ''">#{buildingname},</if>
+            <if test="finishdate != null  and finishdate != ''">#{finishdate},</if>
+            <if test="housepropertyno != null  and housepropertyno != ''">#{housepropertyno},</if>
+            <if test="houseimage != null  and houseimage != ''">#{houseimage},</if>
+            <if test="rent != null  and rent != ''">#{rent},</if>
+            <if test="houserelationid != null  and houserelationid != ''">#{houserelationid},</if>
+            <if test="houserelationname != null  and houserelationname != ''">#{houserelationname},</if>
+            <if test="housesortid != null  and housesortid != ''">#{housesortid},</if>
+            <if test="housesortname != null  and housesortname != ''">#{housesortname},</if>
+            <if test="recordstatus != null  and recordstatus != ''">#{recordstatus},</if>
+            <if test="modifyuserid != null  and modifyuserid != ''">#{modifyuserid},</if>
+            <if test="modifydate != null  and modifydate != ''">#{modifydate},</if>
+            <if test="createusername != null  and createusername != ''">#{createusername},</if>
+            <if test="createuserid != null  and createuserid != ''">#{createuserid},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="canwrite != null  and canwrite != ''">#{canwrite},</if>
+            <if test="enabledmark != null  and enabledmark != ''">#{enabledmark},</if>
+            <if test="deletemark != null  and deletemark != ''">#{deletemark},</if>
+            <if test="sortcode != null  and sortcode != ''">#{sortcode},</if>
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="klassname != null  and klassname != ''">#{klassname},</if>
+            <if test="modifyusername != null  and modifyusername != ''">#{modifyusername},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupHouse" parameterType="AupHouse">
+        update aup_house
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">Name = #{name},</if>
+            <if test="no != null  and no != ''">No = #{no},</if>
+            <if test="floor != null  and floor != ''">Floor = #{floor},</if>
+            <if test="unit != null  and unit != ''">Unit = #{unit},</if>
+            <if test="housetypename != null  and housetypename != ''">HouseTypeName = #{housetypename},</if>
+            <if test="housetypeid != null  and housetypeid != ''">HouseTypeId = #{housetypeid},</if>
+            <if test="structureid != null  and structureid != ''">StructureId = #{structureid},</if>
+            <if test="structurename != null  and structurename != ''">StructureName = #{structurename},</if>
+            <if test="buildarea != null  and buildarea != ''">Buildarea = #{buildarea},</if>
+            <if test="usearea != null  and usearea != ''">Usearea = #{usearea},</if>
+            <if test="groundarea != null  and groundarea != ''">Groundarea = #{groundarea},</if>
+            <if test="ddlareavalue != null  and ddlareavalue != ''">ddlAreaValue = #{ddlareavalue},</if>
+            <if test="areano != null  and areano != ''">Areano = #{areano},</if>
+            <if test="areaname != null  and areaname != ''">AreaName = #{areaname},</if>
+            <if test="buildingid != null  and buildingid != ''">BuildingId = #{buildingid},</if>
+            <if test="buildingno != null  and buildingno != ''">Buildingno = #{buildingno},</if>
+            <if test="buildingname != null  and buildingname != ''">BuildingName = #{buildingname},</if>
+            <if test="finishdate != null  and finishdate != ''">Finishdate = #{finishdate},</if>
+            <if test="housepropertyno != null  and housepropertyno != ''">HousePropertyNo = #{housepropertyno},</if>
+            <if test="houseimage != null  and houseimage != ''">HouseImage = #{houseimage},</if>
+            <if test="rent != null  and rent != ''">Rent = #{rent},</if>
+            <if test="houserelationid != null  and houserelationid != ''">HouseRelationId = #{houserelationid},</if>
+            <if test="houserelationname != null  and houserelationname != ''">HouseRelationName = #{houserelationname},</if>
+            <if test="housesortid != null  and housesortid != ''">HouseSortId = #{housesortid},</if>
+            <if test="housesortname != null  and housesortname != ''">HouseSortName = #{housesortname},</if>
+            <if test="recordstatus != null  and recordstatus != ''">RecordStatus = #{recordstatus},</if>
+            <if test="modifyuserid != null  and modifyuserid != ''">ModifyUserId = #{modifyuserid},</if>
+            <if test="modifydate != null  and modifydate != ''">ModifyDate = #{modifydate},</if>
+            <if test="createusername != null  and createusername != ''">CreateUserName = #{createusername},</if>
+            <if test="createuserid != null  and createuserid != ''">CreateUserId = #{createuserid},</if>
+            <if test="createdate != null  and createdate != ''">CreateDate = #{createdate},</if>
+            <if test="description != null  and description != ''">Description = #{description},</if>
+            <if test="canwrite != null  and canwrite != ''">CanWrite = #{canwrite},</if>
+            <if test="enabledmark != null  and enabledmark != ''">EnabledMark = #{enabledmark},</if>
+            <if test="deletemark != null  and deletemark != ''">DeleteMark = #{deletemark},</if>
+            <if test="sortcode != null  and sortcode != ''">SortCode = #{sortcode},</if>
+            <if test="id != null  and id != ''">Id = #{id},</if>
+            <if test="klassname != null  and klassname != ''">KlassName = #{klassname},</if>
+            <if test="modifyusername != null  and modifyusername != ''">ModifyUserName = #{modifyusername},</if>
+        </trim>
+        where Rid = #{rid}
+    </update>
+
+    <delete id="deleteAupHouseById" parameterType="Long">
+        delete from aup_house where Rid = #{rid}
+    </delete>
+
+    <delete id="deleteAupHouseByIds" parameterType="String">
+        delete from aup_house where Rid in
+        <foreach item="rid" collection="array" open="(" separator="," close=")">
+            #{rid}
+        </foreach>
+    </delete>
+
+</mapper>

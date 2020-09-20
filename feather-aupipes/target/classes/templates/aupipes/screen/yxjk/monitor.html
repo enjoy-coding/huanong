@@ -1,0 +1,36 @@
+<!--监控-->
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>视频监控</li>
+    </ul>
+    <div class="layui-tab-content rightTabContent">
+        <!--监测详情-->
+        <div class="layui-tab-item nhtjContent layui-show">
+            <ul  class="sbxxList" th:object="${camera}">
+                <li>名称：<span>[[*{cameraName}]]</span></li>
+                <li>类型：<span>[[*{cameraTypeName}]]</span></li>
+            </ul>
+        </div>
+        <div class="spxjXxxx" >
+            <div class="title sgfxTitle">视频监控</div>
+            <div class="spjkBox">
+                <ul id="spjkList">
+                    <li><div id="playWnd"></div></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!--
+<div class="sbxjBox">
+    &lt;!&ndash; 视频巡检 &ndash;&gt;
+    <div class="spxjXxxx" >
+        <div class="title sgfxTitle">视频监控</div>
+        <div class="spjkBox">
+            <ul id="spjkList">
+                <li><div id="playWnd"></div></li>
+            </ul>
+        </div>
+    </div>
+</div>-->

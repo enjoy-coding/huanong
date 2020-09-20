@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改社区服务')" />
+    <th:block th:include="include :: summernote-css" />
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-service-edit" th:object="${scService}">
+        <input id="serviceId" name="serviceId" th:field="*{serviceId}" type="hidden">
+        <input id="serviceDept" name="serviceDept" th:field="*{serviceDept}" type="hidden">
+        <input id="serviceControlType"  th:field="*{serviceControlType}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">选择社区：</label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <input class="form-control" type="text" id="serviceName" required name="serviceName" onclick="selectDeptTree()" readonly="true" th:field="*{serviceName}">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">服务类型：</label>
+            <div class="col-sm-8" >
+                 <select name="serviceType" class="form-control m-b" th:with="type=${@dict.getType('sc_fwzc_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{serviceType}" ></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">服务子类型：</label>
+            <div class="col-sm-8" id="ctype" >
+                 <select name="serviceCType" class="form-control m-b" th:with="type=${@dict.getType('sc_dq_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{serviceCType}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">服务内容：</label>
+            <div class="col-sm-8">
+                 <input id="serviceContent"  th:field="*{serviceContent}" type="hidden">
+                 <div id="editor" class="summernote"></div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: summernote-js" />
+<script type="text/javascript">
+    var prefix = ctx + "sc/service";
+    var dept_prefix = ctx + "system/dept";
+
+    
+    $(function(){
+        initSelected();
+           //服务类型控制服务子类型
+        $("select[name='serviceType']").change(function(){
+               setSelected($(this).children('option:selected').val(),"");
+            });
+
+        $('.summernote').summernote({
+            placeholder: '请输入详细内容',
+            height : 172,
+            lang : 'zh-CN',
+            followingToolbar: false,
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile(files[0], this);
+                }
+            }
+        });
+        var content = $("#serviceContent").val();
+        $('#editor').summernote('code', content);
+
+    })
+    function initSelected() {
+        var selected = $("select[name='serviceType']").val();
+        var ctypeSelected = $("select[name='serviceCType']").val();
+        setSelected(selected,ctypeSelected);
+    }
+
+    function setSelected(dictype,dicCType){
+        $.ajax({
+            url: ctx + "system/dict/data/ajaxList",
+            data: {dictType:dictype},
+            type: "post",
+            success: function(result) {
+                if (result.code == 0) {
+                    $("#ctype").empty();
+                    var serviceCTypeSelect = "<select name='serviceCType' class='form-control m-b' >";
+                    var option = ""
+                    for (var i = 0;i<result.data.length;i++) {
+                        if(dicCType == result.data[i].dictValue){
+                            option += "<option selected value ="+result.data[i].dictValue+">"+result.data[i].dictLabel+"</option>";
+                        }else{
+                            option += "<option value ="+result.data[i].dictValue+">"+result.data[i].dictLabel+"</option>";
+                        }
+                    }
+                    $("#ctype").append(serviceCTypeSelect+option+"</select>");
+                } else {
+                    alert(result.msg);
+                }
+            }
+        })
+    }
+    function isAdd() {
+        return $("#serviceControlType").val() =="add" ? true : false;
+    }
+
+    $("#form-service-edit").validate({
+        focusCleanup: true  
+    });
+
+
+    /*部门管理-修改-选择部门树*/
+    function selectDeptTree() {
+        //如果是编辑不允许修改社区id
+        if(!isAdd()){
+            return;
+        }
+        var options = {
+            title: '部门选择',
+            width: "380",
+            url: dept_prefix + "/selectDeptTree/" + ($("#serviceDept").val()||'0'),
+            callBack: doSubmit
+        };
+        $.modal.openOptions(options);
+    }
+
+
+    function doSubmit(index, layero){
+        var tree = layero.find("iframe")[0].contentWindow.$._tree;
+        if ($.tree.notAllowParents(tree)) {
+            var node = window["layui-layer-iframe"+ index].selectedTreeNode;
+            $("#serviceDept").val(node.id);
+            $("#serviceName").val(node.name);
+            layer.close(index);
+        }
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#serviceContent").val(sHTML);
+           $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-service-edit').serialize(),
+                success: function(result, _option) {
+                    if (isAdd()) {
+                        if (result.data.serviceId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.serviceId;
+                        } else {
+                            $.modal.msgError("serviceId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

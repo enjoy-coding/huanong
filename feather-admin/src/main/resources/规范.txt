@@ -1,0 +1,12 @@
+1. service 方法命名： 必须是标准的前缀insert、update、delete（没有前缀标准前缀的都理解为查询）
+
+2. 业务逻辑尽量写在 service 里，避免在写 controller
+
+3. （如果是分页查询）order by 尽量不要写在 mapper.xml 中，应在前端的 table 组件、后端的分页插件中写
+
+4. 表日期时间类型的字段，尽量改用 BIGINT（或NUBMER），java 端依旧使用 java.util.Date
+
+5. 登录地址，配置 application-{profile}.yml 中的 shiro.user.loginUrl
+     首页地址，配置 application-{profile}.yml 中的 shiro.user.indexUrl
+     匿名访问，配置 application-{profile}.yml 中的 shiro.user.anon
+                  （静态资源的规范：def 通用，bus 具体业务）

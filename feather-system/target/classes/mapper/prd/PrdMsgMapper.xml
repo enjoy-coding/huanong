@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.prd.mapper.PrdMsgMapper">
+    
+    <resultMap type="PrdMsg" id="PrdMsgResult">
+        <result property="msgId"       column="msg_id"    />
+        <result property="createBy"    column="create_by" />
+        <result property="createTime"  column="create_time" jdbcType="BIGINT" />
+        <result property="msgBatch"    column="msg_batch" />
+        <result property="msgApp"      column="msg_app"   />
+        <result property="msgAppName"  column="msg_app_name" />
+        <result property="msgType"     column="msg_type"  />
+        <result property="msgTypeName" column="msg_type_name" />
+        <result property="msgTitle"    column="msg_title" />
+        <result property="msgContent"  column="msg_content" />
+        <result property="msgUrl"      column="msg_url" />
+        <result property="sendCount"   column="send_count" />
+        <result property="okCount"     column="ok_count" />
+    </resultMap>
+    
+    <resultMap type="PrdMsgUser" id="PrdMsgUserResult">
+        <result property="msgId"        column="msg_id"      />
+        <result property="userId"       column="user_id"     />
+        <result property="loginName"    column="login_name"  />
+        <result property="userName"     column="user_name"   />
+        <result property="phonenumber"  column="phonenumber" />
+        <result property="openid"       column="openid"      />
+        <result property="sendStatus"   column="send_status" />
+        <result property="sendTime"     column="send_time" jdbcType="BIGINT" />
+        <result property="sendCount"    column="send_count"  />
+        <result property="sendError"    column="send_error"  />
+    </resultMap>
+
+    <sql id="selectPrdMsgVo">
+        select msg_id, create_by, create_time, msg_batch, msg_app, msg_type, msg_title, msg_content, msg_url,
+               (select count(*) from prd_msg_user where msg_id=m.msg_id) as send_count,
+               (select count(*) from prd_msg_user where msg_id=m.msg_id and send_status='0') as ok_count
+        from prd_msg m
+    </sql>
+    
+    <sql id="selectPrdMsgVo2">
+        select msg_id, create_by, create_time, msg_batch, msg_app, msg_type, msg_title, msg_content, msg_url,
+               (select count(*) from prd_msg_user where msg_id=m.msg_id) as send_count,
+               (select count(*) from prd_msg_user where msg_id=m.msg_id and send_status='0') as ok_count,
+               (select a.dict_label from sys_dict_data a where a.dict_type='prd_msg_app' and a.dict_value=m.msg_app) as msg_app_name,
+               (select b.dict_label from sys_dict_data b where b.dict_type='prd_msg_type' and b.dict_value=m.msg_type) as msg_type_name
+        from prd_msg m
+    </sql>
+
+    <select id="selectPrdMsgList" parameterType="PrdMsg" resultMap="PrdMsgResult">
+        <include refid="selectPrdMsgVo"/>
+        <where>
+            <if test="msgApp != null  and msgApp != ''"> and msg_app = #{msgApp}</if>
+            <if test="msgType != null  and msgType != ''"> and msg_type = #{msgType}</if>
+			<if test="msgTitle != null and msgTitle != ''">
+			    <bind name="_msgTitle" value="'%'+ msgTitle +'%'"/>
+				AND msg_title like #{_msgTitle}
+			</if>
+			<if test="msgContent != null and msgContent != ''">
+			    <bind name="_msgContent" value="'%'+ msgContent +'%'"/>
+				AND msg_content like #{_msgContent}
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectPrdMsgById" parameterType="Long" resultMap="PrdMsgResult">
+        <include refid="selectPrdMsgVo2"/>
+        where msg_id = #{msgId}
+    </select>
+    
+    <select id="selectPrdMsgUser" parameterType="PrdMsgUser" resultMap="PrdMsgUserResult">
+        select m.msg_id, m.user_id, m.send_status, m.send_time, m.send_count, m.send_error, 
+	           u.login_name, u.user_name, u.phonenumber, u.openid
+	    from prd_msg_user m 
+	    left join sys_user u on m.user_id = u.user_id
+        where m.msg_id = #{msgId}
+        <if test="sendStatus != null and sendStatus != ''">
+			AND m.send_status = #{sendStatus}
+		</if>
+        <if test="loginName != null and loginName != ''">
+			<bind name="_loginName" value="'%'+ loginName +'%'"/>
+			AND login_name like #{_loginName}
+		</if>
+        <if test="userName != null and userName != ''">
+			<bind name="_userName" value="'%'+ userName +'%'"/>
+			AND user_name like #{_userName}
+		</if>
+    </select>
+        
+    <insert id="insertPrdMsg" parameterType="PrdMsg">
+        insert into prd_msg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="msgId != null ">msg_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="msgBatch != null">msg_batch,</if>
+            <if test="msgApp != null  and msgApp != ''">msg_app,</if>
+            <if test="msgType != null  and msgType != ''">msg_type,</if>
+            <if test="msgTitle != null  and msgTitle != ''">msg_title,</if>
+            <if test="msgContent != null  and msgContent != ''">msg_content,</if>
+            <if test="msgUrl != null  and msgUrl != ''">msg_url,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="msgId != null ">#{msgId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="msgBatch != null">#{msgBatch},</if>
+            <if test="msgApp != null  and msgApp != ''">#{msgApp},</if>
+            <if test="msgType != null  and msgType != ''">#{msgType},</if>
+            <if test="msgTitle != null  and msgTitle != ''">#{msgTitle},</if>
+            <if test="msgContent != null  and msgContent != ''">#{msgContent},</if>
+            <if test="msgUrl != null  and msgUrl != ''">#{msgUrl},</if>
+         </trim>
+    </insert>
+        
+    <insert id="insertPrdMsgUser" parameterType="PrdMsgUser">
+    	insert into prd_msg_user
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="msgId != null ">msg_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="sendStatus != null  and sendStatus != ''">send_status,</if>
+            <if test="sendTime != null ">send_time,</if>
+            <if test="sendCount != null ">send_count,</if>
+            <if test="sendError != null  and sendError != ''">send_error,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="msgId != null ">#{msgId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="sendStatus != null  and sendStatus != ''">#{sendStatus},</if>
+            <if test="sendTime != null ">#{sendTime, jdbcType=BIGINT},</if>
+            <if test="sendCount != null ">#{sendCount},</if>
+            <if test="sendError != null  and sendError != ''">#{sendError},</if>
+         </trim>
+    </insert>
+    
+    <update id="updatePrdMsgUser" parameterType="PrdMsgUser">
+        update prd_msg_user set
+        <if test="sendStatus != null  and sendStatus != ''">send_status = #{sendStatus},</if>
+        <if test="sendTime != null">send_time = #{sendTime, jdbcType=BIGINT},</if>
+        <if test="sendError != null  and sendError != ''">send_error = #{sendError},</if>
+        send_count = send_count +1
+        where msg_id = #{msgId} and user_id = #{userId}
+    </update>
+
+    <delete id="deletePrdMsgById" parameterType="Long">
+        delete from prd_msg where msg_id = #{msgId}
+    </delete>
+
+    <delete id="deletePrdMsgByIds" parameterType="String">
+        delete from prd_msg where msg_id in 
+        <foreach item="msgId" collection="array" open="(" separator="," close=")">
+            #{msgId}
+        </foreach>
+    </delete>
+
+    <delete id="deletePrdMsgUserById" parameterType="Long">
+        delete from prd_msg_user where msg_id = #{msgId}
+    </delete>
+    
+    <delete id="deletePrdMsgUserByIds" parameterType="String">
+        delete from prd_msg_user where msg_id in 
+        <foreach item="msgId" collection="array" open="(" separator="," close=")">
+            #{msgId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScFileInfoMapper">
+
+    <resultMap type="ScFileInfo" id="ScFileInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    jdbcType="BIGINT"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    jdbcType="BIGINT"    />
+    </resultMap>
+
+    <sql id="selectScFileInfoVo">
+        select file_id, file_target, file_code, file_type, file_name, file_path, create_by, create_time, update_by, update_time from sc_file_info
+    </sql>
+    
+    <select id="selectScFileInfoList" parameterType="ScFileInfo" resultMap="ScFileInfoResult">
+        <include refid="selectScFileInfoVo"/>
+        <where>
+        	<if test="fileId != null "> and file_id = #{fileId}</if>
+            <if test="fileTarget != null "> and file_target = #{fileTarget}</if>
+            <if test="fileCode != null  and fileCode != ''"> and file_code = #{fileCode}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="fileName != null  and fileName != ''">
+            	<bind name="_fileName" value="'%'+ fileName +'%'"/>
+            	and file_name like #{_fileName}
+            </if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+        </where>
+    </select>
+
+    <select id="selectScFileInfoByTarget" parameterType="Long" resultMap="ScFileInfoResult">
+        <include refid="selectScFileInfoVo"/>
+        where file_target = #{fileTarget}
+    </select>
+
+    <select id="selectScFileInfoById" parameterType="Long" resultMap="ScFileInfoResult">
+        <include refid="selectScFileInfoVo"/>
+        where file_id = #{fileId}
+    </select>
+
+    <insert id="insertScFileInfo" parameterType="ScFileInfo">
+        insert into sc_file_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">file_id,</if>
+            <if test="fileTarget != null ">file_target,</if>
+            <if test="fileCode != null  and fileCode != ''">file_code,</if>
+            <if test="fileType != null  and fileType != ''">file_type,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="filePath != null  and filePath != ''">file_path,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">#{fileId},</if>
+            <if test="fileTarget != null ">#{fileTarget},</if>
+            <if test="fileCode != null  and fileCode != ''">#{fileCode},</if>
+            <if test="fileType != null  and fileType != ''">#{fileType},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="filePath != null  and filePath != ''">#{filePath},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertScFileInfos" parameterType="java.util.List">
+        insert into sc_file_info(file_id,file_target,file_code,file_type,file_name,file_path,create_by,create_time,update_by,update_time)
+        values
+        <foreach collection="list" item="s" separator=",">
+            (#{s.fileId},#{s.fileTarget,jdbcType=VARCHAR}
+            ,#{s.fileCode,jdbcType=VARCHAR},#{s.fileType,jdbcType=VARCHAR}
+            ,#{s.fileName,jdbcType=VARCHAR},#{s.filePath,jdbcType=VARCHAR}
+            ,#{s.createBy,jdbcType=VARCHAR},#{s.createTime,jdbcType=BIGINT}
+            ,#{s.updateBy,jdbcType=VARCHAR},#{s.updateTime,jdbcType=BIGINT})
+        </foreach>
+
+<!--        <foreach collection="list" item="s" index="index" open="" separator=";" close="">-->
+<!--        insert into sc_file_info-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="fileId != null ">file_id,</if>-->
+<!--            <if test="fileTarget != null ">file_target,</if>-->
+<!--            <if test="fileCode != null  and fileCode != ''">file_code,</if>-->
+<!--            <if test="fileType != null  and fileType != ''">file_type,</if>-->
+<!--            <if test="fileName != null  and fileName != ''">file_name,</if>-->
+<!--            <if test="filePath != null  and filePath != ''">file_path,</if>-->
+<!--            <if test="createBy != null  and createBy != ''">create_by,</if>-->
+<!--            <if test="createTime != null ">create_time,</if>-->
+<!--            <if test="updateBy != null  and updateBy != ''">update_by,</if>-->
+<!--            <if test="updateTime != null ">update_time,</if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="fileId != null ">#{s.fileId},</if>-->
+<!--            <if test="fileTarget != null ">#{s.fileTarget},</if>-->
+<!--            <if test="fileCode != null  and fileCode != ''">#{s.fileCode},</if>-->
+<!--            <if test="fileType != null  and fileType != ''">#{s.fileType},</if>-->
+<!--            <if test="fileName != null  and fileName != ''">#{s.fileName},</if>-->
+<!--            <if test="filePath != null  and filePath != ''">#{s.filePath},</if>-->
+<!--            <if test="createBy != null  and createBy != ''">#{s.createBy},</if>-->
+<!--            <if test="createTime != null ">#{s.createTime, jdbcType=BIGINT},</if>-->
+<!--            <if test="updateBy != null  and updateBy != ''">#{s.updateBy},</if>-->
+<!--            <if test="updateTime != null ">#{s.updateTime, jdbcType=BIGINT},</if>-->
+<!--        </trim>-->
+<!--       </foreach>-->
+    </insert>
+
+    <update id="updateScFileInfo" parameterType="ScFileInfo">
+        update sc_file_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileTarget != null ">file_target = #{fileTarget},</if>
+            <if test="fileCode != null  and fileCode != ''">file_code = #{fileCode},</if>
+            <if test="fileType != null  and fileType != ''">file_type = #{fileType},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="filePath != null  and filePath != ''">file_path = #{filePath},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteScFileInfoById" parameterType="Long">
+        delete from sc_file_info where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteScFileInfoByIds" parameterType="String">
+        delete from sc_file_info where file_id in
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteScFileInfoByTarget" parameterType="String">
+        delete from sc_file_info where file_target in
+        <foreach item="fileTarget" collection="array" open="(" separator="," close=")">
+            #{fileTarget}
+        </foreach>
+    </delete>
+
+</mapper>

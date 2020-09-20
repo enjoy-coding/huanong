@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPumpPointMapper">
+
+    <resultMap type="AupPumpPoint" id="AupPumpPointResult">
+        <result property="id"    column="id"    />
+        <result property="pumpId"    column="pump_id"    />
+        <result property="ip"    column="ip"    />
+        <result property="point"    column="point"    />
+        <result property="attrName" column="attrName"/>
+        <result property="attrValue" column="attrValue"/>
+        <result property="pl" column="pl"/>
+        <result property="dy" column="dy"/>
+        <result property="dl" column="dl"/>
+        <result property="ydl" column="ydl"/>
+        <result property="attrName" column="attrName"/>
+        <result property="bp"    column="bp"    />
+        <result property="gp"    column="gp"    />
+        <result property="punpcount"    column="punpCount"    />
+        <result property="pointName"    column="point_name"    />
+        <result property="szyl" column="szyl"/>
+    </resultMap>
+
+    <sql id="selectAupPumpPointVo">
+        select o.id,o.pump_id,p.name, o.ip,o.point_name,o.szyl,o.point,o.attrName,o.attrValue,o.bp, o.gp, o.punpCount
+        from aup_pump_point o
+        left join aup_pump p on p.id = o.pump_id
+    </sql>
+
+    <select id="selectAupPumpPointList" parameterType="AupPumpPoint" resultMap="AupPumpPointResult">
+        <include refid="selectAupPumpPointVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and p.name like #{_name}
+            </if>
+          <if test="pumpId !=null">and o.pump_id = #{pumpId}</if>
+        </where>
+    </select>
+
+    <select id="selectAupPumpPointById" parameterType="Long" resultMap="AupPumpPointResult">
+        <include refid="selectAupPumpPointVo"/>
+        where  o.id = #{id}
+    </select>
+    <insert id="insertAupPumpPoint" parameterType="AupPumpPoint">
+        insert into aup_pump_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="pumpId != null ">pump_id,</if>
+            <if test="ip != null and ip !=''">ip,</if>
+            <if test="szyl != null and szyl!=''">szyl,</if>
+            <if test="pointName != null  and pointName != ''">point_name,</if>
+            <if test="attrName != null  and attrName != ''">attrName,</if>
+            <if test="attrValue != null  and attrValue != ''">attrValue,</if>
+            <if test="bp != null  and bp != ''">bp,</if>
+            <if test="gp != null  and gp != ''">gp,</if>
+            <if test="punpcount != null  and punpcount != ''">punpcount,</if>
+      </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="pumpId != null ">#{pumpId},</if>
+            <if test="ip != null  and ip != ''">#{ip},</if>
+            <if test="szyl != null  and szyl != ''">#{szyl},</if>
+            <if test="pointName != null  and pointName != ''">#{pointName},</if>
+            <if test="attrName != null  and attrName != ''">#{attrName},</if>
+            <if test="attrValue != null  and attrValue != ''">#{attrValue},</if>
+            <if test="bp != null  and bp != ''">#{bp},</if>
+            <if test="gp != null  and gp != ''">#{gp},</if>
+            <if test="punpcount != null  and punpcount != ''">#{punpcount},</if>
+        </trim>
+    </insert>
+    <update id="updateAupPumpPoint" parameterType="AupPumpPoint">
+        update aup_pump_point
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pumpId != null ">pump_id = #{pumpId},</if>
+            <if test="attrName != null  and attrName != ''">attrName = #{attrName},</if>
+            <if test="attrValue != null  and attrValue != ''">attrValue = #{attrValue},</if>
+            <if test="ip != null  and ip != ''">ip = #{ip},</if>
+            <if test="bp != null  and bp != ''">bp = #{bp},</if>
+            <if test="gp != null  and gp != ''">gp = #{gp},</if>
+            <if test="pointName != null  and pointName != ''">point_name = #{pointName},</if>
+            <if test="szyl != null  and szyl != ''">szyl = #{szyl},</if>
+            <if test="punpcount != null  and punpcount != ''">punpcount = #{punpcount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+
+    <delete id="deleteAupPumpPointById" parameterType="Long">
+        delete from aup_pump_point where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPumpPointByIds" parameterType="String">
+        delete from aup_pump_point where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqZnsbMapper">
+    
+    <resultMap type="ZhsqZnsb" id="ZhsqZnsbResult">
+        <result property="id"    column="id"    />
+        <result property="imei"    column="imei"    />
+        <result property="heartrate"    column="heartRate"    />
+        <result property="dbp"    column="dbp"    />
+        <result property="sdp"    column="sdp"    />
+        <result property="oxygen"    column="oxygen"    />
+        <result property="bloodsugar"    column="bloodSugar"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="lat"    column="lat"    />
+        <result property="lon"    column="lon"    />
+        <result property="type"    column="type"    />
+        <result property="createdate"    column="createDate"    />
+    </resultMap>
+
+    <sql id="selectZhsqZnsbVo">
+        select id, imei, heartRate, dbp, sdp, oxygen, bloodSugar, temperature, lat, lon, type, createDate from ZHSQ_ZNSB
+    </sql>
+
+    <select id="selectZhsqZnsbList" parameterType="ZhsqZnsb" resultMap="ZhsqZnsbResult">
+        <include refid="selectZhsqZnsbVo"/>
+        <where>  
+            <if test="imei != null  and imei != ''"> and imei = #{imei}</if>
+            <if test="heartrate != null  and heartrate != ''"> and heartRate = #{heartrate}</if>
+            <if test="dbp != null  and dbp != ''"> and dbp = #{dbp}</if>
+            <if test="sdp != null  and sdp != ''"> and sdp = #{sdp}</if>
+            <if test="oxygen != null  and oxygen != ''"> and oxygen = #{oxygen}</if>
+            <if test="bloodsugar != null  and bloodsugar != ''"> and bloodSugar = #{bloodsugar}</if>
+            <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+            <if test="lon != null  and lon != ''"> and lon = #{lon}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="createdate != null  and createdate != ''"> and createDate = #{createdate}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqZnsbById" parameterType="String" resultMap="ZhsqZnsbResult">
+        <include refid="selectZhsqZnsbVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZhsqZnsb" parameterType="ZhsqZnsb">
+        insert into ZHSQ_ZNSB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="imei != null  and imei != ''">imei,</if>
+            <if test="heartrate != null  and heartrate != ''">heartRate,</if>
+            <if test="dbp != null  and dbp != ''">dbp,</if>
+            <if test="sdp != null  and sdp != ''">sdp,</if>
+            <if test="oxygen != null  and oxygen != ''">oxygen,</if>
+            <if test="bloodsugar != null  and bloodsugar != ''">bloodSugar,</if>
+            <if test="temperature != null  and temperature != ''">temperature,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="lon != null  and lon != ''">lon,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="createdate != null  and createdate != ''">createDate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="imei != null  and imei != ''">#{imei},</if>
+            <if test="heartrate != null  and heartrate != ''">#{heartrate},</if>
+            <if test="dbp != null  and dbp != ''">#{dbp},</if>
+            <if test="sdp != null  and sdp != ''">#{sdp},</if>
+            <if test="oxygen != null  and oxygen != ''">#{oxygen},</if>
+            <if test="bloodsugar != null  and bloodsugar != ''">#{bloodsugar},</if>
+            <if test="temperature != null  and temperature != ''">#{temperature},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="lon != null  and lon != ''">#{lon},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqZnsb" parameterType="ZhsqZnsb">
+        update ZHSQ_ZNSB
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imei != null  and imei != ''">imei = #{imei},</if>
+            <if test="heartrate != null  and heartrate != ''">heartRate = #{heartrate},</if>
+            <if test="dbp != null  and dbp != ''">dbp = #{dbp},</if>
+            <if test="sdp != null  and sdp != ''">sdp = #{sdp},</if>
+            <if test="oxygen != null  and oxygen != ''">oxygen = #{oxygen},</if>
+            <if test="bloodsugar != null  and bloodsugar != ''">bloodSugar = #{bloodsugar},</if>
+            <if test="temperature != null  and temperature != ''">temperature = #{temperature},</if>
+            <if test="lat != null  and lat != ''">lat = #{lat},</if>
+            <if test="lon != null  and lon != ''">lon = #{lon},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="createdate != null  and createdate != ''">createDate = #{createdate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZhsqZnsbById" parameterType="String">
+        delete from ZHSQ_ZNSB where id = #{id}
+    </delete>
+
+    <delete id="deleteZhsqZnsbByIds" parameterType="String">
+        delete from ZHSQ_ZNSB where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

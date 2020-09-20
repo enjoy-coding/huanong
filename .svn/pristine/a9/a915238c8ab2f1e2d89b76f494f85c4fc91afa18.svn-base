@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('党建信息列表')" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="config-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                标题：<input type="text" name="partyBuildTitle"/>
+                            </li>
+                            <li>
+                                类型：<select name="partyBuildType" th:with="type=${@dict.getType('sc_partybuild_type')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                            </li>
+                            <li>
+                                来源：<input type="text" name="partyBuildSource"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="sc:partybuild:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editFull()" shiro:hasPermission="sc:partybuild:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="sc:partybuild:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:partybuild:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('sc:partybuild:remove')}]];
+        var types = [[${@dict.getType('sc_partybuild_type')}]];
+        var datas = [[${@dict.getType('sys_notice_status')}]];
+        var prefix = ctx + "sc/partybuild";
+        var detailUrl = prefix + "/detail/{id}";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                detailUrl:prefix+"/detail/{id}",
+                detailUrl2:prefix+"/detail2/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "初心频道",
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field : 'partyBuildId',
+                        visible: false
+                    },
+                    {
+                        field: 'partyBuildCover',
+                        title: '封面',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return "<img src ='"+row.partyBuildCover+"' style='width: 160px; height: 130px;' />";
+                        }
+                    },
+                    {
+                        field : 'partyBuildTitle',
+                        title : '公告标题'
+                    },
+                    {
+                        field: 'partyBuildType',
+                        title: '公告类型',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(types, value);
+                        }
+                    },
+                    // {
+                    //     field: 'partyBuildStatus',
+                    //     title: '状态',
+                    //     align: 'center',
+                    //     visible: false,
+                    //     formatter: function(value, row, index) {
+                    //         return $.table.selectDictLabel(datas, value);
+                    //     }
+                    // },
+                    {
+                        field : 'partyBuildSource',
+                        title : '来源'
+                    },
+                    {
+                        field: 'partyBuildTime',
+                        title: '发布时间',
+                        sortable: true
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="detailFull(\'' + row.partyBuildId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.partyBuildId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        });
+
+        // 详细信息
+        function detailFull(id, ext) {
+            var _url = detaiFulllUrl(id, ext);
+            var index = layer.open({
+                type: 2,
+                area: ['100%', '100%'],
+                fix: true,
+                //不固定
+                maxmin: false,
+                shade: 0.3,
+                title: $.table._option.modalName + "详细",
+                content: detaiFulllUrl(id, ext),
+                btn: ['关闭'],
+                // 弹层外区域关闭
+                shadeClose: true,
+                cancel: function (index, layero) {
+                    return true;
+                },
+            });
+            layer.full(index);
+        }
+
+        // 详细访问地址
+        function detaiFulllUrl(id, ext) {
+            var url = "/404.html";
+            if ($.common.isNotEmpty(id)) {
+                url = detailUrl.replace("{id}", id);
+            } else {
+                var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+                if (id.length == 0) {
+                    $.modal.alertWarning("请至少选择一条记录");
+                    return;
+                }
+                url = detailUrl.replace("{id}", id);
+            }
+            url = url.replace("{ext}", ext || "");
+            return url;
+        }
+    </script>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>APP 下载中心</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+	<script th:inline="javascript"> 
+		var ctx = [[@{/}]];
+	</script>
+	<script>
+		var package = '[(${package})]';
+		
+		goDownload();
+		
+		function goDownload() {
+			var u = navigator.userAgent, app = navigator.appVersion;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+			var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			
+			if (isAndroid) {// 是安卓浏览器
+				window.location.href = ctx + 'prd/appversion/api/download/android?package='+ package; // 跳安卓端下载地址
+			}
+			else if (isIOS) {// 是iOS浏览器
+				window.location.href = 'https://itunes.apple.com/cn/app/%E5%85%89%E5%B1%B1%E8%84%B1%E8%B4%AB%E7%9B%91%E7%AE%A1/id1211588096?mt=8'; // 跳AppStore下载地址
+				return;
+			}
+			else if (is_weixn()) {// 是微信内部webView
+				alert("请点击右上角按钮, 点击使用浏览器打开");
+			}
+			else if (IsPC()) {// 是PC端
+				//  window.location.href = 'http://www.xxxxxxx.cn/index.html'; // 公司主页
+				window.location.href = ctx + 'prd/appversion/api/download/android?package='+ package;
+			}
+		}
+
+		// 是微信浏览器
+		function is_weixn() {
+			var ua = navigator.userAgent.toLowerCase();
+			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function IsPC() {
+			var userAgentInfo = navigator.userAgent;
+			var Agents = [ "Android", "iPhone", "SymbianOS", "Windows Phone",
+					"iPad", "iPod" ];
+			var flag = true;
+			for (var v = 0; v < Agents.length; v++) {
+				if (userAgentInfo.indexOf(Agents[v]) > 0) {
+					flag = false;
+					break;
+				}
+			}
+			return flag;
+		}
+	</script>
+</body>
+</html>

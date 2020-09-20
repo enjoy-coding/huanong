@@ -1,0 +1,1360 @@
+/* tab切换 */
+.leftNav{
+	padding: 10px;
+}
+.leftNavTitle{
+	border-bottom: 2px solid #04d7d7;
+	height: 2.8vh;
+}
+
+/* 菜单树 */
+.leftTree{
+	margin-top: 30px;
+}
+.leftTree>label{
+	color: #fff;
+	margin: 10px;
+}
+.leftTree_ul{
+	border-left: 1px dashed #fff;
+	margin-left: 3vw;
+    width: 15vw;
+}
+.leftTree_ul li{
+	margin: 10px 30px;
+}
+.leftTree_ul li label{
+	color: #fff;
+}
+.leftTree_ul li:before{
+	border-top: 1px dashed #fff;
+}
+#ldLayerTree span{
+	color: #fff;
+}
+.layui-icon-file:before {
+    content: "";
+}
+
+/* 右侧 */
+.ldxqTitle {
+    line-height: 5.5vh;
+    border-bottom: 1px solid #17b9bb;
+}
+.ldxqInfo div{
+	margin: 1.85vh 1.56vw 1.39vh 1.56vw;
+	color: #fff;
+}
+/*.bulbBox{*/
+	/*width: 8.5vw;*/
+	/*height: 18vh;*/
+	/*float: left;*/
+/*}*/
+.bulbBox .icon{
+    display:inline-block;
+    width:10.4vw;
+    text-align: center;
+    font-size:5.2vw;
+    color:#04d8d9;
+}
+.bulbSwitch{
+	width: 6.7vw;
+	height: 5vh;
+}
+.bulbSwitch .layui-form-switch{
+    margin-top: 3vh;
+    min-width: 1.8vw;
+    padding: 0 0.2vw;
+    height:1.1vw;
+    line-height:1.1vw;
+    background:none;
+    /*border: 1px solid #05d7d8;*/
+}
+.bulbSwitch  .layui-form-switch i{
+    width:0.8vw;
+    height:0.8vw;
+    left:0.2vw;
+    /*background-color: #05d7d8;*/
+}
+.bulbSwitch  .layui-form-onswitch i{
+    margin-left:1vw;
+    background-color:#05d7d8;
+}
+#bulb_dl,#bulb_dy,#bulb_gl,#bulb_ys,#bulb_light{
+	width:8.5vw;
+	height:18vh;
+	display: inline-block;
+}
+.gaugeBox_dl{
+	width: 8.5vw;
+}
+.gaugeBox_div{
+	float: right;
+}
+
+/* 预案管理样式 -- 左侧*/
+.zs_mapEdit ul {
+    padding: 0.9vh 0;
+    text-align: center;
+    color: #fff;
+    font-size: 0.83vw;
+}
+.zs_mapEdit ul li {
+    cursor: pointer;
+    float: left;
+    width: 31.5%;
+	margin-top: 1%;
+	margin-bottom: 1%;
+    margin-left: 1.5%;
+    border: 1px solid #0dbbc2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0.9vh 0;
+    background-color: #043135;
+}
+.zs_mapEdit ul li h6{
+    font-size: 90%;
+}
+.zs_mapEdit ul li.active,.zs_mapEdit ul li:hover{
+    background-color:#07676c;
+}
+.zs_mapEdit ul li .iconfont{
+    font-size:1.2vw;
+}
+.title_yagl {
+    padding: 0 1vw;
+    color: #fff;
+    font-size: 0.83vw;
+    line-height: 3.3vh;
+}
+.title_yagl h5{
+
+}
+.title_yagl i{
+	float: right;
+	/* margin-right: -0.5vw; */
+}
+.yalbBox{
+    height:64vh;
+    overflow-y:auto;
+}
+.yalbBox ul {
+    padding: 0.9vh 0;
+    color: #fff;
+    font-size: 0.83vw;
+}
+.yalbBox ul h6{
+    margin-left: 0.5vw;
+}
+.yalbBox ul i{
+    float: right;
+	margin-right: 0.6vw;
+}
+.yalbBox ul li {
+    cursor: pointer;
+    float: left;
+	width: 97%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 1.5%;
+    border: 1px solid #0dbbc2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #043135;
+    padding: 0.9vh 0;
+}
+.yalbBox ul li.active,.yalbBox ul li:hover {
+    cursor: pointer;
+    background-color: #07676c;
+}
+
+
+/* 预案管理样式 -- 右侧*/
+.bzwdBox ul {
+    text-align: center;
+    padding: 0.9vh 0;
+    color: #fff;
+    font-size: 0.83vw;
+}
+.bzwdBox ul h6{
+    /*margin-left: 0.5vw;*/
+}
+.bzwdBox ul i{
+	margin-right: 0.4vw;
+    font-size:1vw;
+}
+.bzwdBox ul li {
+    cursor: pointer;
+    float: left;
+	width: 31%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 1.5%;
+    border: 1px solid #0dbbc2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #043135;
+    padding: 0.9vh 0;
+}
+.bzwdBox ul li.active,.bzwdBox ul li:hover {
+    cursor: pointer;
+    background-color: #07676c;
+}
+
+/* 文档步骤样式 */
+.bzsyBox {
+    /*float: right;*/
+}
+.bzsyBox ul {
+    padding: 0.9vh 0;
+    color: #fff;
+    font-size: 0.729vw;
+}
+.bzsyBox ul h6{
+    margin-left: 0.5vw;
+}
+.bzsyBox ul li {
+    cursor: pointer;
+    float: left;
+	width: 80%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    margin-left: 10%;
+    border: 1px solid #0dbbc2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #043135;
+    padding: 1vh 0;
+}
+
+.stepBox{
+	/*width: 40%;*/
+    display: block;
+    float: left;
+	/*height: 15vh;*/
+}
+.stepBox h4,.stepBox h6{
+    color:#00ffff;
+	text-align: center;
+}
+.stepBox h4{
+    font-size:2vw;
+}
+.stepBox h6{
+    font-size:0.9vw;
+}
+.stepBox_text{
+	width: 12vw;
+	display: block;
+	/*float: left;*/
+	color: #fff;
+	font-size: 0.83vw;
+	/*height: 15vh;*/
+}
+.vertical-line {
+	height: 18vh;
+	border-left: 2px solid;
+	margin-left: 1.80vw;
+	border-image: linear-gradient( #00eba7 , #08b8e6) 30 30;
+}
+
+.vertical-circle {
+    float: left;
+    width: 6px;
+    height: 6px;
+	margin-left: 1.56vw;
+	margin-top: 5vh;
+    border:2px solid white;
+    background-color: #08b8e6;
+    -webkit-border-radius: 100px;
+}
+.vertical-text{
+    padding:1.8vh 1vw;
+    float:left;
+	margin-top:-5vh;
+	margin-left: 3vw;
+	margin-right: 0.56vw;
+	border: 1px solid #0dbbc2;
+    background:#043136;
+    -webkit-box-shadow: inset 0 0 3vw rgba(34,129,134,.8);
+    -moz-box-shadow: inset 0 0 3vw rgba(34,129,134,.8);
+    box-shadow:inset 0 0 3vw rgba(34,129,134,.8);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 4px;
+}
+
+/*视频巡检*/
+.spjkTitle {
+    line-height: 5.5vh;
+    border-bottom: 1px solid #17b9bb;
+}
+.title {
+    padding-left: 1.3vw;
+    font-weight: 700;
+    color: #fff;
+    background: url(../images/titleBg.png) no-repeat right;
+    background-size: 8.8vw;
+    font-size: 1vw;
+    letter-spacing: 2px;
+}
+.spjkBox ul li {
+    cursor:pointer;
+    position:relative;
+    width: 90%;
+    height: 19vh;
+    margin-top: 3%;
+    margin-bottom: 1.5%;
+    margin-left: 5%;
+    border: 1px solid #0dbbc2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.spjkBox ul li h6{
+	margin-top:0;
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    line-height:3.7vh;
+    font-size:1.5vh;
+    color:#fff;
+    padding-left:0.5vw;
+    background:rgba(12, 110, 113,.6);
+}
+.spjkBox ul li img{
+    width: 100%;
+    height: 100%;
+}
+
+.spjkBox ul li div{
+    width: 100%;
+    height: 100%;
+}
+
+.spjkBigBox .layui-laypage{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: block;
+}
+.spjkBigBox .layui-laypage a{
+    color: #fff;
+    background: #043135;
+    box-shadow: inset 0 0 1vw rgba(59,184,183,1);
+    border: 1px solid #0dbbc2;
+    padding: 0 15px;
+    height: 3vh;
+    line-height: 3vh;
+    font-size:0.83vw;
+    border-radius: 4px !important;
+}
+.spjkBigBox .layui-laypage>:last-child{
+    float: right;
+    margin-right: 15% !important;
+}
+.spjkBigBox .layui-laypage>a:first-child{
+    margin-left: 6% !important;
+}
+
+.spczBox{
+    right: 40vw;
+    top: 0;
+    width: 22vw;
+    height: 3.7vh;
+    z-index: 29;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border: 1px solid #5efffd;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #043135;
+    color: #fff;
+    line-height: 3.7vh;
+    display: none;
+}
+.spczBox ul h5{
+    float: left;
+    display: block;
+    margin-left:0.5vw ;
+    font-size:1vw;
+}
+.spczBox ul li{
+    float: left;
+    display: block;
+    margin-left: 0.5vw;
+    border-radius: 4px;
+    font-size:1vw;
+}
+.spczBox ul li.active, .spczBox ul li:hover {
+    cursor: pointer;
+    background-color: #07676c;
+}
+.title5 li {
+    cursor: pointer;
+    text-align: center;
+    background: url(../images/title2_bg.png) no-repeat;
+    background-size: 100% 100%;
+    float: left;
+    color: #fff;
+    width: 3.5vw;
+    height: 2.8vh;
+    line-height: 2.8vh;
+    font-size: 0.83vw;
+	min-width: 2.5vw;
+}
+
+#HfLayerTree,#WjLayerTree{
+	height: 48vh;
+	overflow-y: auto;
+}
+.setBox{
+	border-top: 1px solid #04d7d7;
+	position: absolute;
+	bottom: 0;
+	height: 30vh;
+	width: 100%;
+	right: 1%;
+	overflow: auto;
+}
+.setBox .layui-form-label{
+	float: none;
+    padding: 0.83vh 0 !important;
+	color: #1ef0ed;
+}
+.setBox .layui-input-block{
+	margin-left: 0.78vw !important;
+	margin-right: 0.78vw !important;
+	min-height: 1.87vh !important;
+}
+.setBox .layui-input-inline{
+	color: #1ef0ed;
+}
+
+.setBox .layui-input-block .layui-input,
+.setBox .layui-input-inline .layui-input{
+	color: #fff !important;
+	background: rgba(7, 71, 73, .8) !important;
+	border: 1px solid #1ef0ed;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.setBox .layui-input-inline .layui-input{
+	width: 7vw !important;
+	display: block;
+	float: left;
+}
+.setBox .layui-input-block .layui-btn{
+	color: #fff !important;
+	background: #2fb6a5 !important;
+	border: 1px solid #1ef0ed;
+	border-radius: 4px;
+	line-height: 3.8vh !important;
+	height: auto !important;
+	padding: 0 1.8vw;
+
+}
+.setBox .layui-input-block>button:first-child{
+	background: #37bf6b !important;
+	/* margin-left: 18%; */
+}
+.setBox .layui-input-block .layui-btn:hover,
+.setBox .layui-input-block .layui-btn:active{
+	background: #5FB878 !important;
+}
+
+.setBox .layui-form-item .layui-input-inline {
+    width: auto !important;
+	margin-left: 0.78vw !important;
+	margin-right: 0.78vw !important;
+}
+.setBox .layui-form-item .layui-input-inline h3{
+    display: block;
+    float: left;
+	width: 1vw;
+	margin: 0 0.5vw;
+}
+.setBox .sub_btn{
+	margin-left: 2.5vw !important;
+}
+
+
+.searchTitle{
+	color: #fff;
+	border-bottom: 1px solid #04d7d7;
+}
+.wjBox .layui-tab{
+	margin: 0.52vh 1vw;
+}
+.wjBox{
+	width: 100%;
+}
+.wjBox .layui-this{
+	background: rgba(7, 71, 73, .8) !important;
+	border: 1px solid #1ef0ed;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	border-radius: 4px;
+	color: #fff !important;
+}
+.wjBox .layui-this:after{
+	border-bottom: none !important;
+}
+
+#spwj_Box,#tpwj_Box{
+	bottom: 1vh;
+	right: 0;
+	position: fixed;
+	width: 100%;
+	border-top: 1px solid #04d7d7;
+}
+
+#tpwj_Box .layui-laypage,
+#spwj_Box .layui-laypage{
+	margin: 0 !important;
+	right: 0;
+	float: right;
+	display: block;
+}
+
+.wjBox .layui-laypage a, .wjBox .layui-laypage span{
+	background: rgba(7, 71, 73, .8) !important;
+	color: #fff !important;
+	border: 1px solid #1ef0ed;
+}
+
+.setBox .layui-input,
+.setBox .layui-select,
+.setBox .layui-textarea{
+	height: 3.5vh;
+}
+
+#wjglList li{
+	float: left;
+	display: block;
+	width: 21.8vw;
+	height: 25vh;
+	margin: 1vh 1vw;
+}
+
+#wjglList li img{
+	width: 100%;
+	height: 21.8vh;
+	display: block;
+}
+
+#wjglList li h6 {
+	height: 3.2vh;
+    padding: 0 2vw 0 0.5vw;
+    border: 1px solid #2cbbb9;
+    line-height: 3.2vh;
+    margin-bottom: 0.9vh;
+    background: rgba(7, 71, 73, .8);
+    -webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+    -moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+    box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	color: #fff;
+	text-align: center;
+}
+
+input::-webkit-input-placeholder {
+color: #ccc;
+}
+input::-moz-input-placeholder {
+color: #ccc;
+}
+input::-ms-input-placeholder {
+color: #ccc;
+}
+
+/* 日常巡检--总览的样式 */
+.rcxj_Box .iframeC{
+	height: 30.7vh;
+	margin-bottom: 0.3vh;
+}
+.rcxj_zl{
+	height: 3.3vh;
+}
+.rcxj_zl .title2{
+	height: 3.3vh;
+}
+.rcxj_zl h5{
+	float: left;
+	display: block;
+	color: #fff;
+	margin-right: 0.6vw;
+	height: 3.3vh;
+	line-height: 3.3vh;
+}
+.rcxj_zl li{
+	width: 2.5vw;
+	padding: 0 !important;
+	min-width: 4vw;
+	height: 3.3vh;
+	line-height: 3.3vh;
+}
+.rcxj_zl .rcxj_title{
+
+}
+
+.rcxj_zl_right .title2{
+	height: 3.3vh;
+}
+.rcxj_zl_right h5{
+	float: left;
+	display: block;
+	color: #fff;
+	margin-right: 0.6vw;
+	height: 3.3vh;
+	line-height: 3.3vh;
+}
+.rcxj_zl_right li{
+	width: 2.5vw;
+	padding: 0 !important;
+	min-width: 3.5vw;
+	height: 3.3vh;
+	line-height: 3.3vh;
+}
+.rcxj_zl_right .rcxj_title{
+
+}
+.nhjg_box li{
+	text-align: center;
+    color: #ffff;
+    float: left;
+    width: 48%;
+    font-size: 0.73vw;
+	height: 35%;
+	display: block;
+	margin-right: 2%;
+}
+.nhjg_box li p {
+    line-height: 2vh;
+    font-size: 0.9vw;
+}
+.nhjg_box li h5 {
+    color: #fff;
+    background: url(../images/txtBg.png) no-repeat;
+    background-size: 100% 100%;
+    font-size: 1.5vw;
+    margin-bottom: 1vh;
+	width: 100%;
+	height: 100%;
+	background-color: #07373b;
+}
+#dhph_yd,#bulb_ys,#fqnh_yd,#fqnh_ys,#zdjz_yd,#zdjz_ys,#nhqs_yd,#nhqs_ys{
+	width: 100%;
+	height: 25.5vh;
+}
+
+.xtbj_Box ul li{
+	color: #fff;
+	border: 1px solid #006621;
+	border-radius: 4px;
+	margin: 0 0.6vw;
+	font-size: 0.83vw;
+	padding: 0.1vh 0.2vw;
+
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.xtbj_Box ul li:nth-child(odd){
+	background-color: #065a5c;
+}
+.xtbj_Box ul li div h6 span{
+	float: right;
+	display: block;
+	color: #ca8f33;
+}
+.xtbj_Box{
+	height: 25.5vh;
+	overflow-y: auto;
+}
+.xtbj_Box ul li div label{
+	display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2;
+overflow: hidden;
+}
+.xtjb_rcxj_zl span{
+	float: right;
+	display: block;
+	margin-right: 0.83vw;
+}
+
+.iconfont.icon-jiantou-copy{
+	font-size: 12px;
+	color: #f65a72;
+}
+.iconfont.icon-jiantou-copy1{
+	font-size: 12px;
+	color: #f4a02c;
+}
+
+/* 日常巡检-设备巡检 */
+#xhjcsj,#jcsj,#lssj{
+	display: none;
+}
+.sbxjXxxx{
+	/* display: none; */
+}
+.sbxjBox{
+	padding:0.9vh 0.8vw;
+}
+.sbxjBox h3{
+	color: #fff;
+	margin-bottom: 1.5vh;
+}
+.sbxjBox h6{
+	margin-top: 0.8vh;
+	margin-bottom: 0.8vh;
+	text-align: center;
+	color: #8beaee;
+	font-size: 0.83vw;
+}
+.rcxjXxxx label{
+	display: block;
+	color: #fff;
+	font-size: 0.83vw;
+	margin: 0.78vh 0;
+}
+#xhbd_Charts,#ycxs_Charts{
+	width: 100%;
+	height: 25.5vh;
+}
+
+.rcxjXxxx .layui-table[lay-even] tr:nth-child(even) {
+    background-color: #2c9796;
+}
+
+.rwxjZxbf{
+	margin-top: 2.3vh;
+	display: block;
+	height: 30vh;
+}
+
+.rwxjZxbf .layui-this{
+	color: #fff !important;
+}
+.rwxjZxbf .layui-this:after{
+	border-bottom: none !important;
+}
+
+#ckyl_char,#bpwd_char,#sxyw_char,#bppl_char{
+	width: 7vw;
+	height: 11.5vh;
+	display: inline-block;
+}
+
+#ckyl1_char,#bpwd1_char,#sxyw1_char,#bppl1_char{
+    width: 7vw;
+    height: 11.5vh;
+    display: inline-block;
+}
+
+.pump_char{
+    /*width: 7.6vw;*/
+    width:50%;
+    height: 20.5vh;
+    display: inline-block;
+    float: left;
+}
+.gaugeBox_div{
+	float: right;
+	width: 100%;
+	display: block;
+}
+.bplbBox{
+    padding-top: 5vh;
+	display: block;
+    border: 1px solid transparent;
+	height: 30vh;
+	overflow: auto;
+}
+.searchForm{
+	margin: 0.9vh 0.8vw;
+}
+.searchForm label{
+	float: left;
+	display: block;
+	color: #42ecec;
+	margin-left: 1.3vw;
+}
+.searchForm ul li{
+	float: left;
+	display: block;
+	color: #fff;
+	border-radius: 6px;
+	padding: 0.25vh 0.8vw;
+	cursor: pointer;
+	background-color: #97b4b0;
+	margin: 0 0.5vw;
+}
+.timeTab ul {
+	border: none;
+	float: left;
+	display: block;
+}
+.timeTab ul li.layui-this{
+	background-color: #2fb6a5 !important;
+}
+.timeTab .layui-tab-content,
+.timeTab .layui-form-label{
+	padding: 0;
+	float: left;
+	display: block;
+}
+.timeTab .layui-unselect.layui-form-select{
+	width: 6.5vw;
+	float: right;
+	display: block;
+}
+.timeTab .layui-input{
+	height: 5.3vh;
+	border: 1px solid #65ebdb;
+	background: #14474b;
+	color: #fff;
+	padding: 0 0.5vw;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.timeTab .layui-input:hover{
+	border: 1px solid #65ebdb !important;
+}
+.searchForm button{
+	color: #fff;
+	background-color: #2fb6a5;
+	float: right;
+	margin-right: 4.5vw;
+	height: 5.3vh;
+	line-height: 5.3vh;
+}
+.searchForm .layui-form-item{
+	margin-top: 3.5vh;
+}
+.lineBox ul li{
+	color: #fff;
+}
+.lineBox .layui-this{
+	border: none !important;
+	border-bottom: 2px solid #42ecec;
+	background: none !important;
+	color: #42ecec !important;
+	webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.timeTab .layui-tab-title li{
+	color: #fff;
+	height: 5.3vh;
+	line-height: 5.3vh;
+	min-width: 2.5vw;
+}
+.lineBox .layui-tab-title{
+	border: none;
+}
+.lineBox .lineBox-left{
+	width: 72%;
+	float: left;
+}
+.lineBox .lineBox-right {
+	width: 20%;
+	float: left;
+	height: 72vh;
+	border: 1px solid #24887c;
+	border-radius: 4px;
+}
+.lineBox .lineBox-right .layui-tab-title li{
+	width: 5vw;
+	min-width: 4vw;
+
+}
+#tbLine{
+	width: 100%;
+	height: 60vh;
+}
+.lineBox-right .tabCheck{
+	overflow: auto;
+	height: 55vh;
+}
+.lineBox-right .tabCheck ul li{
+	color: #fff;
+	text-align: center;
+	margin: 1vh;
+}
+
+.searchForm .bcSelect{
+	border: 1px solid #24887c;
+	background: #14474b;
+	color: #fff;
+	padding: 0 0.5vw;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+
+.searchForm .searchBtn{
+	border: none;
+	border-radius: 2px;
+}
+
+.jcxxBtn{
+	right: 20px;
+	display: block;
+	bottom: 30px;
+	position: absolute;
+}
+
+.xxxxTitle{
+	font-size: 19px;
+    padding-left: 0.3vw;
+    color: white;
+    margin-left: 17px;
+    line-height: 3;
+}
+.xcxx{
+    border-color: rgba(30,187,194,.8);
+}
+.layui-elem-field .bgline{
+	    margin-left: 100px;
+    padding: 0 10px;
+       font-size: 15px;
+    font-weight: 600;
+    color: rgba(59,184,183,1);
+}
+.ulList{
+	    color: white;
+    font-weight: 600;
+    padding: 2px 10px;
+        line-height: 25px;
+}
+.col-77{
+    width:20%;
+}
+.but{
+	width: 5vw;
+	float: right;
+	margin-right: 2vw;
+	color: #fff;
+	background: #0c6a6a;
+	cursor: pointer;
+}
+.ldXxxx .layui-tab-content{
+	padding: 0 !important;
+}
+
+.xhjcTable{
+	margin: 15px 0;
+	color: #6adadc;
+}
+.xhjcTable .layui-input-block input{
+	border: 1px solid #44a7ac;
+	background: #0e4144;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.xhjcTable .layui-input:focus{
+	border: 1px solid #44a7ac;
+}
+.xhjcTable .smLabel .layui-form-label{
+	width: 20px;
+	padding: 9px 5px;
+}
+.xhjcTable .smLabel .layui-input-block{
+	margin-left: 35px;
+}
+.xhjcTable .smLabel .layui-input-block input{
+	width: 200px;
+}
+.historyTab table{
+	background-color: transparent;
+	color: #fff;
+}
+.historyTab .layui-table thead tr{
+	background-color: #095e61;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.historyTab .layui-laypage{
+	float: right;
+
+}
+.historyTab .layui-table-page{
+	border-color: #447d84;
+}
+.historyTab  .layui-table-header{
+	border: none;
+	background-color: transparent;
+}
+.historyTab .layui-table tbody tr:hover{
+	background-color: #22a2a3;
+}
+
+.spxjXxxx .layui-laypage{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: block;
+}
+.spxjXxxx .layui-laypage a{
+    color: #fff;
+    background: #043135;
+    box-shadow: inset 0 0 1vw rgba(59,184,183,1);
+    border: 1px solid #0dbbc2;
+    padding: 0 15px;
+    height: 3vh;
+    line-height: 3vh;
+    font-size:0.83vw;
+    border-radius: 4px !important;
+}
+.spxjXxxx .layui-laypage>:last-child{
+    float: right;
+    margin-right: 15% !important;
+}
+.spxjXxxx .layui-laypage>a:first-child{
+    margin-left: 6% !important;
+}
+
+#jcsj .layui-table-grid-down{
+	background-color: #22a2a3;
+}
+#jcsj .layui-input:hover,
+#jcsj .layui-input:focus{
+	border: 1px solid #44a7ac !important;
+}
+
+.exportTab{
+	display: block;
+	width: 200px;
+	top: -35px;
+	position: relative;
+	color: #fff;
+	left: 20px;
+}
+.exportTab button{
+	height: 30px;
+	line-height: 30px;
+	margin-left: 30px;
+}
+.zs_jcsj{
+	color: #fff;
+	position: relative;
+	top: -20px;
+}
+#xhbd_char,#ycxs_char{
+	width: 45%;
+	height: 25.5vh;
+}
+.zs_charLine div{
+	float: left;
+}
+
+/*地图弹框*/
+.zs_mapTxtBox{
+    z-index: 10;
+    top:40%;
+    left:60%;
+    width:18vw;
+    min-height:20vh;
+    margin-top:-10vh;
+    margin-left:-10vw;
+    background-size:100% 100%;
+}
+.zs_mapTxtBox .txt{
+    padding:1.5vh 0;
+    color:#fff;
+    font-size:0.86vw;
+}
+.zs_mapTxtBox .topBg{
+    top:0;
+    left:0;
+    right:0;
+    height:1.5vh;
+    background:url("../images/mapTxtBgTop.png") no-repeat;
+    background-size:100% 100%;
+}
+.zs_mapTxtBox .bottomBg{
+    bottom:0;
+    left:0;
+    right:0;
+    height:1.5vh;
+    background:url("../images/mapTxtBgBottom.png") no-repeat;
+    background-size:100% 100%;
+}
+.zs_mapTxtBox .contentTxt{
+    padding:0 0.9vw;
+    background:url("../images/mapTxtBgC.png") no-repeat;
+    background-size:100% 100%;
+}
+.zs_mapTxtBox .contentTxt p{
+    line-height:3vh;
+}
+.zs_mapTxtBox .contentTxt h2{
+    font-size:1vw;
+    color:#1ff1ee;
+}
+.mapCloseBtn{
+    right: 0.7vw;
+    top: 1.4vh;
+    cursor:pointer;
+    font-size:2vh;
+}
+.mapCloseBtn .iconfont{
+    font-size:2vh;
+}
+
+.zs_mapTxtBtn button {
+    margin-right: 0.4vw;
+    border: none;
+    background: #3ed6d7;
+    color: #fff;
+    font-size: 0.72vw;
+    padding: 0 0.52vw;
+    line-height: 3vh;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+}
+/*侧边导航栏*/
+.jcbzSidebar {
+    height:100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    position:relative;
+    overflow-y: auto;
+    padding-left:1.8vw;
+}
+.jcbzSidebar .layui-tab-title{
+    position:absolute;
+    height:auto;
+    left:0vw;
+    top:0;
+    bottom:0;
+    width:1.8vw;
+    /*border-right: 1px solid #04d7d7;*/
+    background:#07676c;
+}
+.jcbzSidebar .layui-tab-bar{
+    display:none;
+}
+.jcbzSidebar .layui-tab-title li .iconfont{
+    margin-right:0;
+    font-size:1vw;
+}
+.jcbzSidebar .layui-tab-title li{
+    background:none;
+    /*border: 1px solid #04d7d7;*/
+    border-right:none;
+    text-align: center;
+    border-bottom:none;
+    min-width:auto;
+    width:100%;
+    box-sizing: border-box;
+    padding:0.5vh 0;
+    height:auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+/*.jcbzLeftBox{
+    overflow: hidden!important;
+}*/
+
+.jcbzSidebar {
+    margin-left:0;
+    margin-top:0;
+}
+.jcbzSidebar .layui-tab-title .layui-this{
+    background:#0c979e;
+}
+.jcbzSidebar .layui-tab-content{
+    /*padding:0;*/
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height:100%;
+    overflow:auto;
+}
+.jcbzSidebar  .title3{
+    font-size:1vw;
+}
+
+.zs-page .layui-tree-set {
+    width: 0%;
+    position: relative;
+}
+
+.zs-page .layui-tree-txt {
+    display: inline-block;
+    vertical-align: middle;
+    color: #5efffd;
+}
+
+/*路灯*/
+.streetLampBox .iframeC{
+    width:35vw;
+}
+.streetLampBox .rightBtn{
+    right:35.5vw;
+}
+.StreetLampBtn button{
+    display:inline-block;
+    font-size:0.72vw;
+    width:50%;
+}
+.StreetLampBtn{
+    text-align: center;
+}
+.streetLampNub{
+    padding:1vh 0.7vw;
+    border-top:1px solid #217e73;
+    border-bottom:1px solid #217e73;
+    text-align: center;
+}
+.streetLampNub h2{
+    font-size:0.72vw;
+    color:#38ddd7;
+    margin-bottom:0.92vh;
+}
+.streetLampNub h2 span{
+    color:#fff;
+}
+.streetLampNub h4{
+    width:90%;
+    margin:0 auto;
+    color:#fff;
+    line-height:6.4vh;
+    background: url(../images/txtBg.png) no-repeat;
+    background-size: 100% 100%;
+    font-size:1.2vw;
+}
+.streetLampNub .swichBtn{
+    padding-top:1vh;
+}
+.streetLampNub .swichBtn span{
+    margin-right:1vw;
+    color:#fff;
+    color:#fff;
+}
+.streetLampNub .swichBtn button{
+    width:11vw;
+    margin-right:1vw;
+    font-size:0.72vw;
+}
+.controllerList ul{
+    padding:1vh 0;
+    overflow: hidden;
+}
+.controllerList li{
+    line-height:2.8vh;
+    background:rgba(20,50,62,.5);
+    width:48%;
+    float:left;
+    margin:0 1% 1.2vh 1%;
+    border:1px solid #286f69;
+    padding:0.9vh 0.52vh;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color:#fff;
+    font-size:0.72vw;
+    padding:0.9vh 0.5vw;
+}
+.controllerList li label{
+    color:#20dedc;
+}
+.controllerList li button{
+    margin-right:0.5vw;
+    width:3.4vw;
+    line-height:2.7vh;
+}
+.streetLampBtn{
+    border: none;
+    border-radius: 4px;
+    line-height: 3.3vh;
+    padding: 0 0.52vw;
+    color: #fff;
+    background-color: #178776;
+    -webkit-box-shadow: inset 0 0 1vw rgba(18,180,188,1);
+    -moz-box-shadow: inset 0 0 1vw rgba(18,180,188,1);
+    box-shadow: inset 0 0 1vw rgba(18,180,188,1);
+    cursor: pointer;
+    border: 1px solid #5efffd;
+}
+.streetLampBtn.active,.streetLampBtn:hover{
+    background-color: #2bae9f;
+}
+.streetLampForm .layui-input{
+    background:rgba(20,50,62,.5);
+    border:1px solid #25675b;
+}
+
+/*开挖分析*/
+.kwfxFrom .layui-form-checkbox{
+    padding-left:1.4vw;
+}
+.kwfxFrom .layui-form-label{
+    text-align: left;
+}
+.kwfxFrom .checkBox{
+    padding:0 0.8vw 0;
+    color: #fff;
+}
+.kwfxFrom .layui-form-checkbox span{
+    color:#fff;
+    font-size:0.72vw;
+    line-height:0.8vw;
+}
+.kwfxFrom .layui-form-checkbox i {
+    width:0.8vw;
+    height:0.8vw;
+    line-height:0.8vw;
+    font-size:0.72vw;
+}
+
+.kwfxFrom button {
+    min-width: 4.6vw;
+}
+
+.attributesBox .layui-table {
+    background-color: transparent;
+    color: #fff;
+}
+.attributesBox .layui-table-header{
+    background-color: transparent;
+    color: #fff;
+    border: none;
+}
+.attributesBox .layui-table tbody tr:hover,
+.attributesBox .layui-table thead tr,
+.attributesBox .layui-table-click,
+.attributesBox .layui-table-header,
+.attributesBox .layui-table-hover,
+.attributesBox .layui-table-mend,
+.attributesBox .layui-table-patch,
+.attributesBox .layui-table-tool,
+.attributesBox .layui-table-total,
+.attributesBox .layui-table-total tr,
+.attributesBox .layui-table[lay-even] tr:nth-child(even) {
+     background-color: transparent;
+}

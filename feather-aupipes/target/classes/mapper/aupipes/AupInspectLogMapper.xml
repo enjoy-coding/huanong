@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupInspectLogMapper">
+    
+    <resultMap type="AupInspectLog" id="AupInspectLogResult">
+        <result property="id"    column="id"    />
+        <result property="openId"    column="open_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAupInspectLogVo">
+        select id, open_id, task_id, user_id, title, content, create_time, update_time from aup_inspect_log
+    </sql>
+
+    <sql id="selectAupInspectLogVoJo">
+        select id, open_id, task_id, u.user_name as username, title, content, create_time, update_time from aup_inspect_log ail
+	    left join sys_user u on u.user_id = ail.user_id
+    </sql>
+
+    <select id="selectAupInspectLogList" parameterType="AupInspectLog" resultMap="AupInspectLogResult">
+        <include refid="selectAupInspectLogVoJo"/>
+        <where>
+            <if test="id != null and id != ''">
+                and ail.id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and ail.title = #{title}
+            </if>
+            <if test="content != null and content != ''">
+                and ail.content = #{content}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectAupInspectLogById" parameterType="Long" resultMap="AupInspectLogResult">
+        <include refid="selectAupInspectLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAupInspectLog" parameterType="AupInspectLog">
+        insert into aup_inspect_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="openId != null  and openId != ''">open_id,</if>
+            <if test="taskId != null ">task_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="openId != null  and openId != ''">#{openId},</if>
+            <if test="taskId != null ">#{taskId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupInspectLog" parameterType="AupInspectLog">
+        update aup_inspect_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="openId != null  and openId != ''">open_id = #{openId},</if>
+            <if test="taskId != null ">task_id = #{taskId},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupInspectLogById" parameterType="Long">
+        delete from aup_inspect_log where id = #{id}
+    </delete>
+
+    <delete id="deleteAupInspectLogByIds" parameterType="String">
+        delete from aup_inspect_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

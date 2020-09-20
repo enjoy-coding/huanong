@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScServiceMapper">
+
+   <resultMap type="ScService" id="ScServiceResult">
+        <result property="serviceId"    column="service_id"    />
+        <result property="serviceDept"    column="service_dept"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="serviceCType"    column="service_ctype"    />
+        <result property="serviceContent"    column="service_content"    />
+        <result property="serviceFile"    column="service_file"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    jdbcType="BIGINT"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    jdbcType="BIGINT"    />
+    </resultMap>
+
+    <sql id="selectScServiceVo">
+        select service_id,s.service_dept,d.dept_name as service_name, s.service_type,s.service_ctype, s.service_content, s.service_file, s.create_by, s.create_time, s.update_by, s.update_time 
+        from sc_service s
+        join sys_dept d  on d.dept_id = s.service_dept
+        join sys_dict_data dic on dic.dict_value = s.service_type
+    </sql>
+
+    <select id="selectScServiceList" parameterType="ScService" resultMap="ScServiceResult">
+        <include refid="selectScServiceVo"/>
+        <where>
+            <if test="serviceId != null "> and service_id = #{serviceId}</if>
+            <if test="serviceDept != null "> and service_dept = #{serviceDept}</if>
+            <if test="serviceName != null  and serviceName != ''">
+            	<bind name="_serviceName" value="'%'+ serviceName +'%'"/>
+            	and service_name like #{_serviceName}
+            </if>
+            <if test="serviceType != null  and serviceType != ''"> and service_type = #{serviceType}</if>
+            <if test="serviceContent != null  and serviceContent != ''"> and service_content = #{serviceContent}</if>
+            <if test="serviceFile != null "> and service_file = #{serviceFile}</if>
+        </where>
+    </select>
+
+    <select id="selectServiceTypeCount" parameterType="ScService" resultType="int">
+        select count(1) from sc_service s
+        where s.service_type = #{serviceType} and s.service_dept  =  #{serviceDept} 
+    </select>
+
+    <select id="selectScServiceById" parameterType="Long" resultMap="ScServiceResult">
+        <include refid="selectScServiceVo"/>
+        where service_id = #{serviceId}
+    </select>
+
+    <select id="checkServiceDeptUnique" parameterType="ScService" resultMap="ScServiceResult">
+        <include refid="selectScServiceVo"/>
+        where service_type = #{serviceType} and service_ctype = #{serviceCType}
+    </select>
+    
+
+
+    <insert id="insertScService" parameterType="ScService">
+        insert into sc_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serviceId != null ">service_id,</if>
+            <if test="serviceDept != null ">service_dept,</if>
+            <if test="serviceName != null  and serviceName != ''">service_name,</if>
+            <if test="serviceType != null  and serviceType != ''">service_type,</if>
+            <if test="serviceCType !=null and serviceCType != ''">service_ctype,</if>
+            <if test="serviceContent != null  and serviceContent != ''">service_content,</if>
+            <if test="serviceFile != null ">service_file,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serviceId != null ">#{serviceId},</if>
+            <if test="serviceDept != null ">#{serviceDept},</if>
+            <if test="serviceName != null  and serviceName != ''">#{serviceName},</if>
+            <if test="serviceType != null  and serviceType != ''">#{serviceType},</if>
+            <if test="serviceCType !=null and serviceCType != ''">#{serviceCType},</if>
+            <if test="serviceContent != null  and serviceContent != ''">#{serviceContent},</if>
+            <if test="serviceFile != null ">#{serviceFile},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+         </trim>
+    </insert>
+
+   <update id="updateScService" parameterType="ScService">
+        update sc_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceDept != null ">service_dept = #{serviceDept},</if>
+            <if test="serviceName != null  and serviceName != ''">service_name = #{serviceName},</if>
+            <if test="serviceType != null  and serviceType != ''">service_type = #{serviceType},</if>
+            <if test="serviceCType != null  and serviceCType != ''">service_ctype = #{serviceCType},</if>
+            <if test="serviceContent != null  and serviceContent != ''">service_content = #{serviceContent},</if>
+            <if test="serviceFile != null ">service_file = #{serviceFile},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+        </trim>
+        where service_id = #{serviceId}
+    </update>
+
+    <delete id="deleteScServiceById" parameterType="Long">
+        delete from sc_service where service_id = #{serviceId}
+    </delete>
+
+    <delete id="deleteScServiceByIds" parameterType="String">
+        delete from sc_service where service_id in 
+        <foreach item="serviceId" collection="array" open="(" separator="," close=")">
+            #{serviceId}
+        </foreach>
+    </delete>
+
+</mapper>

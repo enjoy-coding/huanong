@@ -1,0 +1,8 @@
+qrtz_job_details
+
+qrtz_triggers
+
+[others]
+
+-- update user set password=password('123') where user='root'
+-- mysql> flush privileges; 

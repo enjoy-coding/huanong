@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupJcbzManagerMapper">
+
+    <resultMap type="AupJcbzManager" id="AupJcbzManagerResult">
+        <result property="id"    column="Id"    />
+        <result property="managername"    column="managerName"    />
+        <result property="managetype"    column="manageType"    />
+        <result property="levfir"    column="levFir"    />
+        <result property="levsec"    column="levSec"    />
+        <result property="levthr"    column="levThr"    />
+        <result property="code"    column="code"    />
+        <result property="parentcode"    column="parentCode"    />
+        <result property="edittime"    column="editTime"    />
+        <result property="phonenum"    column="phoneNum"    />
+        <result property="wxnum"    column="wxNum"    />
+        <result property="managerUuid"    column="managerUuid"    />
+    </resultMap>
+
+    <sql id="selectAupJcbzManagerVo">
+        select Id, managerName, manageType, levFir, levSec, levThr, code, parentCode, editTime,phoneNum,wxNum, managerUuid from aup_jcbz_manager
+    </sql>
+
+    <resultMap type="AupBuildingArea" id="AupBuildingAreaResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nodetype" column="nodetype"/>
+        <result property="xy" column="xy"/>
+        <result property="mapid" column="mapid"/>
+        <result property="code" column="code"/>
+        <result property="parentCode" column="parentCode"/>
+        <result property="areaNo" column="areaNo"/>
+        <result property="level" column="level"/>
+    </resultMap>
+
+    <sql id="selectAupBuildingAreaVo">
+        select id, name, nodetype, xy, mapid, code,parentCode,areaNo,level from aup_building_area
+    </sql>
+
+    <!-- 回路房屋配电房管线数据 -->
+    <resultMap type="AupHlInfo" id="AupHlInfoResult" >
+        <result property="id" column="id"/>
+        <result property="guId" column="guId"/>
+        <result property="fwId" column="fwId"/>
+        <result property="hlId" column="hlId"/>
+        <result property="pdfId" column="pdfId"/>
+        <result property="bz" column="bz"/>
+        <result property="cxId" column="cxId"/>
+        <result property="jxId" column="jxId"/>
+    </resultMap>
+
+    <sql id="selectAupHlInfoVo">
+        select id, guId, fwId, hlId, pdfId, bz, cxId, jxId from LINK_SDE.sde.dbo.HL_GX
+    </sql>
+    <!-- 截止 -->
+
+    <!-- 回路属性 -->
+    <resultMap type="AupHl" id="AupHlResult">
+        <result property="id"    column="id"    />
+        <result property="回路id"    column="回路ID"    />
+        <result property="配电房id"    column="配电房ID"    />
+        <result property="变压器id"    column="变压器ID"    />
+        <result property="变压器名称"    column="变压器名称"    />
+        <result property="柜号"    column="柜号"    />
+        <result property="回路名称"    column="回路名称"    />
+        <result property="开关模数"    column="开关模数"    />
+        <result property="空开型号"    column="空开型号"    />
+        <result property="变比"    column="变比"    />
+        <result property="电缆线径"    column="电缆线径"    />
+        <result property="额定载流量"    column="额定载流量"    />
+        <result property="使用值"    column="使用值"    />
+        <result property="使用率"    column="使用率"    />
+        <result property="备注"    column="备注"    />
+    </resultMap>
+
+    <sql id="selectAupHlVo">
+        select id, 回路ID, 配电房ID, 变压器ID, 变压器名称, 柜号, 回路名称, 开关模数, 空开型号, 变比, 电缆线径, 额定载流量, 使用值, 使用率, 备注 from aup_HL
+    </sql>
+    <!-- -->
+
+    <select id="selectAupJcbzManagerList" parameterType="AupJcbzManager" resultMap="AupJcbzManagerResult">
+        <include refid="selectAupJcbzManagerVo"/>
+        <where>
+            <if test="id != null "> and Id = #{id}</if>
+            <if test="managername != null  and managername != ''">
+                <bind name="_managername" value="'%'+ managername +'%'"/>
+                and managerName like #{_managername}
+            </if>
+            <if test="managetype != null  and managetype != ''"> and manageType = #{managetype}</if>
+            <if test="levfir != null  and levfir != ''"> and levFir = #{levfir}</if>
+            <if test="levsec != null  and levsec != ''"> and levSec = #{levsec}</if>
+            <if test="levthr != null  and levthr != ''"> and levThr = #{levthr}</if>
+            <!--<if test="code != null  and code != ''"> and code = #{code}</if>-->
+            <if test="code != null  and code != ''"> and CHARINDEX(#{code},code)>0</if>
+            <if test="parentcode != null  and parentcode != ''"> and parentCode = #{parentcode}</if>
+            <if test="edittime != null  and edittime != ''"> and editTime = #{edittime}</if>
+            <if test="phonenum != null  and phonenum != ''"> and phoneNum = #{phonenum}</if>
+            <if test="wxnum != null  and wxnum != ''"> and wxNum = #{wxnum}</if>
+        </where>
+    </select>
+
+    <select id="selectAupJcbzManagerById" parameterType="Long" resultMap="AupJcbzManagerResult">
+        <include refid="selectAupJcbzManagerVo"/>
+        where Id = #{id}
+    </select>
+
+    <insert id="insertAupJcbzManager" parameterType="AupJcbzManager">
+        insert into aup_jcbz_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">Id,</if>
+            <if test="managername != null  and managername != ''">managerName,</if>
+            <if test="managetype != null  and managetype != ''">manageType,</if>
+            <if test="levfir != null  and levfir != ''">levFir,</if>
+            <if test="levsec != null  and levsec != ''">levSec,</if>
+            <if test="levthr != null  and levthr != ''">levThr,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="parentcode != null  and parentcode != ''">parentCode,</if>
+            <if test="edittime != null  and edittime != ''">editTime,</if>
+            <if test="phonenum != null  and phonenum != ''">phoneNum,</if>
+            <if test="wxnum != null  and wxnum != ''">wxNum,</if>
+            <if test="managerUuid != null  and managerUuid != ''">managerUuid,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="managername != null  and managername != ''">#{managername},</if>
+            <if test="managetype != null  and managetype != ''">#{managetype},</if>
+            <if test="levfir != null  and levfir != ''">#{levfir},</if>
+            <if test="levsec != null  and levsec != ''">#{levsec},</if>
+            <if test="levthr != null  and levthr != ''">#{levthr},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="parentcode != null  and parentcode != ''">#{parentcode},</if>
+            <if test="edittime != null  and edittime != ''">#{edittime},</if>
+            <if test="phonenum != null  and phonenum != ''">#{phonenum},</if>
+            <if test="wxnum != null  and wxnum != ''">#{wxnum},</if>
+            <if test="managerUuid != null  and managerUuid != ''">#{managerUuid},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupJcbzManager" parameterType="AupJcbzManager">
+        update aup_jcbz_manager
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="managername != null  and managername != ''">managerName = #{managername},</if>
+            <if test="managetype != null  and managetype != ''">manageType = #{managetype},</if>
+            <if test="levfir != null  and levfir != ''">levFir = #{levfir},</if>
+            <if test="levsec != null  and levsec != ''">levSec = #{levsec},</if>
+            <if test="levthr != null  and levthr != ''">levThr = #{levthr},</if>
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="parentcode != null  and parentcode != ''">parentCode = #{parentcode},</if>
+            <if test="edittime != null  and edittime != ''">editTime = #{edittime},</if>
+            <if test="phonenum != null  and phonenum != ''">phoneNum = #{phonenum},</if>
+            <if test="wxnum != null  and wxnum != ''">wxNum = #{wxnum},</if>
+        </trim>
+        where Id = #{id}
+    </update>
+
+    <delete id="deleteAupJcbzManagerById" parameterType="Long">
+        delete from aup_jcbz_manager where Id = #{id}
+    </delete>
+
+    <delete id="deleteAupJcbzManagerByIds" parameterType="String">
+        delete from aup_jcbz_manager where Id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 查询列表数据 -->
+    <select id="selectAupBuildingAreaList" parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="areaNo != null  and areaNo != ''">
+                and areaNo = #{areaNo}
+            </if>
+            <if test="mapid != null  and mapid != ''">
+                and mapid = #{mapid}
+            </if>
+            <if test="level != null  and level != 0">
+                and level = #{level}
+            </if>
+            <if test="nodetype != null  and nodetype != ''">
+                <bind name="_nodetype" value="'%'+ nodetype +'%'"/>
+                and nodetype like #{_nodetype}
+            </if>
+            <if test="xy != null  and xy != ''">
+                <bind name="_xy" value="'%'+ xy +'%'"/>
+                and xy like #{_xy}
+            </if>
+            <if test="mapid != null ">and mapid = #{mapid}</if>
+            <if test="code != null  and code != ''">
+                <!--<bind name="_code" value="'%'+ code +'%'"/>-->
+                and code = #{code}
+            </if>
+            <if test="parentCode != null  and parentCode != ''">
+                and parentCode = #{parentCode}
+            </if>
+            <if test="important != null  and important != ''">
+                <bind name="_important" value="'%'+ important +'%'"/>
+                and important like #{_important}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据回路查询房屋配电房信息 -->
+    <select id="getHlInfo" parameterType="AupHlInfo" resultMap="AupHlInfoResult" >
+        select fwId, hlId, pdfId from LINK_SDE.sde.dbo.HL_GX
+        <where>
+            <if test="hlId != null and hlId != '' ">
+                and hlId = #{hlId}
+            </if>
+        </where>
+        group by fwId, hlId, pdfId;
+    </select>
+
+    <!-- 根据回路查询房屋配电房信息 -->
+    <select id="getHlAttriBute" parameterType="AupHl" resultMap="AupHlResult" >
+        <include refid="selectAupHlVo"/>
+        <where>
+            <if test="回路id != null  and 回路id != ''">
+                and 回路ID = #{回路id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据回路查询房屋配电房信息 -->
+    <select id="selectHlid" parameterType="Long" resultMap="AupHlInfoResult" >
+        select fwId, hlId, pdfId from LINK_SDE.sde.dbo.HL_GX
+        <where>
+            <if test="_parameter != null" >
+                 fwId = #{_parameter}
+            </if>
+        </where>
+        group by fwId, hlId, pdfId;
+    </select>
+
+</mapper>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>登录</title>
+	<script>
+		if (self != top) { 
+			top.location.href = self.location.href;
+		}
+	</script>
+	<link href="../static/bus/napo/css/login.css" th:href="@{/bus/napo/css/login.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="waves"></div>
+	<div class="loginForm">
+		<div style="margin：0 auto">
+		<!--<img class="logo" th:src="@{/bus/napo/img/logo.png}" alt="" />-->
+		</div>
+		<form class="from" autocomplete="off" onsubmit="return login()">
+			<div class="display-block">
+				<label>用户名：</label>
+				<input class="input" type="text" name="username" />
+			</div>
+			<div class="display-block">
+				<label>密<span style="width:14px;display: inline-block;"></span>码：</label>
+				<input class="input" type="password" name="password" />
+			</div>
+			<div class="display-block">
+				<label>验证码：</label>
+				<div class="code">
+					<input name="validateCode" type="text" class="input" />
+					<a href="javascript:void(0);" title="点击更换验证码">
+					    <img  class="imgcode" src="" alt="" />
+                    </a>
+				</div>
+			</div>
+			<div class="display-block txtL">
+				<div class="forgetPassword">
+					<input type="checkbox" name="rememberme" />
+					<span style="font-size:12px;">记住密码</span>
+				</div>
+			</div>
+			<div class="display-block">
+				<button class="btn" id="btnSubmit">登入</button>
+			</div>
+		</form>
+		<footer class="footer"> ©2020 版权归苍穹数码所有</footer>
+	</div>
+	<!--提示弹框内容-->
+	<div class="layerTxt">
+		<i class="icon"></i>
+		<h5>警告</h5>
+		<p id="tipTxt"></p>
+	</div>
+</body>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<script src="../static/bus/napo/js/index-canvas.js" th:src="@{/bus/napo/js/index-canvas.js}"></script>
+<script src="../static/def/js/jquery.min.js" th:src="@{/def/js/jquery.min.js}"></script>
+<script src="../static/def/libs/layer/layer.min.js" th:src="@{/def/libs/layer/layer.min.js}"></script>
+<script src="../static/def/feather/js/ry-ui.js" th:src="@{/def/feather/js/ry-ui.js(v=${staticResourcesVersion})}"></script>
+<script>
+	$(function() {
+		var showImgcode = function(){
+			var url = ctx + "captcha?s=" + Math.random();
+			$(".imgcode").attr("src", url);
+		};
+		$('.imgcode').click(showImgcode);
+		setTimeout(showImgcode, 50);
+	});
+	function login() {
+		var $btnSubmit = $("#btnSubmit");
+		$btnSubmit.attr("disabled", "true");
+		
+		var username = $.common.trim($("input[name='username']").val());
+		var password = $.common.trim($("input[name='password']").val());
+		var validateCode = $("input[name='validateCode']").val();
+		var rememberMe = $("input[name='rememberme']").is(':checked');
+		if (username.length == 0) {
+			$btnSubmit.removeAttr("disabled");  
+			$("#tipTxt").text('请输入您的用户名');
+			layerBox();
+			return false;
+		}
+		if (password.length == 0) {
+			$btnSubmit.removeAttr("disabled");  
+			$("#tipTxt").text('请输入您的密码');
+			layerBox();
+			return false;
+		}
+		$.ajax({
+			type : "post",
+			url : ctx + "login",
+			data : {
+				"username" : username,
+				"password" : password,
+				"rememberMe" : rememberMe,
+				"validateCode" : validateCode
+			},
+			success : function(r) {
+				$btnSubmit.removeAttr("disabled");  
+				if (r.code == 0) {
+					window.localStorage.setItem("username", username);
+					top.location.href = ctx + 'index';
+				} else {
+					$("#tipTxt").text(r.msg);
+					layerBox();
+				}
+			}
+		});
+		return false;
+	}
+	// 提示框
+	function layerBox() {
+		layer.open({
+			type : 1,
+			title : false,
+			closeBtn : 0,
+			skin : 'msgLayer',
+			btn : [ '确  定' ],
+			//time: 1000, // 弹框自动关闭
+			content : $(".layerTxt")
+		})
+	}
+	
+	$(function() {
+		$("#btnSubmit").click(login);
+	});
+</script>
+</html>

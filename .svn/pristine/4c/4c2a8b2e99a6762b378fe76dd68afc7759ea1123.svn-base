@@ -1,0 +1,82 @@
+<div class="searchResult">
+    <div class="fmLayerBox pr">
+        <div class="title2 pa">阀门关系<i class="iconfont iconguanbi clearBtn fr" onclick="backToDetail()"></i></div>
+        <div class="fmLayerC">
+            <h6 class="title">上级阀门</h6>
+            <ul class="list">
+                <li class="layui-row header">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        序号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        管网编号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        埋深
+                    </div>
+                </li>
+                <li class="layui-row" v-for="(item,i) in syList">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ i+1 }}
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ item.exp_no }}
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ item.well_depth }}
+                    </div>
+                </li>
+            </ul>
+            <h6 class="title">当前阀门</h6>
+            <ul class="list">
+                <li class="layui-row header">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        序号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        管网编号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        埋深
+                    </div>
+                </li>
+                <li class="layui-row">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        1
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ dqList.id }}
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ dqList.depth }}
+                    </div>
+                </li>
+            </ul>
+            <h6 class="title">下级阀门</h6>
+            <ul class="list">
+                <li class="layui-row header">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        序号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        管网编号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        埋深
+                    </div>
+                </li>
+                <li class="layui-row" v-for="(item,i) in xyList">
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ i+1 }}
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ item.exp_no }}
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        {{ item.well_depth }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

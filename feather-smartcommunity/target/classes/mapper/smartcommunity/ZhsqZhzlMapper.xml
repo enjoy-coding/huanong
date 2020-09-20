@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqZhzlMapper">
+
+
+    <!--综合治理重点人员统计-->
+    <select id="selectZdryCount" parameterType="map" resultType="map">
+       select
+        count(1) as mun,
+        count(case when jc.SFDJ='是' then 1 else null end) as djlr,
+        count(case when jc.SFKC='是' then 1 else null end) as kclr,
+        count(case when jc.SFXMSF='是' then 1 else null end) as xmsf,
+        count(case when jc.SFTYJR='是' then 1 else null end) as twjr,
+        count(case when jc.SFDB='是' then 1 else null end) as dbry,
+        count(case when jc.SFCJ='是' then 1 else null end) as cjlr
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_JM]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        and (SFDJ like '%是%' or SFKC like '%是%' or SFXMSF like '%是%' or SFTYJR like '%是%' or SFDB like '%是%' or SFCJ like '%是%')) as jc
+    </select>
+
+
+    <!--综合治理重点人员统计分布情况-->
+    <select id="getZdryFb" parameterType="map" resultType="map">
+        SELECT
+        TOP 5
+        LDMC,
+        count(LDID) as MUN
+        FROM
+        (SELECT ld.LDID,ld.LDMC FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+            <if test="sfdj != null  and sfdj != ''"> and jm.SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and jm.SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and jm.SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and jm.SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and jm.SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and jm.SFCJ = #{sfcj}</if>
+        </where>
+        and (jm.[SFDJ] = N'是' OR jm.[SFKC] = N'是' OR jm.[SFXMSF] = N'是' OR jm.[SFTYJR] = N'是' OR jm.[SFDB] = N'是' OR jm.[SFCJ] = N'是')) as a
+         GROUP BY LDMC ORDER BY MUN DESC
+    </select>
+
+    <!--综合治理重点人员年龄结构统计-->
+    <select id="getZdNl" parameterType="map" resultType="map">
+        SELECT
+        count(case when jc.[NL] <![CDATA[ < ]]> N'20' then 1 else null end) as a,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'20' and jc.[NL] <![CDATA[ <= ]]> N'30' then 1 else null end) as b,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'31' and jc.[NL] <![CDATA[ <= ]]> N'40' then 1 else null end) as c,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'41' and jc.[NL] <![CDATA[ <= ]]> N'50' then 1 else null end) as d,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'51' and jc.[NL] <![CDATA[ <= ]]> N'60' then 1 else null end) as e,
+        count(case when jc.[NL] <![CDATA[ > ]]> N'60' then 1 else null end) as f
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_JM]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="sfdj != null  and sfdj != ''"> and SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and SFCJ = #{sfcj}</if>
+        </where>
+        and ([SFDJ] = N'是' OR [SFKC] = N'是' OR [SFXMSF] = N'是' OR [SFTYJR] = N'是' OR [SFDB] = N'是' OR [SFCJ] = N'是')) as jc
+    </select>
+
+
+    <!--综合治理重点人员男女比例统计-->
+    <select id="getZdNnBl" parameterType="map" resultType="map">
+        SELECT XB ,count(1) as MUN FROM [dbo].[ZHSQ_JM]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="sfdj != null  and sfdj != ''"> and SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and SFCJ = #{sfcj}</if>
+        </where>
+        and ([SFDJ] = N'是' OR [SFKC] = N'是' OR [SFXMSF] = N'是' OR [SFTYJR] = N'是' OR [SFDB] = N'是' OR [SFCJ] = N'是')
+        GROUP BY XB
+    </select>
+
+    <!--综合治理重点人员民族比例统计-->
+    <select id="getZdMzBl" parameterType="map" resultType="map">
+        SELECT MZ,count(1) as MUN FROM [dbo].[ZHSQ_JM]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="sfdj != null  and sfdj != ''"> and SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and SFCJ = #{sfcj}</if>
+        </where>
+         and ([SFDJ] = N'是' OR [SFKC] = N'是' OR [SFXMSF] = N'是' OR [SFTYJR] = N'是' OR [SFDB] = N'是' OR [SFCJ] = N'是')
+         GROUP BY MZ
+    </select>
+
+    <!--重点人员列表-->
+    <select id="getZdRyList" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_JM]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="sfdj != null  and sfdj != ''"> and SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and SFCJ = #{sfcj}</if>
+
+            <if test="zdry != null  and zdry != ''">
+                <bind name="_zdry" value="'%'+ zdry +'%'"/>
+                and XM like #{_zdry}
+            </if>
+            and ([SFDJ] = N'是' OR [SFKC] = N'是' OR [SFXMSF] = N'是' OR [SFTYJR] = N'是' OR [SFDB] = N'是' OR [SFCJ] = N'是')
+        </where>
+    </select>
+
+    <!--巡检任务统计-->
+    <select id="selectXjrwCount" parameterType="map" resultType="map">
+        SELECT
+        count(1) as rwzs,
+        count(case when jc.XCZT='已巡' then 1 else null end) as yx,
+        count(case when jc.XCZT='在巡' then 1 else null end) as zx,
+        count(case when jc.XCZT='未巡' then 1 else null end) as wx
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_WYXC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>) as jc
+    </select>
+
+    <!--首页人员巡检-->
+    <select id="selectRyxjCount" parameterType="map" resultType="map">
+
+        SELECT XCZT ,count(1) as MUN FROM [dbo].[ZHSQ_WYXC] xc left join [dbo].[ZHSQ_WYRY] ry on xc.WYRYID=ry.WYRYID JOIN [dbo].[ZHSQ_XQ] xq on ry.XQID=xq.XQID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and xq.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and xq.SQID = #{sqid}</if>
+        </where>
+        GROUP BY XCZT
+    </select>
+
+    <!--巡检任務-->
+    <select id="getXjrw" parameterType="map" resultType="map">
+        SELECT *  FROM [dbo].[ZHSQ_WYXC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="xczt != null  and xczt != ''"> and XCZT = #{xczt}</if>
+            <if test="xjrw != null  and xjrw != ''">
+                <bind name="_xjrw" value="'%'+ xjrw +'%'"/>
+                and (RWMC like #{_xjrw} or XM like #{_xjrw} or XCZT like #{_xjrw})
+            </if>
+        </where>
+    </select>
+
+    <!--重点事件-->
+    <select id="selectZdsjCount" parameterType="map" resultType="map">
+        SELECT
+        count(1) as zs,
+        count(case when jc.CZZT='未处置' then 1 else null end) as wcz,
+        count(case when jc.CZZT='处置中' then 1 else null end) as czz,
+        count(case when jc.CZZT='已处置' then 1 else null end) as ycz,
+        --事件类型
+        count(case when jc.SJLX='治安事件' then 1 else null end) as zasj,
+        count(case when jc.SJLX='卫生事件' then 1 else null end) as wssj,
+        count(case when jc.SJLX='能源事件' then 1 else null end) as nysj,
+        count(case when jc.SJLX='矛盾纠纷' then 1 else null end) as mdjf,
+        count(case when jc.SJLX='报修事件' then 1 else null end) as bxsj
+
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>) as jc
+    </select>
+
+    <!--重点事件发生率-->
+    <select id="selectZdsjFslCount" parameterType="map" resultType="map">
+        SELECT
+				(CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t2.zasjs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as zasjL,
+				(CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t3.wssjs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as wssjL,
+				(CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t4.nysjs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as nysjL,
+				(CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t5.mdjfs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as mdjfL,
+				(CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t6.bxsjs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as bxsjL
+				FROM
+				(
+            SELECT ISNULL(COUNT(1), 0) as zs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        ) as t1
+        OUTER apply(
+            SELECT ISNULL(COUNT(1), 0) as zasjs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and SJLX = '治安事件'
+        ) as t2
+				OUTER apply(
+            SELECT ISNULL(COUNT(1), 0) as wssjs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and SJLX = '卫生事件'
+        ) as t3
+				OUTER apply(
+            SELECT ISNULL(COUNT(1), 0) as nysjs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and SJLX = '能源事件'
+        ) as t4
+				OUTER apply(
+            SELECT ISNULL(COUNT(1), 0) as mdjfs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and SJLX = '矛盾纠纷'
+        ) as t5
+				OUTER apply(
+            SELECT ISNULL(COUNT(1), 0) as bxsjs FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and SJLX = '报修事件'
+        ) as t6
+    </select>
+
+    <!--重点事件扇形图-->
+    <select id="selectZdsjTCount" parameterType="map" resultType="map">
+        SELECT SJLX ,count(1) as MUN FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        GROUP BY SJLX
+    </select>
+
+    <!--重点事件列表-->
+    <select id="getZdsjList" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="czzt != null  and czzt != ''"> and CZZT = #{czzt}</if>
+            <if test="sjlx != null  and sjlx != ''">
+                <bind name="_sjlx" value="'%'+ sjlx +'%'"/>
+                and (SJLX like #{_sjlx} OR YCNR like #{_sjlx} OR CZZT like #{_sjlx})
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改房屋')" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-FW-edit" th:object="${FW}">
+        <input id="fwid" name="fwid" th:field="*{fwid}" type="hidden">
+        <input id="ldid" name="ldid" th:field="*{ldid}" type="hidden">
+        <input id="hzid" name="hzid" th:field="*{hzid}" type="hidden">
+        <input id="xqid" name="xqid" th:field="*{xqid}" type="hidden">
+        <input id="sqid" name="sqid" th:field="*{sqid}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">楼栋名称：</label>
+            <div class="col-sm-8">
+                <input name="ldmc" th:field="*{ldmc}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">单元：</label>
+            <div class="col-sm-8">
+                <input name="dy" th:field="*{dy}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">层：</label>
+            <div class="col-sm-8">
+                <input name="c" th:field="*{c}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">门牌号：</label>
+            <div class="col-sm-8">
+                <input name="mph" th:field="*{mph}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">房屋地址：</label>
+            <div class="col-sm-8">
+                <input name="fwdz" th:field="*{fwdz}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">房屋面积：</label>
+            <div class="col-sm-8">
+                <input name="fwmj" th:field="*{fwmj}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">房屋入住情况：</label>
+            <div class="col-sm-8">
+                <input name="fwrzqk" th:field="*{fwrzqk}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">用途：</label>
+            <div class="col-sm-8">
+                <input name="fwlylx" th:field="*{fwlylx}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">产权：</label>
+            <div class="col-sm-8">
+                <input name="cqzt" th:field="*{cqzt}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">户主姓名：</label>
+            <div class="col-sm-8">
+                <input name="hzxm" th:field="*{hzxm}" class="form-control" type="text">
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    var prefix = ctx + "smartcommunity/FW";
+    $("#form-FW-edit").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#fwid").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-FW-edit').serialize(),
+                success: function(result, _option) {
+                    if (isAdd()) {
+                        if (result.data.fwid) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.fwid;
+                        } else {
+                            $.modal.msgError("没有返回数据：fwid");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+        <th:block th:include="include :: header('车辆列表')"/>
+    </head>
+    <body class="gray-bg">
+        <div class="container-div">
+            <div class="row">
+                <div class="col-sm-12 search-collapse">
+                    <form id="formId">
+                        <div class="select-list">
+                            <ul>
+                                <li>
+                                    <p>名称：</p>
+                                    <input type="text" name="name"/>
+                                </li>
+                              <!-- <li>
+                                    <p>类型：</p>
+                                    <select name="type" id="type" class="form-control m-b"
+                                            th:with="type=${@dict.getType('np_device_type')}">
+                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                                th:value="${dict.dictValue}" ></option>
+                                    </select>
+                                </li>-->
+                               <!-- <li>
+                                    <p>状态：</p>
+                                    <select name="state" id="state" class="form-control m-b"
+                                            th:with="type=${@dict.getType('np_spot_type')}">
+                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                                th:value="${dict.dictValue}" th:field="*{state}"></option>
+                                    </select>
+                                </li>-->
+                                <li>
+                                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                            class="fa fa-search"></i>&nbsp;搜索</a>
+                                    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                            class="fa fa-refresh"></i>&nbsp;重置</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-success" onclick="$.operate.add()">
+                        <i class="fa fa-plus"></i> 新增
+                    </a>
+                    <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
+                        <i class="fa fa-edit"></i> 修改
+                    </a>
+                    <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                        <i class="fa fa-remove"></i> 删除
+                    </a>
+                </div>
+
+                <div class="col-sm-12 select-table table-striped">
+                    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+        <th:block th:include="include :: footer"/>
+        <script th:inline="javascript">
+            //var editFlag = [[${@permission.hasPermi('sc:order:edit')}]];
+            //var removeFlag = [[${@permission.hasPermi('sc:order:remove')}]];
+            var prefix = ctx + "np/car";
+
+            $(function () {
+                var options = {
+                    url: prefix + "/list",
+                    createUrl: prefix + "/add",
+                    updateUrl: prefix + "/edit/{id}",
+                    removeUrl: prefix + "/remove",
+                    exportUrl: prefix + "/export",
+                    showColumns: false,
+                    showSearch: false,
+                    showRefresh: false,
+                    showToggle:false,
+                    modalName: "车辆信息",
+                    columns: [{
+                        checkbox: true
+                    },
+                        {
+                            field: 'carId',
+                            title: '车辆id',
+                            visible: false
+                        },
+                        {
+                            field: 'name',
+                            title: '名称',
+                            visible: true
+                        },
+                        {
+                            field: 'license',
+                            title: '牌照',
+                            visible: true
+                        },
+                        {
+                            field: 'stateVal',
+                            title: '状态'
+                        },
+                        {
+                            field: 'createTime',
+                            title: '创建时间'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            formatter: function (value, row, index) {
+                                var actions = [];
+                                actions.push('<a class="btn btn-success btn-xs ' + true + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.carId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                                actions.push('<a class="btn btn-danger btn-xs ' + true + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.carId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                                return actions.join('');
+                            }
+                        }]
+                };
+                $.table.init(options);
+            });
+        </script>
+    </body>
+</html>

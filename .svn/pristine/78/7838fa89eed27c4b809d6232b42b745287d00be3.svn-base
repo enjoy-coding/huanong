@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('修改商品信息表')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet"/>
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-goods-edit" th:object="${scGoods}">
+            <input id="goodsId" name="goodsId" th:field="*{goodsId}" type="hidden" />
+            <input name="shopId" th:field="*{shopId}"  type="hidden" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品名称：</label>
+                        <div class="col-sm-8">
+                            <input id="goodsName" name="goodsName" th:field="*{goodsName}"
+                                   class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">商品品牌：</label>
+                        <div class="col-sm-6">
+                            <input name="goodsBrand" th:field="*{goodsBrand}" class="form-control" type="text"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">商品价格：</label>
+                        <div class="col-sm-6">
+                            <input name="goodsPrice" th:field="*{goodsPrice}" class="form-control" type="text"  />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品描述：</label>
+                        <div class="col-sm-8">
+                            <textarea id="goodsContent" rows="6" name="goodsContent" class="form-control">[[*{goodsContent}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form enctype="multipart/form-data" method="post" class="form-horizontal m" id="form-file-edit"
+            th:object="${scFileInfo}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片：</label>
+                        <div class="col-sm-10">
+                            <div id="Pic_pass">
+                                <p style="font-size: 20px;font-weight: bold;">
+                                    请上传商品照片
+                                </p>
+                                <p>
+                                    <span style="color: red">注：每张照片大小不可超过1M，且最多可以传五张</span>
+                                </p>
+                                <div class="picDiv">
+                                    <div class='imageDiv' th:each="f:${scFileInfoList}">
+                                        <img th:src="${f.filePath}"  style="cursor:pointer;" />
+                                        <div class='cover'><i class='editdelbtn' th:id="${f.fileId}">删除</i></div>
+                                    </div>
+                                    <div class="addImages">
+                                        <input type="file" class="file" name="shopFile" multiple="multiple"
+                                            accept="image/png, image/jpeg, image/jpg" />
+                                        <div class="text-detail">
+                                            <span>+</span>
+                                            <p>点击上传</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/goods";
+        var file_prefix = ctx + "sc/fileInfo";
+        var picNum = 5;
+        var picSize = 5*1024*1024;
+
+        //图片上传预览功能
+        var imgList = new Array(); //接收的集合
+
+        $(function () {
+            //文件上传
+            addImg(".file", imgList,picSize,picNum);
+            $(".editdelbtn").click(function() {
+                editImgDelete(this,file_prefix+"/remove");
+            });
+
+            $(".delbtn").click(function(obj,imgList) {
+                addImgDelete(obj);
+            });
+        });
+
+
+        $("#form-goods-edit").validate({
+            focusCleanup: true,
+            rules: {
+                goodsName: "required",
+                goodsPrice: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                file_app: "required"
+            }
+        });
+
+        function isAdd() {
+            return $("#goodsId").val() ? false : true;
+        }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                    url: prefix + (isAdd() ? "/add" : "/edit"),
+                    data: $("#form-goods-edit").serialize(),
+                    success: function (result, _option) {
+                        var id = 0;
+                        if (isAdd()) {
+                            id = result.data.goodsId;
+                        } else {
+                            id = $("#goodsId").val();
+                        }
+                        imgUploadAjax(file_prefix + "/add", id, imgList, "goods", function (result) {
+                            $.operate.saveSuccess(result);
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+<!-- 模板js begin -->
+<div th:fragment="model-css(title)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title th:text="${title}"></title>
+    <link th:href="@{favicon.ico}" rel="shortcut icon">
+    <link th:href="@{/def/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/bus/cms/plugins/layui/css/layui.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="model-js">
+    <script th:src="@{/def/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/def/js/jquery.slideBox.min.js}"></script>
+    <script th:src="@{/bus/cms/plugins/layui/layui.js}"></script>
+    <script th:src="@{/def/js/form.js(v=${staticResourcesVersion})}"></script>
+    <script th:src="@{/def/js/frontCommon.js(v=${staticResourcesVersion})}"></script>
+    <script th:src="@{/def/js/templateEdit.js(v=${staticResourcesVersion})}"></script>
+</div>
+<!-- 模板 end -->

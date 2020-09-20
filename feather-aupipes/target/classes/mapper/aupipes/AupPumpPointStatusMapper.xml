@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPumpPointStatusMapper">
+
+    <resultMap type="AupPumpPointStatus" id="AupPumpPointStatusResult">
+        <result property="id"    column="id"    />
+        <result property="pointId"    column="point_id"    />
+        <result property="pumpId"    column="pump_id"    />
+        <result property="statusname"    column="statusName"    />
+        <result property="status"    column="status"    />
+        <result property="readtime"    column="readTime"    />
+        <result property="readtime"    column="readTime"    />
+        <result property="pointCode" column="pointCode" />
+        <association property="aupPumpPoint"    column="point_id" javaType="AupPumpPoint" resultMap="AupPumpPointResult" />
+    </resultMap>
+    <resultMap type="AupPumpPoint" id="AupPumpPointResult">
+        <result property="id"    column="id"    />
+        <result property="pumpId"    column="pump_id"    />
+        <result property="ip"    column="ip"    />
+        <result property="point"    column="point"    />
+        <result property="scpl"    column="scpl"    />
+        <result property="sxyw"    column="sxyw"    />
+        <result property="ckyl"    column="ckyl"    />
+        <result property="sdyl"    column="sdyl"    />
+        <result property="bp"    column="bp"    />
+        <result property="gp"    column="gp"    />
+        <result property="punpcount"    column="punpCount"    />
+    </resultMap>
+
+    <sql id="selectAupPumpPointStatusVo">
+        select p.punpcount,s.id, s.point_id, s.pump_id, s.statusName, s.status,s.readTime,s.pointCode
+        from aup_pump_point_status s
+       left join  aup_pump_point p on p.id = s.point_id
+
+    </sql>
+
+    <select id="selectAupPumpPointStatusByPoint"  parameterType = "Long" resultMap="AupPumpPointStatusResult">
+        <include refid="selectAupPumpPointStatusVo"/>
+        WHERE point_id = #{pointId}
+    </select>
+    <select id="selectAupPumpPointStatusList" parameterType="AupPumpPointStatus" resultMap="AupPumpPointStatusResult">
+        <include refid="selectAupPumpPointStatusVo"/>
+        <where>
+            <if test="statusname != null  and statusname != ''">
+                <bind name="_statusname" value="'%'+ statusname +'%'"/>
+                and statusName like #{_statusname}
+            </if>
+            <if test="status != null  and status != ''">
+                <bind name="_status" value="'%'+ status +'%'"/>
+                and status like #{_status}
+            </if>
+            <if test="readtime != null  and readtime != ''">
+                <bind name="_readtime" value="'%'+ readtime +'%'"/>
+                and readTime like #{_readtime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupPumpPointStatusById" parameterType="Long" resultMap="AupPumpPointStatusResult">
+        <include refid="selectAupPumpPointStatusVo"/>
+      where id = #{id}
+    </select>
+
+    <select id="selectAupPumpPointStatusByPointId" parameterType="AupPumpPointStatus" resultType="Long">
+        select id from aup_pump_point_status s
+        where point_id = #{pointId}
+        and pump_id = #{pumpId}
+        and pointCode = #{pointCode}
+    </select>
+
+    <insert id="insertAupPumpPointStatus" parameterType="AupPumpPointStatus">
+        insert into aup_pump_point_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="pointId != null ">point_id,</if>
+            <if test="pumpId != null ">pump_id,</if>
+            <if test="statusname != null  and statusname != ''">statusName,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="readtime != null  and readtime != ''">readTime,</if>
+            <if test="pointCode != null  and pointCode != ''">pointCode,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="pointId != null ">#{pointId},</if>
+            <if test="pumpId != null ">#{pumpId},</if>
+            <if test="statusname != null  and statusname != ''">#{statusname},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="readtime != null  and readtime != ''">#{readtime},</if>
+            <if test="pointCode != null  and pointCode != ''">#{pointCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupPumpPointStatus" parameterType="AupPumpPointStatus">
+        update aup_pump_point_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pointId != null ">point_id = #{pointId},</if>
+            <if test="pumpId != null ">pump_id = #{pumpId},</if>
+            <if test="statusname != null  and statusname != ''">statusName = #{statusname},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="readtime != null  and readtime != ''">readTime = #{readtime},</if>
+            <if test="pointCode != null  and pointCode != ''">pointCode = #{pointCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupPumpPointStatusById" parameterType="Long">
+        delete from aup_pump_point_status where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPumpPointStatusByIds" parameterType="String">
+        delete from aup_pump_point_status where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

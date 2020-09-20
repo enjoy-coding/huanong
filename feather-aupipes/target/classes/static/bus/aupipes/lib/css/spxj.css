@@ -1,0 +1,178 @@
+.title5 li {
+    cursor: pointer;
+    text-align: center;
+    background: url(../images/title2_bg.png) no-repeat;
+    background-size: 100% 100%;
+    float: left;
+    color: #fff;
+    width: 3.5vw;
+    height: 2.8vh;
+    line-height: 2.8vh;
+    font-size: 0.83vw;
+	min-width: 2.5vw;
+}
+
+#HfLayerTree,#WjLayerTree{
+	height: 48vh;
+	overflow-y: auto;
+}
+.setBox{
+	border-top: 1px solid #04d7d7;
+	position: absolute;
+	bottom: 0;
+	height: 30vh;
+	width: 100%;
+	right: 1%;
+	overflow: auto;
+}
+.setBox .layui-form-label{
+	float: none;
+    padding: 0.83vh 0 !important;
+	color: #1ef0ed;
+}
+.setBox .layui-input-block{
+	margin-left: 0.78vw !important;
+	margin-right: 0.78vw !important;
+	min-height: 1.87vh !important;
+}
+.setBox .layui-input-inline{
+	color: #1ef0ed;
+}
+
+.setBox .layui-input-block .layui-input,
+.setBox .layui-input-inline .layui-input{
+	color: #fff !important;
+	background: rgba(7, 71, 73, .8) !important;
+	border: 1px solid #1ef0ed;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+}
+.setBox .layui-input-inline .layui-input{
+	width: 7vw !important;
+	display: block;
+	float: left;
+}
+.setBox .layui-input-block .layui-btn{
+	color: #fff !important;
+	background: #2fb6a5 !important;
+	border: 1px solid #1ef0ed;
+	border-radius: 4px;
+	line-height: 3.8vh !important;
+	height: auto !important;
+	padding: 0 1.8vw;
+	
+}
+.setBox .layui-input-block>button:first-child{
+	background: #37bf6b !important;	
+	/* margin-left: 18%; */
+}
+.setBox .layui-input-block .layui-btn:hover,
+.setBox .layui-input-block .layui-btn:active{
+	background: #5FB878 !important;	
+}
+
+.setBox .layui-form-item .layui-input-inline {
+    width: auto !important;
+	margin-left: 0.78vw !important;
+	margin-right: 0.78vw !important;
+}
+.setBox .layui-form-item .layui-input-inline h3{
+    display: block;
+    float: left;
+	width: 1vw;
+	margin: 0 0.5vw;
+}
+.setBox .sub_btn{
+	margin-left: 2.5vw !important;
+}
+
+
+.searchTitle{
+	color: #fff;
+	border-bottom: 1px solid #04d7d7;
+}
+.wjBox .layui-tab{
+	margin: 0.52vh 1vw;
+}
+.wjBox{
+	width: 100%;
+}
+.wjBox .layui-this{
+	background: rgba(7, 71, 73, .8) !important;
+	border: 1px solid #1ef0ed;
+	-webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	-moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+	box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	border-radius: 4px;
+	color: #fff !important;
+}
+.wjBox .layui-this:after{
+	border-bottom: none !important;
+}
+
+#spwj_Box,#tpwj_Box{
+	bottom: 1vh;
+	right: 0;
+	position: fixed;
+	width: 100%;
+	border-top: 1px solid #04d7d7;
+}
+
+#tpwj_Box .layui-laypage,
+#spwj_Box .layui-laypage{
+	margin: 0 !important;
+	right: 0;
+	float: right;
+	display: block;
+}
+
+.wjBox .layui-laypage a, .wjBox .layui-laypage span{
+	background: rgba(7, 71, 73, .8) !important;
+	color: #fff !important;
+	border: 1px solid #1ef0ed;
+}
+
+.setBox .layui-input,
+.setBox .layui-select, 
+.setBox .layui-textarea{
+	height: 3.5vh;
+}
+
+#wjglList li{
+	float: left;
+	display: block;
+	width: 21.8vw;
+	height: 25vh;
+	margin: 1vh 1vw;
+}
+
+#wjglList li img{
+	width: 100%;
+	height: 21.8vh;
+	display: block;
+}
+
+#wjglList li h6 {
+	height: 3.2vh;
+    padding: 0 2vw 0 0.5vw;
+    border: 1px solid #2cbbb9;
+    line-height: 3.2vh;
+    margin-bottom: 0.9vh;
+    background: rgba(7, 71, 73, .8);
+    -webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+    -moz-box-shadow: inset 0 0 .5vw rgba(80,255,245,.8);
+    box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+	color: #fff;
+	text-align: center;
+}
+
+input::-webkit-input-placeholder {
+        color: #ccc;
+      }
+      input::-moz-input-placeholder {
+        color: #ccc;
+      }
+      input::-ms-input-placeholder {
+        color: #ccc;
+      }

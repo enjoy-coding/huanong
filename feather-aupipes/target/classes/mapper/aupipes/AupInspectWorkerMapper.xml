@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupInspectWorkerMapper">
+    
+    <resultMap type="AupInspectWorker" id="AupInspectWorkerResult">
+        <result property="id"    column="id"    />
+        <result property="inspectId"    column="inspect_id"    />
+        <result property="inspectWorkerId"    column="inspect_worker_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAupInspectWorkerVo">
+        select id, inspect_id, inspect_worker_id, create_time, update_time from aup_inspect_worker
+    </sql>
+
+    <select id="selectAupInspectWorkerList" parameterType="AupInspectWorker" resultMap="AupInspectWorkerResult">
+        <include refid="selectAupInspectWorkerVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectAupInspectWorkerById" parameterType="Long" resultMap="AupInspectWorkerResult">
+        <include refid="selectAupInspectWorkerVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAupInspectWorkerByTaskIds" resultMap="AupInspectWorkerResult" parameterType="String">
+        <include refid="selectAupInspectWorkerVo"/>
+        <where>
+            <if test="taskIdList != null">
+                and inspect_id in
+                <foreach item="item" index="index" open="(" separator="," close=")" collection="taskIdList">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+        
+    <insert id="insertAupInspectWorker" parameterType="AupInspectWorker">
+        insert into aup_inspect_worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="inspectId != null ">inspect_id,</if>
+            <if test="inspectWorkerId != null ">inspect_worker_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="inspectId != null ">#{inspectId},</if>
+            <if test="inspectWorkerId != null ">#{inspectWorkerId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupInspectWorker" parameterType="AupInspectWorker">
+        update aup_inspect_worker
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inspectId != null ">inspect_id = #{inspectId},</if>
+            <if test="inspectWorkerId != null ">inspect_worker_id = #{inspectWorkerId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupInspectWorkerById" parameterType="Long">
+        delete from aup_inspect_worker where id = #{id}
+    </delete>
+
+    <delete id="deleteAupInspectWorkerByIds" parameterType="String">
+        delete from aup_inspect_worker where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAupInspectWorkerByTaskIds" parameterType="String">
+        delete from aup_inspect_worker where inspect_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

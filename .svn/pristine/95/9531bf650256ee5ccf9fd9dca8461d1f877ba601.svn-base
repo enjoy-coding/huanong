@@ -1,0 +1,82 @@
+{
+    "changetime": 8000,
+    "kuaijinchangetime": 5000,
+    "kuaituichangetime": 11000,
+    "baoguantixing": {
+        "position": {
+            "x": 114.33444,
+            "y": 30.47791,
+            "z": -0.03
+        },
+        "image": {
+            "fxbg": "bus/aupipes/analyse/images/img/fxbg.png"
+        },
+        "text": "XX管线发送爆管"
+    },
+    "tongzhigongzuo": {
+        "position": {
+            "x": 114.34912,
+            "y": 30.47970,
+            "z": 100
+        },
+        "title": "后勤部",
+        "label": {
+            "text": "通知工作人员",
+            "texttwo": "通过微信或者短信自动将预警信息发送给工作人员"
+        },
+        "image": {
+            "leftphone": "bus/aupipes/analyse/images/img/shoudaoweixin.png",
+            "rightphone": "bus/aupipes/analyse/images/img/gxbg.png"
+        }
+    },
+    "quedingweixiu": {
+        "position": {
+            "x": 114.33444,
+            "y": 30.47791,
+            "z": -0.03
+        },
+        "image": {
+            "qdwxfa": "bus/aupipes/analyse/images/img/qdwxfa.png"
+        },
+        "text": "确定维修方案"
+    },
+    "tongzhitingshui": {
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/tzts.png"
+        },
+        "text": "通知停水"
+    },
+    "guanbifamen": {
+        "position": {
+            "x": 114.33459,
+            "y": 30.4779,
+            "z": 1
+        },
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/gbfm.png"
+        },
+        "text": "关闭相应阀门"
+    },
+    "zuzhiweixiu": {
+        "position": {
+            "x": 114.33444,
+            "y": 30.47791,
+            "z": 1
+        },
+        "image": {
+            "zzwx": "bus/aupipes/analyse/images/img/zzwx.png"
+        },
+        "text": "组织维修"
+    },
+    "huifugongshui": {
+        "position": {
+            "x": 114.33459,
+            "y": 30.47831,
+            "z": 100
+        },
+        "image": {
+            "hfzcgs": "bus/aupipes/analyse/images/img/hfzcgs.png"
+        },
+        "text": "恢复供水"
+    }
+}

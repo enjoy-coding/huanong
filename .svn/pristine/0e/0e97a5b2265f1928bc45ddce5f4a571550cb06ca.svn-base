@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScVolunteerMapper">
+    
+    <resultMap type="ScVolunteer" id="ScVolunteerResult">
+        <result property="userId"    column="user_id"    />
+        <result property="volunteerTel"    column="volunteer_tel"    />
+        <result property="volunteerAccount"    column="volunteer_account"    />
+        <result property="volunteerScore"    column="volunteer_score"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT"  />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"  />
+        <result property="remark"    column="remark"    />
+        <result property="volunteerName"    column="volunteer_name"    />
+        <result property="volunteerSex"    column="volunteer_sex"    />
+        <result property="volunteerBir"    column="volunteer_bir"    />
+        <result property="volunteerIdcard"    column="volunteer_idcard"    />
+        <result property="volunteerAddress"    column="volunteer_address"    />
+        <result property="volunteerProfession"    column="volunteer_profession"    />
+        <result property="volunteerSynopsis"    column="volunteer_synopsis"    />
+        <result property="volunteerAvatar"    column="volunteer_avatar"    />
+    </resultMap>
+
+    <sql id="selectScVolunteerVo">
+        select user_id, volunteer_tel, volunteer_account, volunteer_score,volunteer_avatar, create_by, create_time, update_by, update_time, remark, volunteer_name, volunteer_sex, volunteer_bir, volunteer_idcard, volunteer_address, volunteer_profession, volunteer_synopsis from sc_volunteer
+    </sql>
+
+    <select id="selectScVolunteerList" parameterType="ScVolunteer" resultMap="ScVolunteerResult">
+        <include refid="selectScVolunteerVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="volunteerTel != null  and volunteerTel != ''">
+            	<bind name="_volunteerTel" value="'%'+ volunteerTel +'%'"/>
+            	and volunteer_tel like #{_volunteerTel}
+            </if>
+            <if test="volunteerAccount != null  and volunteerAccount != ''">
+            	<bind name="_volunteerAccount" value="'%'+ volunteerAccount +'%'"/>
+            	and volunteer_account like #{_volunteerAccount}
+            </if>
+           <if test="volunteerScore != null and volunteerScore !='' "> and volunteer_score = #{volunteerScore}</if>
+            <if test="volunteerName != null  and volunteerName != ''">
+            	<bind name="_volunteerName" value="'%'+ volunteerName +'%'"/>
+            	and volunteer_name like #{_volunteerName}
+            </if>
+            <if test="volunteerSex != null  and volunteerSex != ''"> and volunteer_sex = #{volunteerSex}</if>
+            <if test="volunteerBir != null  and volunteerBir != ''"> and volunteer_bir = #{volunteerBir}</if>
+            <if test="volunteerIdcard != null  and volunteerIdcard != ''">
+            	<bind name="_volunteerIdcard" value="'%'+ volunteerIdcard +'%'"/>
+            	and volunteer_idcard like #{_volunteerIdcard}
+            </if>
+            <if test="volunteerAddress != null  and volunteerAddress != ''">
+            	<bind name="_volunteerAddress" value="'%'+ volunteerAddress +'%'"/>
+            	and volunteer_address like #{_volunteerAddress}
+            </if>
+            <if test="volunteerProfession != null  and volunteerProfession != ''">
+            	<bind name="_volunteerProfession" value="'%'+ volunteerProfession +'%'"/>
+            	and volunteer_profession like #{_volunteerProfession}
+            </if>
+            <if test="volunteerSynopsis != null  and volunteerSynopsis != ''">
+            	<bind name="_volunteerSynopsis" value="'%'+ volunteerSynopsis +'%'"/>
+            	and volunteer_synopsis like #{_volunteerSynopsis}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectScVolunteerById" parameterType="Long" resultMap="ScVolunteerResult">
+        <include refid="selectScVolunteerVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertScVolunteer" parameterType="ScVolunteer">
+        insert into sc_volunteer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="volunteerTel != null  and volunteerTel != ''">volunteer_tel,</if>
+            <if test="volunteerAccount != null  and volunteerAccount != ''">volunteer_account,</if>
+            <if test="volunteerScore != null ">volunteer_score,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="volunteerName != null  and volunteerName != ''">volunteer_name,</if>
+            <if test="volunteerSex != null  and volunteerSex != ''">volunteer_sex,</if>
+            <if test="volunteerBir != null  and volunteerBir != ''">volunteer_bir,</if>
+            <if test="volunteerIdcard != null  and volunteerIdcard != ''">volunteer_idcard,</if>
+            <if test="volunteerAddress != null  and volunteerAddress != ''">volunteer_address,</if>
+            <if test="volunteerProfession != null  and volunteerProfession != ''">volunteer_profession,</if>
+            <if test="volunteerSynopsis != null  and volunteerSynopsis != ''">volunteer_synopsis,</if>
+            <if test="volunteerAvatar != null  and volunteerAvatar != ''">volunteer_avatar,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="volunteerTel != null  and volunteerTel != ''">#{volunteerTel},</if>
+            <if test="volunteerAccount != null  and volunteerAccount != ''">#{volunteerAccount},</if>
+            <if test="volunteerScore != null ">#{volunteerScore},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="volunteerName != null  and volunteerName != ''">#{volunteerName},</if>
+            <if test="volunteerSex != null  and volunteerSex != ''">#{volunteerSex},</if>
+            <if test="volunteerBir != null  and volunteerBir != ''">#{volunteerBir},</if>
+            <if test="volunteerIdcard != null  and volunteerIdcard != ''">#{volunteerIdcard},</if>
+            <if test="volunteerAddress != null  and volunteerAddress != ''">#{volunteerAddress},</if>
+            <if test="volunteerProfession != null  and volunteerProfession != ''">#{volunteerProfession},</if>
+            <if test="volunteerSynopsis != null  and volunteerSynopsis != ''">#{volunteerSynopsis},</if>
+            <if test="volunteerAvatar != null  and volunteerAvatar != ''">#{volunteerAvatar},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScVolunteer" parameterType="ScVolunteer">
+        update sc_volunteer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="volunteerTel != null  and volunteerTel != ''">volunteer_tel = #{volunteerTel},</if>
+            <if test="volunteerAccount != null  and volunteerAccount != ''">volunteer_account = #{volunteerAccount},</if>
+            <if test="volunteerScore != null ">volunteer_score = #{volunteerScore},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="volunteerName != null  and volunteerName != ''">volunteer_name = #{volunteerName},</if>
+            <if test="volunteerSex != null  and volunteerSex != ''">volunteer_sex = #{volunteerSex},</if>
+            <if test="volunteerBir != null  and volunteerBir != ''">volunteer_bir = #{volunteerBir},</if>
+            <if test="volunteerIdcard != null  and volunteerIdcard != ''">volunteer_idcard = #{volunteerIdcard},</if>
+            <if test="volunteerAddress != null  and volunteerAddress != ''">volunteer_address = #{volunteerAddress},</if>
+            <if test="volunteerProfession != null  and volunteerProfession != ''">volunteer_profession = #{volunteerProfession},</if>
+            <if test="volunteerSynopsis != null  and volunteerSynopsis != ''">volunteer_synopsis = #{volunteerSynopsis},</if>
+            <if test="volunteerAvatar != null  and volunteerAvatar != ''">volunteer_avatar = #{volunteerAvatar},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteScVolunteerById" parameterType="Long">
+        delete from sc_volunteer where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteScVolunteerByIds" parameterType="String">
+        delete from sc_volunteer where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+    
+</mapper>

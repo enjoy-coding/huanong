@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.hikvision.mapper.HikvisionEventLogMapper">
+    <resultMap id="HikvisionEventLogResult" type="HikvisionEventLog">
+        <result property="id" column="id"/>
+        <result property="sourceFrom" column="sourceFrom"/>
+        <result property="createTime" column="createTime"/>
+    </resultMap>
+
+    <sql id="selectHikvisionEventLogVo">
+        select id, sourceFrom, createTime from hikvision_event_log
+    </sql>
+
+    <select id="selectHikvisionEventLogList" parameterType="HikvisionEventLog" resultMap="HikvisionEventLogResult">
+        <include refid="selectHikvisionEventLogVo"/>
+        <where>
+            <if test="sourceFrom != null ">
+                and sourceFrom = #{sourceFrom}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectHikvisionEventLogById" parameterType="Long" resultMap="HikvisionEventLogResult">
+        <include refid="selectHikvisionEventLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHikvisionEventLog" parameterType="HikvisionEventLog">
+        insert into hikvision_event_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sourceFrom != null ">sourceFrom,</if>
+            <if test="createTime != null ">createTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sourceFrom != null ">#{sourceFrom},</if>
+            <if test="createTime != null ">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHikvisionEventLog" parameterType="HikvisionEventLog">
+        update hikvision_event_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sourceFrom != null ">mj = #{sourceFrom},</if>
+            <if test="createTime != null ">yg = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHikvisionEventLogById" parameterType="Long">
+        delete from hikvision_event_log where id = #{id}
+    </delete>
+
+    <delete id="deleteAllHikvisionEventLog">
+        delete from hikvision_event_log
+    </delete>
+</mapper>

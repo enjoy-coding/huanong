@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('志愿者风采列表')" />
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>志愿者：</p>
+                                <input type="text" name="params[volunteerName]"/>
+                            </li>
+                            <li>
+                                <p>标题：</p>
+                                <input type="text" name="styleTitle"/>
+                            </li>
+                            <li class="select-time">
+                               <label>项目时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+<!--            <div class="btn-group-sm" id="toolbar" role="group">-->
+<!--                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="sc:style:add">-->
+<!--                    <i class="fa fa-plus"></i> 添加-->
+<!--                </a>-->
+<!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="sc:style:edit">-->
+<!--                    <i class="fa fa-edit"></i> 修改-->
+<!--                </a>-->
+<!--                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="sc:style:remove">-->
+<!--                    <i class="fa fa-remove"></i> 删除-->
+<!--                </a>-->
+<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="sc:style:export">-->
+<!--                    <i class="fa fa-download"></i> 导出-->
+<!--                 </a>-->
+<!--            </div>-->
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:style:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('sc:style:remove')}]];
+        var prefix = ctx + "sc/volunteerStyle";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                showColumns: false,
+                showSearch: false,
+                showRefresh: false,
+                showToggle:false,
+                modalName: "志愿者风采",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'styleId', 
+                    title : '风采id',
+                    visible: false
+                },
+                {
+                    field : 'volunteerId', 
+                    title : '志愿者id',
+                    visible: false
+                },
+                {
+                    field : 'volunteer.volunteerAvatar', 
+                    title : '志愿者',
+                    formatter:function(value,row,index){
+                        return "<img src ='"+row.volunteer.volunteerAvatar+"' style='width: 60px; height: 50px;' />";
+                    }
+                    
+                },
+                {
+                    field : 'volunteerName',
+                    title : '志愿者',
+                    align:'center',
+                    formatter:function(value,row,index){
+                        return row.volunteer.volunteerName
+                    }
+                },
+                {
+                    field : 'styleTitle', 
+                    title : '标题'
+                },
+                
+                {
+                    field : 'createTime', 
+                    title : '提交时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="_detail(\'' + row.styleId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.styleId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function _detail(id){
+            var title = $.table._option.modalName + "详细";
+            detail(prefix + "/edit/"+id,title);
+            //$.modal.open("详情", prefix + "/edit/"+id);
+        }
+    </script>
+</body>
+</html>

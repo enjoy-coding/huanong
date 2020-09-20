@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.LineDAO">
+
+    <select id="getLineByCondition" parameterType="map" resultType="com.feather.aupipes.domain.query.Line">
+        select oid,e_point,s_point,r_name as diming from [LINK_SDE].sde.dbo.js_line where 1=1
+        <if test="oid != null and oid != ''">
+            and oid  = #{oid}
+        </if>
+        <if test="name != null and name != ''">
+            and r_name like CONCAT(CONCAT('%', #{name}), '%')
+        </if>
+    </select>
+</mapper>

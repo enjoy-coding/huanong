@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.JsDAO">
+
+    <select id="getJshlgx" parameterType="map" resultType="com.feather.aupipes.domain.query.Jsgxhl">
+        select syfmid,xyfmid,bz from [LINK_SDE].sde.dbo.gshlgx
+    </select>
+
+    <select id="getJsgxgx" parameterType="map" resultType="com.feather.aupipes.domain.query.Jsgxgx">
+        select name,ldfmid,ldno,waterno ,ejfmid,watername from [LINK_SDE].sde.dbo.jsgxgx
+        where ejfmid in
+        <foreach collection="fm" index="index" item="item" open="(" separator="," close=")">
+            #{item.exp_no}
+        </foreach>
+    </select>
+
+    <select id="getSyfm" parameterType="map" resultType="com.feather.aupipes.domain.query.Jsgxhl">
+        select syfmid,xyfmid,bz from [LINK_SDE].sde.dbo.gshlgx where 1=1
+        <if test="fmid != null and fmid != ''">
+            and xyfmid = #{fmid}
+        </if>
+    </select>
+
+    <select id="getXyfm" parameterType="map" resultType="com.feather.aupipes.domain.query.Jsgxhl">
+        select syfmid,xyfmid,bz from [LINK_SDE].sde.dbo.gshlgx where 1=1
+        <if test="fmid != null and fmid != ''">
+            and syfmid = #{fmid}
+        </if>
+    </select>
+
+    <select id="getValveInfo" parameterType="map" resultType="com.feather.aupipes.domain.query.Jspoint">
+        select ysdm,bmbsm,exp_no,subsid,surf_h,x,y,r_name,b_depth,pipep_h,pipep_type,well_depth,pipep_stat as pipep_state  from [LINK_SDE].sde.dbo.js_point
+        where exp_no in
+        <if test="type == 'sy'">
+            <foreach collection="list" index="index" item="item"  open="(" separator="," close=")">
+                #{item.syfmid}
+            </foreach>
+        </if>
+        <if test="type == 'xy'">
+            <foreach collection="list" index="index" item="item"  open="(" separator="," close=")">
+                #{item.xyfmid}
+            </foreach>
+        </if>
+
+    </select>
+
+</mapper>

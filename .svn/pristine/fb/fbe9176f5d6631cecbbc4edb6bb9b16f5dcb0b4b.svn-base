@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>学术会议管理系统--启动页</title>
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css"/>
+		<style type="text/css">
+			html,body,div,img,p{
+				margin:0;
+				padding:0;
+			}
+			.pr{
+				position:relative;
+			}
+			.pa{
+				position:absolute;
+			}
+			html,body{
+				display:block;
+				width:100%;
+				height:100%;
+			}
+			.startupPage,.startupPage img{
+				display: block;
+				width:100%;
+				height:100%;
+			}
+			.startupPage{
+				max-width: 750px;
+				margin:0 auto;
+			}
+			.timeNumber{
+				padding:5px 10px;
+				top:10px;
+				right:10px;
+				text-align: center;
+				color:#fff;
+				font-size: 14px;
+				background-color:rgba(0,0,0,.2);
+				border-radius:4px;
+				font-family:"微软雅黑";
+			}
+			.jumpLinkBtn{
+				bottom:10%;
+				left:0;
+				right:0;
+				text-align: center;
+				color:#fff;
+				font-size:14px;
+			}
+			.jumpLinkBtn span{
+				display:inline-block;
+				line-height:40px;
+				padding:0 50px;
+				border:1px solid #fff;
+				border-radius: 25px;
+				font-size:16px;
+				margin-bottom:10px;
+			}
+			.startupPage .txt{
+				bottom:0;
+				left:0;
+				right:0;
+				line-height:50px;
+				font-size:14px;
+				color:#fff;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="startupPage pr">
+			<img src="images/startupPageImg.jpg" alt="" />
+			<div id="box" class="pa timeNumber">
+			    <p><span id="Os">3</span>秒跳转</p>
+			</div>
+			<div class="jumpLinkBtn pa" >
+				<span onclick="jumpLinkBtn()">立即体验</span>
+			</div>
+			<div class="txt pa">
+				<p>支持单位：苍穹数码技术股份有限公司</p>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<!--<script> 
+		$(document).ready(function () {
+			window.setInterval("location='index.html'",3000);
+		})
+	</script> -->
+	<script>
+		$(document).ready(function () {
+		    var timeNumber = document.getElementById("Os");
+		    var num = 3;
+		    var timer = setInterval(function () {
+		        num--;
+		        timeNumber.innerText = num;
+		        if(num == 0){
+		            window.location.href="index.html";
+		        }
+		    },1000)
+			
+	    })
+		function jumpLinkBtn(){
+			window.location.href = "index.html";
+		}
+	</script>
+</html>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpInfoMapper">
+
+    <resultMap type="NpInfo" id="NpInfoResult">
+        <id property="infoId" column="info_id"/>
+        <result property="infoType" column="info_type"/>
+        <result property="title" column="title"/>
+        <result property="subTitle" column="sub_title"/>
+        <result property="mainPic" column="main_pic"/>
+        <result property="subPics" column="sub_pics"/>
+        <result property="author" column="author"/>
+        <result property="hot" column="hot"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="content" column="content"/>
+        <result property="answer" column="answer"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="x" column="x"/>
+        <result property="y" column="y"/>
+        <result property="addInfo1" column="add_info1"/>
+        <result property="addInfo2" column="add_info2"/>
+        <result property="addInfo3" column="add_info3"/>
+        <result property="addInfo4" column="add_info4"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpInfoVo">
+        select info_id, info_type, title, sub_title, main_pic, sub_pics, author, hot, view_count, content, answer, order_num, x, y, add_info1, add_info2, add_info3, add_info4, create_by, create_time, update_time
+		from np_info i
+    </sql>
+
+    <select id="selectNpInfoById" parameterType="Long" resultMap="NpInfoResult">
+        <include refid="selectNpInfoVo"/>
+        where i.info_id = #{infoId}
+    </select>
+
+    <!--这里需要考虑in 大于1000的情况，目前暂时不考虑-->
+    <select id="selectNpInfoByIds" parameterType="Long" resultMap="NpInfoResult">
+        <include refid="selectNpInfoVo"/>
+        where info_id in
+        <foreach collection="array" item="infoId" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </select>
+
+
+    <select id="selectNpInfoList" parameterType="NpInfo" resultMap="NpInfoResult">
+        <include refid="selectNpInfoVo"/>
+        <where>
+            <if test="infoType != null and infoType != ''">
+                AND info_type = #{infoType}
+            </if>
+            <if test="title != null and title != ''">
+                <bind name="_title" value="'%'+ title +'%'"/>
+                AND (title like #{_title} OR content like #{_title})
+            </if>
+            <if test="addInfo1 != null and addInfo1 != ''">
+                <bind name="_add_info1" value="'%'+ addInfo1 +'%'"/>
+                AND addInfo1 like #{_addInfo1}
+            </if>
+            <if test="addInfo2 != null and addInfo2 != ''">
+                <bind name="_addInfo2" value="'%'+ addInfo2 +'%'"/>
+                AND add_info2 like #{_addInfo2}
+            </if>
+            <if test="addInfo3 != null and addInfo3 != ''">
+                <bind name="_addInfo3" value="'%'+ addInfo3 +'%'"/>
+                AND add_info3 like #{_addInfo3}
+            </if>
+            <if test="addInfo4 != null and addInfo4 != ''">
+                <bind name="_addInfo4" value="'%'+ addInfo4 +'%'"/>
+                AND add_info4 like #{_addInfo4}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND create_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND create_time &lt;= #{params.endTime, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFrontLyfwList" parameterType="Long" resultMap="NpInfoResult">
+        select * from (select *, ROW_NUMBER() over(partition by info_type order by hot desc) as row_sort from np_info
+        where info_type in
+        <foreach collection="array" item="infoType" open="(" separator="," close=")">
+            #{infoType}
+        </foreach>
+        ) as t where t.row_sort <![CDATA[ <= ]]>3
+    </select>
+
+    <insert id="insertNpInfo" parameterType="NpInfo">
+        insert into np_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="infoId != null and infoId != 0">info_id,</if>
+            <if test="infoType != null and infoType != ''">info_type,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="subTitle != null and subTitle != ''">sub_title,</if>
+            <if test="mainPic != null and mainPic != ''">main_pic,</if>
+            <if test="subPics != null and subPics != ''">sub_pics,</if>
+            <if test="author != null and author != ''">author,</if>
+            <if test="hot != null">hot,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="answer != null and answer!=''">answer,</if>
+            <if test="orderNum != null and orderNum != ''">order_num,</if>
+            <if test="x != null and x != ''">x,</if>
+            <if test="y != null and y != ''">y,</if>
+            <if test="addInfo1 != null and addInfo1 != ''">add_info1,</if>
+            <if test="addInfo2 != null and addInfo2 != ''">add_info2,</if>
+            <if test="addInfo3 != null and addInfo3 != ''">add_info3,</if>
+            <if test="addInfo4 != null and addInfo4 != ''">add_info4,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="infoId != null and infoId != 0">#{infoId},</if>
+            <if test="infoType != null and infoType != ''">#{infoType},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="subTitle != null and subTitle != ''">#{subTitle},</if>
+            <if test="mainPic != null and mainPic != ''">#{mainPic},</if>
+            <if test="subPics != null and subPics != ''">#{subPics},</if>
+            <if test="author != null and author != ''">#{author},</if>
+            <if test="hot != null">#{hot},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="answer != null and answer!=''">#{answer},</if>
+            <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+            <if test="x != null and x != ''">#{x},</if>
+            <if test="y != null and y != ''">#{y},</if>
+            <if test="addInfo1 != null and addInfo1 != ''">#{addInfo1},</if>
+            <if test="addInfo2 != null and addInfo2 != ''">#{addInfo2},</if>
+            <if test="addInfo3 != null and addInfo3 != ''">#{addInfo3},</if>
+            <if test="addInfo4 != null and addInfo4 != ''">#{addInfo4},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNpInfo" parameterType="NpInfo">
+        update np_info
+        <set>
+            <if test="infoType != null and infoType != ''">info_type = #{infoType},</if>
+            <if test="title != null and title !=''">title = #{title},</if>
+            <if test="subTitle != null and subTitle != ''">sub_title = #{subTitle},</if>
+            <if test="mainPic != null and mainPic != ''">main_pic = #{mainPic},</if>
+            <if test="subPics != null and subPics != ''">sub_pics = #{subPics},</if>
+            <if test="author != null and author != ''">author = #{author},</if>
+            <if test="hot != null">hot = #{hot},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="answer != null and answer !=''">answer = #{answer},</if>
+            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="x != null and x != ''">x = #{x},</if>
+            <if test="y != null and y != ''">y = #{y},</if>
+            <if test="addInfo1 != null and addInfo1 != ''">add_info1 = #{addInfo1},</if>
+            <if test="addInfo2 != null and addInfo2 != ''">add_info2 = #{addInfo2},</if>
+            <if test="addInfo3 != null and addInfo3 != ''">add_info3 = #{addInfo3},</if>
+            <if test="addInfo4 != null and addInfo4 != ''">add_info4 = #{addInfo4},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="deleteNpInfoById" parameterType="Long">
+	    delete from np_info where info_id = #{infoId}
+	</delete>
+
+    <delete id="deleteNpInfoByIds" parameterType="Long">
+        delete from np_info where info_id in
+        <foreach collection="array" item="infoId" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </delete>
+</mapper> 

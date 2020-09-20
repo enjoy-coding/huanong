@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>学术会议管理系统</title>
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="css/css.css"/>
+		<script src="js/wxoauth.js"></script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="topTitle">
+				<span>会议报名系统</span>
+				<div class="right loginBefore" id="loginBefore">
+					<i class="iconfont icon-gerenzhongxin"></i>
+				</div>
+				<div class="right loginAfter hide" id="loginAfter">
+
+				</div>
+			</div>
+			<img class="img" src="images/meetingImg.jpg" alt="" />
+			<div class="content">
+				<div class="swiper-container carousel-container">
+					<ul class="swiper-wrapper">
+						<li class="swiper-slide">
+							<img src="images/carousel_1.png" alt="" />
+						</li>
+						<li class="swiper-slide">
+							<img src="images/carousel_2.png" alt="" />
+						</li>
+						<li class="swiper-slide">
+							<img src="images/carousel_3.png" alt="" />
+						</li>
+					</ul>
+					<div class="swiper-pagination"></div>
+				</div>
+				<!--<div class="model">
+					<video poster="images/videoImg.png" class="video" controls="controls" x-webkit-airplay="true" webkit-playsinline="true" playsinline="true" src="/profile/upload/kq.mp4" autoplay="autoplay" x5-video-player-type="h5-page"></video>
+				</div>-->
+				<div class="model2">
+					<img class="img" src="/profile/upload/banner2.jpg" />
+				</div>
+				<!--<div id="txtList" class="txtList"></div>-->
+				<div class="meetingTxt" id="txtList">
+					<!--<dl>
+						<dt>湖北省高校后勤管理研究会能源管理专业部2019年年会</dt>
+						<dd class="time"><i></i>时间：2020-04-12</dd>
+						<dd>
+							<a href="" class="btn btnOrange btnBlue">点击报名</a>
+						</dd>
+					</dl>-->
+				</div>
+			</div>
+		</div>
+		<!--登录弹框-->
+		<div class="modal loginModal hide">
+			<h2 class="tit">管理员登入</h2>
+			<form class="form" id="user_login" action="">
+				<div class="display-block">
+					<label for="" >用户名：</label>
+					<input type="text" name="userName" id="userName"/>
+				</div>
+				<div class="display-block">
+					<label for="">密<span class="space"></span>码：</label>
+					<input type="password" name="userPassword" id="userPassword" />
+				</div>
+				<div class="display-block">
+					<p id="CheckMsg" class="txtColorRed CheckMsg"></p>
+				</div>
+				<div class="display-block btn">
+					<button type="button" class="btngreen1" id="submit" onclick="return check(this.form)">登入</button>
+					<button type="reset" id="reset" class="btngreen2 clear">取消</button>
+				</div>
+			</form>
+		</div>
+		<!--退出弹框-->
+		<div class="modal dropOutModal hide">
+			<h2 class="tit">退出登入</h2>
+			<div class="form">
+				<div class="btn txtC">
+					<button type="button" class="btngreen1" onclick="dropOut()">退出</button>
+					<button type="reset" class="btngreen2 clear">取消</button>
+				</div>
+			</div>
+		</div>
+	
+		<div class="dimmer hide"></div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/swiper.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/index.js"></script>
+	<script>
+		// 轮播图
+		var mySwiper = new Swiper('.swiper-container', {
+			loop: true,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true
+			},
+        	autoplay: {
+		        delay: 3000,
+		        disableOnInteraction: false
+		    },
+		})
+		// 点击登录
+		$(".loginBefore").on("click",function(){
+		    $(".dimmer,.loginModal").addClass("show")
+		})
+		// 点击退出
+		$(".loginAfter").on("click",function(){
+		    $(".dimmer,.dropOutModal").addClass("show")
+		})
+		// 关闭弹框
+		$(".clear,.dimmer").on("click",function(){
+			if($(".loginModal").hasClass("show")){
+				$(".dimmer,.loginModal").removeClass("show");
+				showMsg(" ");
+			} else {
+				$(".dimmer,.dropOutModal").removeClass("show")
+				showMsg(" ");
+			}
+		})
+
+	</script>
+</html>

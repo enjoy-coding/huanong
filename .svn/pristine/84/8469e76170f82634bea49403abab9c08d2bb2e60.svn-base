@@ -1,0 +1,86 @@
+
+<!-- 智能排管右侧内容 -->
+<div class="title sgfxTitle">排管分析</div>
+<form class="layui-form layuiForm pw15 ph32" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">缓冲半径：</label>
+        <div class="layui-input-block pr unit">
+            <input type="text" name="buff" lay-verify="title" autocomplete="off" placeholder="请输入半径" class="layui-input">
+            <span class="pa txt">m</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开挖深度：</label>
+        <div class="layui-input-block pr unit">
+            <input type="text" name="depth" lay-verify="title" autocomplete="off" placeholder="请输入深度" class="layui-input">
+            <span class="pa txt">m</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线规格：</label>
+        <div class="layui-input-block">
+            <select name="norms" lay-filter="norms">
+                <option value=""></option>
+                <option value="100">100*100</option>
+                <option value="200">200*200</option>
+                <option value="300">300*300</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线类型：</label>
+        <div class="layui-input-block">
+            <select name="lineType" lay-filter="aihao">
+                <option value=""></option>
+                <option value="js">给水管网</option>
+                <option value="ps">排水管网</option>
+                <option value="dl">电力管网</option>
+                <option value="rq">燃气管网</option>
+                <option value="dx">电信管网</option>
+                <option value="gy">工业管网</option>
+                <option value="rl">热力管网</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式：</label>
+        <div class="layui-input-block">
+            <select name="layerOutType" lay-filter="aihao">
+                <option value=""></option>
+                <option value="1">直埋</option>
+                <option value="管埋">管埋</option>
+                <option value="管块">管块</option>
+                <option value="沟埋">沟埋</option>
+                <option value="架空">架空</option>
+                <option value="综合管沟">综合管沟</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">道路类型：</label>
+        <div class="layui-input-block">
+            <select name="roadsCategory" lay-filter="aihao">
+                <option value=""></option>
+                <option value="人行道">人行道</option>
+                <option value="车行道">车行道</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="formBtn" onclick="JCBZ.znpg.drawLine()">绘制管线</button>
+            <button type="button" class="formBtn fr" onclick="JCBZ.znpg.drawClear()">清除绘制</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="formBtn" onclick="Tube.createAnalyseTude()">生成模型</button>
+            <button type="button" class="formBtn fr" onclick="Tube.clickAnalyseTude()">排管分析</button>
+            <!--<button type="button" class="formBtn fr" onclick="Tube.clearTubes(gViewer)">清除</button>-->
+        </div>
+    </div>
+</form>
+<div class="pw15 table pgfxTabe">
+    <div id="pgfxTabe"></div>
+</div>

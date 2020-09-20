@@ -1,0 +1,39 @@
+<!-- 路灯情况 -->
+<div class="indexTime oh">
+	<div class="left fl">
+		<span class="clGreen">开灯时间: </span><span class="txt" id="ldqk_kdsj">19:00:00</span>
+	</div>
+	<div class="right fr">
+		<span class="clGreen">关灯时间：</span><span class="txt" id="ldqk_gdsj">07:00:00</span>
+	</div>
+</div>
+<div class="indexTimeNumber oh">
+	<div class="left">
+		<dl>
+			<dt>
+				<img th:src="@{/bus/aupipes/lib/images/echartsIcon.png}" alt="">
+				<p id="ldqk_kzsltj">9/9</p>
+			</dt>
+			<dd>
+				<h5>控制数量统计</h5>
+				<span>(在线数/总数)</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<img th:src="@{/bus/aupipes/lib/images/echartsIcon.png}" alt="">
+				<p id="ldqk_sltj">0/605</p>
+			</dt>
+			<dd>
+				<h5>数量统计</h5>
+				<span>(亮灯数/总数)</span>
+			</dd>
+		</dl>
+	</div>
+	<div class="right">
+		<img th:src="@{/bus/aupipes/lib/images/ElectricityIcon.gif}" alt="" style="width:1.6vw;">
+		<h5 id="ldqk_rydl">1234.567</h5>
+		<p class="clGreen">昨日用电量</p>
+		<span class="clGreen">(度)</span>
+	</div>
+</div>

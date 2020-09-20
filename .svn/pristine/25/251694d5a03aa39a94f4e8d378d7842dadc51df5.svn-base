@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqJmMapper">
+    
+    <resultMap type="ZhsqJm" id="ZhsqJmResult">
+        <result property="jmid"    column="JMID"    />
+        <result property="xm"    column="XM"    />
+        <result property="xb"    column="XB"    />
+        <result property="dh"    column="DH"    />
+        <result property="nl"    column="NL"    />
+        <result property="jg"    column="JG"    />
+        <result property="hjxz"    column="HJXZ"    />
+        <result property="mz"    column="MZ"    />
+        <result property="zzmm"    column="ZZMM"    />
+        <result property="xl"    column="XL"    />
+        <result property="sfzh"    column="SFZH"    />
+        <result property="sffz"    column="SFFZ"    />
+        <result property="fwid"    column="FWID"    />
+        <result property="ldid"    column="LDID"    />
+        <result property="zz"    column="ZZ"    />
+        <result property="sfdj"    column="SFDJ"    />
+        <result property="sfkc"    column="SFKC"    />
+        <result property="sfxmsf"    column="SFXMSF"    />
+        <result property="sftyjr"    column="SFTYJR"    />
+        <result property="sfdb"    column="SFDB"    />
+        <result property="sfcj"    column="SFCJ"    />
+    </resultMap>
+
+    <sql id="selectZhsqJmVo">
+        select JMID, XM, XB, DH, NL, JG, HJXZ, MZ, ZZMM, XL, SFZH, SFFZ, FWID, LDID, ZZ, SFDJ, SFKC, SFXMSF, SFTYJR, SFDB, SFCJ from ZHSQ_JM
+    </sql>
+
+    <select id="selectZhsqJmList" parameterType="ZhsqJm" resultMap="ZhsqJmResult">
+        <include refid="selectZhsqJmVo"/>
+        <where>  
+            <if test="jmid != null  and jmid != ''"> and JMID = #{jmid}</if>
+            <if test="xm != null  and xm != ''">
+            	<bind name="_xm" value="'%'+ xm +'%'"/>
+            	and XM like #{_xm}
+            </if>
+            <if test="xb != null  and xb != ''"> and XB = #{xb}</if>
+            <if test="dh != null  and dh != ''"> and DH = #{dh}</if>
+            <if test="nl != null  and nl != ''"> and NL = #{nl}</if>
+            <if test="jg != null  and jg != ''">
+            	<bind name="_jg" value="'%'+ jg +'%'"/>
+            	and JG like #{_jg}
+            </if>
+            <if test="hjxz != null  and hjxz != ''">
+            	<bind name="_hjxz" value="'%'+ hjxz +'%'"/>
+            	and HJXZ like #{_hjxz}
+            </if>
+            <if test="mz != null  and mz != ''">
+            	<bind name="_mz" value="'%'+ mz +'%'"/>
+            	and MZ like #{_mz}
+            </if>
+            <if test="zzmm != null  and zzmm != ''">
+            	<bind name="_zzmm" value="'%'+ zzmm +'%'"/>
+            	and ZZMM like #{_zzmm}
+            </if>
+            <if test="xl != null  and xl != ''">
+            	<bind name="_xl" value="'%'+ xl +'%'"/>
+            	and XL like #{_xl}
+            </if>
+            <if test="sfzh != null  and sfzh != ''"> and SFZH = #{sfzh}</if>
+            <if test="sffz != null  and sffz != ''"> and SFFZ = #{sffz}</if>
+            <if test="fwid != null  and fwid != ''"> and FWID = #{fwid}</if>
+            <if test="ldid != null  and ldid != ''"> and LDID = #{ldid}</if>
+            <if test="zz != null  and zz != ''">
+            	<bind name="_zz" value="'%'+ zz +'%'"/>
+            	and ZZ like #{_zz}
+            </if>
+            <if test="sfdj != null  and sfdj != ''"> and SFDJ = #{sfdj}</if>
+            <if test="sfkc != null  and sfkc != ''"> and SFKC = #{sfkc}</if>
+            <if test="sfxmsf != null  and sfxmsf != ''"> and SFXMSF = #{sfxmsf}</if>
+            <if test="sftyjr != null  and sftyjr != ''"> and SFTYJR = #{sftyjr}</if>
+            <if test="sfdb != null  and sfdb != ''"> and SFDB = #{sfdb}</if>
+            <if test="sfcj != null  and sfcj != ''"> and SFCJ = #{sfcj}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqJmById" parameterType="String" resultMap="ZhsqJmResult">
+        <include refid="selectZhsqJmVo"/>
+        where JMID = #{jmid}
+    </select>
+        
+    <insert id="insertZhsqJm" parameterType="ZhsqJm">
+        insert into ZHSQ_JM
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jmid != null  and jmid != ''">JMID,</if>
+            <if test="xm != null  and xm != ''">XM,</if>
+            <if test="xb != null  and xb != ''">XB,</if>
+            <if test="dh != null  and dh != ''">DH,</if>
+            <if test="nl != null  and nl != ''">NL,</if>
+            <if test="jg != null  and jg != ''">JG,</if>
+            <if test="hjxz != null  and hjxz != ''">HJXZ,</if>
+            <if test="mz != null  and mz != ''">MZ,</if>
+            <if test="zzmm != null  and zzmm != ''">ZZMM,</if>
+            <if test="xl != null  and xl != ''">XL,</if>
+            <if test="sfzh != null  and sfzh != ''">SFZH,</if>
+            <if test="sffz != null  and sffz != ''">SFFZ,</if>
+            <if test="fwid != null  and fwid != ''">FWID,</if>
+            <if test="ldid != null  and ldid != ''">LDID,</if>
+            <if test="zz != null  and zz != ''">ZZ,</if>
+            <if test="sfdj != null  and sfdj != ''">SFDJ,</if>
+            <if test="sfkc != null  and sfkc != ''">SFKC,</if>
+            <if test="sfxmsf != null  and sfxmsf != ''">SFXMSF,</if>
+            <if test="sftyjr != null  and sftyjr != ''">SFTYJR,</if>
+            <if test="sfdb != null  and sfdb != ''">SFDB,</if>
+            <if test="sfcj != null  and sfcj != ''">SFCJ,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jmid != null  and jmid != ''">#{jmid},</if>
+            <if test="xm != null  and xm != ''">#{xm},</if>
+            <if test="xb != null  and xb != ''">#{xb},</if>
+            <if test="dh != null  and dh != ''">#{dh},</if>
+            <if test="nl != null  and nl != ''">#{nl},</if>
+            <if test="jg != null  and jg != ''">#{jg},</if>
+            <if test="hjxz != null  and hjxz != ''">#{hjxz},</if>
+            <if test="mz != null  and mz != ''">#{mz},</if>
+            <if test="zzmm != null  and zzmm != ''">#{zzmm},</if>
+            <if test="xl != null  and xl != ''">#{xl},</if>
+            <if test="sfzh != null  and sfzh != ''">#{sfzh},</if>
+            <if test="sffz != null  and sffz != ''">#{sffz},</if>
+            <if test="fwid != null  and fwid != ''">#{fwid},</if>
+            <if test="ldid != null  and ldid != ''">#{ldid},</if>
+            <if test="zz != null  and zz != ''">#{zz},</if>
+            <if test="sfdj != null  and sfdj != ''">#{sfdj},</if>
+            <if test="sfkc != null  and sfkc != ''">#{sfkc},</if>
+            <if test="sfxmsf != null  and sfxmsf != ''">#{sfxmsf},</if>
+            <if test="sftyjr != null  and sftyjr != ''">#{sftyjr},</if>
+            <if test="sfdb != null  and sfdb != ''">#{sfdb},</if>
+            <if test="sfcj != null  and sfcj != ''">#{sfcj},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqJm" parameterType="ZhsqJm">
+        update ZHSQ_JM
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xm != null  and xm != ''">XM = #{xm},</if>
+            <if test="xb != null  and xb != ''">XB = #{xb},</if>
+            <if test="dh != null  and dh != ''">DH = #{dh},</if>
+            <if test="nl != null  and nl != ''">NL = #{nl},</if>
+            <if test="jg != null  and jg != ''">JG = #{jg},</if>
+            <if test="hjxz != null  and hjxz != ''">HJXZ = #{hjxz},</if>
+            <if test="mz != null  and mz != ''">MZ = #{mz},</if>
+            <if test="zzmm != null  and zzmm != ''">ZZMM = #{zzmm},</if>
+            <if test="xl != null  and xl != ''">XL = #{xl},</if>
+            <if test="sfzh != null  and sfzh != ''">SFZH = #{sfzh},</if>
+            <if test="sffz != null  and sffz != ''">SFFZ = #{sffz},</if>
+            <if test="fwid != null  and fwid != ''">FWID = #{fwid},</if>
+            <if test="ldid != null  and ldid != ''">LDID = #{ldid},</if>
+            <if test="zz != null  and zz != ''">ZZ = #{zz},</if>
+            <if test="sfdj != null  and sfdj != ''">SFDJ = #{sfdj},</if>
+            <if test="sfkc != null  and sfkc != ''">SFKC = #{sfkc},</if>
+            <if test="sfxmsf != null  and sfxmsf != ''">SFXMSF = #{sfxmsf},</if>
+            <if test="sftyjr != null  and sftyjr != ''">SFTYJR = #{sftyjr},</if>
+            <if test="sfdb != null  and sfdb != ''">SFDB = #{sfdb},</if>
+            <if test="sfcj != null  and sfcj != ''">SFCJ = #{sfcj},</if>
+        </trim>
+        where JMID = #{jmid}
+    </update>
+
+    <delete id="deleteZhsqJmById" parameterType="String">
+        delete from ZHSQ_JM where JMID = #{jmid}
+    </delete>
+
+    <delete id="deleteZhsqJmByIds" parameterType="String">
+        delete from ZHSQ_JM where JMID in 
+        <foreach item="jmid" collection="array" open="(" separator="," close=")">
+            #{jmid}
+        </foreach>
+    </delete>
+
+
+    <!--居民统计-->
+    <select id="getPersonInfo"  parameterType="map" resultType="map">
+        SELECT
+        count(1) as jmzs,
+        count(
+        case  when jc.SFCZ = '常驻人口' THEN 1
+        else NULL
+        end
+        ) as czrk,
+        count(
+        case  when jc.SFCZ = '外来人口' THEN 1
+        else NULL
+        end
+        ) as wlrk,
+        count(
+        case  when jc.SFDJ = '是' THEN 1
+        else NULL
+        end
+        ) as djry,
+        count(
+        case  when jc.SFKC = '是' THEN 1
+        else NULL
+        end
+        ) as kclr,
+        count(
+        case  when jc.SFXMSF = '是' THEN 1
+        else NULL
+        end
+        ) as xmsf,
+        count(
+        case  when jc.SFTYJR = '是' THEN 1
+        else NULL
+        end
+        ) as tyjr,
+        count(
+        case  when jc.SFDB = '是' THEN 1
+        else NULL
+        end
+        ) as dbry,
+        count(
+        case  when jc.SFCJ = '是' THEN 1
+        else NULL
+        end
+        ) as cjry,
+        (SELECT count(1) FROM (SELECT dy.* FROM [dbo].[ZHSQ_DY] dy LEFT JOIN [dbo].[ZHSQ_JM] jm on dy.JMID = jm.JMID join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where>) as dyjc WHERE DYLX = '党员') AS dy,
+        (select count(1) FROM (SELECT dy.* FROM [dbo].[ZHSQ_DY] dy LEFT JOIN [dbo].[ZHSQ_JM] jm on dy.JMID = jm.JMID join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where>) as dyjc WHERE DYLX = '预备党员') AS ybdy,
+
+        (SELECT count(1) FROM [dbo].[ZHSQ_DZZ]
+        <where>
+        <if test="xqid != null  and xqid != ''"> XQID = #{xqid}</if>
+        <if test="sqid != null  and sqid != ''"> SQID = #{sqid}</if>
+        </where>) AS dzz
+
+        FROM
+        (SELECT jm.* FROM  [dbo].[ZHSQ_JM] jm left join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where>) as jc
+    </select>
+
+
+    <select id="getFwRy" parameterType="map" resultType="map">
+        <include refid="selectZhsqJmVo"/>
+        <where>
+            <if test="fwid != null  and fwid != ''"> and FWID = #{fwid}</if>
+        </where>
+    </select>
+
+    <select id="getZdRy" parameterType="map" resultType="map">
+        SELECT jm.*,fw.FWRZQK,fw.LDMC
+        FROM [dbo].[ZHSQ_JM] jm left join [dbo].[ZHSQ_FW] fw on jm.FWID= fw.FWID
+        <where>
+            <if test="ldid != null  and ldid != ''"> and jm.LDID = #{ldid}</if>
+        </where>
+        and (jm.[SFKC] = N'是' OR jm.[SFXMSF] = N'是' OR jm.[SFTYJR] = N'是' OR jm.[SFDB] = N'是' OR jm.[SFCJ] = N'是' OR [SFDJ] = N'是')
+    </select>
+
+    <!--查询重点人员楼栋信息-->
+    <select id="getZdRyLd" resultType="map">
+        SELECT DISTINCT ld.LDID ,ld.LDMC,count(1) as MUN
+        FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID WHERE jm.[SFDJ] = N'是' OR jm.[SFKC] = N'是' OR jm.[SFXMSF] = N'是' OR jm.[SFTYJR] = N'是' OR jm.[SFDB] = N'是' OR jm.[SFCJ] = N'是' GROUP BY ld.LDID ,ld.LDMC
+</select>
+    
+</mapper>

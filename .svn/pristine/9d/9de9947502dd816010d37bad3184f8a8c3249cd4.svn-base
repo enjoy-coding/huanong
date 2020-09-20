@@ -1,0 +1,9 @@
+<div class="title sgfxTitle">出线分析</div>
+<h5 class="title3">设备列表</h5>
+<div class="bjxxSearch pr">
+    <input type="text" placeholder="名称" id="cxfx_search" autocomplete="off">
+    <i class="iconfont icon-sousuo pa"></i>
+</div>
+<div class="ztreeBox">
+    <ul id="jcbz_monitor_tree" class="ztree"></ul>
+</div>

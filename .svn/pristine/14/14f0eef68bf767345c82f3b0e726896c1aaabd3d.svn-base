@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('站点弹框列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<input id="siteId" name="siteId" type="hidden" th:value="${site.id}"/>
+				<input id="siteName" name="siteName" type="hidden" th:value="${site.name}"/>
+				<form id="site-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								站点名称：<input type="text" name="name"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var prefix = ctx + "cms/site";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        sortName: "createTime",
+		        sortOrder: "desc",
+		        modalName: "站点弹框",
+		        columns: [{
+		            radio: true
+		        },
+		        {
+		            field: 'id',
+		            title: '站点编号'
+		        },
+		        {
+		            field: 'name',
+		            title: '站点名称'
+		        },
+		        {
+		            field: 'alias',
+		            title: '站点别名（英文）'
+		        }],
+				onLoadSuccess:function(data){
+		        	var siteId = $("#siteId").val();
+					$.btTable.bootstrapTable('checkBy', {field: 'id', values:[siteId]})
+				},
+				onCheck:function(row){
+					$("#siteId").val(row.id);
+					$("#siteName").val(row.name);
+				}
+		    };
+		    $.table.init(options);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPumpPointBaseMapper">
+
+    <resultMap type="AupPumpPointBase" id="AupPumpPointBaseResult">
+        <result property="id"    column="id"    />
+        <result property="pointId"    column="pointId"    />
+        <result property="pumpId"    column="pump_id"    />
+        <result property="readTime"    column="readTime"    />
+        <result property="attrName" column="attrName"/>
+        <result property="attrValue" column="attrValue"/>
+        <result property="szyl" column="szyl"/>
+    </resultMap>
+
+    <sql id="selectAupPumpPointBaseVo">
+        select id, point_id, pump_id, szyl, readTime,attrName,attrValue from aup_pump_point_base
+    </sql>
+
+    <select id="selectAupPumpPointBaseList" parameterType="AupPumpPointBase" resultMap="AupPumpPointBaseResult">
+        <include refid="selectAupPumpPointBaseVo"/>
+        <where>
+         id = #{id}
+        </where>
+    </select>
+
+    <select id="selectMaxTimeAupPumpPointBase" parameterType="Long" resultMap="AupPumpPointBaseResult">
+        <include refid="selectAupPumpPointBaseVo"/>
+        WHERE point_id = #{pointId}
+        AND readTime = (select max(readTime) FROM aup_pump_point_base WHERE point_id = #{pointId})
+    </select>
+    <select id="selectAupPumpPointBaseById" parameterType="Long" resultMap="AupPumpPointBaseResult">
+        <include refid="selectAupPumpPointBaseVo"/>
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="selectAupPumpPointBaseByPointId" parameterType="Long" resultMap="AupPumpPointBaseResult">
+        <include refid="selectAupPumpPointBaseVo"/>
+        <where>
+            point_id = #{pointId}
+        </where>
+    </select>
+
+    <insert id="insertAupPumpPointBase" parameterType="AupPumpPointBase">
+        insert into aup_pump_point_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="pointId != null ">point_id,</if>
+            <if test="pumpId != null ">pump_id,</if>
+            <if test="readTime != null  and readTime != ''">readTime,</if>
+            <if test="attrValue != null  and attrValue != ''">attrValue,</if>
+            <if test="attrName != null  and attrName != ''">attrName,</if>
+            <if test="szyl != null  and szyl != ''">szyl,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="pointId != null ">#{pointId},</if>
+            <if test="pumpId != null ">#{pumpId},</if>
+            <if test="readTime != null  and readTime != ''">#{readTime},</if>
+            <if test="attrValue != null  and attrValue != ''">#{attrValue},</if>
+            <if test="attrName != null  and attrName != ''">#{attrName},</if>
+            <if test="szyl != null  and szyl != ''">#{szyl},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupPumpPointBase" parameterType="AupPumpPointBase">
+        update aup_pump_point_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pointId != null ">point_id = #{pointId},</if>
+            <if test="pumpId != null ">pump_id = #{pumpId},</if>
+            <if test="readTime != null  and readTime != ''">readTime = #{readTime},</if>
+            <if test="attrName != null  and attrName != ''">attrName = #{attrName},</if>
+            <if test="attrValue != null  and attrValue != ''">attrValue = #{attrValue},</if>
+            <if test="szyl != null  and szyl != ''">szyl = #{szyl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteAupPumpPointBaseById" parameterType="Long">
+        delete from aup_pump_point_base where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPumpPointBaseByIds" parameterType="String">
+        delete from aup_pump_point_base where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

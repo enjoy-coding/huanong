@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupRepairPipelineMapper">
+    
+    <resultMap type="AupRepairPipeline" id="AupRepairPipelineResult">
+        <result property="id"    column="id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="guid"    column="guid"    />
+        <result property="name"    column="name"    />
+        <result property="location"    column="location"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="startPoint"    column="start_point"    />
+        <result property="endPoint"    column="end_point"    />
+        <result property="expNo"    column="exp_no"    />
+    </resultMap>
+
+    <sql id="selectAupRepairPipelineVo">
+        select id, task_id, guid, name, location, remark, create_time, update_time, serial_number, start_point, end_point, exp_no from aup_repair_pipeline
+    </sql>
+
+    <select id="selectAupRepairPipelineList" parameterType="AupRepairPipeline" resultMap="AupRepairPipelineResult">
+        <include refid="selectAupRepairPipelineVo"/>
+        <where>  
+            <if test="taskId != null">
+            	and task_id = #{taskId}
+            </if>
+            <if test="guid != null">
+            	and guid = #{guid}
+            </if>
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and name like #{_name}
+            </if>
+            <if test="location != null  and location != ''">
+            	<bind name="_location" value="'%'+ location +'%'"/>
+            	and location like #{_location}
+            </if>
+            <if test="serialNumber != null  and serialNumber != ''">
+                <bind name="_serialNumber" value="'%'+ serialNumber +'%'"/>
+                and serial_number like #{_serialNumber}
+            </if>
+            <if test="startPoint != null  and startPoint != ''">
+                <bind name="_startPoint" value="'%'+ startPoint +'%'"/>
+                and start_point like #{_startPoint}
+            </if>
+            <if test="endPoint != null  and endPoint != ''">
+                <bind name="_endPoint" value="'%'+ endPoint +'%'"/>
+                and end_point like #{_endPoint}
+            </if>
+            <if test="expNo != null  and expNo != ''">
+                <bind name="_expNo" value="'%'+ expNo +'%'"/>
+                and exp_no like #{_expNo}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectAupRepairPipelineById" parameterType="Long" resultMap="AupRepairPipelineResult">
+        <include refid="selectAupRepairPipelineVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupRepairPipelines" parameterType="java.util.List">
+        insert into aup_repair_pipeline(id,task_id,guid,name,location, serial_number, start_point, end_point, exp_no,create_time)
+        values
+        <foreach collection="list" item="s" separator=",">
+            (#{s.id}
+            ,#{s.taskId}
+            ,#{s.guid,jdbcType=VARCHAR}
+            ,#{s.name,jdbcType=VARCHAR}
+            ,#{s.location,jdbcType=VARCHAR}
+            ,#{s.serialNumber,jdbcType=VARCHAR}
+            ,#{s.startPoint,jdbcType=VARCHAR}
+            ,#{s.endPoint,jdbcType=VARCHAR}
+            ,#{s.expNo,jdbcType=VARCHAR}
+            ,#{s.createTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertAupRepairPipeline" parameterType="AupRepairPipeline">
+        insert into aup_repair_pipeline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="taskId != null ">task_id,</if>
+            <if test="guid != null  and guid != ''">guid,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="location != null  and location != ''">location,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="serialNumber != null  and serialNumber != ''">serial_number,</if>
+            <if test="startPoint != null  and startPoint != ''">start_point,</if>
+            <if test="endPoint != null  and endPoint != ''">end_point,</if>
+            <if test="expNo != null  and expNo != ''">exp_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="taskId != null ">#{taskId},</if>
+            <if test="guid != null  and guid != ''">#{guid},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="location != null  and location != ''">#{location},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="serialNumber != null  and serialNumber != ''">#{serialNumber},</if>
+            <if test="startPoint != null  and startPoint != ''">#{startPoint},</if>
+            <if test="endPoint != null  and endPoint != ''">#{endPoint},</if>
+            <if test="expNo != null  and expNo != ''">#{expNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupRepairPipeline" parameterType="AupRepairPipeline">
+        update aup_repair_pipeline
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null ">task_id = #{taskId},</if>
+            <if test="guid != null  and guid != ''">guid = #{guid},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="location != null  and location != ''">location = #{location},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="serialNumber != null  and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="startPoint != null  and startPoint != ''">start_point = #{startPoint},</if>
+            <if test="endPoint != null  and endPoint != ''">end_point = #{endPoint},</if>
+            <if test="expNo != null  and expNo != ''">exp_no = #{expNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupRepairPipelineById" parameterType="Long">
+        delete from aup_repair_pipeline where id = #{id}
+    </delete>
+
+    <delete id="deleteAupRepairPipelineByIds" parameterType="String">
+        delete from aup_repair_pipeline where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

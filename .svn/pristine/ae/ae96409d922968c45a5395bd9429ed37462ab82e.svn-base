@@ -1,0 +1,107 @@
+<!-- 运行监控 -->
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>运行监控</li>
+    </ul>
+    <div class="layui-tab-content zs_yxjk">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div id="yxjk_monitor_count" class="layui-row layui-col-space10 pd15 yjczBox">
+                <div id="powerHouse" class="layui-col-md6 layui-col-sm4 pr sbtjProgress progressTxt active">
+                    <span><i class="iconfont icon-peidianfang">配电房</i></span>
+                    <h5><i id="powerHouse_zs">60</i></h5>
+                </div>
+                <div id="pump" class="layui-col-md6 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-shuibeng">泵房</i></span>
+                    <h5><i id="pump_zs">2</i></h5>
+                </div>
+                <div id="meter" class="layui-col-md6 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-dian1">水电用户</i></span>
+                    <h5><i style="color: #fe7431" id="meter_zx">70</i>/<i id="meter_zs">5107</i></h5>
+                </div>
+                <div id="streetlight" class="layui-col-md6 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-dengpao">路灯</i></span>
+                    <h5><i style="color: #fe7431"  id="streetlight_zx">3</i>/<i id="streetlight_zs">605</i></h5>
+                </div>
+                <div id="leak" class="layui-col-md4 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-neiwangtance">探漏</i></span>
+                    <h5><i style="color: #fe7431"  id="leak_zx">0</i>/<i id="leak_zs">100</i></h5>
+                </div>
+                <div id="monitor" class="layui-col-md4 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-shexiangtou">安防</i></span>
+                    <h5><i style="color: #fe7431"  id="monitor_zx">0</i>/<i id="monitor_zs">65</i></h5>
+                </div>
+                <div id="waterQuality" class="layui-col-md4 layui-col-sm4 pr sbtjProgress progressTxt">
+                    <span><i class="iconfont icon-shuizhi">水质</i></span>
+                    <h5><i style="color: #fe7431"  id="waterQuality_zx">0</i>/<i id="waterQuality_zs">6</i></h5>
+                </div>
+            </div>
+            <div class="lineBlue"></div>
+            <h5 class="title3"></h5>
+            <div id="meterTabTree" style="display: none">
+                <div class="layui-tab layuiTab2" lay-filter="yxjk_tree_tab" id="bjxx">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-filder="all">全部</li>
+                        <li id="ycz" lay-filder="unline">离线</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="bjxxSearch pr">
+                                <input type="text" placeholder="名称" id="yxjk_search1" autocomplete="off">
+                                <i class="iconfont icon-sousuo pa"></i>
+                            </div>
+                            <div class="ztreeBox">
+                                <ul id="yxjk_tree_all" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="bjxxSearch pr">
+                                <input type="text" placeholder="名称" id="yxjk_search2" autocomplete="off">
+                                <i class="iconfont icon-sousuo pa"></i>
+                            </div>
+                            <div class="ztreeBox">
+                                <ul id="yxjk_tree_unline" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="streetlightTabTree" style="display: none">
+                <div class="layui-tab layuiTab2" lay-filter="streetlight_tree_tab" >
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-filder="all">全部</li>
+                        <li  lay-filder="unline">离线</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="bjxxSearch pr">
+                                <input type="text" placeholder="名称" id="yxjk_search3" autocomplete="off">
+                                <i class="iconfont icon-sousuo pa"></i>
+                            </div>
+                            <div class="ztreeBox">
+                                <ul id="streetlight_tree_all" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="bjxxSearch pr">
+                                <input type="text" placeholder="名称" id="yxjk_search4" autocomplete="off">
+                                <i class="iconfont icon-sousuo pa"></i>
+                            </div>
+                            <div class="ztreeBox">
+                                <ul id="streetlight_tree_unline" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="baseTree">
+                <div class="bjxxSearch pr">
+                    <input type="text" placeholder="名称" id="yxjk_search" autocomplete="off">
+                    <i class="iconfont icon-sousuo pa"></i>
+                </div>
+                <div id="tree" class="ztreeBox">
+                    <ul id="yxjk_monitor_tree" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

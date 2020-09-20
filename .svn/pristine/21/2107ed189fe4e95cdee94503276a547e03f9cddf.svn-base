@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('会议弹框列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <input id="meetingId" name="meetingId" type="hidden"/>
+            <input id="meetingTitle" name="meetingTitle" type="hidden"/>
+            <form id="job-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            会议标题：<input type="text" name="title"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "meeting/info";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            sortName: "createTime",
+            sortOrder: "desc",
+            modalName: "会议弹框",
+            columns: [{
+                radio: true
+            },
+                {
+                    field: 'id',
+                    title: '站点编号'
+                },
+                {
+                    field: 'title',
+                    title: '标题',
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间',
+                    sortable: true
+                }],
+            onCheck: function (row) {
+                $("#meetingId").val(row.id);
+                $("#meetingTitle").val(row.title);
+            }
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

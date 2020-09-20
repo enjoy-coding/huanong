@@ -1,0 +1,178 @@
+<div id="inspectFormBox" class="xjjlLayerBox hide">
+    <form id="form-inspect-add" class="layui-form layerForm pd30" method="post">
+        <div class="layui-row">
+            <input id="inspectDetailId" type="hidden"/>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="inspectWorker" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="inspectFormTime" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">地点类型：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="serviceTypeId" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检地点：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="serviceAddress" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备状态：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="serviceStatusText" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <!--<label class="layui-form-label">异常记录：</label>
+                    <div class="layui-input-block">
+                        <button type="reset" class="layui-btn czBtn">关联</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-col-sm12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注：</label>
+                    <div class="layui-input-block">
+                        <textarea id="description" class="layui-textarea" readonly="readonly"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="serviceFormList" class="layui-row exceptionRecord">
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">1.名称：</label>
+                    <div class="layui-input-block">
+                        <span class="name">高压开关柜</span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <select name="quiz1">
+                            <option value="">未异常</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12 layui-col-sm12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">情况说明：</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="min-height:40px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">2.名称：</label>
+                    <div class="layui-input-block">
+                        <span class="name">干式变压器</span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <select name="quiz1">
+                            <option value="">未异常</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12 layui-col-sm12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">情况说明：</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="min-height:40px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="layui-row">
+            <div class="layui-col-md12 layui-col-sm12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">预案文件：</label>
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn" id="test1">上传图片</button>
+                        <div class="layui-upload-list">
+                            <img src="" class="layui-upload-img">
+                            <img src="" class="layui-upload-img">
+                            <img src="" class="layui-upload-img">
+                            <img src="" class="layui-upload-img">
+                            <img src="" class="layui-upload-img">
+                        </div>
+                        <p id="demoText" style="color:#Fff;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="layui-row">
+            <div class="layui-col-md10 layui-col-sm10 layui-col-xs10">
+                <div class="layui-form-item btngroup">
+                    <div class="layui-input-block txtC">
+                        <button type="button" class="layui-btn submitBtn" onclick="inspectDetailExcel()">导出excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function inspectDetailExcel(){
+        var detailId = $("#inspectDetailId").val();
+
+        var msg = layer.msg('正在导出数据，请稍后...', {time: false});
+
+        $.ajax({
+            type: "GET",
+            url: RYXJ.api.detailExportUrl,
+            data: {"id": detailId},
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function (result) {
+                // $("#inspectWorkerId").empty();
+                layer.close(msg);//手动关闭
+                layer.msg("导出成功！", {time: 1000});
+                if (result.code == 0) {
+                    window.location.href = ctx + "system/common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                } else if (result.code == 500) {
+                    layer.msg(result.msg)
+                } else {
+                    layer.msg(result.msg)
+                }
+            }
+        });
+    }
+</script>

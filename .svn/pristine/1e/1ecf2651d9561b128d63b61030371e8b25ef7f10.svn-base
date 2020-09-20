@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('模板弹框列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<input id="tplId" name="tplId" type="hidden" th:value="${template.id}"/>
+				<input id="tplName" name="tplName"  type="hidden" th:value="${template.name}"/>
+				<form id="template-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								模板名称：<input type="text" name="name"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var prefix = ctx + "cms/template";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        sortName: "createTime",
+		        sortOrder: "desc",
+		        modalName: "模板弹框",
+		        columns: [{
+		            radio: true
+		        },
+		        {
+		            field: 'name',
+		            title: '模板名称'
+		        },
+		        {
+		            field: 'coverImage',
+		            title: '模板封面',
+					formatter: function (value, row, index) {
+						var str = "<img style=\"width:180px;height:120px;\" src=\""+value+"\"></img>";
+						return str;
+					}
+		        }],
+				onLoadSuccess:function(data){
+		        	var tplId = $("#tplId").val();
+					$.btTable.bootstrapTable('checkBy', {field: 'id', values:[tplId]})
+				},
+				onCheck:function(row){
+					$("#tplId").val(row.id);
+					$("#tplName").val(row.name);
+				}
+		    };
+		    $.table.init(options);
+		});
+	</script>
+</body>
+</html>

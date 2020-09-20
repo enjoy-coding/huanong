@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改预警信息详情')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-yjinfotables-edit" th:object="${aupYjinfotables}">
+            <input id="itid" name="itid" th:field="*{itid}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警详情id：</label>
+                <div class="col-sm-8">
+                    <input name="itid" th:field="*{itid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警统计设备id：</label>
+                <div class="col-sm-8">
+                    <input name="tid" th:field="*{tid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址编号：</label>
+                <div class="col-sm-8">
+                    <input name="areano" th:field="*{areano}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警信息：</label>
+                <div class="col-sm-8">
+                    <input name="content" th:field="*{content}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备名称：</label>
+                <div class="col-sm-8">
+                    <input name="sname" th:field="*{sname}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备位置：</label>
+                <div class="col-sm-8">
+                    <input name="sarea" th:field="*{sarea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备类型：</label>
+                <div class="col-sm-8">
+                    <select name="stype" class="form-control m-b" th:with="type=${@dict.getType('null')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{stype}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备id：</label>
+                <div class="col-sm-8">
+                    <input name="sid" th:field="*{sid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警名称：</label>
+                <div class="col-sm-8">
+                    <input name="yjname" th:field="*{yjname}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="yjtime" th:value="${#dates.format(aupYjinfotables.yjtime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('null')}">
+                        <input type="radio" th:id="${'yjstatus_' + dict.dictCode}" name="yjstatus" th:value="${dict.dictValue}" th:field="*{yjstatus}">
+                        <label th:for="${'yjstatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警等级：</label>
+                <div class="col-sm-8">
+                    <input name="yjlevel" th:field="*{yjlevel}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警来源：</label>
+                <div class="col-sm-8">
+                    <input name="yori" th:field="*{yori}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">灯头：</label>
+                <div class="col-sm-8">
+                    <input name="light" th:field="*{light}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电流：</label>
+                <div class="col-sm-8">
+                    <input name="a" th:field="*{a}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电压：</label>
+                <div class="col-sm-8">
+                    <input name="v" th:field="*{v}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">功率：</label>
+                <div class="col-sm-8">
+                    <input name="w" th:field="*{w}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">功率因素：</label>
+                <div class="col-sm-8">
+                    <input name="pw" th:field="*{pw}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电流：</label>
+                <div class="col-sm-8">
+                    <input name="pl" th:field="*{pl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">压力值：</label>
+                <div class="col-sm-8">
+                    <input name="presure" th:field="*{presure}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "aupipes/yjinfotables";
+        $("#form-yjinfotables-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#itid").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-yjinfotables-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.itid) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.itid;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：itid");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+
+        $("input[name='yjtime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

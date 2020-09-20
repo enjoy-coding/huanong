@@ -1,0 +1,62 @@
+<!--中间弹窗以及详情弹出-->
+<div class="hide ysphMoreContent">
+    <div class="oh">
+        <div class="fl lsyjLeft">
+            <div class="title sgfxTitle">用水平衡</div>
+            <div class="title3">全部</div>
+            <div class="ztreeBox" style="height:100%;overflow: auto;">
+                <ul id="zTree_ysph" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="fr lsyjRight">
+            <div class="title sgfxTitle">用水量</div>
+            <form id="ysphForm" lay-filter="ysphForm" class="layui-form mt15 formBox mw15">
+                <div class="layui-row">
+                    <div class="layui-col-md6 layui-col-sm6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">地区：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="cacheName"  >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md3 layui-col-sm3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开始时间：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="beginTime"
+                                       autocomplete="off" placeholder="yyyy-mm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">结束时间：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="endTime"
+                                       autocomplete="off" placeholder="yyyy-mm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <div class="layui-form-item btngroup">
+                            <button type="button" class="btn" id="query">查询</button>
+                            <button type="button" class="btn" id="reset">重置</button>
+                            <button type="button" class="btn" id="exp">导出</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="table page pw15 tableLg ysphTable">
+                <h3 style="color: white;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;">华中农业大学用水统计(单位:吨)</h3>
+                <div id="ysphTable" lay-filter="ysphTable"></div>
+            </div>
+        </div>
+    </div>
+</div>

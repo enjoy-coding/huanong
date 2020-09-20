@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupTimingTaskMapper">
+
+    <resultMap type="AupBuilding" id="AupTimingTaskResult">
+    </resultMap>
+
+    <sql id="selectAupTimingTaskVo">
+    </sql>
+
+    <select id="getMonthWaterData" parameterType="Map" resultType="double" statementType="STATEMENT">
+        SELECT SUM(useNumber) countNum
+        FROM ${table}
+        where meterTypeName='水表'
+    </select>
+
+    <select id="getMonthElectricityData" parameterType="java.lang.String" resultType="double" statementType="STATEMENT">
+        SELECT SUM(useNumber) countNum
+        FROM ${table}
+        where meterTypeName='电表'
+    </select>
+
+    <!--<select id="selectAupBuildingById" parameterType="String" resultMap="AupBuildingResult">
+        <include refid="selectAupBuildingVo"/>
+        where Id = #{id}
+    </select>
+
+    <insert id="insertAupBuilding" parameterType="AupBuilding">
+        insert into aup_building
+    </insert>
+
+    <update id="updateAupBuilding" parameterType="AupBuilding">
+    </update>
+
+    <delete id="deleteAupBuildingById" parameterType="String">
+    </delete>
+
+    <delete id="deleteAupBuildingByIds" parameterType="String">
+    </delete>-->
+
+</mapper>

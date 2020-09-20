@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>地图</title>
+	<link th:href="@{/def/libs/leaflet/leaflet.css}" rel="stylesheet" />
+	<style>
+		html, body, #map {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script th:src="@{/def/js/jquery.min.js}"></script>
+	<script th:src="@{/def/libs/leaflet/leaflet.js}"></script>
+	<script th:src="@{/def/libs/leaflet/leaflet.ChineseTmsProviders.js}"></script>
+	<script th:inline="javascript">
+		var ctx = [[@{/}]];
+        var cardTypeDatas = [[${@dict.getType('patrol_card_type')}]];
+        
+        function getCardTypeName(type) {
+        	for (var i = 0; i < cardTypeDatas.length; i++) {
+        		if (cardTypeDatas[i].dictValue == type) {
+        			return cardTypeDatas[i].dictLabel;
+        		}
+        	}
+        	return type
+        }
+        
+		var normalMapm = L.tileLayer('http://t3.tianditu.com/vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=023446516782d6b5b8080cc2b2aa72c7', {
+		    maxZoom: 17,
+		    minZoom: 5,
+		    zoomOffset: 1
+		});
+		var normalMapa = L.tileLayer('http://t0.tianditu.gov.cn/cva_c/wmts?layer=cva&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=023446516782d6b5b8080cc2b2aa72c7', {
+		    maxZoom: 17,
+		    minZoom: 5,
+		    zoomOffset: 1
+		});
+		var imgMapm = L.tileLayer('http://t0.tianditu.gov.cn/img_c/wmts?layer=img&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=023446516782d6b5b8080cc2b2aa72c7', {
+		    maxZoom: 17,
+		    minZoom: 5,
+		    zoomOffset: 1
+		});
+		var imgMapa = L.tileLayer('http://t0.tianditu.gov.cn/cia_c/wmts?layer=cia&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=023446516782d6b5b8080cc2b2aa72c7', {
+		    maxZoom: 17,
+		    minZoom: 5,
+		    zoomOffset: 1
+		});
+		var normalMap = L.layerGroup([normalMapm, normalMapa]),
+		            imgMap = L.layerGroup([imgMapm, imgMapa]);
+		var baseLayers = { "行政": normalMap, "卫星": imgMap };
+		var overlayLayers = {
+		};
+		var map = L.map("map", {
+		    crs: L.CRS.EPSG4326,
+		    center: [30.4739, 114.3527],
+		    zoom: 8,
+		    layers: [normalMap],
+		    zoomControl: false
+		});
+		L.control.layers(baseLayers, overlayLayers).addTo(map);
+		L.control.zoom({
+		    zoomInTitle: '放大',
+		    zoomOutTitle: '缩小'
+		}).addTo(map);
+		
+		var url = ctx + "patrol/card/allWithCoordinate";
+		$.get(url, function (json) {
+			//console.log(json);
+			if (json && json.code == 0) {
+				var len = json.data.length;
+				for (var i = 0; i < len; i++) {
+					var data = json.data[i];
+					var coor = data.cardCoordinate.split(",");
+					
+					var str = '<b>'+ getCardTypeName(data.cardType) +'</b><br>'+ data.cardLine +'<br>'+ data.cardMileage +'<hr style="border:0;border-top:1px solid #eee"/>'+ data.cardQrcode1;
+					var marker = L.marker([parseFloat(coor[1]), parseFloat(coor[0])]).addTo(map);
+	    			marker.bindPopup(str);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

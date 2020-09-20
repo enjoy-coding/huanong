@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupStreetlightDetailMapper">
+
+    <resultMap type="AupStreetlightDetail" id="AupStreetlightDetailResult">
+        <result property="cuid"    column="cuid"    />
+        <result property="ctype"    column="ctype"    />
+        <result property="luid"    column="luid"    />
+        <result property="num"    column="num"    />
+        <result property="rs"    column="rs"    />
+        <result property="rtime"    column="rtime"    />
+        <result property="src"    column="src"    />
+        <result property="ls"    column="ls"    />
+        <result property="ltime"    column="ltime"     />
+        <result property="dim"    column="dim"    />
+        <result property="alarms"    column="alarms"    />
+        <result property="u"    column="u"    />
+        <result property="i"    column="i"    />
+        <result property="p"    column="p"    />
+        <result property="pf"    column="pf"    />
+        <result property="e"    column="e"    />
+        <result property="lu"    column="lu"    />
+        <result property="life"    column="life"    />
+        <result property="dtime"    column="dtime"  />
+        <result property="rp"    column="rp"    />
+        <result property="ri"    column="ri"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+
+    <sql id="selectAupStreetlightDetailVo">
+        select cuid, ctype, luid, num, rs, rtime, src, ls, ltime, dim, alarms, u, i, p, pf, e, lu, life, dtime, rp, ri, id from aup_streetlight_detail
+    </sql>
+
+
+
+    <select id="selectAupStreetlightDetailList"   resultMap="AupStreetlightDetailResult">
+        <include refid="selectAupStreetlightDetailVo"/>
+        <where>
+            <if test="luid != null and luid != ''">
+                AND luid = #{luid}
+            </if>
+            <if test="rtime != null and rtime != ''"><!-- 开始时间检索 -->
+                and ltime &gt;= #{rtime}
+            </if>
+            <if test="dtime != null and dtime != ''"><!-- 结束时间检索 -->
+                and ltime &lt;= #{dtime}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectAupStreetlightDetailByIuid" parameterType="String" resultMap="AupStreetlightDetailResult">
+        <include refid="selectAupStreetlightDetailVo"/>
+        <where>
+            luid = #{luid}
+        </where>
+        order by ltime
+    </select>
+
+    <select id="checkAupStreetlightDetailByIuid" parameterType="AupStreetlightDetail" resultMap="AupStreetlightDetailResult">
+        <include refid="selectAupStreetlightDetailVo"/>
+        <where>
+            luid = #{luid}
+            and cuid = #{cuid}
+            and ltime = #{ltime}
+            and u = #{u}
+        </where>
+    </select>
+
+    <insert id="insertAupStreetlightDetail" parameterType="AupStreetlightDetail">
+        insert into aup_streetlight_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cuid != null  and cuid != ''">cuid,</if>
+            <if test="ctype != null  and ctype != ''">ctype,</if>
+            <if test="luid != null  and luid != ''">luid,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="rs != null  and rs != ''">rs,</if>
+            <if test="rtime != null  and rtime != ''">rtime,</if>
+            <if test="src != null  and src != ''">src,</if>
+            <if test="ls != null  and ls != ''">ls,</if>
+            <if test="ltime != null  and ltime != ''">ltime,</if>
+            <if test="dim != null  and dim != ''">dim,</if>
+            <if test="alarms != null  and alarms != ''">alarms,</if>
+            <if test="u != null  and u != ''">u,</if>
+            <if test="i != null  and i != ''">i,</if>
+            <if test="p != null  and p != ''">p,</if>
+            <if test="pf != null  and pf != ''">pf,</if>
+            <if test="e != null  and e != ''">e,</if>
+            <if test="lu != null  and lu != ''">lu,</if>
+            <if test="life != null  and life != ''">life,</if>
+            <if test="dtime != null  and dtime != ''">dtime,</if>
+            <if test="rp != null  and rp != ''">rp,</if>
+            <if test="ri != null  and ri != ''">ri,</if>
+            <if test="id != null ">id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cuid != null  and cuid != ''">#{cuid},</if>
+            <if test="ctype != null  and ctype != ''">#{ctype},</if>
+            <if test="luid != null  and luid != ''">#{luid},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="rs != null  and rs != ''">#{rs},</if>
+            <if test="rtime != null  and rtime != ''">#{rtime},</if>
+            <if test="src != null  and src != ''">#{src},</if>
+            <if test="ls != null  and ls != ''">#{ls},</if>
+            <if test="ltime != null  and ltime != ''">#{ltime},</if>
+            <if test="dim != null  and dim != ''">#{dim},</if>
+            <if test="alarms != null  and alarms != ''">#{alarms},</if>
+            <if test="u != null  and u != ''">#{u},</if>
+            <if test="i != null  and i != ''">#{i},</if>
+            <if test="p != null  and p != ''">#{p},</if>
+            <if test="pf != null  and pf != ''">#{pf},</if>
+            <if test="e != null  and e != ''">#{e},</if>
+            <if test="lu != null  and lu != ''">#{lu},</if>
+            <if test="life != null  and life != ''">#{life},</if>
+            <if test="dtime != null  and dtime != ''">#{dtime},</if>
+            <if test="rp != null  and rp != ''">#{rp},</if>
+            <if test="ri != null  and ri != ''">#{ri},</if>
+            <if test="id != null ">#{id},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupStreetlightDetail" parameterType="AupStreetlightDetail">
+        update aup_streetlight_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cuid != null  and cuid != ''">cuid = #{cuid},</if>
+            <if test="ctype != null  and ctype != ''">ctype = #{ctype},</if>
+            <if test="luid != null  and luid != ''">luid = #{luid},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="rs != null  and rs != ''">rs = #{rs},</if>
+            <if test="rtime != null  and rtime != ''">rtime = #{rtime},</if>
+            <if test="src != null  and src != ''">src = #{src},</if>
+            <if test="ls != null  and ls != ''">ls = #{ls},</if>
+            <if test="ltime != null  and ltime != ''">ltime = #{ltime},</if>
+            <if test="dim != null  and dim != ''">dim = #{dim},</if>
+            <if test="alarms != null  and alarms != ''">alarms = #{alarms},</if>
+            <if test="u != null  and u != ''">u = #{u},</if>
+            <if test="i != null  and i != ''">i = #{i},</if>
+            <if test="p != null  and p != ''">p = #{p},</if>
+            <if test="pf != null  and pf != ''">pf = #{pf},</if>
+            <if test="e != null  and e != ''">e = #{e},</if>
+            <if test="lu != null  and lu != ''">lu = #{lu},</if>
+            <if test="life != null  and life != ''">life = #{life},</if>
+            <if test="dtime != null  and dtime != ''">dtime = #{dtime },</if>
+            <if test="rp != null  and rp != ''">rp = #{rp},</if>
+            <if test="ri != null  and ri != ''">ri = #{ri},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupStreetlightDetailById" parameterType="Long">
+        delete from aup_streetlight_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteAupStreetlightDetailByIds" parameterType="String">
+        delete from aup_streetlight_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <resultMap type="AupStreetlightDetail" id="AupStreetlightDetailExpResult">
+        <result property="luid"    column="luid"    />
+        <result property="rtime"    column="rtime"    />
+        <result property="ltime"    column="ltime"     />
+        <result property="u"    column="u"    />
+        <result property="i"    column="i"    />
+        <result property="p"    column="p"    />
+        <result property="pf"    column="pf"    />
+        <result property="e"    column="e"    />
+        <result property="lu"    column="lu"    />
+        <result property="life"    column="life"    />
+        <result property="dtime"    column="dtime"  />
+        <result property="id"    column="id"    />
+        <association property="aupStreetlight"    column="luid" javaType="AupStreetlight" resultMap="AupStreetlightExpResult" />
+    </resultMap>
+    <resultMap type="AupStreetlight" id="AupStreetlightExpResult">
+        <result property="lid" column="lid"/>
+        <result property="luid" column="luid"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="selectAupStreetlightDetailExpVo" >
+            select s.name,s.lat,sd.cuid,sd.luid,sd.rtime,sd.ltime,sd.e, sd.u, sd.i, sd.p, sd.pf,sd.life,sd.dtime,sd.id
+            from aup_streetlight_detail sd
+			left join  aup_streetlight s on s.luid =sd.luid
+    </sql>
+    <select id="selectAupStreetlightDetailExpList"   resultMap="AupStreetlightDetailExpResult">
+        <include refid="selectAupStreetlightDetailExpVo"/>
+        <where>
+            <if test="luid != null and luid != ''">
+                AND s.luid = #{luid}
+            </if>
+            <if test="rtime != null and rtime != ''"><!-- 开始时间检索 -->
+                and sd.ltime &gt;= #{rtime}
+            </if>
+            <if test="dtime != null and dtime != ''"><!-- 结束时间检索 -->
+                and sd.ltime &lt;= #{dtime}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteStreetlightDetailTime" statementType="CALLABLE" >
+        {call deleteStreetlightDetailTime}
+    </delete>
+
+    <select id="getTypename" resultType="map">
+        select * from aup_warring_category where typeid=#{typeid}
+    </select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <th:block th:include="include :: header('新增任务')" />
+        <th:block th:include="include :: summernote-css" />
+    </head>
+    <body class="white-bg">
+        <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+            <form class="form-horizontal m" id="form-task-add" th:object="${task}">
+                <input id="id" name="id" th:field="*{id}"  type="hidden">
+                <input id="steate" name="state" th:field="*{state}"  type="hidden">
+                <input id="ownerId" name="ownerId" th:field="*{ownerId}"  type="hidden">
+                <input id="delFlag" name="delFlag" th:field="*{delFlag}"  type="hidden">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标题：</label>
+                    <div class="col-sm-10">
+                        <input id="title" name="tile" th:field="*{title}" class="form-control" type="text" required readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">内容：</label>
+                    <div class="col-sm-10">
+                        <input id="content" name="content" th:field="*{content}" type="hidden">
+                        <div id="editor" class="summernote"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">积分：</label>
+                    <div class="col-sm-10">
+                        <input id="score" name="score" th:field="*{score}" class="form-control" type="text" required digits="true" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">审核意见：</label>
+                    <div class="col-sm-10">
+                        <textarea name="notes" maxlength="500" class="form-control" rows="3">[[*{notes}]]</textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <th:block th:include="include :: footer" />
+        <th:block th:include="include :: summernote-js" />
+        <script type="text/javascript">
+            var prefix = ctx + "sc/task";
+
+            $(function() {
+                $('.summernote').summernote({
+                    placeholder: '请输入内容',
+                    height : 192,
+                    lang : 'zh-CN'
+                });
+                var content = $("#content").val();
+                $('#editor').summernote('code', content);
+                $('#editor').summernote('disable');
+            });
+
+            $("#form-task-add").validate({
+                focusCleanup: true
+            });
+
+            function submitHandler() {
+                $.modal.confirm("你确定审核通过此任务吗？", function() {
+                    if ($.validate.form()) {
+                        var sHTML = $('.summernote').summernote('code');
+                        $("#content").val(sHTML);
+                        $.operate.save({
+                            url: prefix + "/reviewTask" ,
+                            data: $('#form-task-add').serialize(),
+                            success: function(result, _option) {
+                                parent = window.parent;
+                                $.modal.close();
+                                setTimeout(function(){
+                                    parent.$.modal.msgSuccess(result.msg);
+                                }, 80);
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

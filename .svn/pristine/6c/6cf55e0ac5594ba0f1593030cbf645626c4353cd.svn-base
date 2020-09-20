@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('文章列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            关键字：<input type="text" name="title"/>
+                        </li>
+                        <li class="pace-inactive">
+                            <input type="text" name="infoType" th:value="${infoType}"/>
+                        </li>
+                        <li class="select-time">
+                            <label>创建时间： </label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                   name="params[beginTime]"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                   name="params[endTime]"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="openWin('add')">
+                <i class="fa fa-plus"></i> 新增
+            </a>
+            <a class="btn btn-primary single disabled" onclick="openWin('edit')">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    //var editFlag = [[${@permission.hasPermi('system:role:edit')}]];
+    //var removeFlag = [[${@permission.hasPermi('system:role:remove')}]];
+    var prefix = ctx + "np/info";
+    var infoType = [[${infoType}]];
+
+    var sortName = "orderNum";
+    var sortOrder = "desc";
+    if(infoType==9 || infoType == 10){
+        sortName = "createTime"
+    }
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add/" + infoType,
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            sortName: sortName,
+            sortOrder: sortOrder,
+            modalName: "信息",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'infoId',
+                    title: '',
+                    visible: false
+                },
+                {
+                    field: 'title',
+                    title: '标题',
+                    sortable: true
+                },
+                {
+                    field: 'subTitle',
+                    title: '简介',
+                    sortable: true
+                },
+                {
+                    field: 'addInfo3',
+                    title: '类别',
+                    visible: false
+                },
+                {
+                    field: 'answer',
+                    title: '回答',
+                    sortable: true,
+                    visible: false
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间',
+                    sortable: true
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    width: '262',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        if (infoType == 1) {
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showShops(\'' + row.infoId + '\')"><i class="fa fa-edit"></i>店铺列表</a> ');
+                        }
+                        if (infoType == 4 || infoType == 8) {
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showSpots(\'' + row.infoId + '\')"><i class="fa fa-edit"></i>景点列表</a> ');
+                        }
+                        //actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.infoId + '\')"><i class="fa fa-remove"></i>删除</a> ');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+        if (infoType == 9 || infoType == 10) {
+            $.table.showColumn("answer");
+            $.table.hideColumn("subTitle");
+        } else if(infoType == 12){
+            $.table.showColumn("addInfo3");
+            $.table.hideColumn("updateTime");
+        }
+    });
+
+
+    /**
+     * 显示店铺列表
+     * @param infoId
+     */
+    function showShops(infoId) {
+        var url = prefix + '/showShops/' + infoId;
+        $.modal.openTab("店铺列表", url);
+    }
+
+    function showSpots(infoId) {
+        var url = prefix + '/showSpots/' + infoId;
+        $.modal.openTab("景点列表", url);
+    }
+
+    /**
+     * 打开窗口类型
+     * @param optType 窗口类型
+     */
+    function openWin(optType) {
+        if (optType == 'add') {
+            if (infoType == 2) {
+                $.operate.addTab();
+            } else {
+                $.operate.add();
+            }
+        } else {
+            if (infoType == 2) {
+                $.operate.editTab();
+            } else {
+                $.operate.edit();
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改楼栋管理员')" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-manager-edit" th:object="${aupJcbzManager}">
+        <input id="id" name="id" th:field="*{id}" type="hidden">
+        <!-- <div class="form-group">
+             <label class="col-sm-3 control-label">id：</label>
+             <div class="col-sm-8">
+                 <input name="id" th:field="*{id}" class="form-control" type="text">
+             </div>
+         </div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">管理员名称：</label>
+            <div class="col-sm-8">
+                <input name="managername" th:field="*{managername}" onclick="selectUser()" class="form-control" type="text" id="managername">
+                <input name="loginname" th:field="*{loginname}" type="hidden" class="form-control" id="loginname">
+                <input name="userid" class="form-control" type="hidden" th:field="*{userid}" id="userId" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">管理员类型：</label>
+            <div class="col-sm-8">
+                <select name="managetype" class="form-control m-b" th:with="type=${@dict.getType('null')}" id="managetype">
+                    <option value="">请选择</option>
+                    <option value="宿舍管理员">宿舍管理员</option>
+                    <option value="后保部">后保部</option>
+                    <option value="居民管理员">居民管理员</option>
+                    <option value="教学管理员">教学管理员</option>
+                    <!--<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{managetype}"></option>-->
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">管理一级单位：</label>
+            <div class="col-sm-8">
+                <select name="levfir" class="form-control m-b" th:with="type=${@dict.getType('null')}" id="levfir">
+                    <option value="">华中农业大学</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">区域：</label>
+            <div class="col-sm-8">
+                <select name="levsec" class="form-control m-b" th:with="type=${@dict.getType('null')}" id="levsec">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">楼栋：</label>
+            <div class="col-sm-8">
+                <select name="levthr" class="form-control m-b" th:with="type=${@dict.getType('null')}" id="levthr" multiple="multiple">
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="display: none" >
+            <label class="col-sm-3 control-label">手机号：</label>
+            <div class="col-sm-8">
+                <input name="phonenum" value="" th:field="*{phonenum}" class="form-control" type="text" id="phonenum">
+            </div>
+        </div>
+        <div class="form-group"  style="display: none">
+            <label class="col-sm-3 control-label">微信号：</label>
+            <div class="col-sm-8">
+                <input name="wxnum" value="" th:field="*{wxnum}" class="form-control" type="text"  id="wxnum">
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">展示编码：</label>
+            <div class="col-sm-8">
+                <input name="code" th:field="*{code}" class="form-control" type="text" readOnly="true" id="zsbm">
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">父级编码：</label>
+            <div class="col-sm-8">
+                <input name="parentcode" th:field="*{parentcode}" class="form-control" type="text" readOnly="true" id="parentcode">
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-sm-3 control-label">修改时间：</label>
+            <div class="col-sm-8">
+                <input name="edittime" th:field="*{edittime}" class="form-control" type="text" readOnly="true">
+            </div>
+        </div>
+        <!--<div class="form-group" disabled="true">
+            <label class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-8">
+                <input name="remark" th:field="*{remark}" class="form-control" type="text">
+            </div>
+        </div>-->
+    </form>
+    <input type="hidden" id="managetype1" />
+    <input type="hidden" id="levfir1" />
+    <input type="hidden" id="levsec1"  />
+    <input type="hidden" id="levthr1"  />
+</div>
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandlerEdit()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:src="@{/def/libs/bootstrap-select/bootstrap-multiselect.js}"></script>
+<link th:href="@{/def/libs/bootstrap-select/bootstrap-multiselect.css}" rel="stylesheet">
+<script type="text/javascript">
+    var prefix = ctx + "aupipes/manager";
+    var parentCode="root"
+    var num="1";
+    var initPage="1";
+    var thrDataArray=[]; //三级列表选择列表
+    var codeValue=[];
+
+    $(function(){
+        $("#managetype").multiselect({
+            nonSelectedText : '请选择类型',
+            includeSelectAllOption: true,//全选
+            selectAllText: '全选',//全选的checkbox名称
+        });
+        $("#levfir").multiselect({
+            nonSelectedText : '请选择类型',
+            includeSelectAllOption: true,//全选
+            selectAllText: '全选',//全选的checkbox名称
+        });
+        initData2(num);
+    })
+
+    $("#form-manager-edit").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#id").val() ? false : true;
+    }
+
+    function submitHandlerEdit() {
+
+        if ($.validate.form()) {
+            $.ajax({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                type:"POST",
+                dateType:"json",
+                data: $('#form-manager-edit').serialize(),
+                success: function(result, _option) {
+                    if (isAdd()) {
+                        if (result.data.id) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.id;
+                        } else {
+                            $.modal.msgError("没有返回数据：id");
+                        }
+                    } else {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index); //关闭窗口
+                        window.location.href = prefix;
+                        //$.modal.closeTab();
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 初始化选中二级菜单
+     */
+    function initData2(num){
+        parentCode="root"
+        var selId="levsec";
+        $('#levthr').empty();
+        $.ajax({
+            url: ctx + "aupipes/manager/selectOptions?parentCode=" + parentCode, //所需要的列表接口地址
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+
+                var h = "";
+                h += "<option value=''>请选择类型</option>";
+                $.each(result.data, function (key, value) {
+                    h += "<option value='" + value.name + "' level='" + value.level + "' " +
+                        "code='" + value.code + "' parentcCode='" + value.parentCode + "' >" + value.name //下拉框序言的循环数据
+                        + "</option>";
+                });
+                $('#'+selId).empty();
+                $('#'+selId).append(h);//append 添加进去并展示
+                $('#'+selId).multiselect({
+                    nonSelectedText : '请选择类型',
+                    includeSelectAllOption: true,//全选
+                    selectAllText: '全选',//全选的checkbox名称
+                });
+                $('#'+selId).on(
+                    "change",
+                    function (a, b, c) {
+                        debugger;
+                        tag = $("#levsec option:selected");
+                        //parentCode="root"
+                        num = tag[0].attributes.level.value;
+                        parentCode= tag[0].attributes.code.value;
+                        $("#zsbm").val(tag[0].attributes.code.value);
+                        $("#parentcode").val("root");
+                        initData3()
+                    });
+                if(initPage=="1"){
+                    num="2"
+                    parentCode=$("#parentcode").val();
+                    initData3(num);
+                }else{
+                    initData();
+                }
+            }
+        });
+    }
+
+    function initData3(){
+        var selId="";
+        selId = "levthr";
+        $.ajax({
+            url: ctx + "aupipes/manager/selectOptions?parentCode=" + parentCode, //所需要的列表接口地址
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+
+                var h = "";
+                //h += "<option value='请选择类型' disabled=\"disabled\">请选择类型</option>";
+                $.each(result.data, function (key, value) {
+                    h += "<option value='" + value.name + "' level='" + value.level + "' " +
+                        "code='" + value.code + "' parentcCode='" + value.parentCode + "' >" + value.name //下拉框序言的循环数据
+                        + "</option>";
+                });
+                $('#'+selId).empty();
+                $('#'+selId).append(h);//append 添加进去并展示
+                $('#'+selId).multiselect("destroy").multiselect({
+                    nonSelectedText : '请选择类型',
+                    includeSelectAllOption: true,//全选
+                    selectAllText: '全选',//全选的checkbox名称
+                });
+                $("#levthr").multiselect('refresh');//从新刷新数据
+                $('#'+selId).on(
+                    "change",
+                    function (a, b, c) {
+                        debugger;
+                        var tag ;
+                        tag = $("#levthr option:selected");
+                        //num = tag[0].attributes.level.value;
+                        comparSelect(tag);
+                    });
+                if(initPage=="1"){
+                    initData();
+                    initPage="2";
+                }
+            }
+        });
+    }
+
+    /**
+     * 初始化选中数据
+     */
+    function initData(){
+        var code=$("#zsbm").val();
+        var id=$("#id").val();
+        $.ajax({
+            url: ctx + "aupipes/manager/list?code=" + code+"&id="+id, //所需要的列表接口地址
+            type: "post",
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                $("#managetype1").val(result.rows[0].managetype);
+                $("#levfir1").val(result.rows[0].levfir);
+                $("#levsec1").val(result.rows[0].levsec);
+                $("#levthr1").val(result.rows[0].levthr);
+                validataSelect();
+            }
+        });
+    };
+
+    function validataSelect(){
+        var checkValue=$("#managetype1").val();
+        var select = document.getElementById("managetype");
+        for (var i = 0; i < select.options.length; i++){
+            if (select.options[i].value == checkValue){
+                select.options[i].selected = true;
+                break;
+            }
+        }
+        $("#managetype").multiselect('refresh');
+
+        var checkValue=$("#levsec1").val();
+        var select = document.getElementById("levsec");
+        for (var i = 0; i < select.options.length; i++){
+            if (select.options[i].value == checkValue){
+                select.options[i].selected = true;
+                break;
+            }
+        }
+        $("#levsec").multiselect('refresh');
+        var ldArr=[];
+        var shuzu=[];
+        var checkValue=$("#levthr1").val();
+        ldArr=checkValue.split(",");
+        var select = document.getElementById("levthr");
+        for (var i = 0; i < select.options.length; i++){
+            for(var j=0;j<=ldArr.length;j++)
+                if (select.options[i].value == ldArr[j]){
+                    shuzu.push(select.options[i].value);
+                }
+        }
+        $('#levthr').multiselect('select', shuzu )
+        $("#levthr").multiselect('refresh');
+    }
+
+    //对比三级菜单多选是否选择
+    function comparSelect(tag){
+        if(tag.length>1){
+            thrDataArray=[];
+            codeValue=[];
+            for(var i=0;i<tag.length;i++){
+                thrDataArray.push(tag[i].value);
+                codeValue.push(tag[i].attributes.code.value)
+            }
+            $("#zsbm").val(codeValue);
+        }else{
+            if(tag.length==0){
+                return;
+            }else{
+                thrDataArray.push(tag[0].value);
+                codeValue.push(tag[0].attributes.code.value);
+                parentCode= tag[0].attributes.code.value;
+                $("#zsbm").val(tag[0].attributes.code.value);
+                $("#parentcode").val(tag[0].attributes.parentcCode.value);
+            }
+        }
+
+    }
+
+    //查询用户
+    function selectUser(){
+        //table.set();
+        open("添加用户", ctx+"aupipes/type/getJcbzUser");
+    }
+
+    function open(title, url, width, height, callback) {
+        layer.open({
+            type: 2,
+            area: [1300 + 'px', 650 + 'px'],
+            fix: false,
+            //不固定
+            maxmin: true,
+            shade: 0.3,
+            title: title,
+            content: url,
+            //btn: ['确定', '取消'],
+            // 弹层外区域关闭
+            shadeClose: true,
+            yes: callback,
+            cancel: function (index) {
+                return true;
+            },
+        });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+html,body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,
+input {
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+html,body{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica,
+    "PingFang SC", "Hiragino Sans GB", Arial, SimSun, sans-serif;
+}
+i{
+    font-style: normal;
+}
+li {
+    list-style: none;
+}
+.cp{
+    cursor: pointer;
+}
+.hide{
+    display:none;
+}
+.vh{
+    height:100%
+}
+.oh{
+    overflow: hidden;
+}
+.show{
+    display:block;
+}
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.pr {
+    position: relative;
+}
+.pa {
+    position: absolute;
+}
+.pf{
+    position:fixed;
+}
+.clr::after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+.txtC{
+    text-align: center;
+}
+.txtR{
+    text-align: right;
+}
+
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width:3px;
+    height: 3px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color:rgba(46,111,187,1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    width: 3px;
+    height: 3px;
+    background-color: #19c2c4;
+    border-radius: 4px
+}
+.color_white{
+	color:#fff!important;
+}
+.color_light_blue{
+	color:#c3fff1!important;
+}
+.color_blue{
+	color:#62e8c7!important;
+}
+.color_navy_blue{
+	color:#22e6fc!important;
+}
+.color_red{
+	color:#ff7546!important;
+}
+.color_yellow{
+	color:#fee67c!important;
+}
+.color_orange{
+	color:#fd8644!important;
+}
+.color_green{
+	color:#1ac598!important;
+}
+.color_orange{
+	color:#fd8644!important;
+}
+.ml_10{
+	margin-left:0.52vw;
+}
+.mr_10{
+	margin-right:0.52vw;
+}
+.mb_0{
+	margin-bottom:0;
+}
+.mt_10{
+	margin-top:0.92vh;
+}
+.mb_10{
+	margin-bottom:0.92vh;
+}
+.mb_20{
+	margin-bottom:1.85vh;
+}
+.mw_10{
+	margin:0 0.52vw;
+}
+.mh_10{
+	margin:0.92vh 0;
+}
+.font_14{
+	font-size:0.72vw;
+}
+.font_16{
+	font-size: 0.82vw;
+}
+.font_18{
+	font-size: 0.90vw;
+}
+.font_22{
+	font-size: 1.2vw;
+}
+.font_24{
+	font-size: 1.25vw;
+}
+.font_30{
+	font-size: 1.6vw;
+}
+.title2{
+	font-size:0.82vw;
+	color:#fff;
+	line-height:2.8vh;
+}
+.letter-spacing{
+	letter-spacing:0.1vw;
+}
+.numberFont{
+	font-family: 'jixieziti';
+}
+
+#cesiumContainer {
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpCarMapper">
+
+    <resultMap type="NpCar" id="NpCarResult">
+        <id property="carId" column="car_id"/>
+        <result property="name" column="name"/>
+        <result property="license" column="license"/>
+        <result property="state" column="state"/>
+        <result property="ownerUnit" column="owner_unit"/>
+        <result property="telephone" column="telephone"/>
+        <result property="email" column="email"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpCarVo">
+        select car_id, name, license, state, owner_unit, telephone, email, create_by, create_time, update_time
+		from np_car c
+    </sql>
+
+    <select id="selectNpCarById" parameterType="Long" resultMap="NpCarResult">
+        <include refid="selectNpCarVo"/>
+        where c.car_id = #{carId}
+    </select>
+
+    <select id="selectNpCarList" parameterType="NpCar" resultMap="NpCarResult">
+        <include refid="selectNpCarVo"/>
+        <where>
+            <if test="name != null and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                AND name like #{_name}
+            </if>
+            <if test="license != null and license != ''">
+                <bind name="_license" value="'%'+ license +'%'"/>
+                AND license like #{_license}
+            </if>
+            <if test="state != null and state != ''">
+                AND state = #{state}
+            </if>
+            <if test="ownerUnit != null and ownerUnit != ''">
+                <bind name="_ownerUnit" value="'%'+ ownerUnit +'%'"/>
+                AND owner_unit like #{_ownerUnit}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                <bind name="_telephone" value="'%'+ telephone +'%'"/>
+                AND telephone like #{_telephone}
+            </if>
+            <if test="email != null and email != ''">
+                <bind name="_email" value="'%'+ email +'%'"/>
+                AND email like #{_email}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND create_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND create_time &lt;= #{params.endTime, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpCar" parameterType="NpCar">
+        insert into np_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carId != null and carId != 0">car_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="license != null and license != ''">license,</if>
+            <if test="state != null and state != ''">state,</if>
+            <if test="ownerUnit != null and ownerUnit != ''">owner_unit,</if>
+            <if test="telephone != null and telephone != ''">telephone,</if>
+            <if test="email != null and email != ''">email,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carId != null and carId != 0">#{carId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="license != null and license != ''">#{license},</if>
+            <if test="state != null and state != ''">#{state},</if>
+            <if test="ownerUnit != null and ownerUnit != ''">#{ownerUnit},</if>
+            <if test="telephone != null and telephone != ''">#{telephone},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNpCar" parameterType="NpCar">
+        update np_car
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="license != null and license !=''">license = #{license},</if>
+            <if test="state != null and state != ''">state = #{state},</if>
+            <if test="ownerUnit != null and ownerUnit != ''">owner_unit = #{ownerUnit},</if>
+            <if test="telephone != null and telephone != ''">telephone = #{telephone},</if>
+            <if test="email != null and email != ''">email = #{email},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where car_id = #{carId}
+    </update>
+
+    <delete id="deleteNpCarById" parameterType="Long">
+	    delete from np_car where car_id = #{carId}
+	</delete>
+
+    <delete id="deleteNpCarByIds" parameterType="Long">
+        delete from np_car where car_id in
+        <foreach collection="array" item="carId" open="(" separator="," close=")">
+            #{carId}
+        </foreach>
+    </delete>
+</mapper> 

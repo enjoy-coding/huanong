@@ -1,0 +1,122 @@
+<div class="mapBg"></div>
+<div class="bottomLayer ksxjForm fixedBtnBox">
+	<form class="layui-form bottomLayerFrom" id="ydxj2XjlbForm" action="">
+		<div class="layui-row layui-col-space5">
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">巡检人：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input"  name="inspectWorkerId" id="inspectWorkerId">
+						<input type="text" class="layui-input"  name="inspectWorker" id="inspectWorker">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">巡检时间：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">地点类型：</label>
+					<div class="layui-input-block">
+						<select name="serviceType" id="serviceType" lay-filter="aihaoSblx">
+							<option value=""></option>
+							<option value="0">配电房</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">巡检地点：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="serviceAddress" id="serviceAddress">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">设备状态：</label>
+					<div class="layui-input-block">
+						<select name="serviceStatus" id="serviceStatus"  lay-filter="aihaoStatus">
+							<option value=""></option>
+							<option value="0">无异常</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">异常记录：</label>
+					<div class="layui-input-block">
+						<button type="button" class="layui-btn bg_green fl" style="width:18%" onclick="ydxj.ydxj2Gl();">关联</button>
+					</div>
+				</div>
+			</div>
+			<div class="exceptionRecord">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">1.名称：</label>
+						<div class="layui-input-block">
+							<span class="formeTxt" name="serviceName" id="serviceName" >高压开关柜</span>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">状态：</label>
+						<div class="layui-input-block">
+							<select name="exceptionType" id="exceptionType" lay-filter="aihao">
+								<option value=""></option>
+								<option value="0">无异常</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+					<div class="layui-form-item">
+						<label class="layui-form-label">情况说明</label>
+						<div class="layui-input-block">
+							<textarea name="description" id="description" placeholder="请输入内容" class="layui-textarea" style="min-height:40px;"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注：</label>
+					<div class="layui-input-block">
+						<textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">多媒体：</label>
+					<div class="layui-input-block">
+						<!--<button type="button" class="layui-btn bg_green upload" id="test1">上传图片</button>-->
+						<a class="btn-2">
+							<input type="file" class="layui-btn bg_green upload" accept="image/*" id="upload" name="upload">
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="layui-upload">
+				<div class="layui-upload-list uploadList photo"  id="preview">
+					<img class="layui-upload-img">
+					<img class="layui-upload-img">
+					<img class="layui-upload-img">
+					<img class="layui-upload-img">
+					<p id="demoText"></p>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="fixedBtn">
+		<button type="button" class="layui-btn bg_green" onclick="ydxj.ydxjLookBack();" >返回</button>
+	</div>
+</div>

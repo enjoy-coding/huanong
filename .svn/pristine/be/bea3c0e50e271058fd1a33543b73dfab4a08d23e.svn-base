@@ -1,0 +1,18 @@
+<div class="title sgfxTitle">管网连接</div>
+<div class="txtC mb15 mbTop">
+    <button type="button" class="formBtn" onclick="GWYX.pickPoint()">选择</button>
+    <button type="button" class="formBtn" onclick="GWYX.lookProtry()">查看属性</button>
+    <button type="button" class="formBtn" onclick="GWYX.lzfxFun()">出线追溯</button>
+    <button type="button" class="formBtn" onclick="GWYX.closePick();GWYX.clearPickPoint()">清除</button>
+</div>
+<!--<div class="txtC zskgBtm">
+    &lt;!&ndash;<button type="button" class="formBtn" onclick="GWYX.cxzsFun()">出线追溯</button>
+    <button type="button" class="formBtn" onclick="GWYX.rxzsFun()">进线追溯</button>&ndash;&gt;
+</div>-->
+<div class="analyseResult" style="margin-top: 2.5vh">
+
+
+
+</div>
+
+

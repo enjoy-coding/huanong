@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('修改奖品')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet" />
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-prizes-edit" th:object="${scPrizes}">
+            <input id="prizesId" name="prizesId" th:field="*{prizesId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">奖品名称：</label>
+                <div class="col-sm-8">
+                    <input name="prizesName" th:field="*{prizesName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">奖品数量：</label>
+                <div class="col-sm-8">
+                    <input name="prizesNum" th:field="*{prizesNum}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">奖品兑换分数：</label>
+                <div class="col-sm-8">
+                    <input name="prizesScore" th:field="*{prizesScore}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">奖品图片：</label>
+                <div class="col-sm-8">
+                    <div id="Pic_pass">
+                        <div class="picDiv">
+                            <div class='imageDiv' th:each="f:${fileInfoList}">
+                                <img th:src="${f.filePath}" class="img" style="cursor:pointer;" />
+                                <div class='cover'><i class='editdelbtn' th:id="${f.fileId}">删除</i></div>
+                            </div>
+                            <div class="addImages">
+                                <input type="file" class="file" name="partyBuildCover" multiple="multiple"
+                                    accept="image/png, image/jpeg, image/jpg">
+                                <div class="text-detail">
+                                    <span>+</span>
+                                    <p>上传</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/prizes";
+        var file_prefix = ctx + "sc/fileInfo";
+        var imgList = [];
+
+
+        $("#form-prizes-edit").validate({
+            focusCleanup: true,
+            rules: {
+                prizesName: "required",
+                prizesNum: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                file_app: "required"
+            }
+        });
+
+        function isAdd() {
+            return $("#prizesId").val() ? false : true;
+        }
+        $(function () {
+            //添加图片
+            addImg(".file", imgList, 1 * 1024 * 1024, 5);
+            $(".editdelbtn").click(function () {
+                editImgDelete(this, file_prefix + "/remove");
+            });
+
+            $(".delbtn").click(function (obj, imgList) {
+                addImgDelete(obj);
+            });
+        })
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                    url: prefix + (isAdd() ? "/add" : "/edit"),
+                    data: $('#form-prizes-edit').serialize(),
+                    success: function (result, _option) {
+                        var id = 0;
+                        if (isAdd()) {
+                            id = result.data.prizesId;
+                        } else {
+                            id = $("#prizesId").val();
+                        }
+                        imgUploadAjax(file_prefix + "/add", id, imgList, "prizes", function (result) {
+                            $.operate.saveSuccess(result);
+                        });
+                        top.formmsg = result.msg;
+
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

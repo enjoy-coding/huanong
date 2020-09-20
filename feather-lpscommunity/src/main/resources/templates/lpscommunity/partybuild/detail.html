@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('修改信息')" />
+    <th:block th:include="include :: summernote-css" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet"/>
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-partybuild-edit" th:object="${partybuild}">
+            <input id="partyBuildId" name="partyBuildId" th:field="*{partyBuildId}" type="hidden">
+            <input id="partyBuildFile" name="partyBuildFile" th:field="*{partyBuildFile}" type="hidden">
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题：</label>
+                        <div class="col-sm-8">
+                            <input id="partyBuildTitle" name="partyBuildTitle" th:field="*{partyBuildTitle}"
+                                class="form-control" type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">类型：</label>
+                        <div class="col-sm-6">
+                            <select name="partyBuildType" id="partyBuildType" class="form-control m-b"
+                                th:with="type=${@dict.getType('sc_partybuild_type')}" disabled>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{partyBuildType}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">来源：</label>
+                        <div class="col-sm-8">
+                            <input id="partyBuildSource" name="partyBuildSource" th:field="*{partyBuildSource}"
+                                class="form-control" type="text" required disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">发布时间：</label>
+                        <div class="col-sm-6">
+                            <input id="partyBuildTime" name="partyBuildTime" th:field="*{partyBuildTime}"
+                                class="form-control" type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态：</label>
+                        <div class="col-sm-6">
+                            <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+                                <input type="radio" th:id="${dict.dictCode}" name="partyBuildStatus" 
+                                    th:value="${dict.dictValue}" th:field="*{partyBuildStatus}" required>
+                                <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--图片上传-->
+            <div id="changedivImg">
+                <h4 class="form-header h4">封面上传</h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">封面图片：</label>
+                            <div class="col-sm-10">
+                                <div id="Pic_pass">
+                                    <div class="picDiv">
+                                        <div class='imageDiv' th:each="f:${fileInfoList}">
+                                            <img th:src="${f.filePath}" class="img"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--内容-->
+            <div id="changedivContent" style="display: none">
+                <h4 class="form-header h4">内容上传</h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">内容：</label>
+                            <div class="col-sm-10">
+                                <input id="partyBuildContent" name="partyBuildContent" th:field="*{partyBuildContent}"
+                                    type="hidden">
+                               <textarea rows="5" class="form-control" disabled>
+                                   [[*{partyBuildContent}]]
+                               </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--视频上传-->
+            <div id="changedivVideo">
+                <h4 class="form-header h4">视频上传</h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">上传类型：</label>
+                            <div class="col-sm-8">
+                                <select name="videoUpdateType" id="videoUpdateType" class="form-control m-b"
+                                    th:with="type=${@dict.getType('video_upload_type')}" disabled>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}" th:field="${partybuild.videoUpdateType}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">视频：</label>
+                            <div class="col-sm-10">
+                                <div id="localUpload">
+                                    <div class="videoDiv">
+                                        <ul class="addVideo">
+                                            <li th:style="${videoUrl}==''?'display:none':''"><video id='videoss' controls='controls'> <source th:src="${videoUrl}"> </source></video><em onclick='delete_video(this,0)'>-</em></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="linkUoload">
+                                    <p>请输入腾讯，优酷地址</p>
+                                    <input type="text" id="partyBuildFile" class="form-control"
+                                        th:value="${partybuild.partyBuildFile}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>	
+        </form>
+    </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
+    <script type="text/javascript">
+       $(function () {
+            //设置富文本框
+            // $('.summernote').summernote({
+            //     placeholder: '请输入内容',
+            //     height: 192,
+            //     lang: 'zh-CN',
+            //     followingToolbar: false,
+            //     callbacks: {
+            //         onImageUpload: function (files) {
+            //             sendFile(files[0], this);
+            //         }
+            //     }
+            // });
+            // var content = $("#partyBuildContent").val();
+            // $('#editor').summernote('code', content);
+            // $("#editor").disable();
+            
+
+           
+
+            setPartyBuildTypeState();
+
+        });
+      
+        //根据类型设置可见状态
+        function setPartyBuildTypeState() {
+            if (isVideoType()) {
+                changeSelect(1);
+                if (isLocalVideoType()) {
+                    changeVideoUploadType(1)
+                } else {
+                    changeVideoUploadType(0)
+                }
+            } else {
+                changeSelect(0);
+                $("#changedivImg").show();
+            }
+        }
+
+         /**
+         * 是否是提交视频类型
+         */
+         function isVideoType() {
+            return $("#partyBuildType").find("option:selected").val() == "1" ? true : false;
+        }
+
+        /**
+         * 是否是本地视频提交
+         */
+         function isLocalVideoType() {
+            return $("#videoUpdateType").find("option:selected").val() == "upload_local" ? true : false;
+        }
+        
+        /**
+         *  根据下拉框控制视频上传和内容上传切换
+         */
+         function changeSelect(e) {
+            if (e == 1) {
+                $("#changedivContent").hide();//内容隐藏
+                $("#changedivVideo").show();//视频控件显示
+            } else {
+                $("#changedivContent").show();//内容显示
+                $("#changedivVideo").hide();//视频控件隐藏
+
+            }
+
+        }
+
+        /**
+         * 根据视频选中状态显示上传格式
+         */
+         function changeVideoUploadType(e) {
+            if (e == 1) {
+                $("#linkUoload").hide();//内容隐藏
+                $("#localUpload").show();//视频控件显示
+                $("#changedivImg").hide();//视频控件显示
+            } else {
+                $("#linkUoload").show();//内容隐藏
+                $("#localUpload").hide();//视频控件显示
+                $("#changedivImg").show();//视频控件显示
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.aupipes.mapper.AupBuildingWaterValveMapper">
+    
+    <resultMap type="AupBuildingWaterValve" id="AupBuildingWaterValveResult">
+        <result property="buildingNo"    column="building_no"  />
+        <result property="valveNo"       column="valve_no"     />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT" />
+        <result property="createBy"      column="create_by"    />
+        <result property="areaNo"        column="areaNo"       />
+        <result property="areaName"      column="areaName"     />
+        <result property="buildingName"  column="buildingName" />
+        <result property="buildingType"  column="buildingType" />
+        <result property="valveOid"      column="oid"          />
+        <result property="valveName"     column="r_name"       />
+    </resultMap>
+
+    <resultMap type="AupWaterValve" id="AupWaterValveResult">
+        <result property="vbCode"    column="vb_code"  />
+        <result property="vbType"       column="vb_type"     />
+        <result property="vbParent1"       column="vb_parent1"     />
+        <result property="vbParent2"       column="vb_parent2"     />
+        <result property="vbParent3"       column="vb_parent3"     />
+        <result property="vbParent4"       column="vb_parent4"     />
+        <result property="vbParent5"       column="vb_parent5"     />
+        <result property="vbLevel"       column="vb_level"     />
+        <result property="vbArea"       column="vb_area"     />
+        <result property="vbAreaName"       column="vb_area_name"     />
+        <result property="createBy"       column="create_by"     />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT" />
+        <result property="updateBy"       column="update_by"     />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT" />
+        <result property="fmOid"        column="fm_oid"       />
+        <result property="areaNo"        column="areaNo"       />
+        <result property="areaName"      column="areaName"     />
+        <result property="buildingName"  column="buildingName" />
+        <result property="buildingType"  column="buildingType" />
+        <result property="valveOid"      column="oid"          />
+        <result property="valveName"     column="r_name"       />
+    </resultMap>
+
+    <!-- 弃用  标绘楼栋查询 -->
+    <sql id="selectAupBuildingWaterValveVo">
+        select r.building_no, r.valve_no, r.create_by, r.create_time,
+               b.areaNo, b.areaName, b.buildingName, b.buildingType,
+               t.oid, t.r_name
+          from aup_building_watervalve r
+          left join aup_buildingType b on r.building_no = b.[No]
+          outer apply(
+	          select top 1 p.r_name, p.oid
+	            from LINK_SDE.sde.dbo.js_point p
+	           where r.valve_no = p.pipeP_id
+	           order by r_name desc
+	      ) t
+    </sql>
+
+    <!--  标绘阀门或者楼栋查询 -->
+    <sql id="selectAupWaterValveVo">
+        select r.vb_code, r.vb_type, r.vb_parent1, r.vb_parent2,
+                r.vb_parent3, r.vb_parent4, r.vb_parent5, r.vb_level,
+                r.vb_area, r.vb_area_name, r.create_by, r.create_time, r.update_by, r.update_time,r.fm_oid,
+               b.areaNo, b.areaName, b.buildingName, b.buildingType,
+               t.oid, t.r_name
+          from aup_watervalve r
+          left join aup_buildingType b on r.vb_code = b.[No]
+          outer apply(
+	          select top 1 p.r_name, p.oid
+	            from LINK_SDE.sde.dbo.js_point p
+	           where r.vb_code = p.pipeP_id
+	           order by r_name desc
+	      ) t
+    </sql>
+
+    
+    <select id="selectByBuilding" parameterType="String" resultMap="AupBuildingWaterValveResult">
+        <include refid="selectAupWaterValveVo"/>
+        where vb_code = #{building}
+    </select>
+    
+    <select id="selectByValve" parameterType="String" resultMap="AupBuildingWaterValveResult">
+        <include refid="selectAupWaterValveVo"/>
+        where vb_code in
+        <foreach item="valve" collection="array" open="(" separator="," close=")">
+            #{valve}
+        </foreach>
+    </select>
+    
+    
+    <!--<insert id="insertAupBuildingWaterValve" parameterType="AupBuildingWaterValve">
+        insert into aup_building_watervalve (building_no, valve_no, create_by, create_time)
+        values (#{buildingNo}, #{valveNo}, #{createBy}, #{createTime, jdbcType=BIGINT})
+    </insert>-->
+    <insert id="insertAupBuildingWaterValve" parameterType="AupWaterValve">
+        insert into aup_watervalve (vb_code, vb_type, vb_parent1, vb_parent2, vb_parent3, vb_parent4,
+          vb_parent5, vb_level, vb_area, vb_area_name, create_by, create_time, update_By, update_Time,fm_oid)
+        values (#{vbCode}, #{vbType}, #{vbParent1}, #{vbParent2}, #{vbParent3}, #{vbParent4}, #{vbParent5}, #{vbLevel}, #{vbArea},
+          #{vbAreaName}, #{createBy}, #{createTime, jdbcType=BIGINT}, #{updateBy}, #{updateTime, jdbcType=BIGINT},#{fmOid})
+    </insert>
+
+    
+    <delete id="deleteByBuilding" parameterType="String">
+        delete from aup_watervalve where vb_code = #{building}
+    </delete>
+
+    <delete id="deleteByValve" parameterType="String">
+        delete from aup_building_watervalve where valve_no = #{valve}
+    </delete>
+    
+    <delete id="deleteByBuildingAndValve">
+        delete from aup_building_watervalve where building_no = #{building} and valve_no = #{valve}
+    </delete>
+
+    <!-- 查询上游影响阀门 -->
+    <select id="selectByTypeAndValue" parameterType="String" resultMap="AupWaterValveResult">
+        <include refid="selectAupWaterValveVo"/>
+        where r.vb_type = #{chooseType} and r.vb_code = #{value}
+    </select>
+
+    <!-- 查询下游影响阀门 -->
+    <select id="selectByTypeAndValueForDown" parameterType="String" resultMap="AupWaterValveResult">
+        <include refid="selectAupWaterValveVo"/>
+        where  r.vb_type = #{chooseType} and r.vb_parent1= #{value}
+          or r.vb_parent2= #{value} or r.vb_parent3= #{value}
+          or r.vb_parent4= #{value} or r.vb_parent5= #{value}
+    </select>
+    
+</mapper>

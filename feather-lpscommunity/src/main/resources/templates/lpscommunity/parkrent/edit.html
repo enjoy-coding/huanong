@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="include :: datetimepicker-css" />
+
+<head>
+    <th:block th:include="include :: header('修改租用信息发布')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet"/>
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-parkrent-edit" th:object="${scParkrent}">
+            <input name="parkrentId" id="parkrentId" type="hidden" th:field="*{parkrentId}" />
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>标题：</label>
+                        <div class="col-sm-8">
+                            <input name="parkrentTitle" class="form-control" type="text" th:field="*{parkrentTitle}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>类型：</label>
+                        <div class="col-sm-6">
+                            <select name="sc_task_state1" class="form-control m-b"
+                                th:with="type=${@dict.getType('sc_task_state1')}" disabled>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{parkrentType}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>负责人：</label>
+                        <div class="col-sm-8">
+                            <input name="parkrentName" class="form-control" type="text" th:field="*{parkrentName}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>联系电话：</label>
+                        <div class="col-sm-8">
+                            <input name="parkrentTel" class="form-control" type="text" th:field="*{parkrentTel}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="row">-->
+<!--                <div class="col-sm-5">-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>开始时间：</label>-->
+<!--                        <div class="col-sm-8">-->
+<!--                            <input name="beginTime" class="form-control time-input" type="text" th:field="*{beginTime}">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-sm-5">-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>结束时间：</label>-->
+<!--                        <div class="col-sm-8">-->
+<!--                            <input name="endTime" class="form-control time-input" type="text" th:field="*{endTime}">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span class="requiredstar"></span>图片：</label>
+                        <div class="col-sm-10">
+                            <div id="Pic_pass">
+                                <p style="font-size: 20px;font-weight: bold;">请上传任务照片 </p>
+                                <p><span style="color: red">注：每张照片大小不可超过4M，且最多可以传十张</span></p>
+                                <div class="picDiv">
+                                    <div class='imageDiv' th:each="f:${scFileInfoList}">
+                                        <img th:src="${f.filePath}"  style="cursor:pointer;" />
+                                        <div class='cover'><i class='editdelbtn' th:id="${f.fileId}">删除</i></div>
+                                    </div>
+                                    <div class="addImages">
+                                        <input type="file" class="file" name="file" multiple="multiple"
+                                            accept="image/png, image/jpeg, image/jpg">
+                                        <div class="text-detail">
+                                            <span>+</span>
+                                            <p>点击上传</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">内容：</label>
+                        <div class="col-xs-8">
+                            <textarea name="parkrentContent" maxlength="500" class="form-control"
+                                rows="5"> [[*{parkrentContent}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/parkrent";
+        var file_prefix = ctx + "sc/fileInfo";
+        var imgList = [];//接收的集合
+        $(function () {
+            //文件上传
+            addImg(".file", imgList);
+            $(".editdelbtn").click(function() {
+                editImgDelete(this,file_prefix+"/remove");
+            });
+            
+            $(".delbtn").click(function(obj,imgList) {
+                addImgDelete(obj);
+            });
+        });
+
+        $("#form-parkrent-edit").validate({
+            focusCleanup: true
+        });
+
+        function isAdd() {
+            return $("#parkrentId").val() ? false : true;
+        }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                    url: prefix + (isAdd() ? "/add" : "/edit"),
+                    data: $('#form-parkrent-edit').serialize(),
+                    success: function (result, _option) {
+                        var id = 0;
+                        if (isAdd()) {
+                            id = result.data.parkrentId;
+                        } else {
+                            id = $("#parkrentId").val();
+                        }
+                        imgUploadAjax(file_prefix + "/add", id, imgList, "parkrent", function (result) {
+                            $.operate.saveSuccess(result);
+                        });
+                    }
+                });
+            }
+        }
+
+        $("input[name='beginTime']").datetimepicker({
+                format: "yyyy-mm-dd",
+                minView: "month",
+                autoclose: true
+            });
+
+        $("input[name='endTime']").datetimepicker({
+                format: "yyyy-mm-dd",
+                minView: "month",
+                autoclose: true
+            });
+    </script>
+</body>
+
+</html>

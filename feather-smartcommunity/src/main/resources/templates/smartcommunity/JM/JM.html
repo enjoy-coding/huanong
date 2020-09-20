@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('居民列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <p>居民id：</p>
+                            <input type="text" name="jmid"/>
+                        </li>
+                        <li>
+                            <p>姓名：</p>
+                            <input type="text" name="xm"/>
+                        </li>
+                        <li>
+                            <p>性别：</p>
+                            <input type="text" name="xb"/>
+                        </li>
+                        <li>
+                            <p>电话：</p>
+                            <input type="text" name="dh"/>
+                        </li>
+                        <li>
+                            <p>年龄：</p>
+                            <input type="text" name="nl"/>
+                        </li>
+                        <li>
+                            <p>籍贯：</p>
+                            <input type="text" name="jg"/>
+                        </li>
+                        <li>
+                            <p>户籍性质：</p>
+                            <input type="text" name="hjxz"/>
+                        </li>
+                        <li>
+                            <p>民族：</p>
+                            <input type="text" name="mz"/>
+                        </li>
+                        <li>
+                            <p>政治面貌：</p>
+                            <input type="text" name="zzmm"/>
+                        </li>
+                        <li>
+                            <p>学历：</p>
+                            <input type="text" name="xl"/>
+                        </li>
+                        <li>
+                            <p>是否租户(是,否)：</p>
+                            <select name="sfzh" th:with="type=${@dict.getType('zhsq_sfzh')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否房主(是,否)：</p>
+                            <select name="sffz" th:with="type=${@dict.getType('zhsq_sffz')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>房屋id：</p>
+                            <input type="text" name="fwid"/>
+                        </li>
+                        <li>
+                            <p>楼栋id：</p>
+                            <input type="text" name="ldid"/>
+                        </li>
+                        <li>
+                            <p>住址：</p>
+                            <input type="text" name="zz"/>
+                        </li>
+                        <li>
+                            <p>是否独居老人(是,否)：</p>
+                            <select name="sfdj" th:with="type=${@dict.getType('zhsq_sfdj')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否空巢老人(是,否)：</p>
+                            <select name="sfkc" th:with="type=${@dict.getType('zhsq_sfkc')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否刑满释放(是,否)：</p>
+                            <select name="sfxmsf" th:with="type=${@dict.getType('zhsq_sfxmsf')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否退役军人(是,否)：</p>
+                            <select name="sftyjr" th:with="type=${@dict.getType('zhsq_sftyjr')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否低保(是,否)：</p>
+                            <select name="sfdb" th:with="type=${@dict.getType('zhsq_sfdb')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <p>是否残疾人(是,否)：</p>
+                            <select name="sfcj" th:with="type=${@dict.getType('zhsq_sfcjr')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="smartcommunity:JM:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="smartcommunity:JM:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="smartcommunity:JM:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="smartcommunity:JM:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('smartcommunity:JM:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('smartcommunity:JM:remove')}]];
+    var sfzhDatas = [[${@dict.getType('zhsq_sfzh')}]];
+    var sffzDatas = [[${@dict.getType('zhsq_sffz')}]];
+    var sfdjDatas = [[${@dict.getType('zhsq_sfdj')}]];
+    var sfkcDatas = [[${@dict.getType('zhsq_sfkc')}]];
+    var sfxmsfDatas = [[${@dict.getType('zhsq_sfxmsf')}]];
+    var sftyjrDatas = [[${@dict.getType('zhsq_sftyjr')}]];
+    var sfdbDatas = [[${@dict.getType('zhsq_sfdb')}]];
+    var sfcjDatas = [[${@dict.getType('zhsq_sfcjr')}]];
+    var prefix = ctx + "smartcommunity/JM";
+
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "居民",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'jmid',
+                    title : '居民id'
+                },
+                {
+                    field : 'xm',
+                    title : '姓名'
+                },
+                {
+                    field : 'xb',
+                    title : '性别'
+                },
+                {
+                    field : 'dh',
+                    title : '电话'
+                },
+                {
+                    field : 'nl',
+                    title : '年龄'
+                },
+                {
+                    field : 'jg',
+                    title : '籍贯'
+                },
+                {
+                    field : 'hjxz',
+                    title : '户籍性质'
+                },
+                {
+                    field : 'mz',
+                    title : '民族'
+                },
+                {
+                    field : 'zzmm',
+                    title : '政治面貌'
+                },
+                {
+                    field : 'xl',
+                    title : '学历'
+                },
+                {
+                    field : 'sfzh',
+                    title : '是否租户(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfzhDatas, value);
+                    }
+                },
+                {
+                    field : 'sffz',
+                    title : '是否房主(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sffzDatas, value);
+                    }
+                },
+                {
+                    field : 'fwid',
+                    title : '房屋id'
+                },
+                {
+                    field : 'ldid',
+                    title : '楼栋id'
+                },
+                {
+                    field : 'zz',
+                    title : '住址'
+                },
+                {
+                    field : 'sfdj',
+                    title : '是否独居老人(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfdjDatas, value);
+                    }
+                },
+                {
+                    field : 'sfkc',
+                    title : '是否空巢老人(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfkcDatas, value);
+                    }
+                },
+                {
+                    field : 'sfxmsf',
+                    title : '是否刑满释放(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfxmsfDatas, value);
+                    }
+                },
+                {
+                    field : 'sftyjr',
+                    title : '是否退役军人(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sftyjrDatas, value);
+                    }
+                },
+                {
+                    field : 'sfdb',
+                    title : '是否低保(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfdbDatas, value);
+                    }
+                },
+                {
+                    field : 'sfcj',
+                    title : '是否残疾人(是,否)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sfcjDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.jmid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.jmid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

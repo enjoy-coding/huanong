@@ -1,0 +1,62 @@
+<!-- 拉闸分析下方详情 -->
+
+<style>
+    .layui-tree-set {
+        width: 0%;
+        position: relative;
+    }
+
+    .layui-tree-txt {
+        display: inline-block;
+        vertical-align: middle;
+        color: #5efffd;
+    }
+</style>
+
+<div class="pr vh">
+    <span class="closeBtn pa" onclick="closeBtn()"><i class="iconfont icon-guanbi"></i></span>
+    <!--拉闸分析111-->
+    <div class="layui-tab layuiTab2" lay-filter="bottomTab" id="bottom-panel">
+        <ul class="layui-tab-title" th:switch="${modelName}">
+            <span th:case="lzxd" >
+                <li class="layui-this">拉闸分析详情</li>
+                <li>影响楼栋详情</li>
+                <li>推送用户详情</li>
+            </span>
+            <span th:case="gfts">
+                <li class="layui-this">关阀分析详情</li>
+                <!--<li>影响阀门详情</li>-->
+                <li>影响楼栋详情</li>
+                <li>推送用户详情</li>
+            </span>
+
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="table moreTable page">
+                    <div id="lffxTable" lay-filter="lffxFilter"></div>
+                </div>
+            </div>
+           <!-- <div class="layui-tab-item" th:if="${modelName} eq 'gfts'">
+                <div class="table moreTable page">
+                    <div id="gxfxTable" lay-filter="gxfxFilter"></div>
+                </div>
+            </div>-->
+            <div class="layui-tab-item">
+                <div class="table moreTable page">
+                    <div id="yxfwTable" lay-filter="yxfwFilter"></div>
+                </div>
+            </div>
+            <div class="layui-tab-item pr">
+                <div class="table moreTable page">
+                    <!--<div id="hqyhTabe" style="height: 20vh;overflow-y: auto" ></div>-->
+                    <div id="hqyhTabe" lay-filter="hqyhFilter" ></div>
+                </div>
+                <!--消息发送按钮-->
+                <div class="pa xxfsBtn">
+                    <button type="button" class="xxts" onclick="JCBZ.jcbzLayuiBox()"><i class="iconfont icon-dian"></i>信息推送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

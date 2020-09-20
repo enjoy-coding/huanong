@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改人员巡检')"/>
+    <link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css}" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-task-edit" th:object="${inspect}">
+        <input id="id" name="id" th:field="*{id}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">任务名称：</label>
+            <div class="col-sm-8">
+                <input name="taskName" th:field="*{inspectName}" class="form-control" type="text" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">巡检人员：</label>
+            <div class="col-sm-8">
+                <input name="username" th:field="*{inspectWorker}" class="form-control" type="text" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">开始时间：</label>
+            <div class="col-sm-8">
+                <input name="createDate" th:field="*{startTime}" class="form-control" type="text" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">上传图片：</label>
+            <div class="col-sm-8">
+                <!--<input id="filePath" name="filePath" class="form-control" type="file">-->
+                <button id="filePath" type="button" class="layui-btn formBtn">选择文件</button>
+                <button style="display: none" id="fileUpload" type="button" class="layui-btn formBtn"><i></i>上传</button>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "aupipes/task";
+    var uploadFileApi = ctx + "aupipes/info/add";
+    $("#form-task-edit").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#id").val() ? false : true;
+    }
+
+    function submitHandler() {
+        $.modal.loading("上传图片中");
+        $("#fileUpload").click();
+        // if ($.validate.form()) {
+        //     $.operate.save({
+        //         url: prefix + (isAdd() ? "/add" : "/edit"),
+        //         data: $('#form-task-edit').serialize(),
+        //         success: function (result, _option) {
+        //             if (isAdd()) {
+        //                 if (result.data.taskId) {
+        //                     top.formmsg = result.msg;
+        //                     location.href = prefix + "/edit/" + result.data.id;
+        //                 } else {
+        //                     $.modal.msgError("没有返回数据：taskId");
+        //                 }
+        //             } else {
+        //                 $.modal.msgSuccess(result.msg);
+        //             }
+        //         }
+        //     });
+        // }
+    }
+
+    $(function(){
+        uploadFileInit();
+    })
+
+    //上传文件方法渲染
+    function uploadFileInit() {
+        layui.use('upload', function() {
+            layui.upload.render({
+                elem: '#filePath', //绑定元素
+                url: uploadFileApi, //上传接口
+                data: {
+                    file_code: function () {
+                        return $('#id').val();
+                    }
+                },
+                auto: false,
+                before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                },
+                allDone: function (obj) { //当文件全部被提交后，才触发
+                    // console.log(obj.total); //得到总文件数
+                    // console.log(obj.successful); //请求成功的文件数
+                    // console.log(obj.aborted); //请求失败的文件数
+                    // layer.closeAll('loading');
+                    // layer.alert("上传成功");
+                    var parent = window.parent;
+                    $.modal.close();
+                    parent.$.modal.msgSuccess("提交成功");
+                    parent.$.table.refresh();
+                },
+                error: function () {
+                    //请求异常回调
+                    layer.closeAll('loading');
+                },
+                multiple: true,
+                number: 9,
+                accept: 'file', //允许上传的文件类型
+                acceptMime: 'image/jpg, image/jpeg, image/bmp, image/png',
+                exts: 'jpg|png|bmp|jpeg',
+                size: 20480, //最大允许上传的文件大小20MB
+                bindAction: '#fileUpload'
+            });
+        });
+    }
+</script>
+</body>
+</html>

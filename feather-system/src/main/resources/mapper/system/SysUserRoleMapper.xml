@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.system.mapper.SysUserRoleMapper">
+
+	<resultMap type="SysUserRole" id="SysUserRoleResult">
+		<result property="userId"     column="user_id"   />
+		<result property="loginName"  column="login_name" />
+		<result property="userName"   column="user_name" />
+		<result property="roleId"     column="role_id"   />
+		<result property="roleKey"    column="role_key"  />
+		<result property="roleName"   column="role_name" />
+	</resultMap>
+	
+	<select id="selectUserByRoleKeys" parameterType="String" resultMap="SysUserRoleResult">
+		select u.user_id, u.login_name, u.user_name, 
+		       r.role_id, r.role_key, r.role_name
+		  from sys_user u
+		  join sys_user_role ur on ur.user_id = u.user_id
+		  join sys_role r on r.role_id = ur.role_id
+		 where r.role_key in
+		 <foreach collection="array" item="roleKey" open="(" separator="," close=")">
+ 			#{roleKey}
+        </foreach> 
+	</select>
+
+	<delete id="deleteUserRoleByUserId" parameterType="Long">
+		delete from sys_user_role where user_id=#{userId}
+	</delete>
+	
+	<select id="countUserRoleByRoleId" resultType="Integer">
+	    select count(1) from sys_user_role where role_id=#{roleId}  
+	</select>
+	
+	<select id="countUserRoleByRoleIdAndUserId" resultType="Integer" parameterType="SysUserRole">
+	    select count(1) from sys_user_role where role_id=#{roleId} and user_id=#{userId}
+	</select>
+	
+	<delete id="deleteUserRole" parameterType="Long">
+ 		delete from sys_user_role where user_id in
+ 		<foreach collection="array" item="userId" open="(" separator="," close=")">
+ 			#{userId}
+        </foreach> 
+ 	</delete>
+	
+	<insert id="insertUserRole" parameterType="SysUserRole">
+		insert into sys_user_role(user_id, role_id) values (#{userId}, #{roleId})
+	</insert>
+	
+	<insert id="batchUserRole">
+		insert into sys_user_role(user_id, role_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.userId},#{item.roleId})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteUserRoleInfo" parameterType="SysUserRole">
+		delete from sys_user_role where user_id=#{userId} and role_id=#{roleId}
+	</delete>
+	
+	<delete id="deleteUserRoleInfos">
+	    delete from sys_user_role where role_id=#{roleId} and user_id in
+ 	    <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+ 	        #{userId}
+        </foreach>
+	</delete>
+</mapper> 

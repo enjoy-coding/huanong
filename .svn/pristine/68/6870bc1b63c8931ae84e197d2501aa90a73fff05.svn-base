@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupRepairMapper">
+    
+    <resultMap type="AupRepair" id="AupRepairResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="repairTime"    column="repair_time"    />
+        <result property="address"    column="address"    />
+        <result property="location"    column="location"    />
+        <result property="faultType"    column="fault_type"    />
+        <result property="faultId"    column="fault_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="description"    column="description"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAupRepairVo">
+        select id, name, user_id, user_name, repair_time, address, location, fault_type, fault_id, device_id, device_name, description, create_time, update_time from aup_repair
+    </sql>
+
+    <select id="selectAupRepairList" parameterType="AupRepair" resultMap="AupRepairResult">
+        <include refid="selectAupRepairVo"/>
+        <where>  
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and name like #{_name}
+            </if>
+            <if test="id != null  and id != ''">
+            	and id = #{id}
+            </if>
+            <if test="userId != null ">
+            	<bind name="_userId" value="'%'+ userId +'%'"/>
+            	and user_id like #{_userId}
+            </if>
+            <if test="userName != null  and userName != ''">
+            	<bind name="_userName" value="'%'+ userName +'%'"/>
+            	or user_name like #{_userName}
+            </if>
+            <if test="repairTime != null  and repairTime != ''">
+            	<bind name="_repairTime" value="'%'+ repairTime +'%'"/>
+            	and repair_time like #{_repairTime}
+            </if>
+            <if test="address != null  and address != ''">
+            	<bind name="_address" value="'%'+ address +'%'"/>
+            	and address like #{_address}
+            </if>
+            <if test="location != null  and location != ''">
+            	<bind name="_location" value="'%'+ location +'%'"/>
+            	and location like #{_location}
+            </if>
+            <if test="faultType != null  and faultType != ''">
+            	<bind name="_faultType" value="'%'+ faultType +'%'"/>
+            	and fault_type like #{_faultType}
+            </if>
+            <if test="faultId != null ">
+            	<bind name="_faultId" value="'%'+ faultId +'%'"/>
+            	and fault_id like #{_faultId}
+            </if>
+            <if test="deviceId != null ">
+            	<bind name="_deviceId" value="'%'+ deviceId +'%'"/>
+            	and device_id like #{_deviceId}
+            </if>
+            <if test="deviceName != null  and deviceName != ''">
+            	<bind name="_deviceName" value="'%'+ deviceName +'%'"/>
+            	and device_name like #{_deviceName}
+            </if>
+            <if test="description != null  and description != ''">
+            	<bind name="_description" value="'%'+ description +'%'"/>
+            	and description like #{_description}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND repair_time >= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND #{params.endTime} >= repair_time
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectAupRepairById" parameterType="Long" resultMap="AupRepairResult">
+    </select>
+        
+    <insert id="insertAupRepair" parameterType="AupRepair">
+        insert into aup_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="repairTime != null ">repair_time,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="location != null  and location != ''">location,</if>
+            <if test="faultType != null  and faultType != ''">fault_type,</if>
+            <if test="faultId != null ">fault_id,</if>
+            <if test="deviceId != null ">device_id,</if>
+            <if test="deviceName != null  and deviceName != ''">device_name,</if>
+            <if test="description != null  and description != ''">description,</if>
+            <if test="createTime != null ">create_time,</if>
+            update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="repairTime != null ">#{repairTime},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="location != null  and location != ''">#{location},</if>
+            <if test="faultType != null  and faultType != ''">#{faultType},</if>
+            <if test="faultId != null ">#{faultId},</if>
+            <if test="deviceId != null ">#{deviceId},</if>
+            <if test="deviceName != null  and deviceName != ''">#{deviceName},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="createTime != null ">GETDATE(),</if>
+            GETDATE()
+         </trim>
+    </insert>
+
+    <update id="updateAupRepair" parameterType="AupRepair">
+        update aup_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="repairTime != null ">repair_time = #{repairTime},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="location != null  and location != ''">location = #{location},</if>
+            <if test="faultType != null  and faultType != ''">fault_type = #{faultType},</if>
+            <if test="faultId != null ">fault_id = #{faultId},</if>
+            <if test="deviceId != null ">device_id = #{deviceId},</if>
+            <if test="deviceName != null  and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+            update_time = GETDATE()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupRepairById" parameterType="Long">
+        delete from aup_repair where id = #{id}
+    </delete>
+
+    <delete id="deleteAupRepairByIds" parameterType="String">
+        delete from aup_repair where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

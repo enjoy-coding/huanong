@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.patrol.mapper.FacilityMapper">
+    
+    <resultMap type="Facility" id="FacilityResult">
+        <result property="facility_id"             column="facility_id" />
+        <result property="facility_category"       column="facility_category" />
+        <result property="facility_category_name"  column="facility_category_name" />
+        <result property="facility_mileage"        column="facility_mileage"   />
+        <result property="facility_line"           column="facility_line"      />
+        <result property="facility_direction"      column="facility_direction" />
+        <collection  property="standard"  javaType="java.util.List"  resultMap="StandardResult" />
+    </resultMap>
+	
+	<resultMap id="StandardResult" type="Standard">
+		<result property="dictionary_id"  column="dictionary_id" />
+		<result property="dictionary_value"  column="dictionary_value" />
+		<result property="dictionary_description"  column="dictionary_description"   />
+	</resultMap>
+
+    
+    <select id="selectFacilityByQrcode" parameterType="String" resultMap="FacilityResult">
+        select c.card_id as facility_id, c.card_type as facility_category, c.card_mileage as facility_mileage, c.card_line as facility_line, 
+               s.dict_code as dictionary_id, s.dict_label as dictionary_value, s.remark as dictionary_description, 
+               t.dict_label as facility_category_name, 
+               r.dict_label as facility_direction
+        from ptr_card c
+        left join sys_dict_data s on s.dict_type = 'patrol_standard_'+ c.card_type
+        left join sys_dict_data t on t.dict_type = 'patrol_card_type' and t.dict_value = c.card_type
+        left join sys_dict_data r on r.dict_type = 'patrol_side_type' and r.dict_value = c.card_side
+        where (card_qrcode1 = #{cardQrcode}
+            or card_qrcode2 = #{cardQrcode}
+            or card_qrcode3 = #{cardQrcode}
+            or card_qrcode4 = #{cardQrcode}
+            or card_qrcode5 = #{cardQrcode})
+        order by s.dict_sort
+    </select>
+    
+    
+</mapper>

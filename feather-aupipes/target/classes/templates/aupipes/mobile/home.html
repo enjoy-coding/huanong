@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>能源保障服务平台</title>
+	<link rel="stylesheet" th:href="@{/def/libs/layui-2.5.5/css/layui.css}">
+	<link th:href="@{/def/libs/swiper/css/swiper.min.css}" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/bus/aupipes/mobile/css/font.css}">
+	<link rel="stylesheet" th:href="@{/bus/aupipes/mobile/font/iconfont.css(v=${staticResourcesVersion})}" />
+	<link rel="stylesheet" th:href="@{/bus/aupipes/mobile/css/css.css(v=${staticResourcesVersion})}" />
+	<style type="text/css">
+		body{
+			background:#02484a;
+			overflow-x: hidden;
+		}
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+	<script th:inline="javascript">
+		var ctx = [[@{/}]];
+		var staticResourcesVersion = [[${staticResourcesVersion}]];
+		var aupipeService = [[${aupipeService}]];
+		var celouService = [[${celouService}]];
+		var weixinService = [[${weixinService}]];
+	</script>
+</head>
+<body>
+<div class="homeBox" id="app" v-cloak>
+	<img class="logo" th:src="@{/bus/aupipes/mobile/images/homeLogo.png}" alt="" />
+	<div class="titleStyle1">运行监控</div>
+	<div class="homeYxjk">
+		<div class="layui-row layui-col-space20">
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconjiankong"></i></h5>
+				<h3>竟达水表</h3>
+				<p><span class="txt_color_orange">{{yxjk[5].number}}</span><span>/{{ yxjk[5].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconpeidianfang"></i></h5>
+				<h3>竟达电表</h3>
+				<p><span class="txt_color_orange">{{yxjk[4].number}}</span><span>/{{ yxjk[4].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconjiankong"></i></h5>
+				<h3>盛帆水表</h3>
+				<p><span class="txt_color_orange">{{yxjk[8].number}}</span><span>/{{ yxjk[8].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconpeidianfang"></i></h5>
+				<h3>盛帆电表</h3>
+				<p><span class="txt_color_orange">{{yxjk[9].number}}</span><span>/{{ yxjk[9].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont icondengpao"></i></h5>
+				<h3>路灯</h3>
+				<p><span class="txt_color_orange">{{yxjk[2].number}}</span><span>/{{ yxjk[2].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconleidatance"></i></h5>
+				<h3>探漏</h3>
+				<p><span class="txt_color_orange">{{yxjk[3].number}}</span><span>/{{ yxjk[3].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconshexiangtou"></i></h5>
+				<h3>安防</h3>
+				<p><span class="txt_color_orange">{{yxjk[7].number}}</span><span>/{{ yxjk[7].total }}</span></p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+				<h5><i class="iconfont iconhumidity"></i></h5>
+				<h3>水质</h3>
+				<p><span class="txt_color_orange">{{yxjk[6].number}}</span><span>/{{ yxjk[6].total }}</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="titleStyle1">预警处置 <a th:href="@{/mobile/index?menuCode=yjcz}">MORE</a></div>
+	<div class="homeYjcz" id="fragment-yjcz">
+		<ul class="swiper-wrapper">
+			<li v-for="item in yjcz" class="swiper-slide">
+				<a @click="localToYj(item.formSysName,item.id)">
+					<img :src=`${ctx=='/'?'':ctx}/bus/aupipes/mobile/images/grade${item.level}.gif` alt="" />
+					<p>{{ item.content }}</p>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="titleStyle1">决策保障</div>
+	<div class="homeJcbz">
+		<span style="width: 28%;"><a th:href="@{/mobile/index?menuCode=lzxd}">拉闸限电</a></span>
+		<span style="width: 28%;"><a th:href="@{/mobile/index?menuCode=gfts}">关阀停水</a></span>
+		<span style="width: 28%;"><a th:href="@{/mobile/index?menuCode=kwfx}">开挖分析</a></span>
+		<!--<span>智能排管</span>
+		<span>出线分析</span>-->
+	</div>
+	<div class="titleStyle1">路灯情况 <a th:href="@{/mobile/index?menuCode=ld}">MORE</a></div>
+	<div class="layui-row layui-col-space10 homeLdqk">
+		<div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+			<span class="txt_color_blue">开灯时间：</span><span class="time">{{ ldqk.openLightTime }}</span>
+		</div>
+		<div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+			<span class="txt_color_blue">关灯时间：</span><span class="time">{{ ldqk.closeLightTime }}</span>
+		</div>
+		<div class="layui-col-md8 layui-col-sm8 layui-col-xs8">
+			<div class="bg of">
+				<div class="tj">
+					<img th:src="@{/bus/aupipes/mobile/images/echartsIcon.png}" />
+					<h5>{{ ldqk.controllerOnlineCount }}/{{ ldqk.controllerTotalCount }}</h5>
+					<h6>控制器数量统计</h6>
+					<p>(在线数/总数)</p>
+				</div>
+				<div class="tj">
+					<img th:src="@{/bus/aupipes/mobile/images/echartsIcon.png}" />
+					<h5>{{ ldqk.lightsCount }}/{{ ldqk.totalCount }}</h5>
+					<h6>数量统计</h6>
+					<p>(亮灯数/总数)</p>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="homeEnergyUsed">
+				<img th:src="@{/bus/aupipes/mobile/images/ElectricityIcon.png}" alt="" />
+				<h5>{{ ldqk.powerConsumption }}</h5>
+				<p>日用电量(度)</p>
+			</div>
+		</div>
+	</div>
+	<div class="titleStyle1">能耗监管 <a th:href="@{/mobile/index?menuCode=nhjg}">MORE</a></div>
+	<div class="homeNhjg">
+		<div class="layui-row">
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>昨日用电量(万度)</h5>
+				<p>{{ele.useNumberYesterDay}}</p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>昨日用水量(万吨)</h5>
+				<p>{{water.useNumberYesterDay}}</p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>月用电量(万度)</h5>
+				<p>{{ele.useNumberMonth}}</p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>月用水量(万吨)</h5>
+				<p>{{water.useNumberMonth}}</p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>年用电量(万度)</h5>
+				<p>{{ele.useNumberYear}}</p>
+			</div>
+			<div class="layui-col-md3 layui-col-sm6 layui-col-xs6 energyUsedNumber">
+				<h5>年用水量(万吨)</h5>
+				<p>{{water.useNumberYear}}</p>
+			</div>
+			<!--<div class="layui-col-md3 layui-col-sm3 layui-col-xs3 percentage">
+                <h5>电量环比</h5>
+                <p><i class="iconfont iconjiantou-copy"></i><span>12</span>%</p>
+            </div>
+            <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 percentage">
+                <h5>用电耗损率</h5>
+                <p><span>4</span>%</p>
+            </div>
+            <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 percentage">
+                <h5>水量环比</h5>
+                <p class="blue"><i class="iconfont iconjiantou-copy1"></i><span>1</span>%</p>
+            </div>
+            <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 percentage">
+                <h5>用水耗损率</h5>
+                <p class="blue"><span>1</span>%</p>
+            </div>-->
+		</div>
+	</div>
+	<div class="titleStyle1">泵房信息</div>
+	<div class="homeBfxx" id="homeBfxx">
+		<div class="swiper-wrapper">
+			<div class="content swiper-slide" v-for="item in bfInfo">
+				<h6 class="title">{{ item.name }}</h6>
+				<div class="txt">
+					<dl v-for="key in item.bz">
+						<dt>{{ key.bzmc }}</dt>
+						<dd>
+							<p>{{ key.ckyl }}bar</p>
+							<h6>{{ key.ckmc }}</h6>
+						</dd>
+						<dd>
+							<p>{{ key.sxyw ? key.sxyw:0 }}m</p>
+							<h6>水箱液位</h6>
+						</dd>
+					</dl>
+					<!--<dl>
+                        <dt>西池机组</dt>
+                        <dd>
+                            <p>3.8bar</p>
+                            <h6>出口压力</h6>
+                        </dd>
+                        <dd>
+                            <p>4.0m</p>
+                            <h6>水箱液压</h6>
+                        </dd>
+                    </dl>-->
+				</div>
+			</div>
+		</div>
+
+		<!--<div class="content">
+			<h6 class="title">西苑泵房</h6>
+			<div class="txt">
+				<dl>
+					<dt>高层泵组</dt>
+					<dd>
+						<p>4.5bar</p>
+						<h6>出口压力</h6>
+					</dd>
+					<dd>
+						<p>3.9m</p>
+						<h6>水箱液位</h6>
+					</dd>
+				</dl>
+				<dl>
+					<dt>低层泵组</dt>
+					<dd>
+						<p>6.0bar</p>
+						<h6>出口压力</h6>
+					</dd>
+					<dd>
+						<p>3.8m</p>
+						<h6>水箱液压</h6>
+					</dd>
+				</dl>
+			</div>
+		</div>-->
+	</div>
+	<div class="titleStyle1">能源业务 <a th:href="@{/mobile/index?menuCode=xjwx}">MORE</a></div>
+	<div class="homeXjwx">
+		<h4 class="of">巡检<span style="padding-left: 37px;">当月数：<i>{{ xjwx.dy?xjwx.dy:0 }}</i></span><span class="fr">总数：<i>{{ xjwx.num?xjwx.num:0 }}</i></span></h4>
+		<div class="layui-row content">
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconxunjian2 txt_color_yellow"></i><span>{{ xjwx.zx?xjwx.zx:0 }}</span></h5>
+				<p class="txt_color_yellow">处理中</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconcalender txt_color_orange"></i><span>{{ xjwx.wx?xjwx.wx:0 }}</span></h5>
+				<p class="txt_color_orange">待处理</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconwancheng1 txt_color_green"></i><span>{{ xjwx.yx?xjwx.yx:0 }}</span></h5>
+				<p class="txt_color_green">已完成</p>
+			</div>
+		</div>
+		<h4 class="of">报修<span style="padding-left: 37px;">当月数：<i>{{ bx.zx?bx.zx:0 }}</i></span><span class="fr">总数：<i>{{ bx.num?bx.num:0 }}</i></span></h4>
+		<div class="layui-row content">
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconcalender txt_color_orange"></i><span>{{ bx.wx?bx.wx:0 }}</span></h5>
+				<p class="txt_color_orange">处理中</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconxunjian2 txt_color_yellow"></i><span>{{ bx.dcl?bx.dcl:0 }}</span></h5>
+				<p class="txt_color_yellow">待处理</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconwancheng1 txt_color_green"></i><span>{{ bx.yx?bx.yx:0 }}</span></h5>
+				<p class="txt_color_green">已完成</p>
+			</div>
+		</div>
+		<h4 class="of">事务督办<span style="padding-left: 5px;">当月数：<i>{{ swdb.dy?swdb.dy:0 }}</i></span><span class="fr">总数：<i>{{ swdb.num?swdb.num:0 }}</i></span></h4>
+		<div class="layui-row content">
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconxunjian2 txt_color_yellow"></i><span>{{ swdb.zx?swdb.zx:0 }}</span></h5>
+				<p class="txt_color_yellow">处理中</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconcalender txt_color_orange"></i><span>{{ swdb.wx?swdb.wx:0 }}</span></h5>
+				<p class="txt_color_orange">待处理</p>
+			</div>
+			<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+				<h5><i class="iconfont iconwancheng1 txt_color_green"></i><span>{{ swdb.yx?swdb.yx:0 }}</span></h5>
+				<p class="txt_color_green">已完成</p>
+			</div>
+		</div>
+	</div>
+	<div class="titleStyle1">子系统入口</div>
+	<div class="layui-row systemEntrance">
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="http://nydt.hzau.edu.cn/MobileHome/Index" id="jlsf">
+					<h5><i class="iconfont iconxunhuan"></i></h5>
+					<p>能源大厅</p>
+				</a>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="" id="jnjgURL">
+					<h5 class="bg_2"><i class="iconfont iconjianguan"></i></h5>
+					<p>节能监管</p>
+				</a>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="javascript:void(0);" @click="openld();" id="ldURL">
+					<h5 class="bg_3"><i class="iconfont icondengpao"></i></h5>
+					<p>路灯</p>
+				</a>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="javascript:void(0);" @click="openbf()" >
+					<h5 class="bg_4"><i class="iconfont iconshuibeng"></i></h5>
+					<p>泵房</p>
+				</a>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="javascript:void(0);" @click="opentl()">
+					<h5 class="bg_5"><i class="iconfont iconleidatance"></i></h5>
+					<p>探漏</p>
+				</a>
+			</div>
+		</div>
+		<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+			<div class="txt">
+				<a href="" id="AqglURL">
+					<h5 class="bg_6"><i class="iconfont iconshexiangtou"></i></h5>
+					<p>智能安防</p>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script th:src="@{/bus/aupipes/mobile/js/jquery.min.js}"></script>
+<script th:src="@{/def/js/ajaxhook.min.js}"></script>
+<script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<script th:src="@{/def/libs/vue-2.4/vue-2.4.0.js}"></script>
+<script th:src="@{/def/libs/echarts/echarts.js}"></script>
+<script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+<script th:src="@{/def/libs/bootstrap-select/bootstrap-multiselect.js}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/cfg.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/home.js(v=${staticResourcesVersion})}"></script>
+</html>

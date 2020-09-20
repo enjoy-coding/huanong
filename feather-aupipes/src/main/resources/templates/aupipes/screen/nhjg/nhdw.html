@@ -1,0 +1,29 @@
+<div id="dingwei" class="pa zs_mapTxtBox mapTxtLayer">
+    <div class="pr txt">
+        <span class="mapCloseBtn pa" onclick="mapCloseBtn(this)"><i class="iconfont icon-guanbi"></i></span>
+        <div class="topBg pa"></div>
+        <div class="bottomBg pa"></div>
+        <div class="contentTxt" th:object="${dw}">
+            <h2>[[*{name}]]</h2>
+            <div th:if="*{code} eq 'rootw'">
+                <div class="lineBlue mh15"></div>
+                <p>总用水量：[[*{totalNum}]]<span></span></p>
+                <p>本月用水量：[[*{currtNum}]]<span></span></p>
+                <p>上月用水量：[[*{ultimoNum}]]<span></span></p>
+                <p>所辖水表：[[*{hascount}]]<span></span></p>
+                <!--<p>抄表时间：[[*{readtime}]]<span></span></p>-->
+            </div>
+            <div th:if="*{code} eq 'roote'">
+                <div class="lineBlue mh15"></div>
+                <p>总用电量：[[*{totalNum}]]<span></span></p>
+                <p>本月用电量：[[*{currtNum}]]<span></span></p>
+                <p>上月用电量：[[*{ultimoNum}]]<span></span></p>
+                <p>所辖电表：[[*{hascount}]]<span></span></p>
+                <!--<p>抄表时间：[[*{readtime}]]<span></span></p>-->
+            </div>
+            <!--<div class="zs_mapTxtBtn ph16 tabBtnGroup">-->
+                <!--<button type="button" id="yxjk_detail_btn">查看</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqClMapper">
+    
+    <resultMap type="ZhsqCl" id="ZhsqClResult">
+        <result property="clid"    column="CLID"    />
+        <result property="clhm"    column="CLHM"    />
+        <result property="cx"    column="CX"    />
+        <result property="czxm"    column="CZXM"    />
+        <result property="lxdh"    column="LXDH"    />
+        <result property="jmid"    column="JMID"    />
+    </resultMap>
+
+    <sql id="selectZhsqClVo">
+        select CLID, CLHM, CX, CZXM, LXDH, JMID from ZHSQ_CL
+    </sql>
+
+    <select id="selectZhsqClList" parameterType="ZhsqCl" resultMap="ZhsqClResult">
+        <include refid="selectZhsqClVo"/>
+        <where>  
+            <if test="clhm != null  and clhm != ''"> and CLHM = #{clhm}</if>
+            <if test="cx != null  and cx != ''"> and CX = #{cx}</if>
+            <if test="czxm != null  and czxm != ''"> and CZXM = #{czxm}</if>
+            <if test="lxdh != null  and lxdh != ''"> and LXDH = #{lxdh}</if>
+            <if test="jmid != null  and jmid != ''"> and JMID = #{jmid}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqClById" parameterType="String" resultMap="ZhsqClResult">
+        <include refid="selectZhsqClVo"/>
+        where CLID = #{clid}
+    </select>
+        
+    <insert id="insertZhsqCl" parameterType="ZhsqCl">
+        insert into ZHSQ_CL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clid != null  and clid != ''">CLID,</if>
+            <if test="clhm != null  and clhm != ''">CLHM,</if>
+            <if test="cx != null  and cx != ''">CX,</if>
+            <if test="czxm != null  and czxm != ''">CZXM,</if>
+            <if test="lxdh != null  and lxdh != ''">LXDH,</if>
+            <if test="jmid != null  and jmid != ''">JMID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clid != null  and clid != ''">#{clid},</if>
+            <if test="clhm != null  and clhm != ''">#{clhm},</if>
+            <if test="cx != null  and cx != ''">#{cx},</if>
+            <if test="czxm != null  and czxm != ''">#{czxm},</if>
+            <if test="lxdh != null  and lxdh != ''">#{lxdh},</if>
+            <if test="jmid != null  and jmid != ''">#{jmid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqCl" parameterType="ZhsqCl">
+        update ZHSQ_CL
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clhm != null  and clhm != ''">CLHM = #{clhm},</if>
+            <if test="cx != null  and cx != ''">CX = #{cx},</if>
+            <if test="czxm != null  and czxm != ''">CZXM = #{czxm},</if>
+            <if test="lxdh != null  and lxdh != ''">LXDH = #{lxdh},</if>
+            <if test="jmid != null  and jmid != ''">JMID = #{jmid},</if>
+        </trim>
+        where CLID = #{clid}
+    </update>
+
+    <delete id="deleteZhsqClById" parameterType="String">
+        delete from ZHSQ_CL where CLID = #{clid}
+    </delete>
+
+    <delete id="deleteZhsqClByIds" parameterType="String">
+        delete from ZHSQ_CL where CLID in 
+        <foreach item="clid" collection="array" open="(" separator="," close=")">
+            #{clid}
+        </foreach>
+    </delete>
+    
+</mapper>

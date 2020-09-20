@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增站点')"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-site-add" th:object="${site}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">站点名称(中文)：</label>
+            <div class="col-sm-8">
+                <input type="hidden" name="id" id="id" th:field="*{id}"/>
+                <input type="hidden" name="tplInstId" id="tplInstId" th:field="*{tplInstId}"/>
+                <input type="hidden" name="realmName" id="realmName" th:field="*{realmName}">
+                <input class="form-control" type="text" name="name" id="name" th:field="*{name}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">站点别名(英文)：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="alias" id="alias" th:field="*{alias}" required readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">所属部门：</label>
+            <div class="col-sm-8">
+                <input type="hidden" name="deptId" id="treeId" th:field="*{deptId}" required>
+                <input class="form-control" type="text" name="deptName" onclick="selectDeptTree()" id="treeName"
+                       th:field="*{deptName}" required readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">选择模板：</label><a href="javascript:void(0)" onclick="clearTplInstId()">清除</a>
+            <div class="col-sm-8">
+                <!--onclick="selectTplInst()"-->
+                <input class="form-control" type="text" name="tplInstName" id="tplInstName" th:field="*{tplInstName}"
+                       onclick="selectTplInst()">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">文件目录：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="folder" id="folder" th:field="*{folder}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目首页：</label>
+            <div class="col-sm-8">
+                <select id="indexTpl" class="form-control">
+                    <option th:each="dict:${@dict.getType('cms_site_indexTpl')}" th:value="${dict.dictValue}"
+                            th:text="${dict.dictLabel}+'('+${dict.dictValue}+')'"
+                            th:selected="${dict.dictValue eq site.indexTpl}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目列表页：</label>
+            <div class="col-sm-8">
+                <select id="listTpl" class="form-control">
+                    <option th:each="dict:${@dict.getType('cms_site_listTpl')}" th:value="${dict.dictValue}"
+                            th:text="${dict.dictLabel}+'('+${dict.dictValue}+')'"
+                            th:selected="${dict.dictValue eq site.listTpl}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目内容页：</label>
+            <div class="col-sm-8">
+                <select id="contentTpl" class="form-control">
+                    <option th:each="dict:${@dict.getType('cms_site_contentTpl')}" th:value="${dict.dictValue}"
+                            th:text="${dict.dictLabel}+'('+${dict.dictValue}+')'"
+                            th:selected="${dict.dictValue eq site.contentTpl}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">状态：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+                    <input type="radio" th:id="state" name="state" th:value="${dict.dictValue}" th:field="*{state}">
+                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">排序：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="orderNum" id="orderNum" th:field="*{orderNum}" required>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/javascript">
+    var prefix = ctx + "cms/site";
+    var hideArr = ["folder", "indexTpl", "listTpl", "contentTpl"];
+
+    $(function () {
+        var tplInstIdVal = $("#tplInstId").val();
+        if ($.common.isEmpty(tplInstIdVal)) {
+            for (var i = 0; i < hideArr.length; i++) {
+                $("#" + hideArr[i]).parents(".form-group").show();
+            }
+        }else{
+            for (var i = 0; i < hideArr.length; i++) {
+                $("#" + hideArr[i]).parents(".form-group").hide();
+            }
+        }
+    });
+
+    function selectDeptTree() {
+        $.common.selectDeptTree(ctx, "treeId", "treeName");
+    }
+
+    function clearTplInstId(){
+        $("#tplInstId").val("");
+        $("#tplInstName").val("");
+        for (var i = 0; i < hideArr.length; i++) {
+            $("#" + hideArr[i]).parents(".form-group").show();
+        }
+    }
+
+    /**
+     * 选择模板
+     */
+    function selectTplInst() {
+        $.common.selectTplInst(ctx, "tplInstId", "tplInstName", "id", hideArr);
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-site-add").serializeArray();
+            var indexTpl = $.form.selectSelects("indexTpl");
+            var listTpl = $.form.selectSelects("listTpl");
+            var contentTpl = $.form.selectSelects("contentTpl");
+            var state = $.form.selectCheckeds("state");
+            data.push({"name": "state", "value": state});
+            data.push({"name": "indexTpl", "value": indexTpl});
+            data.push({"name": "listTpl", "value": listTpl});
+            data.push({"name": "contentTpl", "value": contentTpl});
+            $.operate.save({
+                url: prefix + "/editDo",
+                data: data,
+                success: "close"
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!--用电平衡查询-->
+<div class="sdphTitle" th:each="AupRecordElectric:${list}" th:if="${AupRecordElectric.cachelevel eq '1'}">
+    <h4 th:text="${AupRecordElectric.cachename}">华中农大110V变电站</h4>
+    <p>
+        <span>出线电量(度)<i th:text="${AupRecordElectric.readusenumber}"></i></span>
+        <span>汇总电量(度)<i th:text="${AupRecordElectric.calcusenumber}"></i></span>
+        <span>耗损率<i th:text="${AupRecordElectric.wastepercent}+'%'"></i></span>
+    </p>
+</div>
+<div class="layui-row sdphList electricityList">
+    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3" th:each="AupRecordElectric:${list}"
+         th:if="${AupRecordElectric.cachelevel eq '2'}">
+        <div class="list pr">
+            <div class="tt txtC" th:text="${AupRecordElectric.cachename}"></div>
+            <ul class="pw15 ph30 oh">
+                <li>
+                    <p>月用电量(度)</p>
+                    <h4 class="clRed" th:text="${AupRecordElectric.readusenumber}"></h4>
+                </li>
+                <li>
+                    <p>耗损率</p>
+                    <h4 class="clRed" th:text="${AupRecordElectric.wastepercent}+'%'"></h4>
+                </li>
+                <li>
+                    <p>包含楼栋</p>
+                    <h4 class="clYellow" th:text="${AupRecordElectric.calccount}"></h4>
+                </li>
+                <li>
+                    <p>楼栋用电总和</p>
+                    <h4 class="clYellow" th:text="${AupRecordElectric.calcusenumber}"></h4>
+                </li>
+            </ul>
+            <span class="pa more" th:onclick="NHJG.ydph.openYdphDetailPage('[(${AupRecordElectric.id})]')">楼栋用电详情</span>
+        </div>
+    </div>
+</div>

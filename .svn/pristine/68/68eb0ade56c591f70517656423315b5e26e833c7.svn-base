@@ -1,0 +1,33 @@
+<!-- 能耗监管（用水用电 总量） -->
+<li>
+	<p>
+		总用电量 <span>（万度）</span>
+	</p>
+	<h5>
+		<span id="nhtj_total_zydl">97.35</span>
+	</h5>
+</li>
+<li>
+	<p>
+		总用水量 <span>（万吨）</span>
+	</p>
+	<h5>
+		<span id="nhtj_total_zysl">20.66</span>
+	</h5>
+</li>
+<li>
+	<p>
+		月用电量 <span>（万度）</span>
+	</p>
+	<h5>
+		<span id="nhtj_total_yydl">0.05</span>
+	</h5>
+</li>
+<li>
+	<p>
+		月用水量 <span>（万吨）</span>
+	</p>
+	<h5>
+		<span id="nhtj_total_yysl">0.02</span>
+	</h5>
+</li>

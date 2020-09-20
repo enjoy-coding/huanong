@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpIndustryMapper">
+
+    <resultMap type="NpIndustry" id="NpIndustryResult">
+        <id property="industryId" column="industry_id"/>
+        <result property="title" column="title"/>
+        <result property="subTitle" column="sub_title"/>
+        <result property="content" column="content"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpIndustryVo">
+        select industry_id, title, sub_title, content, create_by, create_time, update_time
+		from np_industry i
+    </sql>
+
+    <select id="selectNpIndustryById" parameterType="Long" resultMap="NpIndustryResult">
+        <include refid="selectNpIndustryVo"/>
+        where i.industry_id = #{carId}
+    </select>
+
+    <select id="selectNpIndustryList" parameterType="NpIndustry" resultMap="NpIndustryResult">
+        <include refid="selectNpIndustryVo"/>
+        <where>
+            <if test="title != null and title != ''">
+                <bind name="_title" value="'%'+ title +'%'"/>
+                AND (title like #{_title} OR subTile like #{_title} OR content like #{_title})
+            </if>
+            <if test="subTitle != null and subTitle != ''">
+                <bind name="_subTitle" value="'%'+ subTitle +'%'"/>
+                AND subTitle like #{_subTitle}
+            </if>
+            <if test="content != null and content != ''">
+                <bind name="_content" value="'%'+ content +'%'"/>
+                AND content like #{_content}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND create_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND create_time &lt;= #{params.endTime, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpIndustry" parameterType="NpIndustry">
+        insert into np_industry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="industryId != null and industryId != 0">industry_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="subTitle != null and subTitle != ''">sub_title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="industryId != null and industryId != 0">#{industryId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="subTitle != null and subTitle != ''">#{subTitle},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNpIndustry" parameterType="NpIndustry">
+        update np_industry
+        <set>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="subTitle != null and subTitle !=''">sub_title = #{subTitle},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where industry_id = #{industryId}
+    </update>
+
+    <delete id="deleteNpIndustryById" parameterType="Long">
+	    delete from np_car where car_id = #{carId}
+	</delete>
+
+    <delete id="deleteNpIndustryByIds" parameterType="Long">
+        delete from np_industry where car_id in
+        <foreach collection="array" item="industryId" open="(" separator="," close=")">
+            #{industryId}
+        </foreach>
+    </delete>
+</mapper> 

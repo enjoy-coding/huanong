@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpInfoDetailMapper">
+
+    <resultMap type="NpInfoDetail" id="NpInfoDetailResult">
+        <id property="infoDetailId" column="info_detail_id"/>
+        <id property="infoId" column="info_id"/>
+        <result property="title" column="title"/>
+        <result property="subTitle" column="sub_title"/>
+        <result property="content" column="content"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="addInfo1" column="add_info1"/>
+        <result property="addInfo2" column="add_info2"/>
+        <result property="addInfo3" column="add_info3"/>
+        <result property="addInfo4" column="add_info4"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpInfoDetailVo">
+        select info_detail_id, info_id, title, sub_title, content, order_num, add_info1, add_info2, add_info3, add_info4, create_by, create_time, update_time
+		from np_info_detail id
+    </sql>
+
+    <select id="selectNpInfoDetailById" parameterType="Long" resultMap="NpInfoDetailResult">
+        <include refid="selectNpInfoDetailVo"/>
+        where id.info_detail_id = #{infoDetailId}
+    </select>
+
+    <select id="selectNpInfoDetailList" parameterType="NpInfoDetail" resultMap="NpInfoDetailResult">
+        <include refid="selectNpInfoDetailVo"/>
+        <where>
+            <if test="infoId != null and infoId != ''">
+                AND info_id = #{infoId}
+            </if>
+            <if test="title != null and title != ''">
+                <bind name="_title" value="'%'+ title +'%'"/>
+                AND title like #{_title}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                AND create_time= #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+        order by id.order_num desc
+    </select>
+
+    <insert id="insertNpInfoDetail" parameterType="NpInfoDetail">
+        insert into np_info_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="infoDetailId != null and infoDetailId != 0">info_detail_id,</if>
+            <if test="infoId != null and infoId != ''">info_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="subTitle != null and subTitle != ''">sub_title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="orderNum != null and orderNum != ''">order_num,</if>
+            <if test="addInfo1 != null and addInfo1 != ''">add_info1,</if>
+            <if test="addInfo2 != null and addInfo2 != ''">add_info2,</if>
+            <if test="addInfo3 != null and addInfo3 != ''">add_info3,</if>
+            <if test="addInfo4 != null and addInfo4 != ''">add_info4,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="infoDetailId != null and infoDetailId != 0">#{infoDetailId},</if>
+            <if test="infoId != null and infoId != ''">#{infoId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="subTitle != null and subTitle != ''">#{subTitle},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+            <if test="addInfo1 != null and addInfo1 != ''">#{addInfo1},</if>
+            <if test="addInfo2 != null and addInfo2 != ''">#{addInfo2},</if>
+            <if test="addInfo3 != null and addInfo3 != ''">#{addInfo3},</if>
+            <if test="addInfo4 != null and addInfo4 != ''">#{addInfo4},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNpInfoDetail" parameterType="NpInfoDetail">
+        update np_info_detail
+        <set>
+            <if test="infoId != null and infoId != ''">info_id = #{infoId},</if>
+            <if test="title != null and title !=''">title = #{title},</if>
+            <if test="subTitle != null and subTitle != ''">sub_title = #{subTitle},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="addInfo1 != null and addInfo1 != ''">add_info1 = #{addInfo1},</if>
+            <if test="addInfo2 != null and addInfo2 != ''">add_info2 = #{addInfo2},</if>
+            <if test="addInfo3 != null and addInfo3 != ''">add_info3 = #{addInfo3},</if>
+            <if test="addInfo4 != null and addInfo4 != ''">add_info4 = #{addInfo4},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where info_detail_id = #{infoDetailId}
+    </update>
+
+    <delete id="deleteNpInfoDetailById" parameterType="Long">
+	    delete from np_info_detail where info_detail_id = #{infoDetailId}
+	</delete>
+
+    <delete id="deleteNpInfoDetailByIds" parameterType="Long">
+        delete from np_info_detail where info_detail_id in
+        <foreach collection="array" item="infoDetailId" open="(" separator="," close=")">
+            #{infoDetailId}
+        </foreach>
+    </delete>
+</mapper> 

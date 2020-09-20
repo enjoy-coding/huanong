@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupYjinfotablesMapper">
+    
+    <resultMap type="AupYjinfotables" id="AupYjinfotablesResult">
+        <result property="itid"    column="itid"    />
+        <result property="tid"    column="tid"    />
+        <result property="areano"    column="areaNo"    />
+        <result property="name"    column="name"    />
+        <result property="content"    column="content"    />
+        <result property="sname"    column="sname"    />
+        <result property="sarea"    column="sarea"    />
+        <result property="stype"    column="stype"    />
+        <result property="sid"    column="sid"    />
+        <result property="yjname"    column="yjname"    />
+        <result property="yjtime"    column="yjtime"    />
+        <result property="yjstatus"    column="yjstatus"    />
+        <result property="itstatus"    column="itstatus"    />
+        <result property="yjlevel"    column="yjlevel"    />
+        <result property="yori"    column="yori"    />
+        <result property="light"    column="light"    />
+        <result property="a"    column="a"    />
+        <result property="v"    column="v"    />
+        <result property="w"    column="w"    />
+        <result property="pw"    column="pw"    />
+        <result property="pl"    column="pl"    />
+        <result property="presure"    column="presure"    />
+    </resultMap>
+
+    <sql id="selectAupYjinfotablesVo">
+        select itid, tid, areaNo, name, content, sname, sarea, stype, sid, yjname, yjtime, yjstatus,itstatus, yjlevel, yori, light, a, v, w, pw, pl, presure from aup_yjinfotables
+    </sql>
+
+    <select id="selectAupYjinfotablesList" parameterType="AupYjinfotables" resultMap="AupYjinfotablesResult">
+        <include refid="selectAupYjinfotablesVo"/>
+        <where>  
+            <if test="itid != null  and itid != ''"> and itid = #{itid}</if>
+            <if test="tid != null  and tid != ''"> and tid = #{tid}</if>
+            <if test="areano != null  and areano != ''"> and areaNo = #{areano}</if>
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and name like #{_name}
+            </if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="sname != null  and sname != ''">
+            	<bind name="_sname" value="'%'+ sname +'%'"/>
+            	and sname like #{_sname}
+            </if>
+            <if test="sarea != null  and sarea != ''"> and sarea = #{sarea}</if>
+            <if test="stype != null  and stype != ''"> and stype = #{stype}</if>
+            <if test="sid != null  and sid != ''"> and sid = #{sid}</if>
+            <if test="yjname != null  and yjname != ''">
+            	<bind name="_yjname" value="'%'+ yjname +'%'"/>
+            	and yjname like #{_yjname}
+            </if>
+            <if test="yjtime != null "> and yjtime = #{yjtime}</if>
+            <if test="yjstatus != null  and yjstatus != ''"> and yjstatus = #{yjstatus}</if>
+            <if test="itstatus != null  and itstatus != ''"> and itstatus = #{itstatus}</if>
+            <if test="yjlevel != null  and yjlevel != ''"> and yjlevel = #{yjlevel}</if>
+            <if test="yori != null  and yori != ''"> and yori = #{yori}</if>
+            <if test="light != null  and light != ''"> and light = #{light}</if>
+            <if test="a != null  and a != ''"> and a = #{a}</if>
+            <if test="v != null  and v != ''"> and v = #{v}</if>
+            <if test="w != null  and w != ''"> and w = #{w}</if>
+            <if test="pw != null  and pw != ''"> and pw = #{pw}</if>
+            <if test="pl != null  and pl != ''"> and pl = #{pl}</if>
+            <if test="presure != null  and presure != ''"> and presure = #{presure}</if>
+        </where>
+    </select>
+    
+    <select id="selectAupYjinfotablesById" parameterType="String" resultMap="AupYjinfotablesResult">
+        <include refid="selectAupYjinfotablesVo"/>
+        where itid = #{itid}
+    </select>
+        
+    <insert id="insertAupYjinfotables" parameterType="AupYjinfotables">
+        insert into aup_yjinfotables
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itid != null  and itid != ''">itid,</if>
+            <if test="tid != null  and tid != ''">tid,</if>
+            <if test="areano != null  and areano != ''">areaNo,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="sname != null  and sname != ''">sname,</if>
+            <if test="sarea != null  and sarea != ''">sarea,</if>
+            <if test="stype != null  and stype != ''">stype,</if>
+            <if test="sid != null  and sid != ''">sid,</if>
+            <if test="yjname != null  and yjname != ''">yjname,</if>
+            <if test="yjtime != null ">yjtime,</if>
+            <if test="yjstatus != null  and yjstatus != ''">yjstatus,</if>
+            <if test="itstatus != null  and itstatus != ''">itstatus,</if>
+            <if test="yjlevel != null  and yjlevel != ''">yjlevel,</if>
+            <if test="yori != null  and yori != ''">yori,</if>
+            <if test="light != null  and light != ''">light,</if>
+            <if test="a != null  and a != ''">a,</if>
+            <if test="v != null  and v != ''">v,</if>
+            <if test="w != null  and w != ''">w,</if>
+            <if test="pw != null  and pw != ''">pw,</if>
+            <if test="pl != null  and pl != ''">pl,</if>
+            <if test="presure != null  and presure != ''">presure,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itid != null  and itid != ''">#{itid},</if>
+            <if test="tid != null  and tid != ''">#{tid},</if>
+            <if test="areano != null  and areano != ''">#{areano},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="sname != null  and sname != ''">#{sname},</if>
+            <if test="sarea != null  and sarea != ''">#{sarea},</if>
+            <if test="stype != null  and stype != ''">#{stype},</if>
+            <if test="sid != null  and sid != ''">#{sid},</if>
+            <if test="yjname != null  and yjname != ''">#{yjname},</if>
+            <if test="yjtime != null ">#{yjtime},</if>
+            <if test="yjstatus != null  and yjstatus != ''">#{yjstatus},</if>
+            <if test="itstatus != null  and itstatus != ''">#{itstatus},</if>
+            <if test="yjlevel != null  and yjlevel != ''">#{yjlevel},</if>
+            <if test="yori != null  and yori != ''">#{yori},</if>
+            <if test="light != null  and light != ''">#{light},</if>
+            <if test="a != null  and a != ''">#{a},</if>
+            <if test="v != null  and v != ''">#{v},</if>
+            <if test="w != null  and w != ''">#{w},</if>
+            <if test="pw != null  and pw != ''">#{pw},</if>
+            <if test="pl != null  and pl != ''">#{pl},</if>
+            <if test="presure != null  and presure != ''">#{presure},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupYjinfotables" parameterType="AupYjinfotables">
+        update aup_yjinfotables
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">tid = #{tid},</if>
+            <if test="areano != null  and areano != ''">areaNo = #{areano},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="sname != null  and sname != ''">sname = #{sname},</if>
+            <if test="sarea != null  and sarea != ''">sarea = #{sarea},</if>
+            <if test="stype != null  and stype != ''">stype = #{stype},</if>
+            <if test="sid != null  and sid != ''">sid = #{sid},</if>
+            <if test="yjname != null  and yjname != ''">yjname = #{yjname},</if>
+            <if test="yjtime != null ">yjtime = #{yjtime},</if>
+            <if test="yjstatus != null  and yjstatus != ''">yjstatus = #{yjstatus},</if>
+            <if test="itstatus != null  and itstatus != ''">itstatus = #{itstatus},</if>
+            <if test="yjlevel != null  and yjlevel != ''">yjlevel = #{yjlevel},</if>
+            <if test="yori != null  and yori != ''">yori = #{yori},</if>
+            <if test="light != null  and light != ''">light = #{light},</if>
+            <if test="a != null  and a != ''">a = #{a},</if>
+            <if test="v != null  and v != ''">v = #{v},</if>
+            <if test="w != null  and w != ''">w = #{w},</if>
+            <if test="pw != null  and pw != ''">pw = #{pw},</if>
+            <if test="pl != null  and pl != ''">pl = #{pl},</if>
+            <if test="presure != null  and presure != ''">presure = #{presure},</if>
+        </trim>
+        where itid = #{itid}
+    </update>
+
+    <delete id="deleteAupYjinfotablesById" parameterType="String">
+        delete from aup_yjinfotables where itid = #{itid}
+    </delete>
+
+    <delete id="deleteAupYjinfotablesByIds" parameterType="String">
+        delete from aup_yjinfotables where itid in 
+        <foreach item="itid" collection="array" open="(" separator="," close=")">
+            #{itid}
+        </foreach>
+    </delete>
+
+    <select id="getAllinfo" resultType="map">
+       select * from view_warring
+        <where>
+            <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+            <if test="state !=null and state !=3">and (state=#{state}</if>
+            <if test="state1 !='' and state1 !=null">or state is null)</if>
+            <if test="id!='' and id !=null">and (id=#{id}</if>
+            <if test="state1 =='' or state1 ==null">)</if>
+            <if test="content !='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+        </where>
+        ORDER  by dateTime desc
+    </select>
+    <select id="getWaringTableList" resultType="map">
+        select * from view_warring
+        <where>
+        <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+        <if test="name!='' and name !=null">and name = #{name}</if>
+        <if test="content!='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+        <if test="state!='' and state !=null and state==0">
+            and (state=0 or state is null)
+        </if>
+         <if test="state!='' and state !=null and state==1">
+                and (state=1)
+         </if>
+        <if test="author!='' and author !=null">and author=#{author}</if>
+        <if test="level!='' and level !=null">and level=#{level}</if>
+        <if test="dateTime1!='' and dateTime1 !=null">and dateTime &gt;= #{dateTime1}</if>
+        <if test="dateTime2!='' and dateTime2 !=null">and dateTime &lt;=#{dateTime2}</if>
+        </where>
+        ORDER by dateTime desc
+    </select>
+    <select id="getSearchWarringList" resultType="map">
+        SELECT id,author,content,dateTime,name,path,code,formSysName,
+        (case level
+        when '1' then '一级预警'
+        when '2' then '二级预警'
+        when '3' then '三级预警'
+        end) as [level],
+        (
+        case
+        when state = '1' then '已处置' else  '未处置'end
+        ) as state
+        from view_warring
+        <where>
+        <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+        <if test="name!='' and name !=null">and name = #{name}</if>
+        <if test="content!='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+        <if test="state!='' and state !=null and state==0">
+            and (state=0 or state is null)
+        </if>
+         <if test="state!='' and state !=null and state==1">
+                and (state=1)
+         </if>
+        <if test="author!='' and author !=null">and author=#{author}</if>
+        <if test="level!='' and level !=null">and level=#{level}</if>
+        <if test="dateTime1!='' and dateTime1 !=null">and dateTime &gt;= #{dateTime1}</if>
+        <if test="dateTime2!='' and dateTime2 !=null">and dateTime &lt;=#{dateTime2}</if>
+        </where>
+        ORDER by dateTime desc
+    </select>
+
+
+    <select id="countByname" resultType="map">
+         select count(k.id)as total,m.formSysName,m.num ,m.state as statenum from (select DISTINCT(t.formSysName) as formSysName,count(t.formSysName) as num,k.state  from view_warring t LEFT JOIN
+        (select DISTINCT(m.formSysName) as formSysName,count(*)as state from [view_warring] m where m.state=0 or m.state is null  GROUP BY m.formSysName)k
+        on t.formSysName = k.formSysName
+
+         GROUP BY t.formSysName,k.state) m,view_warring k
+        GROUP BY m.formSysName,m.num,m.state
+    </select>
+   <!--预警等级进行统计-->
+    <select id="getLevelCount" resultType="map">
+        SELECT level,count(level)as num FROM view_warring
+
+        <where>
+            <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+            <if test="name!='' and name !=null">and name = #{name}</if>
+            <if test="content!='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+            <if test="state!='' and state !=null and state==0">
+                and (state=0 or state is null)
+            </if>
+            <if test="state!='' and state !=null and state==1">
+                and (state=1)
+            </if>
+            <if test="author!='' and author !=null">and author=#{author}</if>
+            <if test="level!='' and level !=null">and level=#{level}</if>
+            <if test="dateTime1!='' and dateTime1 !=null">and dateTime &gt;= #{dateTime1}</if>
+            <if test="dateTime2!='' and dateTime2 !=null">and dateTime &lt;=#{dateTime2}</if>
+        </where>
+        GROUP BY level
+    </select>
+    <!--故障类型进行统计-->
+    <select id="getNameCount" resultType="map">
+        SELECT name,count(name)as num FROM view_warring
+        <where>
+            <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+            <if test="name!='' and name !=null">and name = #{name}</if>
+            <if test="content!='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+            <if test="state!='' and state !=null and state==0">
+                and (state=0 or state is null)
+            </if>
+            <if test="state!='' and state !=null and state==1">
+                and (state=1)
+            </if>
+            <if test="author!='' and author !=null">and author=#{author}</if>
+            <if test="level!='' and level !=null">and level=#{level}</if>
+            <if test="dateTime1!='' and dateTime1 !=null">and dateTime &gt;= #{dateTime1}</if>
+            <if test="dateTime2!='' and dateTime2 !=null">and dateTime &lt;=#{dateTime2}</if>
+        </where>
+        GROUP BY name
+    </select>
+
+    <!--处置状态进行统计-->
+    <select id="getStateCount" resultType="map">
+        SELECT state,count(*)as num FROM view_warring
+        <where>
+            <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+            <if test="name!='' and name !=null">and name = #{name}</if>
+            <if test="content!='' and content !=null">and content LIKE '%' + #{content} + '%'</if>
+            <if test="state!='' and state !=null and state==0">
+                and (state=0 or state is null)
+            </if>
+            <if test="state!='' and state !=null and state==1">
+                and (state=1)
+            </if>
+            <if test="author!='' and author !=null">and author=#{author}</if>
+            <if test="level!='' and level !=null">and level=#{level}</if>
+            <if test="dateTime1!='' and dateTime1 !=null">and dateTime &gt;= #{dateTime1}</if>
+            <if test="dateTime2!='' and dateTime2 !=null">and dateTime &lt;=#{dateTime2}</if>
+        </where>
+        GROUP BY state
+    </select>
+
+    <!--获取cuid和luid-->
+    <select id="getStreeLight" resultType="map">
+      SELECT * FROM aup_streetlight where name=#{name};
+    </select>
+
+
+</mapper>

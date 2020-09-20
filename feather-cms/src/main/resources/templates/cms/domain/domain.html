@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('cms域列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>名称</p>
+                                <input type="text" name="domainName"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cms:domain:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="cms:domain:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:domain:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cms:domain:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:domain:remove')}]];
+        var prefix = ctx + "cms/domain";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "域",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'domainId', 
+                    title : 'null',
+                    visible: false
+                },
+                {
+                    field : 'domainName', 
+                    title : '名称'
+                },
+                {
+                    field : 'domainIcon', 
+                    title : '图标',
+				    formatter: function(value, row, index) {
+				    	if(index % 2 == 0){
+				    		return $.table.imageView({ url: cxt + 'cms/' });
+				    	}else {
+				    		return $.table.imageView({ url: '' });
+				    	}
+				    }
+                },
+                {
+                    field : 'domainIndex', 
+                    title : '首页'
+                },
+                {
+                    field : 'domainPrimary', 
+                    title : '主域',
+		        	align: 'center',
+		        	formatter: function (value, row, index) {
+		        		return primaryTools(row);
+		        	}
+                },
+                {
+                    field : 'remark', 
+                    title : '备注'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.domainId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.domainId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        /* 主域显示 */
+		function primaryTools(row) {
+		    if (row.domainPrimary == "1") {
+    			return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="disablePrimary(\'' + row.domainId + '\')"></i> ';
+    		} else {
+    			return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="enablePrimary(\'' + row.domainId + '\')"></i> ';
+    		}
+		}
+		
+		/* 主域-取消 */
+		function disablePrimary(domainId) {
+			$.modal.confirm("确认要取消主域状态吗？", function() {
+				$.operate.post(prefix + "/changePrimary", { "domainId": domainId, "primary": "0" });
+		    })
+		}
+
+		/* 主域-启用 */
+		function enablePrimary(userId) {
+			$.modal.confirm("确认要启用主域状态吗？", function() {
+				$.operate.post(prefix + "/changePrimary", { "domainId": domainId, "primary": "1" });
+		    })
+		}
+    </script>
+</body>
+</html>

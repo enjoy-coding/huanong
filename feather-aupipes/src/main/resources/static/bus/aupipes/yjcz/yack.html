@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预警处置--预案查看</title>
+    <link rel="stylesheet" href="/def/libs/layui-2.5.5/css/layui.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/font.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/font/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/common.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/insidePage.css">
+</head>
+<body>
+    <div class="insidePageOh">
+        <form class="layui-form layerForm pd30">
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预案类型：</label>
+                        <div class="layui-input-block">
+                            <select name="quiz1">
+                                <option value="">路灯预案</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预案步骤：</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预案文件：</label>
+                        <div class="layui-input-block">
+                            <ul class="yackWj">
+                                <li>
+                                    <i class="iconfont icon-wenjian"></i>
+                                    <h6>文件名称</h6>
+                                </li>
+                                <li>
+                                    <i class="iconfont icon-wenjian"></i>
+                                    <h6>文件名称</h6>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script src="/def/js/jquery.min.js"></script>
+<script src="/def/libs/layui-2.5.5/layui.js"></script>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+    })
+</script>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('楼栋管理员列表')" />
+    <th:block th:include="include :: layout-latest-css" />
+    <th:block th:include="include :: ztree-css" />
+</head>
+<body class="gray-bg">
+<div class="ui-layout-west">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-grid"></i> 楼栋区域
+            </div>
+            <div class="box-tools pull-right">
+                <!--<a type="button" class="btn btn-box-tool" href="#" onclick="area()" title="管理部门"><i
+                        class="fa fa-edit"></i></a>-->
+                <button type="button" class="btn btn-box-tool" id="btnExpand" title="展开" style="display:none;"><i
+                        class="fa fa-chevron-up"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnCollapse" title="折叠"><i
+                        class="fa fa-chevron-down"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新部门"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="ui-layout-content">
+            <div id="tree" class="ztree"></div>
+        </div>
+    </div>
+</div>
+<div class="ui-layout-center">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <!--<li>
+                                <p>id：</p>
+                                <input type="text" name="id"/>
+                            </li>-->
+                            <li>
+                                <p>管理员名称：</p>
+                                <input type="text" name="managername"/>
+                            </li>
+                            <li>
+                                <p>管理员类型：</p>
+                                <select name="managetype" th:with="type=${@dict.getType('null')}">
+                                    <option value="">请选择</option>
+                                    <option value="宿舍管理员">宿舍管理员</option>
+                                    <option value="后保部">后保部</option>
+                                    <option value="居民管理员">居民管理员</option>
+                                    <option value="教学管理员">教学管理员</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <!--<li>
+                                <p>管理一级单位：</p>
+                                <select name="levfir" th:with="type=${@dict.getType('null')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>管理二级单位：</p>
+                                <select name="levsec" th:with="type=${@dict.getType('null')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>管理三级单位：</p>
+                                <select name="levthr" th:with="type=${@dict.getType('null')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li> -->
+                            <!--<li>
+                                <p>展示编码：</p>
+                                <input type="text" name="parentCode" id="parentCode" />
+                            </li>-->
+                            <input type="hidden" name="code" id="codeSearch"  />
+                            <!-- <li>
+                                <p>父级编码：</p>
+                                <input type="text" name="parentcode"/>
+                            </li>
+                            <li>
+                                <p>修改时间：</p>
+                                <input type="text" name="edittime"/>
+                            </li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="aupipes:manager:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="aupipes:manager:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="aupipes:manager:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="aupipes:manager:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+                <!-- <a class="btn btn-warning" onclick="updateUserTemplate();" >
+                     <i class="fa fa-refresh"></i> 更新人员模板
+                 </a>-->
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: layout-latest-js"/>
+<th:block th:include="include :: ztree-js"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('aupipes:manager:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('aupipes:manager:remove')}]];
+    var prefix = ctx + "aupipes/manager";
+
+    $(function() {
+
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({initClosed: panehHidden, west__size: 285});
+        queryAreaTree();
+
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "楼栋管理员",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'id',
+                    title : 'id',
+                    visible: false
+                },
+                {
+                    field : 'loginname',
+                    title : '登录名称'
+                },
+                {
+                    field : 'managername',
+                    title : '管理员名称'
+                },
+                {
+                    field : 'managetype',
+                    title : '管理员类型'
+                },
+                {
+                    field : 'levsec',
+                    title : '区域'
+                },
+                {
+                    field : 'levthr',
+                    title : '楼栋'
+                },
+                {
+                    field : 'phonenum',
+                    title : '手机号',
+                    visible: false
+                },
+                {
+                    field : 'wxnum',
+                    title : '微信openid',
+                    visible: false
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    function queryAreaTree()
+    {
+        var url = ctx + "aupipes/manager/buildingArea";
+        var options = {
+            url: url,
+            expandLevel: 1,
+            onClick : zOnClick
+        };
+        //$.tree.init(options);
+        treeInit(options);
+
+        function zOnClick(event, treeId, treeNode) {
+            debugger;
+            $("#id").val(treeNode.maps.code);
+            //$("#mapid").val(treeNode.pId);
+            // $.table.search();
+
+            // 点击第一层和第二层是直接使用code就可以了
+            // 第三层就是Buildingno
+            if(treeNode.maps.level == "1" || treeNode.maps.level == "2"){
+                $("#level").val(treeNode.code);
+            }else{
+                let strings = treeNode.maps.code.split("-");
+                $("#codeSearch").val(treeNode.maps.code);
+            }
+
+            $.table.search();
+            //查询完后要清空，避免下一次查询会互相影响
+            $("#codeSearch").val("");
+        }
+    }
+    function updateUserTemplate(){
+        $.modal.confirm("确定更新用户模板缓存吗？", function() {
+            $.get(prefix + "/updateTemplate");
+        });
+    }
+
+    function treeInit(options){
+        debugger;
+        var defaults = {
+            id: options.eleId || "tree",   // 属性ID
+            expandLevel: 0,                // 展开等级节点
+            view: {
+                selectedMulti: false,      // 设置是否允许同时选中多个节点
+                nameIsHTML: true           // 设置 name 属性是否支持 HTML 脚本
+            },
+            check: {
+                enable: false,             // 置 zTree 的节点上是否显示 checkbox / radio
+                nocheckInherit: true,      // 设置子节点是否自动继承
+            },
+            data: {
+                key: {
+                    title: "title"         // 节点数据保存节点提示信息的属性名称
+                },
+                simpleData: {
+                    enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式
+                }
+            },
+        };
+        var options = $.extend(defaults, options);
+        $.tree._option = options;
+        // 树结构初始化加载
+        var setting = {
+            callback: {
+                onClick: options.onClick,                      // 用于捕获节点被点击的事件回调函数
+                onCheck: options.onCheck,                      // 用于捕获 checkbox / radio 被勾选 或 取消勾选的事件回调函数
+                onDblClick: options.onDblClick,                 // 用于捕获鼠标双击之后的事件回调函数
+                onDrop: options.onDrop,
+            },
+            check: options.check,
+            view: options.view,
+            //data: options.data,
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id_",//对应树形中的父子节点关系父节点的值00 则其子节点的值为00100 00101 （数据库中对应的表也必须有这两项）
+                    pIdKey: "pid_"//对应子节点的值
+                }
+            },
+            edit: {
+                enable: true,
+                showRemoveBtn: false,
+                showRenameBtn: false,
+                drag: {
+                    isCopy: false,//所有操作都是move
+                    isMove: true,
+                    prev: true,
+                    next: true,
+                    inner: true
+                }
+            },
+        };
+        $.get(options.url, function (data) {
+            debugger;
+            var treeId = $("#treeId").val();
+            for(var i in data){
+                data[i].id=data[i].id_;
+                data[i].pid=data[i].pid_;
+            }
+            tree = $.fn.zTree.init($("#" + options.id), setting, data);
+            /*$._tree = tree;
+            var nodes = tree.getNodesByParam("level", options.expandLevel - 1);
+            for (var i = 0; i < nodes.length; i++) {
+                tree.expandNode(nodes[i], true, false, false);
+            }
+            var node = tree.getNodesByParam("id", treeId, null)[0];
+            $.tree.selectByIdName(treeId, node);*/
+        });
+    }
+
+
+</script>
+</body>
+</html>

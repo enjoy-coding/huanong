@@ -1,0 +1,80 @@
+<div class="listDetail">
+    <div class="pr content">
+        <h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>拉闸限电</h5>
+        <div class="txt wxdaDetailContent">
+            <div class="titleStyle1">配电房</div>
+            <div class="wxdaTableList">
+                <div class="layui-row layui-col-space5">
+                    <div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+                        序号
+                    </div>
+                    <div class="layui-col-xs3 layui-col-md3 layui-col-md3 color_green">
+                        名称
+                    </div>
+                    <div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+                        类型
+                    </div>
+                    <div class="layui-col-xs3 layui-col-md3 layui-col-md3 color_green">
+                        回路名称
+                    </div>
+                    <div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+                        柜号
+                    </div>
+                </div>
+                <div class="wxdaTableBody">
+                    <div class="layui-row layui-col-space5" v-for="(item,i) in list">
+                        <div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+                            {{ i+1 }}
+                        </div>
+                        <div class="layui-col-xs3 layui-col-md3 layui-col-md3">
+                            {{ item.name }}
+                        </div>
+                        <div class="layui-col-xs2 layui-col-md3 layui-col-md3">
+                            {{ item.type }}
+                        </div>
+                        <div class="layui-col-xs3 layui-col-md2 layui-col-md2">
+                            {{ item.HLMC }}
+                        </div>
+                        <div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+                            {{ item.GH }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="titleStyle1">影响房屋</div>
+            <div class="wxdaTableList">
+                <div class="layui-row layui-col-space4">
+                    <div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+                        序号
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4 layui-col-md4 color_green">
+                        名称
+                    </div>
+                    <div class="layui-col-xs3 layui-col-md3 layui-col-md3 color_green">
+                        类型
+                    </div>
+                    <div class="layui-col-xs3 layui-col-md3 layui-col-md3 color_green">
+                        区域
+                    </div>
+                </div>
+                <div class="wxdaTableBody">
+                    <div class="layui-row layui-col-space4" v-for="(item,i) in info">
+                        <div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+                            {{ i+1 }}
+                        </div>
+                        <div class="layui-col-xs4 layui-col-md4 layui-col-md4">
+                            {{ item.buildingname }}
+                        </div>
+                        <div class="layui-col-xs3 layui-col-md3 layui-col-md3">
+                            {{ item.buildingtype }}
+                        </div>
+                        <div class="layui-col-xs3 layui-col-md3 layui-col-md3">
+                            {{ item.areaname }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

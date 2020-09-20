@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.prd.mapper.PrdAttachmentMapper">
+    
+    <resultMap type="PrdAttachment" id="PrdAttachmentResult">
+        <result property="fileId"      column="file_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="createTime"  column="create_time"    jdbcType="BIGINT"    />
+        <result property="createBy"    column="create_by"      />
+    </resultMap>
+
+    <sql id="selectPrdAttachmentVo">
+        select file_id, file_name, file_path, file_size, create_time,create_by from prd_attachment
+    </sql>
+
+    <select id="selectPrdAttachmentList" parameterType="PrdAttachment" resultMap="PrdAttachmentResult">
+        <include refid="selectPrdAttachmentVo"/>
+        <where>  
+            <if test="fileName != null  and fileName != ''">
+            	<bind name="_fileName" value="'%'+ fileName +'%'"/>
+            	and file_name like #{_fileName}
+            </if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectPrdAttachmentById" parameterType="Long" resultMap="PrdAttachmentResult">
+        <include refid="selectPrdAttachmentVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertPrdAttachment" parameterType="PrdAttachment">
+        insert into prd_attachment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">file_id,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="filePath != null  and filePath != ''">file_path,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">#{fileId},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="filePath != null  and filePath != ''">#{filePath},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePrdAttachment" parameterType="PrdAttachment">
+        update prd_attachment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="filePath != null  and filePath != ''">file_path = #{filePath},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deletePrdAttachmentById" parameterType="Long">
+        delete from prd_attachment where file_id = #{fileId}
+    </delete>
+
+    <delete id="deletePrdAttachmentByIds" parameterType="String">
+        delete from prd_attachment where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+    
+</mapper>

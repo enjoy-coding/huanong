@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupInspectMapper">
+    
+    <resultMap type="AupInspect" id="AupInspectResult">
+        <result property="id"    column="id"    />
+        <result property="inspectName"    column="inspect_name"    />
+        <result property="inspectWorker"    column="inspect_worker"    />
+        <result property="inspectWorkerId"    column="inspect_worker_id"    />
+        <result property="inspectArea"    column="inspect_area"    />
+        <result property="distributeTime"    column="distribute_time"    />
+        <result property="distributeWorker"    column="distribute_worker"    />
+        <result property="distributeWorkerId"    column="distribute_worker_id"    />
+        <result property="inspectStatus"    column="inspect_status"    />
+        <result property="inspectTypeId"    column="inspect_type_id"    />
+        <result property="inspectType"    column="inspect_type"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAupInspectVo">
+        select id, inspect_name, inspect_worker, inspect_worker_id, inspect_area, distribute_time, distribute_worker, distribute_worker_id, inspect_status, inspect_type_id, inspect_type, start_time, end_time, create_time, update_time from aup_inspect
+    </sql>
+
+    <sql id="selectAupInspectVoJo">
+        select ai.id, ai.inspect_name, ai.inspect_worker, ai.inspect_worker_id, ai.inspect_area, ai.distribute_time, ai.distribute_worker,
+        ai.distribute_worker_id, ai.inspect_status, ai.inspect_type_id, ai.inspect_type, ai.start_time, ai.end_time, ai.create_time, ai.update_time,
+        (select count(task_id) inspectRecordNum from aup_inspect_detail aid where aid.task_id=ai.id group by task_id ) as inspectRecordNum
+        from aup_inspect ai
+    </sql>
+    <!--通过-->
+    <sql id="selectAupInspectVoJoMulti">
+        select * from view_inspect_list t
+    </sql>
+
+<!--    <sql id="selectAupInspectVo">
+        select i.id, i.inspect_name, u.user_name inspect_worker, i.inspect_worker_id, i.inspect_area, i.distribute_time, u2.user_name distribute_worker, i.distribute_worker_id, i.inspect_status, i.inspect_type_id, i.inspect_type, i.start_time, i.end_time, i.create_time, i.update_time from aup_inspect i
+
+        left join sys_user u on u.user_id = i.inspect_worker_id
+        left join sys_user u2 on u2.user_id = i.distribute_worker_id
+    </sql>-->
+
+<!--    <select id="selectAupInspectList" parameterType="AupInspect" resultMap="AupInspectResult">
+        <include refid="selectAupInspectVo"/>
+
+    </select>-->
+
+    <select id="selectTotal" resultType="integer">
+        select count(id) from aup_inspect
+    </select>
+
+    <select id="selectCurMonthCount" resultType="integer">
+        select count(id) from aup_inspect
+        where create_time >= DATEADD(mm, DATEDIFF(mm,0,getdate()), 0)
+    </select>
+
+    <select id="selectAlreadyCurMonthCount" resultType="integer">
+        select count(id) from aup_inspect
+        where create_time >= DATEADD(mm, DATEDIFF(mm,0,getdate()), 0) and inspect_status = 2
+    </select>
+
+    <select id="selectAupInspectCount" parameterType="AupInspect" resultType="com.feather.aupipes.domain.AupPatrolCount">
+        SELECT inspect_status status, count(id) total FROM aup_inspect
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="inspectName != null  and inspectName != ''">
+                <bind name="_inspectName" value="'%'+ inspectName +'%'"/>
+                and inspect_name like #{_inspectName}
+            </if>
+            <if test="inspectWorker != null  and inspectWorker != ''">
+                <bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>
+                and inspect_worker like #{_inspectWorker}
+            </if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">
+                <bind name="_inspectWorkerId" value="'%'+ inspectWorkerId +'%'"/>
+                and inspect_worker_id like #{_inspectWorkerId}
+            </if>
+            <if test="inspectArea != null  and inspectArea != ''">
+                <bind name="_inspectArea" value="'%'+ inspectArea +'%'"/>
+                and inspect_area like #{_inspectArea}
+            </if>
+            <if test="distributeTime != null  and distributeTime != ''">
+                <bind name="_distributeTime" value="'%'+ distributeTime +'%'"/>
+                and distribute_time like #{_distributeTime}
+            </if>
+            <if test="distributeWorker != null  and distributeWorker != ''">
+                <bind name="_distributeWorker" value="'%'+ distributeWorker +'%'"/>
+                and distribute_worker like #{_distributeWorker}
+            </if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">
+                <bind name="_distributeWorkerId" value="'%'+ distributeWorkerId +'%'"/>
+                and distribute_worker_id like #{_distributeWorkerId}
+            </if>
+            <if test="inspectStatus != null  and inspectStatus != ''">
+                <bind name="_inspectStatus" value="'%'+ inspectStatus +'%'"/>
+                and inspect_status like #{_inspectStatus}
+            </if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">
+                <bind name="_inspectTypeId" value="'%'+ inspectTypeId +'%'"/>
+                and inspect_type_id like #{_inspectTypeId}
+            </if>
+            <if test="inspectType != null  and inspectType != ''">
+                <bind name="_inspectType" value="'%'+ inspectType +'%'"/>
+                and inspect_type like #{_inspectType}
+            </if>
+            <if test="startTime != null  and startTime != ''">
+                <bind name="_startTime" value="'%'+ startTime +'%'"/>
+                and start_time like #{_startTime}
+            </if>
+            <if test="endTime != null  and endTime != ''">
+                <bind name="_endTime" value="'%'+ endTime +'%'"/>
+                and end_time like #{_endTime}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and distribute_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and distribute_time &lt;= #{params.endTime}
+            </if>
+            <if test="params.searchValue != null and params.searchValue != ''">
+                <bind name="_searchValue" value="'%'+ params.searchValue +'%'"/>
+                and (inspect_name like #{_searchValue} or inspect_worker like #{_searchValue})
+            </if>
+        </where>
+        GROUP BY inspect_status
+    </select>
+
+<!--    <select id="selectAupInspectList" parameterType="AupInspect" resultMap="AupInspectResult">
+        <include refid="selectAupInspectVo"/>
+        <where>  
+            <if test="id != null and id != ''">
+            	and id = #{id}
+            </if>
+            <if test="inspectName != null  and inspectName != ''">
+            	<bind name="_inspectName" value="'%'+ inspectName +'%'"/>
+            	and inspect_name like #{_inspectName}
+            </if>
+            <if test="inspectWorker != null  and inspectWorker != ''">
+            	<bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>
+            	and inspect_worker like #{_inspectWorker}
+            </if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">
+            	<bind name="_inspectWorkerId" value="'%'+ inspectWorkerId +'%'"/>
+            	and inspect_worker_id like #{_inspectWorkerId}
+            </if>
+            <if test="inspectArea != null  and inspectArea != ''">
+            	<bind name="_inspectArea" value="'%'+ inspectArea +'%'"/>
+            	and inspect_area like #{_inspectArea}
+            </if>
+            <if test="distributeTime != null  and distributeTime != ''">
+            	<bind name="_distributeTime" value="'%'+ distributeTime +'%'"/>
+            	and distribute_time like #{_distributeTime}
+            </if>
+            <if test="distributeWorker != null  and distributeWorker != ''">
+            	<bind name="_distributeWorker" value="'%'+ distributeWorker +'%'"/>
+            	and distribute_worker like #{_distributeWorker}
+            </if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">
+            	<bind name="_distributeWorkerId" value="'%'+ distributeWorkerId +'%'"/>
+            	and distribute_worker_id like #{_distributeWorkerId}
+            </if>
+            <if test="inspectStatus != null  and inspectStatus != ''">
+            	<bind name="_inspectStatus" value="'%'+ inspectStatus +'%'"/>
+            	and inspect_status like #{_inspectStatus}
+            </if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">
+            	<bind name="_inspectTypeId" value="'%'+ inspectTypeId +'%'"/>
+            	and inspect_type_id like #{_inspectTypeId}
+            </if>
+            <if test="inspectType != null  and inspectType != ''">
+            	<bind name="_inspectType" value="'%'+ inspectType +'%'"/>
+            	and inspect_type like #{_inspectType}
+            </if>
+            <if test="startTime != null  and startTime != ''">
+            	<bind name="_startTime" value="'%'+ startTime +'%'"/>
+            	and start_time like #{_startTime}
+            </if>
+            <if test="endTime != null  and endTime != ''">
+            	<bind name="_endTime" value="'%'+ endTime +'%'"/>
+            	and end_time like #{_endTime}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;
+                and distribute_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;
+                and distribute_time &lt;= #{params.endTime}
+            </if>
+            <if test="params.searchValue != null and params.searchValue != ''">
+                <bind name="_searchValue" value="'%'+ params.searchValue +'%'"/>
+                and (inspect_name like #{_searchValue} or inspect_worker like #{_searchValue})
+            </if>
+            <if test="params.inspectStatus != null and params.inspectStatus != ''">
+                <bind name="_searchValue" value="'%'+ params.inspectStatus +'%'"/>
+                and inspect_status in (1,2)
+            </if>
+        </where>
+        order by create_time desc
+    </select>-->
+
+<!--    <select id="selectAupInspectList" parameterType="AupInspect" resultMap="AupInspectResult">
+        <include refid="selectAupInspectVoJo"/>
+        <where>
+            <if test="id != null and id != ''">
+            	and ai.id = #{id}
+            </if>
+            <if test="inspectName != null  and inspectName != ''">
+            	<bind name="_inspectName" value="'%'+ inspectName +'%'"/>
+            	and ai.inspect_name like #{_inspectName}
+            </if>
+            <if test="inspectWorker != null  and inspectWorker != ''">
+            	<bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>
+            	and ai.inspect_worker like #{_inspectWorker}
+            </if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">
+            	<bind name="_inspectWorkerId" value="'%'+ inspectWorkerId +'%'"/>
+            	and ai.inspect_worker_id like #{_inspectWorkerId}
+            </if>
+            <if test="inspectArea != null  and inspectArea != ''">
+            	<bind name="_inspectArea" value="'%'+ inspectArea +'%'"/>
+            	and ai.inspect_area like #{_inspectArea}
+            </if>
+            <if test="distributeTime != null  and distributeTime != ''">
+            	<bind name="_distributeTime" value="'%'+ distributeTime +'%'"/>
+            	and ai.distribute_time like #{_distributeTime}
+            </if>
+            <if test="distributeWorker != null  and distributeWorker != ''">
+            	<bind name="_distributeWorker" value="'%'+ distributeWorker +'%'"/>
+            	and ai.distribute_worker like #{_distributeWorker}
+            </if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">
+            	<bind name="_distributeWorkerId" value="'%'+ distributeWorkerId +'%'"/>
+            	and ai.distribute_worker_id like #{_distributeWorkerId}
+            </if>
+            <if test="inspectStatus != null  and inspectStatus != ''">
+            	<bind name="_inspectStatus" value="'%'+ inspectStatus +'%'"/>
+            	and ai.inspect_status like #{_inspectStatus}
+            </if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">
+            	<bind name="_inspectTypeId" value="'%'+ inspectTypeId +'%'"/>
+            	and ai.inspect_type_id like #{_inspectTypeId}
+            </if>
+            <if test="inspectType != null  and inspectType != ''">
+            	<bind name="_inspectType" value="'%'+ inspectType +'%'"/>
+            	and ai.inspect_type like #{_inspectType}
+            </if>
+            <if test="startTime != null">
+            	<bind name="_startTime" value="'%'+ startTime +'%'"/>
+            	and ai.start_time like #{_startTime}
+            </if>
+            <if test="endTime != null ">
+            	<bind name="_endTime" value="'%'+ endTime +'%'"/>
+            	and ai.end_time like #{_endTime}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;
+                and ai.distribute_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;
+                and ai.distribute_time &lt;= #{params.endTime}
+            </if>
+            <if test="params.searchValue != null and params.searchValue != ''">
+                <bind name="_searchValue" value="'%'+ params.searchValue +'%'"/>
+                and (ai.inspect_name like #{_searchValue} or ai.inspect_worker like #{_searchValue})
+            </if>
+            <if test="params.inspectStatus != null and params.inspectStatus != ''">
+                <bind name="_searchValue" value="'%'+ params.inspectStatus +'%'"/>
+                and ai.inspect_status in (1,2)
+            </if>
+        </where>
+
+    </select>-->
+
+    <select id="selectAupInspectListByIds" parameterType="String" resultMap="AupInspectResult">
+
+        <include refid="selectAupInspectVoJoMulti"/>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectAupInspectList" parameterType="AupInspect" resultMap="AupInspectResult">
+        <include refid="selectAupInspectVoJoMulti"/>
+        <where>
+            <if test="id != null and id != ''">
+            	and t.id = #{id}
+            </if>
+            <if test="inspectName != null  and inspectName != ''">
+            	<bind name="_inspectName" value="'%'+ inspectName +'%'"/>
+            	and t.inspect_name like #{_inspectName}
+            </if>
+            <if test="inspectWorker != null  and inspectWorker != ''">
+            	<bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>
+            	and t.inspect_worker like #{_inspectWorker}
+            </if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">
+            	<bind name="_inspectWorkerId" value="'%'+ inspectWorkerId +'%'"/>
+            	and t.inspect_worker_id like #{_inspectWorkerId}
+            </if>
+            <if test="inspectArea != null  and inspectArea != ''">
+            	<bind name="_inspectArea" value="'%'+ inspectArea +'%'"/>
+            	and t.inspect_area like #{_inspectArea}
+            </if>
+            <if test="distributeTime != null  and distributeTime != ''">
+            	<bind name="_distributeTime" value="'%'+ distributeTime +'%'"/>
+            	and t.distribute_time like #{_distributeTime}
+            </if>
+            <if test="distributeWorker != null  and distributeWorker != ''">
+            	<bind name="_distributeWorker" value="'%'+ distributeWorker +'%'"/>
+            	and t.distribute_worker like #{_distributeWorker}
+            </if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">
+            	<bind name="_distributeWorkerId" value="'%'+ distributeWorkerId +'%'"/>
+            	and t.distribute_worker_id like #{_distributeWorkerId}
+            </if>
+            <if test="inspectStatus != null  and inspectStatus != ''">
+            	<bind name="_inspectStatus" value="'%'+ inspectStatus +'%'"/>
+            	and t.inspect_status like #{_inspectStatus}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and t.distribute_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and t.distribute_time &lt;= #{params.endTime}
+            </if>
+            <if test="params.searchValue != null and params.searchValue != ''">
+                <bind name="_searchValue" value="'%'+ params.searchValue +'%'"/>
+                and (t.inspect_name like #{_searchValue} or t.inspect_worker like #{_searchValue})
+            </if>
+            <if test="params.inspectStatus != null and params.inspectStatus != ''">
+                <bind name="_searchValue" value="'%'+ params.inspectStatus +'%'"/>
+                and t.inspect_status in (1,2)
+            </if>
+        </where>
+        order by create_time desc
+
+    </select>
+
+    <select id="selectAupInspectById" parameterType="Long" resultMap="AupInspectResult">
+        <include refid="selectAupInspectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAupInspect" parameterType="AupInspect">
+        insert into aup_inspect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="inspectName != null  and inspectName != ''">inspect_name,</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">inspect_worker,</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">inspect_worker_id,</if>
+            <if test="inspectArea != null  and inspectArea != ''">inspect_area,</if>
+            <if test="distributeTime != null ">distribute_time,</if>
+            <if test="distributeWorker != null  and distributeWorker != ''">distribute_worker,</if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">distribute_worker_id,</if>
+            <if test="inspectStatus != null  and inspectStatus != ''">inspect_status,</if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">inspect_type_id,</if>
+            <if test="inspectType != null  and inspectType != ''">inspect_type,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="inspectName != null  and inspectName != ''">#{inspectName},</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">#{inspectWorker},</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">#{inspectWorkerId},</if>
+            <if test="inspectArea != null  and inspectArea != ''">#{inspectArea},</if>
+            <if test="distributeTime != null ">#{distributeTime},</if>
+            <if test="distributeWorker != null  and distributeWorker != ''">#{distributeWorker},</if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">#{distributeWorkerId},</if>
+            <if test="inspectStatus != null  and inspectStatus != ''">#{inspectStatus},</if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">#{inspectTypeId},</if>
+            <if test="inspectType != null  and inspectType != ''">#{inspectType},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupInspect" parameterType="AupInspect">
+        update aup_inspect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inspectName != null  and inspectName != ''">inspect_name = #{inspectName},</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">inspect_worker = #{inspectWorker},</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">inspect_worker_id = #{inspectWorkerId},</if>
+            <if test="inspectArea != null  and inspectArea != ''">inspect_area = #{inspectArea},</if>
+            <if test="distributeTime != null ">distribute_time = #{distributeTime},</if>
+            <if test="distributeWorker != null  and distributeWorker != ''">distribute_worker = #{distributeWorker},</if>
+            <if test="distributeWorkerId != null  and distributeWorkerId != ''">distribute_worker_id = #{distributeWorkerId},</if>
+            <if test="inspectStatus != null  and inspectStatus != ''">inspect_status = #{inspectStatus},</if>
+            <if test="inspectTypeId != null  and inspectTypeId != ''">inspect_type_id = #{inspectTypeId},</if>
+            <if test="inspectType != null  and inspectType != ''">inspect_type = #{inspectType},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupInspectById" parameterType="Long">
+        delete from aup_inspect where id = #{id}
+    </delete>
+
+    <delete id="deleteAupInspectByIds" parameterType="String">
+        delete from aup_inspect where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

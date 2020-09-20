@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('消息日志列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>应用类型：</p>
+                                <select name="msgApp" th:with="type=${@dict.getType('prd_msg_app')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>消息分类：</p>
+                                <select name="msgType" th:with="type=${@dict.getType('prd_msg_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>消息标题：</p>
+                                <input type="text" name="msgTitle"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="prd:msg:send">
+                    <i class="fa fa-plus"></i> 发送
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="prd:msg:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var removeFlag = [[${@permission.hasPermi('prd:msg:remove')}]];
+        var msgAppDatas = [[${@dict.getType('prd_msg_app')}]];
+        var msgTypeDatas = [[${@dict.getType('prd_msg_type')}]];
+        var prefix = ctx + "prd/msg";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/send",
+                updateUrl: prefix + "/detail/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "消息发送日志",
+                sortName: "create_time",
+                sortOrder: "desc",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'msgId', 
+                    visible: false
+                },
+                {
+                    field : 'msgApp', 
+                    title : '应用类型',
+		            sortable: true,
+                    formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(msgAppDatas, value);
+		            }
+                },
+                {
+                    field : 'msgType', 
+                    title : '消息分类',
+		            sortable: true,
+                    formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(msgTypeDatas, value);
+		            }
+                },
+                {
+                    field : 'msgTitle', 
+                    title : '消息标题'
+                },
+                {
+                    field : 'createTime', 
+                    title : '发送时间',
+		            sortable: true
+                },
+                {
+                    field : 'sendCount', 
+                    title : '人数',
+		            formatter: function(value, row, index) {
+		                return '<a href="javascript:void(0)" onclick="detail(\'' + row.msgId + '\')">' + value + '</a>';
+		            }
+                },
+                {
+                    field : 'okCount', 
+                    title : '成功'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.msgId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.msgId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        /* 接收人-列表 */
+		function detail(msgId) {
+		    var url = prefix + '/users/' + msgId;
+		    $.modal.openTab("消息接收日志", url);
+		}
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+
+	<ul class="layui-tab-title">
+		<li class="layui-this" id="wcz" onclick="YJCZ.change('bjxx0')">未处置</li>
+		<!--<li>处置中</li>-->
+		<li id="ycz" onclick="YJCZ.change('bjxx1')">已处置</li>
+	</ul>
+	<div class="layui-tab-content" >
+		<div class="layui-tab-item layui-show">
+			<div class="bjxxSearch pr">
+				<input type="text" placeholder="预警内容" id="yjContent0" autocomplete="off">
+				<i class="iconfont icon-sousuo pa"  onclick="YJCZ.searchContent('bjxx0')"></i>
+			</div>
+			<div class="czList">
+				<div class="tableHeader">
+					<span class="col-1 fl">序号</span>
+					<span class="col-1 fl">等级</span>
+					<span class="col-8 fl">预警内容</span>
+				</div>
+				<ul class="tableBody"  id="bjxxstate0"  th:value="${list0.total}">
+                        <li  th:each="map:${list0.rows}"   th:id="${map.code}" th:onclick="YJCZ.getAllinfo([[${map.id}]])">
+                            <span class="col-1 fl txtC">[(${mapStat.index+1})]</span>
+                            <span class="col-1 fl" th:switch="${map.level}">
+                              <img th:case="1" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt="">
+                              <img th:case="2" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade2.gif}" alt="">
+                              <img th:case="3" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade3.gif}" alt="">
+                            </span>
+                            <p class="col-8 fl">[(${map.content})]</p>
+                        </li>
+				</ul>
+             </div>
+		</div>
+		<!--<div class="layui-tab-item">
+            <div class="bjxxSearch pr">
+                <input type="text">
+                <i class="iconfont icon-sousuo pa"></i>
+            </div>
+            <div class="czList">
+                <div class="tableHeader">
+                    <span class="col-1 fl">序号</span>
+                    <span class="col-1 fl">等级</span>
+                    <span class="col-8 fl">预警内容</span>
+                </div>
+                <ul class="tableBody"  >
+
+                </ul>
+            </div>
+        </div>-->
+		<div class="layui-tab-item">
+            <div class="bjxxSearch pr">
+                <input type="text" placeholder="预警内容" id="yjContent1" autocomplete="off">
+                <i class="iconfont icon-sousuo pa" onclick="YJCZ.searchContent('bjxx1')"></i>
+            </div>
+            <div class="czList">
+                <div class="tableHeader">
+                    <span class="col-1 fl">序号</span>
+                    <span class="col-1 fl">等级</span>
+                    <span class="col-8 fl">预警内容</span>
+                </div>
+                <ul class="tableBody"  id="bjxxstate1" th:value="${list1.total}">
+                    <li  th:each="map:${list1.rows}"  th:id="${map.code}" th:onclick="YJCZ.getAllinfo([[${map.id}]])">
+                        <span class="col-1 fl txtC">[(${mapStat.index+1})]</span>
+                        <span class="col-1 fl" th:switch="${map.level}">
+                              <img th:case="1" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt="">
+                              <img th:case="2" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade2.gif}" alt="">
+                              <img th:case="3" class="gradeIcon" th:src="@{/bus/aupipes/lib/images/grade3.gif}" alt="">
+                        </span>
+                        <p class="col-8 fl">[(${map.content})]</p>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+	</div>
+
+
+
+

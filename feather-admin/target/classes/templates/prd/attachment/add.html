@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增附件')" />
+	<th:block th:include="include :: bootstrap-fileinput-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-attachment-add">
+            <div class="form-group">    
+                <div class="col-sm-12">
+                    <input id="file" name="file" type="file" multiple>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "prd/attachment"
+        $("#form-attachment-add").validate({
+            focusCleanup: true
+        });
+		
+		$(".layui-layer-btn0", parent.document).hide();
+		
+        $(function () {
+	        $("#file").fileinput({
+	            'theme': 'explorer-fas',
+	            'uploadUrl': ctx + 'prd/attachment/api/uploadAttachment',
+	            overwriteInitial: false,
+	            initialPreviewAsData: true
+	        }).on("fileuploaded", function(event, data, previewId, index){
+	        	var response = data.response;
+	        	if (response.code == web_status.SUCCESS) {
+	        		$.modal.msgSuccess(response.msg);
+	        		parent.$.table.refresh();
+	        	} else {
+					$.modal.msgError(response.msg);
+				}
+			});
+	    });
+    </script>
+</body>
+</html>

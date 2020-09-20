@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWorkerMapper">
+    
+    <resultMap type="AupWorker" id="AupWorkerResult">
+        <result property="workerId"    column="worker_id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="age"    column="age"    />
+        <result property="phone"    column="phone"    />
+        <result property="departId"    column="depart_id"    />
+        <result property="departName"    column="depart_name"    />
+    </resultMap>
+
+    <sql id="selectAupWorkerVo">
+        select worker_id, name, sex, age, phone, depart_id, depart_name from aup_worker
+    </sql>
+
+    <select id="selectAupWorkerList" parameterType="AupWorker" resultMap="AupWorkerResult">
+        <include refid="selectAupWorkerVo"/>
+        <where>  
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and name like #{_name}
+            </if>
+            <if test="sex != null  and sex != ''">
+            	<bind name="_sex" value="'%'+ sex +'%'"/>
+            	and sex like #{_sex}
+            </if>
+            <if test="age != null ">
+            	<bind name="_age" value="'%'+ age +'%'"/>
+            	and age like #{_age}
+            </if>
+            <if test="phone != null  and phone != ''">
+            	<bind name="_phone" value="'%'+ phone +'%'"/>
+            	and phone like #{_phone}
+            </if>
+            <if test="departId != null ">
+            	<bind name="_departId" value="'%'+ departId +'%'"/>
+            	and depart_id like #{_departId}
+            </if>
+            <if test="departName != null  and departName != ''">
+            	<bind name="_departName" value="'%'+ departName +'%'"/>
+            	and depart_name like #{_departName}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectAupWorkerById" parameterType="Long" resultMap="AupWorkerResult">
+    </select>
+        
+    <insert id="insertAupWorker" parameterType="AupWorker">
+        insert into aup_worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workerId != null ">worker_id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="age != null ">age,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="departId != null ">depart_id,</if>
+            <if test="departName != null  and departName != ''">depart_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workerId != null ">#{workerId},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="age != null ">#{age},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="departId != null ">#{departId},</if>
+            <if test="departName != null  and departName != ''">#{departName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupWorker" parameterType="AupWorker">
+        update aup_worker
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="age != null ">age = #{age},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="departId != null ">depart_id = #{departId},</if>
+            <if test="departName != null  and departName != ''">depart_name = #{departName},</if>
+        </trim>
+        where worker_id = #{workerId}
+    </update>
+
+    <delete id="deleteAupWorkerById" parameterType="Long">
+        delete from aup_worker where worker_id = #{workerId}
+    </delete>
+
+    <delete id="deleteAupWorkerByIds" parameterType="String">
+        delete from aup_worker where worker_id in 
+        <foreach item="workerId" collection="array" open="(" separator="," close=")">
+            #{workerId}
+        </foreach>
+    </delete>
+    
+</mapper>

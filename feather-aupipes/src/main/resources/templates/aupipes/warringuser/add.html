@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改预警用户')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-warringuser-add" >
+            <input id="id" name="id" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预警类型：</label>
+                <div class="col-sm-8">
+                    <select id="warringcategoryid" class="form-control">
+                        <option value="监控">监控</option>
+                        <option value="水质">水质</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">推送人：</label>
+                <div class="col-sm-8">
+                    <input name="name" id="name" class="form-control" type="text" >
+                    <button type="button" onclick="getWarringUserByName()">搜索</button>
+                </div>
+                <div id="userList" style="margin-left: 200px;margin-top: 70px;width: 70%">
+                </div>
+            </div>
+            <div class="form-group" hidden>
+                <label class="col-sm-3 control-label">推送人id：</label>
+                <div class="col-sm-8">
+                    <input name="userid"  class="form-control" type="hidden">
+                </div>
+            </div>
+            <div class="form-group" hidden>
+                <label class="col-sm-3 control-label">电话号码：</label>
+                <div class="col-sm-8" hidden>
+                    <input name="phonenumber" class="form-control" type="hidden">
+                </div>
+            </div>
+            <div class="form-group" hidden>
+                <label class="col-sm-3 control-label">微信id：</label>
+                <div class="col-sm-8">
+                    <input name="openid"  class="form-control" type="hidden">
+                </div>
+            </div>
+            <div class="form-group" hidden>
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark"  class="form-control" type="hidden">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "aupipes/warringuser";
+        $("#form-warringuser-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#id").val() ? false : true;
+		}
+        function getWarringUserByName() {
+	        var name=$("#name").val();
+	        $.ajax({
+                url:prefix+"/getUserByName?name="+name,
+                type:"POST",
+                async:false,
+                success:function (data) {
+                    if(data!=null){
+                       var html='';
+                       $("#userList").html("");
+                       for(var i in data){
+                           if(data[i].openid==undefined){
+                               data[i].openid='';
+                           }
+                          html+='<div style="float: left;margin-left: 10px"><input  type="checkbox" name="checkbox" username="'+data[i].user_name+'" value="'+data[i].user_id+'" openid="'+data[i].openid+'" phonenumber="'+data[i].phonenumber+'" idcard="'+data[i].idCard+'"login_name="'+data[i].login_name+'">'+data[i].user_name+'</div>';
+                       }
+                        $("#userList").html(html);
+                    }
+                }
+            })
+
+        }
+        function submitHandler() {
+           var warringcategory = $("#warringcategoryid").find("option:selected").text();
+	        var obj=[];
+	        var name=[];
+	        var phonenumber =[];
+	        var loginname=[];
+            var r=document.getElementsByName("checkbox");
+            for(var i=0;i<r.length;i++) {
+                if (r[i].checked) {
+                    var m = {
+                        name: r[i].getAttribute('username'),
+                        userid: r[i].value,
+                        openid: r[i].getAttribute('openid'),
+                        phonenumber: r[i].getAttribute('phonenumber'),
+                        idcard:r[i].getAttribute('idcard'),
+                        loginname:r[i].getAttribute('login_name')
+                    };
+                    phonenumber.push(r[i].getAttribute('phonenumber'));
+                    loginname.push(r[i].getAttribute('login_name'));
+                    name.push(r[i].getAttribute('username'));
+                    obj.push(m);
+                }
+            }
+            obj=JSON.stringify(obj);
+            name=JSON.stringify(name);
+            loginname=JSON.stringify(loginname);
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: {"name":name,"obj":obj,"loginname":loginname,"warringcategory":warringcategory},
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.code==0) {
+	        					top.formmsg = result.msg;
+                                $.modal.msgSuccess(result.msg);
+	        				} else {
+	        					$.modal.msgError("没有返回数据：id");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

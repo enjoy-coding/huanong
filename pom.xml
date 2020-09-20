@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.feather</groupId>
+    <artifactId>feather</artifactId>
+    <version>4.0.0</version>
+
+    <name>feather</name>
+
+    <properties>
+        <feather.version>4.0.0</feather.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <shiro.version>1.4.1</shiro.version>
+        <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
+        <mybatis.boot.version>1.3.2</mybatis.boot.version>
+        <druid.version>1.1.14</druid.version>
+        <bitwalker.version>1.19</bitwalker.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <swagger.version>2.9.2</swagger.version>
+        <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
+        <oshi.version>3.9.1</oshi.version>
+        <commons.io.version>2.5</commons.io.version>
+        <commons.fileupload.version>1.3.3</commons.fileupload.version>
+        <jsoup.version>1.11.3</jsoup.version>
+        <poi.version>4.1.0</poi.version>
+        <xdocreport.version>2.0.2</xdocreport.version>
+        <pdfbox.version>2.0.14</pdfbox.version>
+        <velocity.version>1.7</velocity.version>
+        <nutz.version>1.r.66</nutz.version>
+        <lombok.version>1.18.8</lombok.version>
+        <crazycake.version>3.1.0</crazycake.version>
+        <zxing.version>3.3.3</zxing.version>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
+        <jsoup.veraion>1.11.3</jsoup.veraion>
+        <javacv.version>1.4.3</javacv.version>
+        <javacpp.ffmpeg.version>4.0.2-1.4.3</javacpp.ffmpeg.version>
+        <easypoi.version>4.1.3</easypoi.version>
+        <poi-tl.version>1.6.0-beta1</poi-tl.version>
+        <geodesy.version>1.1.3</geodesy.version>
+    </properties>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- SpringBoot的依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- 验证码 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!-- Shiro核心框架 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- Shiro使用Srping框架 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!-- Shiro使用EhCache缓存框架 -->
+            <!-- <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+            </dependency> -->
+
+            <!-- thymeleaf模板引擎和shiro框架的整合 -->
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>${thymeleaf.extras.shiro.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- swagger2-UI -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!-- io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+
+            <!-- 文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- HTML解析器 -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <!-- excel工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <!-- velocity代码生成使用模板 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.nutz</groupId>
+                <artifactId>nutz-plugins-spring-boot-starter</artifactId>
+                <version>${nutz.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- 二维码 -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+
+            <!-- 图片缩略图 -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+
+            <!-- PPT工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-scratchpad</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <!-- word处理 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml-schemas</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-excelant</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.opensagres.xdocreport</groupId>
+                <artifactId>fr.opensagres.xdocreport.core</artifactId>
+                <version>${xdocreport.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.opensagres.xdocreport</groupId>
+                <artifactId>fr.opensagres.poi.xwpf.converter.core</artifactId>
+                <version>${xdocreport.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.opensagres.xdocreport</groupId>
+                <artifactId>fr.opensagres.poi.xwpf.converter.xhtml</artifactId>
+                <version>${xdocreport.version}</version>
+            </dependency>
+
+            <!-- PDF工具 -->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${pdfbox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.crazycake</groupId>
+                <artifactId>shiro-redis</artifactId>
+                <version>${crazycake.version}</version>
+            </dependency>
+
+            <!-- Java解析Html的jar -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <!-- 视频信息工具 -->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacv</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco.javacpp-presets</groupId>
+                <artifactId>ffmpeg-platform</artifactId>
+                <version>${javacpp.ffmpeg.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-spring-boot-starter</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.deepoove</groupId>
+                <artifactId>poi-tl</artifactId>
+                <version>${poi-tl.version}</version>
+            </dependency>
+            
+            <dependency>
+				<groupId>org.gavaghan</groupId>
+				<artifactId>geodesy</artifactId>
+				<version>${geodesy.version}</version>
+			</dependency>
+            
+            
+            <!-- 模块 -->
+            <!-- 定时任务 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-quartz</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 代码生成 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-generator</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 系统模块 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-system</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+            <!-- 通用工具 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-common</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+            <!-- 通用工具 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-common4nutz</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+
+            <!-- 六盘水智慧社区 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-lpscommunity</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!--智慧社区产品 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-smartcommunity</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!--会议管理 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-meeting</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 华农三维管网 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-aupipes</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 海康接口对接 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-hikvision</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 海康SDK对接 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-hikvnetsdk</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 站群管理 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-website</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 微信管理 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-wx</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 巡检管理 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-patrol</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 内容管理 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-cms</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!--那坡旅游-->
+			<dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-napo</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+
+            <!-- 健康指数智能环 -->
+            <dependency>
+                <groupId>com.feather</groupId>
+                <artifactId>feather-health</artifactId>
+                <version>${feather.version}</version>
+            </dependency>
+            
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>feather-admin</module>
+        <module>feather-system</module>
+        <module>feather-quartz</module>
+        <module>feather-generator</module>
+        <module>feather-common</module>
+        <module>feather-common4nutz</module>
+        <module>feather-lpscommunity</module>
+        <module>feather-smartcommunity</module>
+        <module>feather-website</module>
+        <module>feather-meeting</module>
+        <module>feather-wx</module>
+        <module>feather-aupipes</module>
+        <module>feather-hikvision</module>
+        <module>feather-hikvnetsdk</module>
+        <module>feather-patrol</module>
+        <module>feather-cms</module>
+        <module>feather-health</module>
+
+    </modules>
+
+    <packaging>pom</packaging>
+
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

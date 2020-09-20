@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>能源保障服务平台</title>
+    <link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/def/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet">
+    <link th:href="@{/def/libs/swiper/css/swiper.min.css}" rel="stylesheet">
+    <link th:href="@{/def/libs/bootstrap-select/bootstrap-multiselect.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/mobile/font/iconfont.css(v=${staticResourcesVersion})}" rel="stylesheet"
+          type="text/css">
+    <link th:href="@{/bus/aupipes/mobile/css/css.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css">
+    <link th:href="@{/bus/aupipes/mobile/css/index.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css">
+
+    <!-- 三维css -->
+    <link th:href="@{/bus/aupipes/Cesium/Widgets/widgets.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/css/3d/common.css(v=${staticResourcesVersion})}" type="text/css"/>
+    <script th:inline="javascript">
+        var ctx = [[@{/}]];
+        var staticResourcesVersion = [[${staticResourcesVersion}]];
+        var aupipeService = [[${aupipeService}]];
+        var celouService = [[${celouService}]];
+        var weixinService = [[${weixinService}]];
+    </script>
+</head>
+
+<body>
+<div id="app">
+    <div id="cesiumContainer">
+        <header>
+            <div id="hamburgermenu">
+                <h4 class="userTxt">admin</h4>
+                <ul class="layui-nav layui-nav-tree layui-inline menuNav" lay-filter="demo">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">巡检维修</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;">搜周边</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">下发任务</a>
+                            </dd>
+                            <dd>
+                                <a id="xjwx" href="javascript:;">巡查列表</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">维修档案</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="yjcz" href="javascript:;">预警信息</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="yxjk" href="javascript:;">运行监控</a>
+                        <dl class="layui-nav-child">
+                            <!--<dd>
+                                <a href="javascript:;">配电房</a>
+                            </dd>-->
+                            <dd>
+                                <a href="javascript:;">泵房</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">水电用户</a>
+                            </dd>
+                            <dd>
+                                <a id="ld" href="javascript:;">路灯</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">探漏</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">安防</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">水质</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">控制器</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="jcbz" href="javascript:;">决策保障</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a id="lzxd" href="javascript:;">拉闸限电</a>
+                            </dd>
+                            <dd>
+                                <a id="gfts" href="javascript:;">关阀停水</a>
+                            </dd>
+                            <!--<dd>
+                                <a href="javascript:;">智能排管</a>
+                            </dd>-->
+                            <dd>
+                                <a id="kwfx" href="javascript:;">开挖分析</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">能耗监管</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a id="nhjg" href="javascript:;">耗水</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">耗电</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">我的</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="overlay"></div>
+        </header>
+        <div id="content">
+            <div class="box mapBg pr">
+                <a href="#" class="menubtn bg_blue">
+                    <i class="iconfont iconxiangqing icon"></i>
+                </a>
+                <!--原菜单已隐藏不用管-- hide -->
+                <div class="menubtnGrounp pa hide">
+                    <!--菜单-->
+                    <div class="menuContent fl">
+                        <div class="pr">
+								<span class="menuBtn bg_blue cp" id="menuBtn">
+									<i class="iconfont iconxiangqing icon"></i>
+									菜单
+								</span>
+                            <ul class="menuList pa hide" id="menuList">
+                                <li class="bg_blue">人员巡检</li>
+                                <li class="bg_blue">运行处置</li>
+                                <li class="bg_blue">运行监控</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--图层按钮-->
+                    <!--<span class="layerBtn bg_blue cp fl">
+                    <i class="iconfont icontuceng icon"></i>
+                    图层
+                </span>-->
+                </div>
+
+                <!--<div class="userInfo pa">
+                    <span>admin</span>
+                    <em>|</em>
+                    <span class="Logout">退出</span>
+                </div>-->
+
+                <span class="bg_blue pa layerBtn cp" id="layerBtn"><i class="iconfont icontuceng icon"></i></span>
+
+                <!--地图按钮-->
+                <div class="mapBtnGrounp pa mapEditBtn">
+                    <span class="bg_blue" id="mapSwitch"><i class="iconfont icond1 icon"></i></span>
+                    <span class="bg_blue"><i class="iconfont iconjia icon"></i></span>
+                    <span class="bg_blue"><i class="iconfont iconjian icon"></i></span>
+                    <span class="bg_blue"><i class="iconfont iconposition-fill icon"></i></span>
+                    <div class="mapBtnItem2">
+                        <span class="bg_blue"><i class="iconfont iconsouzhoubian icon"></i></span>
+                        <i class="txt">周边</i>
+                        <span class="bg_blue"><i class="iconfont iconkaiwafenxi icon"></i></span>
+                        <i class="txt">开挖</i>
+                        <span class="bg_blue"><i class="iconfont iconshui icon"></i></span>
+                        <i class="txt">关阀</i>
+                        <span class="bg_blue"><i class="iconfont iconshandian icon"></i></span>
+                        <i class="txt">拉闸</i>
+                    </div>
+                </div>
+                <!--图层弹框-->
+                <div class="layerBoxContent pa hide" id="layerBoxContent">
+                    <div class="layui-tab layui-tab-brief" lay-filter="layerBoxContent">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this bg_blue">设备</li>
+                            <li class="bg_blue">管线</li>
+                            <li class="bg_blue">建筑物</li>
+                            <li class="bg_blue">底图</li>
+                        </ul>
+                        <div class="layui-tab-content" id="layerTabContent">
+                            <div class="layui-tab-item layui-show">
+                                <ul class="layerList layui-form" id="device">
+                                    <li>
+                                        设备
+                                        <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch"
+                                               lay-text="ON|OFF" checked>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="layui-tab-item">
+                                <ul class="layerList layui-form" id="2dPipe">
+                                    <li>
+                                        管线
+                                        <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch"
+                                               lay-text="ON|OFF" checked>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="layui-tab-item">
+                                <ul class="layerList layui-form" id="dlg">
+                                    <li>
+                                        dlg
+                                        <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch"
+                                               lay-text="ON|OFF" checked>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="layui-tab-item">
+                                <ul class="layerList layui-form" id="image">
+                                    <li>
+                                        影像
+                                        <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch"
+                                               lay-text="ON|OFF" checked>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--地图定位弹框-->
+                <!--<div class="mapPositionLayer pa">
+                    <div class="style">
+                        <div class="content">
+                            <h2 class="title">第一教学楼</h2>
+                            <div class="txt">
+                                <p><span class="mr10">巡检人:</span>李云迪</p>
+                                <a href="" class="moreBtn">查看详情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <!--弹框-->
+                <div class="layerBox pa hide" id="layerBox">
+                    <div class="layerContent">
+                        <div class="content">
+                            <h5 class="pr">第一教学楼
+                                <i class="iconfont iconguanbi layerCloseBtn pa cp" id="layerCloseBtn"></i>
+                            </h5>
+                            <div class="tableHeader of">
+                                <span class="w10">序号</span>
+                                <span class="w30">序号1</span>
+                                <span class="w30">表格2</span>
+                                <span class="w30">表格3</span>
+                            </div>
+                            <ul class="tableList">
+                                <li>
+                                    <span class="w10">1</span>
+                                    <span class="w30">2222222</span>
+                                    <span class="w30">222222</span>
+                                    <span class="w30">22222</span>
+                                </li>
+                                <li>
+                                    <span class="w10">1</span>
+                                    <span class="w30">2222222</span>
+                                    <span class="w30">222222</span>
+                                    <span class="w30">22222</span>
+                                </li>
+                                <li>
+                                    <span class="w10">1</span>
+                                    <span class="w30">2222222</span>
+                                    <span class="w30">222222</span>
+                                    <span class="w30">22222</span>
+                                </li>
+                                <li>
+                                    <span class="w10">1</span>
+                                    <span class="w30">2222222</span>
+                                    <span class="w30">222222</span>
+                                    <span class="w30">22222</span>
+                                </li>
+                                <li>
+                                    <span class="w10">1</span>
+                                    <span class="w30">2222222</span>
+                                    <span class="w30">222222</span>
+                                    <span class="w30">22222</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--显示各模块的tab信息-->
+    <div id="result" style="display: none;">
+
+    </div>
+    <!--显示各模块的详细信息-->
+    <div id="detail" style="display: none;">
+
+    </div>
+    <!--阀门详情-->
+    <div id="tapInfo" style="display: none;">
+
+    </div>
+
+    <!--巡检列表异常记录关联详情页-->
+    <div id="ydxjSbglInfo" style="display: none;">
+
+    </div>
+
+</div>
+<div id="mapContainer" style="display: none;">
+
+</div>
+</body>
+<script th:src="@{/bus/aupipes/mobile/js/jquery.min.js}"></script>
+<script th:src="@{/def/js/ajaxhook.min.js}"></script>
+<script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<script th:src="@{/def/libs/vue-2.4/vue-2.4.0.js}"></script>
+<script th:src="@{/def/libs/echarts/echarts.js}"></script>
+<script th:src="@{/def/libs/jquery-ztree/3.5/js/jquery.ztree.core-3.5.js}"></script>
+<script th:src="@{/def/libs/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.js}"></script>
+<script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+<script th:src="@{/def/libs/bootstrap-select/bootstrap-multiselect.js}"></script>
+
+<!--维信jssdk-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<!--业务js-->
+<script th:src="@{/bus/aupipes/mobile/js/cfg.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/common.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/menu.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/appXclb.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/nhjg.js(v=${staticResourcesVersion})}"></script>
+<!-- 三维js -->
+<script th:src="@{/def/js/xml2json.min.js}"></script>
+<script th:src="@{/def/js/turf.min.js}"></script>
+<script th:src="@{/bus/aupipes/Cesium/Cesium.js}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/3d/polyfill.min.js}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/3d/config.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/3d/bim-catalog.min.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/init3DMap.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/mobile/js/mapTool.js(v=${staticResourcesVersion})}"></script>
+<script>
+    /*wxJsSdk.getLocation(function(res){
+		var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+		var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+		var speed = res.speed; // 速度，以米/每秒计
+		var accuracy = res.accuracy; // 位置精度
+		alert("lat=" + latitude + ",lng=" + longitude);
+    });*/
+</script>
+</html>

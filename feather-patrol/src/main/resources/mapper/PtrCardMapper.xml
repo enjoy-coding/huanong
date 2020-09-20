@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.patrol.mapper.PtrCardMapper">
+    
+    <resultMap type="PtrCard" id="PtrCardResult">
+        <result property="cardId"            column="card_id"      />
+        <result property="createBy"          column="create_by"    />
+        <result property="createTime"        column="create_time"  />
+        <result property="updateBy"          column="update_by"    />
+        <result property="updateTime"        column="update_time"  />
+        <result property="cardDept"          column="card_dept"    />
+        <result property="deptIdPath"        column="dept_id_path" />
+        <result property="deptName"          column="dept_name"    />
+        <result property="deptNamePath"      column="name_path"    />
+        <result property="cardType"          column="card_type"    />
+        <result property="cardQrcode1"       column="card_qrcode1" />
+        <result property="cardQrcode2"       column="card_qrcode2" />
+        <result property="cardQrcode3"       column="card_qrcode3" />
+        <result property="cardQrcode4"       column="card_qrcode4" />
+        <result property="cardQrcode5"       column="card_qrcode5" />
+        <result property="cardLine"          column="card_line"    />
+        <result property="cardMileage"       column="card_mileage" />
+        <result property="cardSide"          column="card_side"    />
+        <result property="cardCoordinate"    column="card_coordinate" />
+        <result property="cardCoordinateGd"  column="card_coordinate_gd" />
+        <result property="cardAddress"       column="card_address"  />
+        <result property="remark"            column="remark"       />
+        <result property="patrolPlan"        column="patrol_plan" />
+        <result property="lastPatrol"        column="last_patrol" />
+        <result property="overdueDay"        column="overdue_day" />
+        <collection  property="facades"  javaType="java.util.List"  resultMap="PtrFacadeResult" />
+        <collection  property="standards"  javaType="java.util.List"  resultMap="StandardResult" />
+    </resultMap>
+    
+	<resultMap id="PtrFacadeResult" type="PtrFacade">
+		<id     property="facadeId"   column="facade_id"   />
+		<result property="entityId"   column="facade_card" />
+		<result property="facadeUrl"  column="facade_url"  />
+	</resultMap>
+	
+	<resultMap id="StandardResult" type="SysDictData">
+		<result property="dictLabel"  column="dict_label" />
+		<result property="dictValue"  column="dict_value" />
+		<result property="remark"  column="dict_remark"   />
+	</resultMap>
+
+    <sql id="selectPtrCardVo">
+        select c.card_id, c.create_by, c.create_time, c.update_by, c.update_time, c.card_dept, c.card_type, c.card_qrcode1, c.card_qrcode2, c.card_qrcode3, c.card_qrcode4, c.card_qrcode5, c.card_line, c.card_mileage, c.card_side, c.card_coordinate, c.card_coordinate_gd, c.card_address, c.remark,
+               d.id_path as dept_id_path, d.dept_name, d.name_path, 
+               (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type) as patrol_plan, 
+               (select max(create_time) from ptr_log where log_card = c.card_id) as last_patrol, 
+               isnull(datediff(dd,(select max(create_time) from ptr_log where log_card = c.card_id),GETDATE()) - (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type), 365) as overdue_day,
+               f.facade_id, f.facade_card, f.facade_url
+        from ptr_card c
+        left join (select dept_id, id_path, dept_name, name_path from sys_dept) d on d.dept_id = c.card_dept
+        left join ptr_card_facade f on f.facade_card = c.card_id
+    </sql>
+    
+    <sql id="selectPtrCardVo2">
+        select c.card_id, c.create_by, c.create_time, c.update_by, c.update_time, c.card_dept, c.card_type, c.card_qrcode1, c.card_qrcode2, c.card_qrcode3, c.card_qrcode4, c.card_qrcode5, c.card_line, c.card_mileage, c.card_side, c.card_coordinate, c.card_coordinate_gd, c.card_address, c.remark,
+               d.id_path as dept_id_path, d.dept_name, d.name_path, 
+               (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type) as patrol_plan, 
+               (select max(create_time) from ptr_log where log_card = c.card_id) as last_patrol, 
+               isnull(datediff(dd,(select max(create_time) from ptr_log where log_card = c.card_id),GETDATE()) - (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type), 365) as overdue_day
+        from ptr_card c
+        left join (select dept_id, id_path, dept_name, name_path from sys_dept) d on d.dept_id = c.card_dept
+    </sql>
+
+    <select id="selectPtrCardList" parameterType="PtrCard" resultMap="PtrCardResult">
+        <include refid="selectPtrCardVo2"/>
+        <where>
+			<if test="cardType != null and cardType != ''">
+				AND c.card_type = #{cardType}
+			</if>
+			<if test="cardQrcode1 != null and cardQrcode1 != ''">
+			    <bind name="_cardQrcode" value="'%'+ cardQrcode1 +'%'"/>
+				AND (c.card_qrcode1 like #{_cardQrcode} or c.card_qrcode2 like #{_cardQrcode}  or c.card_qrcode3 like #{_cardQrcode} or c.card_qrcode4 like #{_cardQrcode} or c.card_qrcode5 like #{_cardQrcode})
+			</if>
+			<if test="cardLine != null and cardLine != ''">
+			    <bind name="_cardLine" value="'%'+ cardLine +'%'"/>
+				AND c.card_line like #{_cardLine}
+			</if>
+			<if test="cardMileage != null and cardMileage != ''">
+			    <bind name="_cardMileage" value="'%'+ cardMileage +'%'"/>
+				AND card_mileage like #{_cardMileage}
+			</if>
+			<if test="cardSide != null and cardSide != ''">
+				AND c.card_side = #{cardSide}
+			</if>
+        	<if test="cardDept != null and cardDept != 0">
+				<if test="_databaseId == 'mysql'">
+					AND (d.id_path like concat( (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{cardDept}) ,'%') )
+				</if>
+				<if test="_databaseId == 'sqlserver'">
+					AND (d.id_path like (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{cardDept}) + '%' )
+				</if>
+				<if test="_databaseId == 'oracle'">
+					AND (d.id_path like (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{cardDept}) || '%' )
+				</if>
+			</if>
+			<if test="params.status == 'NG'">
+				AND 0 &lt; isnull(datediff(dd,(select max(create_time) from ptr_log where log_card = c.card_id),GETDATE()) - (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type), 365)
+			</if>
+			<if test="params.status == 'OK'">
+				AND 1 &gt; isnull(datediff(dd,(select max(create_time) from ptr_log where log_card = c.card_id),GETDATE()) - (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type), 365)
+			</if>
+			<if test="params.case == 'coor'">
+				AND c.card_coordinate is not null and c.card_coordinate != ''
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectPtrCardById" parameterType="Long" resultMap="PtrCardResult">
+        <include refid="selectPtrCardVo"/>
+        where card_id = #{cardId}
+    </select>
+    
+    <select id="selectPtrCardByCode" parameterType="String" resultMap="PtrCardResult">
+        select c.card_id, c.create_by, c.create_time, c.update_by, c.update_time, c.card_dept, c.card_type, c.card_qrcode1, c.card_qrcode2, c.card_qrcode3, c.card_qrcode4, c.card_qrcode5, c.card_line, c.card_mileage, c.card_side, c.card_coordinate, c.card_coordinate_gd, c.card_address, c.remark,
+               d.id_path as dept_id_path, d.dept_name, d.name_path, 
+               (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type) as patrol_plan, 
+               (select max(create_time) from ptr_log where log_card = c.card_id) as last_patrol, 
+               isnull(datediff(dd,(select max(create_time) from ptr_log where log_card = c.card_id),GETDATE()) - (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type), 365) as overdue_day,
+               f.facade_id, f.facade_card, f.facade_url,
+               s.dict_label, s.dict_value, s.remark as dict_remark
+        from ptr_card c
+        left join (select dept_id, id_path, dept_name, name_path from sys_dept) d on d.dept_id = c.card_dept
+        left join ptr_card_facade f on f.facade_card = c.card_id
+        left join sys_dict_data s on s.dict_type = 'patrol_standard_'+ c.card_type
+        where (card_qrcode1 = #{cardQrcode}
+            or card_qrcode2 = #{cardQrcode}
+            or card_qrcode3 = #{cardQrcode}
+            or card_qrcode4 = #{cardQrcode}
+            or card_qrcode5 = #{cardQrcode})
+        order by s.dict_sort
+    </select>
+    
+    <select id="selectDupicateByCodeNotId" resultMap="PtrCardResult">
+        <include refid="selectPtrCardVo"/>
+        where 1=1
+        <if test="cardId != null ">and card_id not in (#{cardId})</if>
+           and (card_qrcode1 = #{cardQrcode}
+             or card_qrcode2 = #{cardQrcode}
+             or card_qrcode3 = #{cardQrcode}
+             or card_qrcode4 = #{cardQrcode}
+             or card_qrcode5 = #{cardQrcode})
+    </select>
+    
+    <insert id="insertPtrCard" parameterType="PtrCard">
+        insert into ptr_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardId != null ">card_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="cardDept != null ">card_dept,</if>
+            <if test="cardType != null  and cardType != ''">card_type,</if>
+            <if test="cardQrcode1 != null  and cardQrcode1 != ''">card_qrcode1,</if>
+            <if test="cardQrcode2 != null  and cardQrcode2 != ''">card_qrcode2,</if>
+            <if test="cardQrcode3 != null  and cardQrcode3 != ''">card_qrcode3,</if>
+            <if test="cardQrcode4 != null  and cardQrcode4 != ''">card_qrcode4,</if>
+            <if test="cardQrcode5 != null  and cardQrcode5 != ''">card_qrcode5,</if>
+            <if test="cardLine != null  and cardLine != ''">card_line,</if>
+            <if test="cardMileage != null  and cardMileage != ''">card_mileage,</if>
+            <if test="cardSide != null  and cardSide != ''">card_side,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardId != null ">#{cardId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="cardDept != null ">#{cardDept},</if>
+            <if test="cardType != null  and cardType != ''">#{cardType},</if>
+            <if test="cardQrcode1 != null  and cardQrcode1 != ''">#{cardQrcode1},</if>
+            <if test="cardQrcode2 != null  and cardQrcode2 != ''">#{cardQrcode2},</if>
+            <if test="cardQrcode3 != null  and cardQrcode3 != ''">#{cardQrcode3},</if>
+            <if test="cardQrcode4 != null  and cardQrcode4 != ''">#{cardQrcode4},</if>
+            <if test="cardQrcode5 != null  and cardQrcode5 != ''">#{cardQrcode5},</if>
+            <if test="cardLine != null  and cardLine != ''">#{cardLine},</if>
+            <if test="cardMileage != null  and cardMileage != ''">#{cardMileage},</if>
+            <if test="cardSide != null  and cardSide != ''">#{cardSide},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePtrCard" parameterType="PtrCard">
+        update ptr_card
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="cardDept != null ">card_dept = #{cardDept},</if>
+            <if test="cardType != null  and cardType != ''">card_type = #{cardType},</if>
+            <if test="cardQrcode1 != null">card_qrcode1 = #{cardQrcode1},</if>
+            <if test="cardQrcode2 != null">card_qrcode2 = #{cardQrcode2},</if>
+            <if test="cardQrcode3 != null">card_qrcode3 = #{cardQrcode3},</if>
+            <if test="cardQrcode4 != null">card_qrcode4 = #{cardQrcode4},</if>
+            <if test="cardQrcode5 != null">card_qrcode5 = #{cardQrcode5},</if>
+            <if test="cardLine != null">card_line = #{cardLine},</if>
+            <if test="cardMileage != null">card_mileage = #{cardMileage},</if>
+            <if test="cardSide != null">card_side = #{cardSide},</if>
+            <if test="cardCoordinate != null">card_coordinate = #{cardCoordinate},</if>
+            <if test="cardCoordinateGd != null">card_coordinate_gd = #{cardCoordinateGd},</if>
+            <if test="cardAddress != null">card_address = #{cardAddress},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where card_id = #{cardId}
+    </update>
+    
+    <insert id="insertFacadeFromLog" parameterType="Map">
+    	insert into ptr_card_facade(facade_id, facade_card, facade_url)
+    	select facade_id, #{cardId}, facade_url from ptr_log_facade where facade_log = #{logId}
+    </insert>
+    
+    <insert id="insertFacadeFromLogMap" parameterType="Map">
+    	insert into ptr_card_facade(facade_id, facade_card, facade_url)
+    	select log_id, #{cardId}, log_map from ptr_log where log_id = #{logId}
+    </insert>
+
+    <delete id="deletePtrCardById" parameterType="Long">
+        delete from ptr_card where card_id = #{cardId}
+    </delete>
+
+    <delete id="deletePtrCardByIds" parameterType="String">
+        delete from ptr_card where card_id in 
+        <foreach item="cardId" collection="array" open="(" separator="," close=")">
+            #{cardId}
+        </foreach>
+    </delete>
+    
+</mapper>

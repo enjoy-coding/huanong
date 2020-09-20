@@ -1,0 +1,80 @@
+<span class="open hide">展开</span>
+<div class="bottomLayer searchResult" id="xjlbBottomLayer">
+    <div class="shrink">
+        <span class="close zs-closeOpen" id="shrinkClose" onclick="closeResultMore()">
+            <i class="iconfont iconshousuoxiajiantou"></i>
+        </span>
+        <span class="zs-close" onclick="closeInfo()">
+            <i class="iconfont iconguanbi pa clearBtn"></i>
+        </span>
+    </div>
+    <form class="layui-form bottomLayerFrom" id="xjlbForm" onsubmit="return false;">
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">预警状态:</label>
+                    <div class="layui-input-block">
+                        <select name="status" lay-filter="status">
+                            <option value="0">未处置</option>
+                            <option value="1">已处置</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">预警类别:</label>
+                    <div class="layui-input-block">
+                        <select name="type" lay-filter="type">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">预警时间:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="test1" class="layui-input" placeholder="开始时间" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item time">
+                    <label class="layui-form-label">至:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="test2" class="layui-input" placeholder="结束时间" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs10 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">预警级别:</label>
+                    <div class="layui-input-block">
+                        <select name="level" lay-filter="level">
+                            <option value=""></option>
+                            <option value="1">一级预警</option>
+                            <option value="2">二级预警</option>
+                            <option value="3">三级预警</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs2 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item txtR">
+                    <button class="layui-btn bg_green" lay-submit lay-filter="yjFormSearch">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="titleStyle1">查询结果</div>
+    <div class="xjlbList" id="xjlbListBox">
+        <ul id="yjListBox">
+
+        </ul>
+    </div>
+    <div class="listMore">
+        <i class="iconfont icongengduo"></i>
+        <h5>查找更多</h5>
+    </div>
+</div>

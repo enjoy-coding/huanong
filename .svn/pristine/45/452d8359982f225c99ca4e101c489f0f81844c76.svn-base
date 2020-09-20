@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScTaskVolunteerMapper">
+    
+    <resultMap type="ScTaskVolunteer" id="ScTaskVolunteerResult">
+        <result property="tvId"    column="tv_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="volunteerId"    column="volunteer_id"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="auditPassState"    column="audit_pass_state"    />
+        <result property="auditContent"    column="audit_content"    />
+        <result property="auditBy"    column="audit_by"    />
+        <result property="auditTime"    column="audit_time"  jdbcType="BIGINT"   />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time" jdbcType="BIGINT"  />
+        <result property="updateBy"    column="update_by"   />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"   />
+        <result property="remark"    column="remark"    />
+        <association property="parkrent"    column="task_id" javaType="ScParkrent" resultMap="ParkrentsResult" />
+        <association property="volunteer"    column="volunteer_id" javaType="ScVolunteer" resultMap="VolunteerResult" />
+    </resultMap>
+
+    <resultMap id="ParkrentsResult" type="ScParkrent">
+		<result property="parkrentId"    column="parkrent_id"    />
+        <result property="parkrentName"    column="parkrent_name"    />
+        <result property="parkrentTitle"    column="parkrent_title"    />
+        <result property="parkrentType"    column="parkrent_type"    />
+        <result property="parkrentTel"    column="parkrent_tel"    />
+    </resultMap>
+
+    <resultMap id="VolunteerResult" type="ScVolunteer">
+        <result property="userId"    column="user_id"    />
+        <result property="volunteerTel"    column="volunteer_tel"    />
+        <result property="volunteerAccount"    column="volunteer_account"    />
+        <result property="volunteerScore"    column="volunteer_score"    />
+        <result property="volunteerName"    column="volunteer_name"    />
+        <result property="volunteerSex"    column="volunteer_sex"    />
+        <result property="volunteerBir"    column="volunteer_bir"    />
+        <result property="volunteerIdcard"    column="volunteer_idcard"    />
+        <result property="volunteerAddress"    column="volunteer_address"    />
+        <result property="volunteerProfession"    column="volunteer_profession"    />
+        <result property="volunteerSynopsis"    column="volunteer_synopsis"    />
+        <result property="volunteerAvatar"    column="volunteer_avatar"    />
+    </resultMap>
+    
+
+    
+    <sql id="selectScTaskVolunteerRelevanceVo">
+            select tv_id, task_id, t.volunteer_id, t.audit_state, t.audit_pass_state, t.audit_by
+		    , t.audit_time, t.create_by, t.create_time, t.update_by, t.update_time, t.remark 
+		    ,p.parkrent_id,p.parkrent_name,p.parkrent_title
+		    ,v.user_id,v.volunteer_name,v.volunteer_bir,v.volunteer_tel,v.volunteer_sex
+			,v.volunteer_address,v.volunteer_avatar,v.volunteer_idcard
+			,v.volunteer_profession,v.volunteer_score,v.volunteer_synopsis
+        from sc_task_volunteer t 
+        left join sc_parkrent p on p.parkrent_id = t.task_id 
+		left join sc_volunteer v on v.user_id = t.volunteer_id
+    </sql>
+
+    <sql id="selectScTaskVolunteerVo">
+        select tv_id, task_id, t.volunteer_id, t.audit_state, t.audit_pass_state, t.audit_by
+        , t.audit_time, t.create_by, t.create_time, t.update_by, t.update_time, t.remark 
+    from sc_task_volunteer t 
+    </sql>
+
+    <select id="selectScTaskVolunteerList" parameterType="ScTaskVolunteer" resultMap="ScTaskVolunteerResult">
+        <include refid="selectScTaskVolunteerRelevanceVo"/>
+        <where>  
+            <if test="taskId != null "> and t.task_id = #{taskId}</if>
+            <if test="volunteerId != null "> and t.volunteer_id = #{volunteerId}</if>
+            <if test="auditState != null  and auditState != ''"> and t.audit_state = #{auditState}</if>
+            <if test="auditPassState != null  and auditPassState != ''"> and t.audit_pass_state = #{auditPassState}</if>
+            <if test="auditBy != null  and auditBy != ''"> and t.audit_by = #{auditBy}</if>
+            <if test="auditTime != null "> and t.audit_time = #{auditTime}</if>
+            <if test="params.volunteerName != null and params.volunteerName != '' ">
+                <bind name="_volunteerName" value="'%'+ params.volunteerName +'%'"/>
+                    and v.volunteer_name = #{_volunteerName}
+
+             </if>
+            <if test="params.parkrentName != null and params.parkrentName != '' ">
+                <bind name="_parkrentName" value="'%'+ params.parkrentName +'%'"/>
+                and p.parkrent_name = #{_parkrentName}
+
+            </if>
+            <if test="params.parkrentTitle != null and params.parkrentTitle != '' ">
+                <bind name="_parkrentTitle" value="'%'+ params.parkrentTitle +'%'"/>
+                and p.parkrent_title = #{_parkrentTitle}
+
+            </if>
+        </where>
+    </select>
+    
+    <select id="checkTaskVolunteerUnique" parameterType="ScTaskVolunteer" resultMap="ScTaskVolunteerResult">
+        <include refid="selectScTaskVolunteerRelevanceVo"/>
+        where (task_id = #{taskId} and volunteer_id = #{volunteerId} and t.audit_state = '0' ) 
+        or (task_id = #{taskId} and volunteer_id = #{volunteerId} and t.audit_state = '1' and t.audit_pass_state = '0' ) 
+    </select>
+
+    <select id="selectScTaskVolunteerById" parameterType="Long" resultMap="ScTaskVolunteerResult">
+        <include refid="selectScTaskVolunteerRelevanceVo"/>
+        where tv_id = #{tvId}
+    </select>
+
+    <select id="checkScTaskVolunteerByParkrentId" parameterType="String" resultMap="ScTaskVolunteerResult">
+        <include refid="selectScTaskVolunteerVo"/>
+         where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </select>
+
+    <select id="checkScTaskVolunteerByVolunteerId" parameterType="String" resultMap="ScTaskVolunteerResult">
+        <include refid="selectScTaskVolunteerVo"/>
+        where volunteer_id in
+        <foreach item="volunteerId" collection="array" open="(" separator="," close=")">
+            #{volunteerId}
+        </foreach>
+    </select>
+        
+    <insert id="insertScTaskVolunteer" parameterType="ScTaskVolunteer">
+        insert into sc_task_volunteer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tvId != null ">tv_id,</if>
+            <if test="taskId != null ">task_id,</if>
+            <if test="volunteerId != null ">volunteer_id,</if>
+            <if test="auditState != null  and auditState != ''">audit_state,</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state,</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content,</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by,</if>
+            <if test="auditTime != null ">audit_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tvId != null ">#{tvId},</if>
+            <if test="taskId != null ">#{taskId},</if>
+            <if test="volunteerId != null ">#{volunteerId},</if>
+            <if test="auditState != null  and auditState != ''">#{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">#{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">#{auditContent},</if>
+            <if test="auditBy != null  and auditBy != ''">#{auditBy},</if>
+            <if test="auditTime != null ">#{auditTime,jdbcType = BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType = BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType = BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScTaskVolunteer" parameterType="ScTaskVolunteer">
+        update sc_task_volunteer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null ">task_id = #{taskId},</if>
+            <if test="volunteerId != null ">volunteer_id = #{volunteerId},</if>
+            <if test="auditState != null  and auditState != ''">audit_state = #{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state = #{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content = #{auditContent},</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by = #{auditBy},</if>
+            <if test="auditTime != null ">audit_time = #{auditTime,jdbcType = BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType = BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType = BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where tv_id = #{tvId}
+    </update>
+
+    <delete id="deleteScTaskVolunteerById" parameterType="Long">
+        delete from sc_task_volunteer where tv_id = #{tvId}
+    </delete>
+
+    <delete id="deleteScTaskVolunteerByIds" parameterType="String">
+        delete from sc_task_volunteer where tv_id in 
+        <foreach item="tvId" collection="array" open="(" separator="," close=")">
+            #{tvId}
+        </foreach>
+    </delete>
+    
+</mapper>

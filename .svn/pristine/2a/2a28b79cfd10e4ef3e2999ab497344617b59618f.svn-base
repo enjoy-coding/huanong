@@ -1,0 +1,136 @@
+
+<!--中间弹窗以及详情弹出-->
+
+	<div class="hide bjxxMoreContent">
+		<div class="oh">
+			<div class="fl lsyjLeft">
+				<div class="title sgfxTitle">预警列表</div>
+				<!--<div class="pw15">
+					<div class="bjxxSearch pr mh15">
+						<input type="text" id="serarchWarring" autocomplete="off">
+						<i class="iconfont icon-sousuo pa" onclick="YJCZ.bjxxMoreBtn()"></i>
+					</div>
+				</div>-->
+				<div class="title3">全部预警</div>
+				<div class="ztreeBox" style="height:72vh;overflow: auto;">
+					<ul id="zTree2" class="ztree"></ul>
+				</div>
+			</div>
+			<div class="fr lsyjRight">
+				<div class="title sgfxTitle">历史预警</div>
+				<form class="layui-form mt15 formBox mw15">
+					<div class="layui-row">
+						<div class="layui-col-md3 layui-col-sm3">
+							<div class="layui-form-item">
+								<label class="layui-form-label">预警内容：</label>
+								<div class="layui-input-block">
+									<input type="text" id="content" lay-verify="title" autocomplete="off" placeholder="预警内容" class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md3 layui-col-sm3">
+							<div class="layui-form-item">
+								<label class="layui-form-label">预警级别：</label>
+								<div class="layui-input-block">
+									<select name="quiz1" id="yjjb">
+										<option value=""></option>
+										<option value="1">一级预警</option>
+										<option  value="2">二级预警</option>
+										<option  value="3">三级预警</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md3 layui-col-sm3">
+							<div class="layui-form-item">
+								<label class="layui-form-label">预警状态：</label>
+								<div class="layui-input-block">
+									<select name="quiz2" id="yjstate">
+										<option value=""></option>
+										<option  value="1">已处置</option>
+										<option  value="0">未处置</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md3 layui-col-sm3">
+							<div class="layui-form-item">
+								<label class="layui-form-label">预警来源：</label>
+								<div class="layui-input-block">
+									<input type="text"  id="author" lay-verify="title" autocomplete="off" placeholder="预警来源" class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md4 layui-col-sm4">
+							<div class="layui-form-item">
+								<label class="layui-form-label">预警时间：</label>
+								<div class="layui-input-block">
+									<input type="text" id="test1" class="layui-input test-item" placeholder="开始时间" autocomplete="off">
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md4 layui-col-sm4">
+							<div class="layui-form-item itemSm">
+								<label class="layui-form-label" style="width:3.1vw;">至</label>
+								<div class="layui-input-block">
+									<input type="text" id="test2" class="layui-input test-item" placeholder="结束时间" autocomplete="off">
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md4">
+							<div class="layui-form-item btngroup">
+								<button type="button" class="btn" onclick="YJCZ.lsyjTable()">查询</button>
+								<button type="button" class="btn" onclick="YJCZ.resetTable()">重置</button>
+<!--
+								<button type="button" class="btn active">查看</button>
+-->
+								<!--<button type="button" class="btn">修改</button>-->
+								<button type="button" class="btn" onclick="YJCZ.importTables()">导出</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="table page pw15 tableLg lsyjTable">
+					<div id="lsyjTable" lay-filter="lsyjTable"></div>
+				</div>
+				<div class="yjtjEchartBox">
+					<div class="layui-row">
+						<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+							<div id="yjjbEcharts" class="echart"></div>
+						</div>
+						<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+							<div id="yjlxEcharts" class="echart"></div>
+						</div>
+						<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+							<div id="yjczEcharts" class="echart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--地图弹框-->
+	<div class="pa mapTxtBox mapTxtLayer yjcz" style="display:none">
+		<div class="pr txt">
+			<span class="mapCloseBtn pa" onclick="YJCZ.middleBoxhidden()"><i class="iconfont icon-guanbi"></i></span>
+			<div class="topBg pa"></div>
+			<div class="bottomBg pa"></div>
+			<div class="contentTxt" id="middleBoxInfomation">
+				<h2>设备编号：012154</h2>
+				<div class="lineBlue mh15"></div>
+				<p>设备类型：<span>水表阀门</span></p>
+				<p>设备名称：<span>荟园8</span></p>
+				<p>设备位置：<span>荟园F8-F1</span></p>
+				<p>设备原因：<span>阀门损坏</span></p>
+				<div class="mapTxtBtn ph15 tabBtnGroup">
+					<!--<button type="button" onclick="YJCZ.rightBoxShow1()">详细信息</button>-->
+					<button type="button" onclick="YJCZ.yjhcLayuiBox()">预警核查</button>
+					<button id="gfts" type="button"  onclick="YJCZ.getList()">关阀停水</button>
+					<button type="button" onclick="YJCZ.hcczLayuiBox()">关闭预警</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+

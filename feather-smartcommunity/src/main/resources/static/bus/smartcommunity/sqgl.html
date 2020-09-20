@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>社区管理</title>
+		<link rel="stylesheet" href="js/jquery-ztree/3.5/css/metro/zTreeStyle.css">
+		<link rel="stylesheet" href="js/layui-2.5.5/css/layui.css">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" href="css/font.css" />
+		<link rel="stylesheet" href="font/iconfont/iconfont.css">
+		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="Cesium/Widgets/widgets.css">
+		<link rel="stylesheet" type="text/css" href="css/subPage.css"/>
+	</head>
+
+	<body onload="featherCmsScript._map.startTime()">
+		<div class="indexChange">
+			<!--物管公告-->
+			<div class="placardBox">
+				<div id="newsContent" class="newsContent pr">
+					<span class="color_blue font_16 txt"><i class="iconfont icontongzhi color_yellow font_22 mr_10"></i>物管公告：</span>
+					<ul class="swiper-wrapper neswList">
+						<li class="swiper-slide">
+							[13:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+						<li class="swiper-slide">
+							[12:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--地图服务-->
+			<div id="cesiumContainer"></div>
+			<!--<div class="mapImg"></div>-->
+
+			<!--顶部-开始-->
+			<div class="topContent">
+				<div class="pr topTxtBox">
+					<img class="index_logo pa" src="images/logo.png" alt="" />
+					<ul class="navMenu oh">
+						<li>
+							<a href="index.html">综合态势</a>
+						</li>
+						<li class="active">
+							<a href="sqgl.html">社区管理</a>
+						</li>
+						<li>
+							<a href="znaf.html">智能安防</a>
+						</li>
+						<li>
+							<a href="zhzl.html">综合治理</a>
+						</li>
+						<li >
+							<a href="zhdj.html">智慧党建</a>
+						</li>
+					</ul>
+					<div class="topTxt fr">
+						<div class="time">
+							<h4 class="font_22 numberFont" id="time">11:20:00</h4>
+							<h5>
+								<span class="color_blue" id="data">2020年6月8日</span>
+								<!--<span class="color_blue mw_10">星期一</span>-->
+							</h5>
+						</div>
+						<div class="weather">
+							<p><span class="letter-spacing">空气质量：</span><i class="kq_bg">优</i></p>
+							<p><span class="letter-spacing">北京：</span><span>14℃~10℃</span></p>
+						</div>
+						<div class="weather">
+							<p><span class="letter-spacing">湿度: </span><span>49%</span></p>
+							<p class="color_blue">PM10:32μg/m3</p>
+						</div>
+					</div>
+					<div class="pa topRight">
+						<!--<div class="infoSelect pr">
+							<span class="iconfont iconyonghu color_white">admin</span>
+							<ul class="Down">
+								<li><a href="">退出</a></li>
+								<li><a href="">全屏</a></li>
+							</ul>
+						</div>-->
+						<a href="" class="iconfont iconyonghu color_white color_blue"></a>
+						<a href="" class="color_blue iconfont icontongzhi4"></a>
+						<a href="javascript:window.open(featherCmsScript.ctx+'index','console');" class="color_blue iconfont iconshezhi"></a>
+					</div>
+				</div>
+			</div>
+			<!--顶部-结束-->
+
+			<!--左侧-开始-->
+			<div class="zhzlLeftContent">
+				<div class="zhzlPersonnelList">
+					<div class="content">
+						<!--人员左侧内容-->
+						<div class="personnelLeftList" id="zcry">
+							<dl class="total">
+								<dt><img src="images/sqgl_icon1.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_14">人员人数</h6>
+								</dd>
+							</dl>
+							<ul class="list">
+								<li id="permanentPersonnelBtn">
+									常驻人数 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									流动人数 <span class="number font_22 color_navy_blue numberFont">75</span>
+								</li>
+							</ul>
+						</div>
+						<!--房屋管理-->
+						<div class="HouserLefrList hide">
+							<dl class="total"  id="fwzs">
+								<dt><img src="images/topMenuIco_02.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_14">房屋总数</h6>
+								</dd>
+							</dl>
+							<ul class="list" id="rzl">
+								<li id="houseOpenlist">
+									楼栋数 <span class="number font_22 color_navy_blue numberFont">77</span>
+								</li>
+								<li>
+									入住率 <span class="number font_22 color_navy_blue numberFont">86%</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10">房屋入住情况</h6>
+							<ul class="list" id="fwrzqk">
+								<li>
+									入住 <span class="number font_22 color_navy_blue numberFont">528</span>
+								</li>
+								<li>
+									空置 <span class="number font_22 color_navy_blue numberFont">20</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10">房屋使用用途</h6>
+							<div class="znaf_bjtj" id="fwsyyt">
+								<p class="oh">商业<span class="fr numberFont color_navy_blue font_22">528</span></p>
+								<div class="layui-progress layuiProgress">
+								  	<div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+								  	<div class="layui-progress-text">50%</div>
+								</div>
+								<p class="oh">住宅<span class="fr numberFont color_navy_blue font_22">70</span></p>
+								<div class="layui-progress layuiProgress">
+								 	<div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+								 	<div class="layui-progress-text">20%</div>
+								</div>
+								<p class="oh">其它<span class="fr numberFont color_navy_blue font_22">80</span></p>
+								<div class="layui-progress layuiProgress">
+								 	<div class="layui-progress-bar layui-bg-red" lay-percent="30%"></div>
+								 	<div class="layui-progress-text">30%</div>
+								</div>
+							</div>
+							<h6 class="title2 color_navy_blue ml_10">房屋产权状态</h6>
+							<div id="fwcqzt" class="znaf_bjzs"></div>
+						</div>
+						<!--车辆概况-->
+						<div class="carLefrList hide">
+							<dl class="total">
+								<dt><img src="images/topMenuIco_03.png" alt="" /></dt>
+								<dd>
+									<!--<h5 class="numberFont font_30 color_white">5741</h5>-->
+									<h6 class="color_yellow font_16" style="line-height:5vh;">车辆概况</h6>
+								</dd>
+							</dl>
+							<ul class="list" id="clgk">
+								<li>
+									车辆总数 <span class="number font_22 color_navy_blue numberFont">454</span>
+								</li>
+								<li>
+									大型车辆 <span class="number font_22 color_navy_blue numberFont">77</span>
+								</li>
+								<li>
+									小型车辆 <span class="number font_22 color_navy_blue numberFont">77</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10 mr_10 oh">车辆进出
+								<span class="fr">
+									<i class="font_14 color_yellow">外出</i>
+									<i class="font_14 color_white">/进入</i>
+								</span>
+							</h6>
+							<ul class="list" id="cljc">
+								<li >
+									进出总数
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">454</i>
+										<i class="color_white">/754</i>
+									</span>
+								</li>
+								<li>
+									小区车辆
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">378</i>
+										<i class="color_white">/654</i>
+									</span>
+								</li>
+								<li>
+									外来车辆
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">20</i>
+										<i class="color_white">/52</i>
+									</span>
+								</li>
+							</ul>
+						</div>
+						<!--车位管理-->
+						<div class="parkingSpaceLeft hide">
+							<dl class="total">
+								<dt><img src="images/sqgl_icon4.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_16">车位总数</h6>
+								</dd>
+							</dl>
+							<ul class="list">
+								<li id="parkingSpaceRightOpen">
+									<span class="font_16">停车场数</span> <span class="number font_22 color_navy_blue numberFont">77</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10">车位使用情况</h6>
+							<ul class="list">
+								<li id="houseOpenlist" class="border_b_gray">
+									<span class="font_16">空闲车位</span> <span class="number font_22 color_navy_blue numberFont">475</span>
+								</li>
+							</ul>
+							<div class="znaf_bjtj border_b_gray" style="padding:0 0.52vw 0.92vh 0.52vw">
+								<p class="oh">地下空闲<span class="fr numberFont color_white font_22">367</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-red" lay-percent="50%"></div>
+									<div class="layui-progress-text">50%</div>
+								</div>
+								<p class="oh">地上空闲<span class="fr numberFont color_white font_22">88</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+									<div class="layui-progress-text">20%</div>
+								</div>
+							</div>
+							<ul class="list">
+								<li id="houseOpenlist" class="border_b_gray">
+									<span class="font_16">已用车位</span> <span class="number font_22 color_navy_blue numberFont">510</span>
+								</li>
+							</ul>
+							<div class="znaf_bjtj" style="padding:0 0.52vw 0.92vh 0.52vw">
+								<p class="oh">地下已用<span class="fr numberFont color_white font_22">500</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-green" lay-percent="30%"></div>
+									<div class="layui-progress-text">30%</div>
+								</div>
+								<p class="oh">地上已用<span class="fr numberFont color_white font_22">70</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-blue" lay-percent="10%"></div>
+									<div class="layui-progress-text">10%</div>
+								</div>
+							</div>
+							<h6 class="title2 color_navy_blue ml_10">停车场空位TOP5</h6>
+							<div class="parkingSpaceTopList">
+								<div class="layui-row">
+									<div class="layui-col-md2">
+								      	<span class="numberFont font_18">1</span>
+								    </div>
+									<div class="layui-col-md6">
+								      	<span>停车场1</span>
+								    </div>
+								    <div class="layui-col-md4">
+								      	<span class="numberFont font_18">700</span>
+								    </div>
+								</div>
+								<div class="layui-row">
+									<div class="layui-col-md2">
+								      	<span class="numberFont font_18">2</span>
+								    </div>
+									<div class="layui-col-md6">
+								      	<span>停车场1</span>
+								    </div>
+								    <div class="layui-col-md4">
+								      	<span class="numberFont font_18">700</span>
+								    </div>
+								</div>
+								<div class="layui-row">
+									<div class="layui-col-md2">
+								      	<span class="numberFont font_18">3</span>
+								    </div>
+									<div class="layui-col-md6">
+								      	<span>停车场1</span>
+								    </div>
+								    <div class="layui-col-md4">
+								      	<span class="numberFont font_18">700</span>
+								    </div>
+								</div>
+								<div class="layui-row">
+									<div class="layui-col-md2">
+								      	<span class="numberFont font_18">4</span>
+								    </div>
+									<div class="layui-col-md6">
+								      	<span>停车场1</span>
+								    </div>
+								    <div class="layui-col-md4">
+								      	<span class="numberFont font_18">700</span>
+								    </div>
+								</div>
+								<div class="layui-row">
+									<div class="layui-col-md2">
+								      	<span class="numberFont font_18">5</span>
+								    </div>
+									<div class="layui-col-md6">
+								      	<span>停车场1</span>
+								    </div>
+								    <div class="layui-col-md4">
+								      	<span class="numberFont font_18">700</span>
+								    </div>
+								</div>
+							</div>
+						</div>
+
+						<!--设备管理-->
+						<div class="deviceLeftBox hide">
+							<dl class="total">
+								<dt><img src="images/zhzl_icon2.png" alt="" /></dt>
+								<dd >
+									<ul class="list">
+										<li onclick="getListPage('','','')">
+											<h5 class="numberFont font_30 color_white" id="sbzs">5741</h5>
+											<h6 class="color_yellow font_16">设备总数</h6>
+										</li>
+									</ul>
+
+								</dd>
+							</dl>
+							<ul class="list">
+								<li id="deviceRightOpen" onclick="getListPage('','','离线')">
+									设备异常 <span class="number font_22 color_yellow numberFont" id="yczs" >105</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10 mr_10 oh">设备概况
+								<span class="fr">
+									<i class="font_14 color_yellow">异常</i>
+									<i class="font_14 color_white">/总数</i>
+								</span>
+							</h6>
+							<ul class="list" id="getSbCountList">
+								<li>
+									摄像头
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/475</i>
+									</span>
+								</li>
+								<li>
+									门禁
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/475</i>
+									</span>
+								</li>
+								<li>
+									闸机
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									道杆
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									路灯
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									垃圾桶
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									充电桩
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									烟感
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+								<li>
+									消防栓
+									<span class="number font_22 color_navy_blue numberFont">
+										<i class="color_yellow">72</i>
+										<i class="color_white">/452</i>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--左侧--结束-->
+
+			<!--右侧--开始-->
+			<div class="rightContent CloseRight">
+				<div class="pr indexRightBox">
+					<i id="zhzlRightCloseBtn" class="pa layui-icon layui-icon-close color_white font_22 rightCloseBtn"></i>
+					<!--人员信息-->
+					<div class="ryxxBox">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">人员信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text"  id="searchRy">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('RY')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">人员列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span>姓名</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">性别</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">年龄</span>
+						    </div>
+						    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span title="">标签</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="sqryList">
+							<div class="layui-row colum" id="personnelInfoLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">李云迪</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">男</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">34</span>
+							    </div>
+							    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">独居</span>
+							    </div>
+							</div>
+						</div>
+						<div id="sqryPage" class="layuiPage"></div>
+					</div>
+					<!--房屋信息-->
+					<div class="fwxxBox hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">房屋信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="searchFw">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('FW')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">房屋列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+						      	<span title="">楼栋名称</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">门牌号</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">入住情况</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">用途</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="sqfwList">
+							<div class="layui-row colum" id="fwxxLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+							      	<span title="">翰林小区14栋</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">101</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">入住</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">住宅</span>
+							    </div>
+							</div>
+						</div>
+						<div id="sqfwPage" class="layuiPage"></div>
+					</div>
+					<!--楼栋信息-->
+					<div class="ldxxBox hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">楼栋信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="searchLd">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('LD')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">楼栋列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+								<span>序号</span>
+							</div>
+							<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+								<span title="">楼栋名称</span>
+							</div>
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+								<span title="">层数</span>
+							</div>
+							<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+								<span title="">建筑物面积</span>
+							</div>
+							<!--<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">-->
+								<!--<span title="">所属街道</span>-->
+							<!--</div>-->
+						</div>
+						<div class="tabBody" id="sqldList">
+							<div class="layui-row colum" id="ldxxLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+									<span>1</span>
+								</div>
+								<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+									<span title=""></span>
+								</div>
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+									<span title=""></span>
+								</div>
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+									<span title=""></span>
+								</div>
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+									<span title=""></span>
+								</div>
+							</div>
+						</div>
+						<div id="sqldPage" class="layuiPage"></div>
+					</div>
+
+					<!--车辆信息-->
+					<div class="carBox hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">车辆信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="carName"/>
+							<i class="iconfont iconsousuo pa searchIco" onclick="serarchCl('')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">车辆列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span title="">车牌号</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">车型</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">车主姓名</span>
+						    </div>
+						    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span title="">电话</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="clList">
+							<div class="layui-row colum">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">鄂AD6542</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">小型</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">李云迪</span>
+							    </div>
+							    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">13800000000</span>
+							    </div>
+							</div>
+						</div>
+						<div id="clxxList" class="layuiPage"></div>
+					</div>
+
+					<!-- 车位管理 -->
+					<div class="parkingSpaceBox hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">停车场信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" />
+							<i class="iconfont iconsousuo pa searchIco"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">停车场列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span >序号</span>
+						    </div>
+							<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span title="">车场名称</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">车场类型</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">车位总数</span>
+						    </div>
+						    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+						      	<span title="">空闲车位</span>
+						    </div>
+						</div>
+						<div class="tabBody">
+							<div class="layui-row colum" id="parkingSpaceLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">0017</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">地上</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">空闲</span>
+							    </div>
+							    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3">
+							      	<span title="">停车场1</span>
+							    </div>
+							</div>
+						</div>
+						<div id="demo3" class="layuiPage"></div>
+					</div>
+
+					<!--设备管理-->
+					<div class="deviceBox hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">设备信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text"  id="sbmc"/>
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchSb()"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">设备列表</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+						      	<span title="">设备类型</span>
+						    </div>
+						    <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+						      	<span title="">设备名称</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">设备状态</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="ListCountSb">
+							<div class="layui-row colum" id="deviceLayerOpen" >
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+							      	<span title="">摄像头</span>
+							    </div>
+							    <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+							      	<span title="">摄像头1</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">在线</span>
+							    </div>
+							</div>
+						</div>
+						<div id="sbxxPage" class="layuiPage"></div>
+					</div>
+
+					<!--地图按钮-->
+					<div class="mapToolbar pa">
+						<h5 class="mapBtn moreBtn active" id="mapToolbarBtn">
+							<i class="iconfont icongongjuxiang"></i>
+						</h5>
+						<ul class="mapToolbarList">
+							<li class="mapBtn" title="指北">
+								<i class="iconfont iconicon"></i>
+							</li>
+							<li class="mapBtn" title="全屏">
+								<i class="iconfont iconquanping"></i>
+							</li>
+							<li class="mapBtn" title="放大">
+								<i class="iconfont iconjia"></i>
+							</li>
+							<li class="mapBtn" title="缩小">
+								<i class="iconfont iconjian"></i>
+							</li>
+							<li class="mapBtn" title="全图">
+								<i class="iconfont iconquantu"></i>
+							</li>
+                            <li class="mapBtn" title="清除">
+                                <i class="iconfont iconshanchu-copy-copy"></i>
+                            </li>
+						</ul>
+					</div>
+					<!--定位-->
+					<div class="positionSelect pa">
+						<div class="pr">
+							<p class="positionSelectBtn" id="positionSelectBtn">
+								<i class="iconfont iconloc-s font_22 color_blue mr_10"></i>
+								<span id="treeName" value="SQ000001">七宝社区</span>
+							</p>
+							<div class="pa SelectTree hide" id="SelectTree">
+								<div class="ztreeBox">
+									<ul id="zTree" class="ztree"></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--右侧--结束-->
+
+			<!--底部--开始-->
+			<div class="zhzlBottomContent">
+				<div class="contentTxt">
+					<div class="layui-row">
+					    <div class="layui-col-md4 layui-col-sm4 layui-col-xs3 zhzlBottomColum pr">
+					    	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">年龄结构</span>
+							</div>
+							<div id="ageStructure" class="zhzlBottomEcharts"></div>
+					    </div>
+					    <div class="layui-col-md4 layui-col-sm4 layui-col-xs3 zhzlBottomColum pr">
+					      	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">男女比例</span>
+							</div>
+							<div class="layui-row">
+							    <div class="layui-col-md6 layui-col-sm6">
+							      	<div id="lNScale" class="zhzlBottomEcharts"></div>
+							    </div>
+							    <div class="layui-col-md6 layui-col-sm6 lNScaleTxt" id="sqglnnbi">
+							      	<p class="woman"><i class="iconfont iconwomen"></i>女 <span class="fr color_white numberFont font_30">3247</span></p>
+							      	<p class="color_blue man"><i class="iconfont iconnancesuo"></i>男 <span class="fr color_white numberFont font_30">3478</span></p>
+							    </div>
+							</div>
+					    </div>
+					    <div class="layui-col-md4 layui-col-sm4 zhzlBottomColum pr">
+					    	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">民族比例</span>
+							</div>
+							<div id="MZScale" class="zhzlBottomEcharts"></div>
+					    </div>
+					    <!--<div class="layui-col-md3 layui-col-sm3 layui-col-xs3">-->
+					      	<!--<div class="title">-->
+								<!--<span class="txt color_white">黑名单</span>-->
+							<!--</div>-->
+							<!--<div class="layui-row tabThead">-->
+								<!--<div class="layui-col-md2 layui-col-sm2">-->
+							      	<!--序号-->
+							    <!--</div>-->
+								<!--<div class="layui-col-md4 layui-col-sm4">-->
+							      	<!--姓名-->
+							    <!--</div>-->
+							    <!--<div class="layui-col-md3 layui-col-sm3">-->
+							      	<!--原因-->
+							    <!--</div>-->
+							    <!--<div class="layui-col-md3 layui-col-sm3">-->
+							      	<!--记录时间-->
+							    <!--</div>-->
+							<!--</div>-->
+							<!--<div class="tabBody">-->
+								<!--<div class="layui-row colum">-->
+									<!--<div class="layui-col-md2 layui-col-sm2">-->
+								      	<!--<span>1</span>-->
+								    <!--</div>-->
+									<!--<div class="layui-col-md4 layui-col-sm4">-->
+								      	<!--<span>李云</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>毁坏公物</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>2020.05.02</span>-->
+								    <!--</div>-->
+								<!--</div>-->
+								<!--<div class="layui-row colum">-->
+									<!--<div class="layui-col-md2 layui-col-sm2">-->
+								      	<!--<span>1</span>-->
+								    <!--</div>-->
+									<!--<div class="layui-col-md4 layui-col-sm4">-->
+								      	<!--<span>李云</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>毁坏公物</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>2020.05.02</span>-->
+								    <!--</div>-->
+								<!--</div>-->
+								<!--<div class="layui-row colum">-->
+									<!--<div class="layui-col-md2 layui-col-sm2">-->
+								      	<!--<span>1</span>-->
+								    <!--</div>-->
+									<!--<div class="layui-col-md4 layui-col-sm4">-->
+								      	<!--<span>李云</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>毁坏公物</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>2020.05.02</span>-->
+								    <!--</div>-->
+								<!--</div>-->
+								<!--<div class="layui-row colum">-->
+									<!--<div class="layui-col-md2 layui-col-sm2">-->
+								      	<!--<span>1</span>-->
+								    <!--</div>-->
+									<!--<div class="layui-col-md4 layui-col-sm4">-->
+								      	<!--<span>李云</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>毁坏公物</span>-->
+								    <!--</div>-->
+								    <!--<div class="layui-col-md3 layui-col-sm3">-->
+								      	<!--<span>2020.05.02</span>-->
+								    <!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+					    <!--</div>-->
+					</div>
+				</div>
+			</div>
+			<!--底部--结束-->
+
+			<!--子导航-->
+			<ul class="subpageNavigation sqglSubpageNav">
+				<li class="active" id="personnelInforOpenBtn">
+					<i class="iconfont iconyonghu"></i>人员
+				</li>
+				<li id="houseOpenBtn">
+					<i class="iconfont icondalou"></i>房屋
+				</li>
+				<li id="carOpenBtn">
+					<i class="iconfont iconwaichucheliang1"></i>车辆
+				</li>
+				<li id="parkingSpaceOpenBtn" class="zs-picture" type="TCC">
+					<i class="iconfont iconpeizhitubiaosvg-"></i>车位
+				</li>
+				<li id="deviceOpenBtn">
+					<i class="iconfont iconshebei"></i>设备
+				</li>
+			</ul>
+
+			<!--人员信息强框-->
+			<div class="layerBox hide" id="personnelInfoLayer">
+				<h4 class="moveTxt">序号02</h4>
+				<div class="layerContent">
+					<ul class="personnelInfoListLayer">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+							    <div class="layui-col-md7">
+							      	<p><span class="color_blue">姓名：</span><span class="color_white">李花</span></p>
+							    	<p><span class="color_blue">民族：</span><span class="color_white">汉</span></p>
+							    	<p><span class="color_blue">居住地址：</span><span class="color_white">翰林小区11-2-201</span></p>
+
+							    </div>
+							    <div class="layui-col-md5">
+							      	<p><span class="color_blue">性别：</span><span class="color_white">女</span></p>
+							      	<p><span class="color_blue">年龄：</span><span class="color_white">67</span></p>
+							      	<p><span class="color_blue">电话：</span><span class="color_white">15100000000</span></p>
+							    </div>
+							    <div class="layui-col-md12">
+							    	<p><span class="color_blue">标签：</span><span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点监控人员</span></p>
+							    </div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--房屋弹框-->
+			<div class="layerBox hide" id="fwxxLayer">
+				<div class="houseLayerDetail">
+					<h4 class="moveTxt" id="fwzz">翰林小区14栋(100人)</h4>
+					<h5 class="color_white mw_10">住户信息</h5>
+					<ul class="ResidenceDetailList" id="zhxx">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+							    <div class="layui-col-md6">
+							    	<p>
+							    		<span class="color_white">姓名:</span>
+							      		<span class="color_white">李月</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">民族:</span>
+							      		<span class="color_white">汉</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">是否房主:</span>
+							      		<span class="color_white">是</span>
+							    	</p>
+							    </div>
+							    <div class="layui-col-md6">
+							      	<p>
+							    		<span class="color_white">性别:</span>
+							      		<span class="color_white">女</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">年龄:</span>
+							      		<span class="color_white">67</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">电话:</span>
+							      		<span class="color_white">15188888888</span>
+							    	</p>
+							    </div>
+							    <div class="layui-col-md12">
+							      	<p>
+							    		<span class="color_white">标签:</span>
+							      		<span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点管控人员</span>
+							      		<span class="color_white"><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+							    	</p>
+							    </div>
+							</div>
+						</li>
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+							    <div class="layui-col-md6">
+							    	<p>
+							    		<span class="color_white">姓名:</span>
+							      		<span class="color_white">李月</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">民族:</span>
+							      		<span class="color_white">汉</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">是否房主:</span>
+							      		<span class="color_white">是</span>
+							    	</p>
+							    </div>
+							    <div class="layui-col-md6">
+							      	<p>
+							    		<span class="color_white">性别:</span>
+							      		<span class="color_white">女</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">年龄:</span>
+							      		<span class="color_white">67</span>
+							    	</p>
+							    	<p>
+							    		<span class="color_white">电话:</span>
+							      		<span class="color_white">15188888888</span>
+							    	</p>
+							    </div>
+							    <div class="layui-col-md12">
+							      	<p>
+							    		<span class="color_white">标签:</span>
+							      		<span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点管控人员</span>
+							      		<span class="color_white"><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+							    	</p>
+							    </div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!--楼栋弹框-->
+			<div class="layerBox hide" id="ldxxLayer">
+				<div class="houseLayerDetail">
+					<h4 class="moveTxt" id="ldzz"></h4>
+					<h5 class="color_white mw_10">房屋信息</h5>
+					<ul class="ResidenceDetailList" id="fwxq">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">姓名:</span>
+										<span class="color_white">李月</span>
+									</p>
+									<p>
+										<span class="color_white">民族:</span>
+										<span class="color_white">汉</span>
+									</p>
+									<p>
+										<span class="color_white">是否房主:</span>
+										<span class="color_white">是</span>
+									</p>
+								</div>
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">性别:</span>
+										<span class="color_white">女</span>
+									</p>
+									<p>
+										<span class="color_white">年龄:</span>
+										<span class="color_white">67</span>
+									</p>
+									<p>
+										<span class="color_white">电话:</span>
+										<span class="color_white">15188888888</span>
+									</p>
+								</div>
+								<div class="layui-col-md12">
+									<p>
+										<span class="color_white">标签:</span>
+										<span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点管控人员</span>
+										<span class="color_white"><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+									</p>
+								</div>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+
+			<!--车位列表弹框-->
+			<div class="layerBox hide" id="parkingSpaceLayer">
+				<h4 class="moveTxt">停车场1</h4>
+				<div class="layui-row parkingSpaceNumberStatus">
+					<div class="layui-col-md4 layui-col-xs4">
+						<span class="color_blue">总车位：</span>510
+					</div>
+					<div class="layui-col-md4 layui-col-xs4 txtC">
+						<span class="color_blue">空闲车位：</span>89
+					</div>
+					<div class="layui-col-md4 layui-col-xs4 txtR">
+						<span class="color_blue">已用车位：</span>421
+					</div>
+				</div>
+				<div class="layerContent">
+					<ul class="parkingSpaceLayerList">
+						<li>
+							<p>1021</p>
+							<i class="iconfont iconwaichucheliang1 color_blue"></i>
+						</li>
+						<li>
+							<p>1021</p>
+							<!--<i class="iconfont iconwaichucheliang1 color_blue"></i>-->
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layerBox hide" id="cameraLayer">
+				<h4 class="moveTxt">摄像头01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">北门</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<div class="cameraImg">
+						<img src="images/video_img1.png" alt="" />
+					</div>
+				</div>
+			</div>
+
+			<!--门禁弹框-->
+			<div class="layerBox AccessControlLayer hide" id="AccessControlLayer">
+				<h4 class="moveTxt">门禁01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋1单元</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<div id="mjswiperWrapper" class="swiperWrapper">
+						<ul class="vehicleList swiper-wrapper">
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">姓名：</span>
+									<span class="color_white">李花</span>
+								</p>
+								<p>
+									<span class="color_blue">性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">人员类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进入类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">姓名：</span>
+									<span class="color_white">李云迪</span>
+								</p>
+								<p>
+									<span class="color_blue">性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">人员类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进入类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+						</ul>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+			</div>
+
+			<!--闸机弹框-->
+			<div class="layerBox GateLayer hide" id="GateLayer">
+				<h4 class="moveTxt">闸机01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">北门入口</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<div id="GateWiperWrapper" class="swiperWrapper">
+						<ul class="vehicleList swiper-wrapper">
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">姓名：</span>
+									<span class="color_white">李云迪</span>
+								</p>
+								<p>
+									<span class="color_blue">性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">人员类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进出类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">姓名：</span>
+									<span class="color_white">李云迪</span>
+								</p>
+								<p>
+									<span class="color_blue">性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">人员类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进出类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+						</ul>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+			</div>
+
+			<!--道杆弹框-->
+			<div class="layerBox RoadPoleLayer hide" id="RoadPoleLayer">
+				<h4 class="moveTxt">道杆01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">北门入口</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<div id="RoadPoleswiperWrapper" class="swiperWrapper">
+						<ul class="vehicleList swiper-wrapper">
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">车牌号：</span>
+									<span class="color_white">鄂A121CB</span>
+								</p>
+								<p>
+									<span class="color_blue">车主性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">车辆类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进出类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+							<li class="swiper-slide">
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">车牌号：</span>
+									<span class="color_white">鄂A1218A</span>
+								</p>
+								<p>
+									<span class="color_blue">车主性别：</span>
+									<span class="color_white">男</span>
+								</p>
+								<p>
+									<span class="color_blue">车辆类型：</span>
+									<span class="color_white">(常驻、外来)</span>
+								</p>
+								<p>
+									<span class="color_blue">进出类型：</span>
+									<span class="color_white">(进入，外出)</span>
+								</p>
+								<p>
+									<span class="color_blue">时间：</span>
+									<span class="color_white">2020-05-14 14:00:00</span>
+								</p>
+							</li>
+						</ul>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+			</div>
+
+			<!--垃圾桶弹框-->
+			<div class="layerBox ashbinLayer hide" id="ashbinLayer">
+				<h4 class="moveTxt">垃圾桶01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋东南</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<ul class="vehicleList swiper-wrapper">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<p><span class="color_blue">垃圾类型：</span><span class="color_white">干垃圾</span></p>
+							<p><span class="color_blue">满载状态：</span><span class="color_white">满载</span></p>
+							<p><span class="color_blue">温度：</span><span class="color_white">12</span></p>
+							<p><span class="color_blue">容量：</span><span class="color_white">1242</span></p>
+							<p><span class="color_blue">重量：</span><span class="color_white">452</span></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--烟感弹框-->
+			<div class="layerBox smokeLayer hide" id="smokeLayer">
+				<h4 class="moveTxt">烟感01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋1单元11层</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<ul class="vehicleList swiper-wrapper">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<p><span class="color_blue">烟感深度：</span><span class="color_white">133</span></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--充电桩弹框-->
+			<div class="layerBox chargingPileLayer hide" id="chargingPileLayer">
+				<h4 class="moveTxt">充电桩01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋1单元</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<ul class="vehicleList swiper-wrapper">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<p><span class="color_blue">剩余容量：</span><span class="color_white">42</span></p>
+							<p><span class="color_blue">单体电压：</span><span class="color_white">12</span></p>
+							<p><span class="color_blue">温度：</span><span class="color_white">12</span></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--路灯弹框-->
+			<div class="layerBox streetLampLayer hide" id="streetLampLayer">
+				<h4 class="moveTxt">路灯1</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋西北</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<ul class="vehicleList swiper-wrapper">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<p><span class="color_blue">亮度：</span><span class="color_white">12</span></p>
+							<p><span class="color_blue">电流：</span><span class="color_white">452</span></p>
+							<p><span class="color_blue">电压：</span><span class="color_white">12</span></p>
+							<p><span class="color_blue">功率：</span><span class="color_white">1424</span></p>
+							<p><span class="color_blue">灯泡寿命：</span><span class="color_white">452</span></p>
+							<p><span class="color_blue">亮灯时间：</span><span class="color_white">18:00-07:00</span></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--消防栓弹框-->
+			<div class="layerBox fireFightingLayer hide" id="fireFightingLayer">
+				<h4 class="moveTxt">消防栓01</h4>
+				<div class="layerContent">
+					<div class="layui-row mw_10">
+						<div class="layui-col-md8 layui-col-xs8">
+							<span class="color_blue font_14 mr_10">位置:</span>
+							<span class="color_white font_14">2栋东南</span>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4 txtR">
+							<span class="color_blue font_14 mr_10">状态:</span>
+							<span class="color_white font_14">在线</span>
+						</div>
+					</div>
+					<ul class="vehicleList swiper-wrapper">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<p><span class="color_blue">消防水位：</span><span class="color_white">12</span></p>
+							<p><span class="color_blue">消防水压：</span><span class="color_white">452</span></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--房屋弹框-->
+			<div class="layerBox houseLayer hide" id="houseLayer">
+				<div class="houseLayerMain">
+					<h4 class="moveTxt">翰林小区14栋(100人)</h4>
+					<div class="layerContent pr">
+						<div class="SearchBox pa">
+							<input type="text" />
+							<i class="iconfont iconsousuo pa searchIco"></i>
+						</div>
+						<div class="layui-tab layui-tab-brief tabLine" lay-filter="docDemoTabBrief">
+							<ul class="layui-tab-title">
+								<li class="layui-this">一单元</li>
+								<li>二单元</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<div class="layui-row">
+										<!--<div class="layui-col-md9">
+								      	<span class="mr_10"><i class="iconfont iconlaoren color_yellow"></i>独居老人</span>
+								      	<span class="mr_10"><i class="iconfont iconrenyuan-shi color_red"></i>重点监控人员</span>
+								      	<span><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+								    </div>-->
+										<div class="layui-col-md3">
+											<span class="legendLine mr_10">居住</span>
+											<span class="legendLine legendLine_gray">空置</span>
+										</div>
+									</div>
+									<ul class="ResidenceList">
+										<li class="style_zz">
+											<span class="txtRT">自住</span>
+											<span>101</span>
+											<i class="iconfont iconrenyuan-shi color_red"></i>
+											<i class="iconfont iconicon-test color_blue"></i>
+										</li>
+										<li class="style_zz">
+											<span class="txtRT">自住</span>
+											<span>102</span>
+										</li>
+										<li class="style_zz">
+											<span class="txtRT">自住</span>
+											<span>103</span>
+										</li>
+										<li class="style_zh">
+											<span class="txtRT">租房</span>
+											<span>104</span>
+											<i class="iconfont iconicon-test color_blue"></i>
+										</li>
+										<li class="style_kz">
+											<span class="txtRT">空置</span>
+											<span>105</span>
+											<i class="iconfont iconrenyuan-shi color_red"></i>
+										</li>
+									</ul>
+								</div>
+								<div class="layui-tab-item">
+									内容2
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="houseLayerDetail hide pr">
+					<i class="backBtn iconfont iconback pa" id="houseBackBtn"></i>
+					<h4 class="moveTxt">翰林小区14栋(100人)</h4>
+					<h5 class="color_white mw_10">住户信息</h5>
+					<ul class="ResidenceDetailList">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">姓名:</span>
+										<span class="color_white">李月</span>
+									</p>
+									<p>
+										<span class="color_white">民族:</span>
+										<span class="color_white">汉</span>
+									</p>
+									<p>
+										<span class="color_white">是否房主:</span>
+										<span class="color_white">是</span>
+									</p>
+								</div>
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">性别:</span>
+										<span class="color_white">女</span>
+									</p>
+									<p>
+										<span class="color_white">年龄:</span>
+										<span class="color_white">67</span>
+									</p>
+									<p>
+										<span class="color_white">电话:</span>
+										<span class="color_white">15188888888</span>
+									</p>
+								</div>
+								<div class="layui-col-md12">
+									<p>
+										<span class="color_white">标签:</span>
+										<span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点管控人员</span>
+										<span class="color_white"><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">姓名:</span>
+										<span class="color_white">李月</span>
+									</p>
+									<p>
+										<span class="color_white">民族:</span>
+										<span class="color_white">汉</span>
+									</p>
+									<p>
+										<span class="color_white">是否房主:</span>
+										<span class="color_white">是</span>
+									</p>
+								</div>
+								<div class="layui-col-md6">
+									<p>
+										<span class="color_white">性别:</span>
+										<span class="color_white">女</span>
+									</p>
+									<p>
+										<span class="color_white">年龄:</span>
+										<span class="color_white">67</span>
+									</p>
+									<p>
+										<span class="color_white">电话:</span>
+										<span class="color_white">15188888888</span>
+									</p>
+								</div>
+								<div class="layui-col-md12">
+									<p>
+										<span class="color_white">标签:</span>
+										<span class="color_white"><i class="iconfont iconrenyuan-shi color_red"></i>重点管控人员</span>
+										<span class="color_white"><i class="iconfont iconicon-test color_blue"></i>家有宠物</span>
+									</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</body>
+	<script src="js/3rd/jquery.min.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.core-3.5.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.js"></script>
+	<script src="js/3rd/featherCmsScript.js"></script>
+	<script src="js/3rd/swiper.min.js"></script>
+	<script src="js/3rd/echarts.js"></script>
+	<script src="js/layui-2.5.5/layui.js"></script>
+	<script src="js/sqgl.js"></script>
+	<script src="Cesium/Cesium.js"></script>
+	<script src="js/3d/turf.min.js"></script>
+	<script src="js/3d/config.js"></script>
+	<script src="js/3d/mapViewer.js"></script>
+	<script>
+        featherCmsScript.ctx = "/community/";
+	</script>
+
+</html>

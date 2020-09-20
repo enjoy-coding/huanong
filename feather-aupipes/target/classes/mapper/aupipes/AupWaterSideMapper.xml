@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWaterSideMapper">
+
+    <resultMap type="AupWaterSide" id="AupWaterSideResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="level"    column="level"    />
+        <result property="pid"    column="pid"    />
+        <result property="type"    column="type"    />
+        <result property="typeid"    column="typeId"    />
+        <result property="typeno"    column="typeNo"    />
+        <result property="typecode"    column="typeCode"    />
+        <result property="tableid"    column="tableId"    />
+        <result property="sortcode"    column="sortCode"    />
+        <result property="hasChildren"    column="hasChildren"    />
+        <result property="cacheId"    column="cacheId"    />
+        <result property="cacheName"    column="cacheName"    />
+        <result property="cacheLevel"    column="cacheLevel"    />
+        <result property="buildArea"    column="buildArea"    />
+        <result property="personCount"    column="personCount"    />
+        <result property="waterCount" column="waterCount" />
+        <result property="pCode" column="pCode" />
+        <result property="selectValue" column="selectValue" />
+        <result property="categoryId" column="categoryId" />
+        <result property="categoryName" column="categoryName" />
+    </resultMap>
+
+    <sql id="selectAupWaterSideVo">
+        select id, name, level, pid, type, typeId, typeNo, tableId, sortCode,hasChildren,cacheId, cacheName
+            , cacheLevel,buildArea,personCount,waterCount,CONVERT(VARCHAR(32),id)+'-'+cacheId as selectValue
+            ,categoryId,categoryName
+        from aup_water_side
+    </sql>
+    <select id="selectHouseTree" parameterType="Long" resultMap="AupWaterSideResult" >
+      SELECT MAX(s.id) as id, s.name, s.pid,s.cacheId,s.cacheName,s.typeId,s.typeNo,s.level,p.typeNo as pCode
+      FROM aup_water_side s
+      JOIN aup_water_side p on p.id = s.pid
+      WHERE s.pid =#{pid}
+      GROUP BY s.name, s.pid,s.cacheId,s.cacheName,s.typeId,s.typeNo,s.level,p.typeNo
+
+    </select>
+
+    <select id="selectAupWaterSideTreeList" parameterType="AupWaterSide" resultMap="AupWaterSideResult">
+        select s.id, s.name, s.level, s.pid, s.type, s.typeNo, s.tableId,s.hasChildren,s.cacheId,s.buildArea,s.personCount
+        from aup_water_side s
+        <where>
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+            <if test="params.type!=null and params.type !='' ">
+                AND EXISTS (select 1 from aup_water_side k 
+                            WHERE k.CacheId LIKE s.cacheId+'%'
+
+                <if test="name !=null and name != '' ">
+                    <bind name="_name" value="'%' + name + '%'" />
+                    and k.name like #{_name}
+                </if>
+                <if test="tableid !=null and tableid != '' ">
+                    <bind name="_tableid" value="'%' + tableid + '%'" />
+                    and k.tableId like #{_tableid}
+                </if>
+                )
+            </if>
+    </where>
+    </select>
+    
+    <select id="selectAupWaterSideList" parameterType="AupWaterSide" resultMap="AupWaterSideResult">
+        <include refid="selectAupWaterSideVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="level != null and level != 0 ">
+              and level &lt;= #{level}
+            </if>
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+
+            <if test="type != null  and type != ''">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and type like #{_type}
+            </if>
+            <if test="typeid != null  and typeid != ''">
+                <bind name="_typeid" value="'%'+ typeid +'%'"/>
+                and typeId like #{_typeid}
+            </if>
+            <if test="typeno != null  and typeno != ''">
+                and typeNo = #{typeno}
+            </if>
+            <if test="cacheId != null  and cacheId != ''">
+                <bind name="_cacheId" value="'%'+ cacheId +'%'"/>
+                and cacheId like #{_cacheId}
+            </if>
+            <if test="cacheName != null  and cacheName != ''">
+                <bind name="_cacheName" value="'%'+ cacheName +'%'"/>
+                and cacheName like #{_cacheName}
+            </if>
+            <if test="tableid != null  and tableid != ''">
+                <bind name="_tableid" value="'%'+ tableid +'%'"/>
+                and tableId like #{_tableid}
+            </if>
+            <if test="sortcode != null ">
+                <bind name="_sortcode" value="'%'+ sortcode +'%'"/>
+                and sortCode like #{_sortcode}
+            </if>
+            <if test="hasChildren != null and hasChildren &lt; 10 ">
+                and hasChildren = #{hasChildren}
+            </if>
+        </where>
+    </select>
+    
+    <!--判断行政编码是否唯一-->
+    <select id="checkAupWaterSideTypeNoUnque" resultMap="AupWaterSideResult">
+        <include refid="selectAupWaterSideVo"/>
+		where typeNo = #{typeno}
+    </select>
+
+     <!--判断当前节点是否存在子节点-->
+    <select id="checkAupWaterSideHasChildren" resultType="Integer" parameterType="Long" >
+        select COUNT(1) from aup_water_side s
+        where s.pid = #{id}
+    </select>
+
+    <select id="selectAupWaterSideById" parameterType="Long" resultMap="AupWaterSideResult">
+        <include refid="selectAupWaterSideVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupWaterSide" parameterType="AupWaterSide">
+        insert into aup_water_side
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+           <if test="name != null  and name != ''">name,</if>
+            <if test="level != null ">level,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="typeid != null  and typeid != ''">typeId,</if>
+            <if test="typeno != null  and typeno != ''">typeNo,</if>
+            <if test="tableid != null  and tableid != ''">tableId,</if>
+            <if test="sortcode != null ">sortCode,</if>
+            <if test="hasChildren != null ">hasChildren,</if>
+            <if test="typecode != null  and typecode != ''">typeCode,</if>
+            <if test="cacheId != null  and cacheId != ''">cacheId,</if>
+            <if test="cacheLevel != null ">cacheLevel,</if>
+            <if test="cacheName != null  and cacheName != ''">cacheName,</if>
+            <if test="buildArea != null ">buildArea,</if>
+            <if test="personCount != null ">personCount,</if>
+            <if test="waterCount != null ">waterCount,</if>
+            <if test="categoryId != null and categoryId !='' ">categoryId,</if>
+            <if test="categoryName != null and categoryName !='' ">categoryName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="typeid != null  and typeid != ''">#{typeid},</if>
+            <if test="typeno != null  and typeno != ''">#{typeno},</if>
+            <if test="tableid != null  and tableid != ''">#{tableid},</if>
+            <if test="sortcode != null ">#{sortcode},</if>
+            <if test="hasChildren != null ">#{hasChildren},</if>
+            <if test="typecode != null  and typecode != ''">#{typecode},</if>
+            <if test="cacheId != null  and cacheId != ''">#{cacheId},</if>
+            <if test="cacheLevel != null ">#{cacheLevel},</if>
+            <if test="cacheName != null  and cacheName != ''">#{cacheName},</if>
+            <if test="buildArea != null ">#{buildArea},</if>
+            <if test="personCount != null ">#{personCount},</if>
+            <if test="waterCount != null ">#{waterCount},</if>
+            <if test="categoryId != null and categoryId != '' ">#{categoryId},</if>
+            <if test="categoryName != null and categoryName !=''  ">#{categoryName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupWaterSide" parameterType="AupWaterSide">
+        update aup_water_side
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="level != null ">level = #{level},</if>
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="typeid != null  and typeid != ''">typeId = #{typeid},</if>
+            <if test="typeno != null  and typeno != ''">typeNo = #{typeno},</if>
+            <if test="tableid != null  and tableid != ''">tableId = #{tableid},</if>
+            <if test="sortcode != null ">sortCode = #{sortcode},</if>
+            <if test="hasChildren != null ">hasChildren = #{hasChildren},</if>
+            <if test="typecode != null  and typecode != ''">typeCode = #{typecode},</if>
+            <if test="cacheId != null  and cacheId != ''">cacheId = #{cacheId},</if>
+            <if test="cacheLevel != null ">cacheLevel = #{cacheLevel},</if>
+            <if test="cacheName != null  and cacheName != ''">cacheName = #{cacheName},</if>
+            <if test="buildArea != null ">buildArea = #{buildArea},</if>
+            <if test="personCount != null ">personCount = #{personCount},</if>
+            <if test="categoryId != null and categoryId !='' ">categoryId = #{categoryId},</if>
+            <if test="categoryId != null and categoryName !='' ">categoryName = #{categoryName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupWaterSideById" parameterType="Long">
+        delete from aup_water_side where id = #{id}
+    </delete>
+
+    <delete id="deleteAupWaterSideByIds" parameterType="String">
+        delete from aup_water_side where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

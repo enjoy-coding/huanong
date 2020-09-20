@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改车辆')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-CL-edit" th:object="${CL}">
+            <input id="clid" th:field="*{clid}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">车辆ID：</label>
+                <div class="col-sm-8">
+                    <input name="clid" th:field="*{clid}" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">车牌号码：</label>
+                <div class="col-sm-8">
+                    <input name="clhm" th:field="*{clhm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">车型(大型,小型)：</label>
+                <div class="col-sm-8">
+                    <select name="cx" class="form-control m-b" th:with="type=${@dict.getType('pg_car_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{cx}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">车主姓名：</label>
+                <div class="col-sm-8">
+                    <input name="czxm" th:field="*{czxm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">车主联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="lxdh" th:field="*{lxdh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">车主id：</label>
+                <div class="col-sm-8">
+                    <input name="jmid" th:field="*{jmid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "smartcommunity/CL";
+        $("#form-CL-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#clid").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-CL-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.clid) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.clid;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：clid");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

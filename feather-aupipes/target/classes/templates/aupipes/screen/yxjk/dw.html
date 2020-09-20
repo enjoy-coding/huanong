@@ -1,0 +1,50 @@
+<div id="dingwei" class="pa zs_mapTxtBox mapTxtLayer">
+    <div id="base" class="pr txt">
+        <span class="mapCloseBtn pa" onclick="mapCloseBtn(this)"><i class="iconfont icon-guanbi"></i></span>
+        <div class="topBg pa"></div>
+        <div class="bottomBg pa"></div>
+        <div class="contentTxt" th:object="${dw}">
+            <h2>名称：[[*{name}]]</h2>
+            <div class="lineBlue mh15">
+            </div>
+            <p th:each="m : ${mm}">[[${m.msg}]]:[[${m.con}]]<span></span> </p>
+        </div>
+    </div>
+    <div id="waterOrEle" class="pr txt" style="display: none">
+        <span class="mapCloseBtn pa" onclick="mapCloseBtn(this)"><i class="iconfont icon-guanbi"></i></span>
+        <div class="topBg pa"></div>
+        <div class="bottomBg pa"></div>
+        <div class="contentTxt">
+            <h2 id="waterOrEleTitle">名称：西苑21栋22</h2>
+            <div class="lineBlue mh15"></div>
+            <div id="buildMeter">
+                <p>详细地址：<span>未知</span></p>
+                <p>建筑面积：<span>未知</span></p>
+                <p>表具总数：<span>未知</span></p>
+                <p>水电表总数：<span>未知</span></p>
+            </div>
+            <div id="buildMeter2">
+                <p>本月用量：<span>未知</span></p>
+                <p>当天用量：<span>未知</span></p>
+            </div>
+        </div>
+    </div>
+    <div id="waterHouseOrEleHouse" class="pr txt" style="display: none">
+        <span class="mapCloseBtn pa" onclick="mapCloseBtn(this)"><i class="iconfont icon-guanbi"></i></span>
+        <div class="topBg pa"></div>
+        <div class="bottomBg pa"></div>
+        <div class="contentTxt">
+            <h2>名称：西苑21栋22</h2>
+            <div class="lineBlue mh15"></div>
+            <div id="houseMeter">
+                <p>详细地址：<span>未知</span></p>
+                <p>房屋类型：<span>未知</span></p>
+                <p>房屋面积：<span>未知</span></p>
+                <p>当前已用量：<span>未知</span></p>
+                <p>最后一次读数：<span>未知</span></p>
+                <p>读表时间：<span>未知</span></p>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScVolunteerStyleMapper">
+    
+    <resultMap id="ScVolunteerStyleResult"  type="ScVolunteerStyle" >
+        <result property="styleId"    column="style_id"    />
+        <result property="volunteerId"    column="volunteer_id"    />
+        <result property="styleTitle"    column="style_title"    />
+        <result property="styleName"    column="style_name"    />
+        <result property="styleContent"    column="style_content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT"  />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"  />
+        <result property="remark"    column="remark"    />
+        <association property="volunteer"    column="volunteer_id" javaType="ScVolunteer" resultMap="VolunteerResult" />
+		<collection  property="files"   javaType="java.util.List"  resultMap="ScFileInfoResult" />
+	
+    </resultMap>
+
+    <resultMap id="ScFileInfoResult" type="ScFileInfo" >
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <resultMap id="VolunteerResult" type="ScVolunteer">
+        <result property="userId"    column="user_id"    />
+        <result property="volunteerTel"    column="volunteer_tel"    />
+        <result property="volunteerAccount"    column="volunteer_account"    />
+        <result property="volunteerScore"    column="volunteer_score"    />
+        <result property="volunteerName"    column="volunteer_name"    />
+        <result property="volunteerSex"    column="volunteer_sex"    />
+        <result property="volunteerBir"    column="volunteer_bir"    />
+        <result property="volunteerIdcard"    column="volunteer_idcard"    />
+        <result property="volunteerAddress"    column="volunteer_address"    />
+        <result property="volunteerProfession"    column="volunteer_profession"    />
+        <result property="volunteerSynopsis"    column="volunteer_synopsis"    />
+        <result property="volunteerAvatar"    column="volunteer_avatar"    />
+    </resultMap>
+
+    <sql id="selectScVolunteerStyleFileVo">
+        select s.style_id, s.volunteer_id, s.style_title, s.style_name, s.style_content, s.create_by, s.create_time, s.update_by, s.update_time, s.remark 
+                ,f.file_id,f.file_name,f.file_path
+				,v.user_id,v.volunteer_name,v.volunteer_idcard,volunteer_sex,v.volunteer_avatar
+        from sc_volunteer_style s
+		join sc_volunteer v on v.user_id = s.volunteer_id
+		left join sc_file_info f on f.file_target = s.style_id and f.file_code = 'style' 
+    </sql>
+
+    <sql id="selectScVolunteerStyleVo">
+        select s.style_id, s.volunteer_id, s.style_title, s.style_name, s.style_content, s.create_by, s.create_time, s.update_by, s.update_time, s.remark 
+                ,v.user_id,v.volunteer_name,v.volunteer_idcard,volunteer_sex,v.volunteer_avatar
+        from sc_volunteer_style s
+        join sc_volunteer v on v.user_id = s.volunteer_id
+    </sql>
+
+    <select id="selectScVolunteerStyleList" parameterType="ScVolunteerStyle" resultMap="ScVolunteerStyleResult">
+        <include refid="selectScVolunteerStyleVo"/>
+        <where>  
+            <if test="volunteerId != null "> and volunteer_id = #{volunteerId}</if>
+            <if test="styleTitle != null  and styleTitle != ''">
+            	<bind name="_styleTitle" value="'%'+ styleTitle +'%'"/>
+            	and s.style_title like #{_styleTitle}
+            </if>
+            <if test="params.volunteerName != null  and params.volunteerName != ''">
+                <bind name="_volunteerName" value="'%'+ params.volunteerName +'%'"/>
+                and v.volunteer_name like #{_volunteerName}
+            </if>
+            <if test="styleName != null  and styleName != ''">
+            	<bind name="_styleName" value="'%'+ styleName +'%'"/>
+            	and s.style_name like #{_styleName}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and s.update_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and s.update_time &lt;= #{params.endTime, jdbcType=BIGINT}
+			</if>
+            <if test="styleContent != null  and styleContent != ''"> and s.style_content = #{styleContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectScVolunteerStyleById" parameterType="Long" resultMap="ScVolunteerStyleResult">
+        <include refid="selectScVolunteerStyleVo"/>
+        where style_id = #{styleId}
+    </select>
+
+    <select id="selectScVolunteerStyleFileById" parameterType="Long" resultMap="ScVolunteerStyleResult">
+        <include refid="selectScVolunteerStyleFileVo"/>
+        where style_id = #{styleId}
+    </select>
+        
+    <insert id="insertScVolunteerStyle" parameterType="ScVolunteerStyle">
+        insert into sc_volunteer_style
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="styleId != null ">style_id,</if>
+            <if test="volunteerId != null ">volunteer_id,</if>
+            <if test="styleTitle != null  and styleTitle != ''">style_title,</if>
+            <if test="styleName != null  and styleName != ''">style_name,</if>
+            <if test="styleContent != null  and styleContent != ''">style_content,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="styleId != null ">#{styleId},</if>
+            <if test="volunteerId != null ">#{volunteerId},</if>
+            <if test="styleTitle != null  and styleTitle != ''">#{styleTitle},</if>
+            <if test="styleName != null  and styleName != ''">#{styleName},</if>
+            <if test="styleContent != null  and styleContent != ''">#{styleContent},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScVolunteerStyle" parameterType="ScVolunteerStyle">
+        update sc_volunteer_style
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="volunteerId != null ">volunteer_id = #{volunteerId},</if>
+            <if test="styleTitle != null  and styleTitle != ''">style_title = #{styleTitle},</if>
+            <if test="styleName != null  and styleName != ''">style_name = #{styleName},</if>
+            <if test="styleContent != null  and styleContent != ''">style_content = #{styleContent},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where style_id = #{styleId}
+    </update>
+
+    <delete id="deleteScVolunteerStyleById" parameterType="Long">
+        delete from sc_volunteer_style where style_id = #{styleId}
+    </delete>
+
+    <delete id="deleteScVolunteerStyleByIds" parameterType="String">
+        delete from sc_volunteer_style where style_id in 
+        <foreach item="styleId" collection="array" open="(" separator="," close=")">
+            #{styleId}
+        </foreach>
+    </delete>
+
+    
+</mapper>

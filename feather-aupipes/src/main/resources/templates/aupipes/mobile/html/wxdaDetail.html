@@ -1,0 +1,90 @@
+<div class="listDetail">
+    <div class="pr content">
+        <h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>属性信息</h5>
+        <div class="txt wxdaDetailContent">
+            <ul class="list">
+                <li>
+                    <label class="left fl">维修名称:</label>
+                    <p class="right fr">{{ list.name }}</p>
+                </li>
+                <li>
+                    <label class="left fl">维修人员:</label>
+                    <p class="right fr">{{ list.userName }}</p>
+                </li>
+                <li>
+                    <label class="left fl">维修时间:</label>
+                    <p class="right fr">{{ list.repairTime }}</p>
+                </li>
+                <li>
+                    <label class="left fl">详细位置:</label>
+                    <p class="right fr">{{ list.address }}</p>
+                </li>
+                <li>
+                    <label class="left fl">故障类型:</label>
+                    <p class="right fr">{{ list.faultType }}</p>
+                </li>
+            </ul>
+            <div class="titleStyle1">关联管线设备</div>
+            <div class="wxdaTableList">
+                <div class="layui-row layui-col-space5">
+                    <div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+                        序号
+                    </div>
+                    <div class="layui-col-xs5 layui-col-md5 layui-col-md5 color_green">
+                        名称
+                    </div>
+                    <div class="layui-col-xs5 layui-col-md5 layui-col-md5 color_green">
+                        编号
+                    </div>
+                </div>
+                <div class="wxdaTableBody">
+                    <div class="layui-row layui-col-space5" v-for="(item,i) in pipeList">
+                        <div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+                            {{ i+1 }}
+                        </div>
+                        <div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+                            {{ item.name }}
+                        </div>
+                        <div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+                            {{ item.guid }}
+                        </div>
+                    </div>
+                    <!--<div class="layui-row layui-col-space5">
+                        <div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+                            1
+                        </div>
+                        <div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+                            供水管线A 供水管线A 供水管线A 供水管线A
+                        </div>
+                        <div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+                            123
+                        </div>
+                    </div>-->
+                </div>
+
+            </div>
+            <div class="titleStyle1">详细描述</div>
+            <div class="remark">
+                <p>{{ list.description }}</p>
+            </div>
+            <div class="titleStyle1">附件材料</div>
+            <div class="annex">
+                <div class="layui-row layui-col-space20 materials">
+                    <!--<div class="layui-col-xs4 layui-col-sm3 layui-col-md3">
+                        <img src="../images/map.png" alt=""/>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-sm3 layui-col-md3">
+                        <img src="../images/map.png" alt=""/>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-sm3 layui-col-md3">
+                        <img src="../images/map.png" alt=""/>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-sm3 layui-col-md3">
+                        <img src="../images/map.png" alt=""/>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

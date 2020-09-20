@@ -1,0 +1,18 @@
+<div id="dingwei_water" class="pa zs_mapTxtBox mapTxtLayer">
+    <div class="pr txt">
+        <span class="mapCloseBtn pa" onclick="mapCloseBtn(this)"><i class="iconfont icon-guanbi"></i></span>
+        <div class="topBg pa"></div>
+        <div class="bottomBg pa"></div>
+        <div class="contentTxt" id="waterPosition">
+            <h2>西苑46栋125门10号</h2>
+            <div>
+                <div class="lineBlue mh15"></div>
+                <p>总用水量：<span>120394吨</span></p>
+                <p>本月用水量：<span>11231吨</span></p>
+                <p>上月用水量：87266吨<span></span></p>
+                <p>所辖水表：18个<span></span></p>
+            </div>
+
+        </div>
+    </div>
+</div>

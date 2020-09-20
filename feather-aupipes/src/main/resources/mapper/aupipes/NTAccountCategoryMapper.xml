@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.aupipes.mapper.NTAccountCategoryMapper" >
+    
+  <resultMap id="CategoryResult" type="NTAccountCategory" >
+    <result property="id"    column="id"    />
+    <result column="name" property="name"/>
+    <result column="parent" property="parent"/>
+    <result column="path" property="path"/>
+    <result column="level" property="level"/>
+  </resultMap>
+    <sql id="selectCategoryVo" >
+        select id,name,parent,path,level from [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[NT_AgriculturalUniversity_AccountCategory]
+    </sql>
+    <select id="selectCategoryList" parameterType="NTAccountCategory" resultMap="CategoryResult">
+        <include refid="selectCategoryVo"></include>
+        <where>
+            <if test="id !=null">
+                and id = #{id}
+            </if>
+
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="parent !=null">
+                and parent = #{parent}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCategoryById" parameterType="String" resultMap="CategoryResult">
+        <include refid="selectCategoryVo"></include>
+        where  id = #{id}
+    </select>
+</mapper>

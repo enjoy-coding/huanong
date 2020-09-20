@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('信息详情')"/>
+    <th:block th:include="include :: summernote-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-npInfoDetail" th:object="${npInfoDetail}">
+        <input id="infoDetailId" name="infoDetailId" th:field="*{infoDetailId}" type="hidden">
+        <input id="infoId" name="infoId" th:field="*{infoId}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">景点名称：</label>
+            <div class="col-sm-10">
+                <input id="title" name="title" th:field="*{title}" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">地址：</label>
+            <div class="col-sm-10">
+                <input id="addInfo1" name="addInfo1" th:field="*{addInfo1}" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">电话：</label>
+            <div class="col-sm-10">
+                <input id="addInfo2" name="addInfo2" th:field="*{addInfo2}" class="form-control" type="text" required>
+            </div>
+        </div>
+     <!--   <div class="form-group">
+            <label class="col-sm-2 control-label">店铺地址：</label>
+            <div class="col-sm-10">
+                <input id="content" name="content" th:field="*{content}" type="hidden">
+                <div id="editor" class="summernote"></div>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">序号：</label>
+            <div class="col-sm-10">
+                <input id="orderNum" name="orderNum" th:field="*{orderNum}" class="form-control" type="text" required>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+<script type="text/javascript">
+    var prefix = ctx + "np/infoDetail";
+
+    $(function () {
+
+    });
+
+
+    $("#form-npInfoDetail").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#infoDetailId").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#content").val(sHTML);
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-npInfoDetail').serialize(),
+                success: function (result, _option) {
+                    if (isAdd()) {
+                        if (result.data.infoId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.infoDetailId;
+                        } else {
+                            $.modal.msgError("没有返回数据：roleId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

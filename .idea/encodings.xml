@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/feather-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-aupipes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-aupipes/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-aupipes/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-cms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-cms/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-common4nutz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-health/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-health/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-hikvision/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-hikvision/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-hikvnetsdk/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-hikvnetsdk/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-lpscommunity/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-lpscommunity/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-meeting/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-meeting/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-patrol/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-patrol/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-quartz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-quartz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-smartcommunity/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-smartcommunity/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-website/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-website/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-wx/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feather-wx/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

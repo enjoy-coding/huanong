@@ -1,0 +1,236 @@
+<style>
+    .sbxjBtn button{
+        width:27%!important;
+        display:inline-block!important;
+        max-width: 114px;
+    }
+</style>
+<div class="listDetail">
+    <div class="pr content">
+        <h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>下发任务</h5>
+        <div class="ksxjForm">
+            <form class="layui-form bottomLayerFrom" id="form-inspect-add" action="post">
+                <div class="layui-row layui-col-space5">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">任务名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="inspectName" autocomplete="off" placeholder="请输入任务名称"
+                                       class="layui-input" required lay-verify="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">巡检人员：</label>
+                            <div class="layui-input-block" id="inspectWorkerList">
+                                <!--<select id="inspectWorkerList" multiple="multiple">
+                                </select>-->
+                                <!--<input type="checkbox" name="xjWorker" value="1" title="张三"  lay-skin="primary"  checked>
+                                <input type="checkbox" name="xjWorker" value="2" title="李四"  lay-skin="primary" >
+                                <input type="checkbox" name="xjWorker" value="3" title="王五"  lay-skin="primary" >
+                                <input type="checkbox" name="xjWorker" value="4" title="赵六"  lay-skin="primary" >-->
+                                <input name="inspectWorkerId" id="inspectWorkerId" type="hidden">
+                                <input name="inspectWorker" id="inspectWorker" type="hidden">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">巡检区域：</label>
+                            <div class="layui-input-block">
+                        <textarea name="inspectArea" class="layui-textarea" placeholder="请输入巡检区域" required
+                                  lay-verify="required"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                   <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">下发时间：</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="distributeTime" name="distributeTime" required
+                                       lay-verify="required"
+                                       autocomplete="off" placeholder="请选择下发时间" class="layui-input">
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发布人：</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="distributeWorker" name="distributeWorker" required
+                                       lay-verify="required"
+                                       autocomplete="off" placeholder="请输入发布人员" class="layui-input" readonly="readonly">
+                            </div>
+                            <input id="distributeWorkerId" name="distributeWorkerId" type="hidden">
+                        </div>
+                    </div>
+                    <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开始时间：</label>
+                            <div class="layui-input-block">
+                                <input id="startTime" type="text" name="startTime" required lay-verify="required"
+                                       autocomplete="off" placeholder="请选择开始时间" class="layui-input">
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">结束时间：</label>
+                            <div class="layui-input-block">
+                                <input id="endTime" type="text" name="endTime" required lay-verify="required"
+                                       autocomplete="off"
+                                       placeholder="请选择结束时间" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block sbxjBtn txtC">
+                                <button type="button" class="layui-btn bg_green" lay-submit lay-filter="saveInspect">
+                                    推送任务
+                                </button>
+                                <button type="button" class="layui-btn bg_green" onclick="ydxj.closeAddTask();">取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+        //日期时间选择器
+        laydate.render({
+            elem: '#distributeTime'
+            , type: 'datetime'
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#startTime'
+            , type: 'datetime'
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#endTime'
+            , type: 'datetime'
+        });
+
+        //上传保存任务
+        layui.form.on('submit(saveInspect)', function (data) {
+            var xjworker_value = [];
+            var strNames = '';
+            var strIds = '';
+            $('input[name="xjWorker"]:checked').each(function () {
+                console.log($(this))
+                xjworker_value.push($(this).val());
+                strNames += ($(this)[0].title + ",");
+                strIds += ($(this)[0].value + ",");
+            });
+            $("#inspectWorkerId").val(strIds.substring(0, strIds.length - 1));
+            $("#inspectWorker").val(strNames.substring(0, strNames.length - 1));
+            if (xjworker_value == 0) {
+                layer.msg("你还没有选择巡检人员！");
+                return;
+            } else {
+                var loadingIndex = layui.layer.load(2, { //icon支持传入0-2
+                    shade: [0.1, '#fff'], //0.1透明度的白色背景
+                    content: '上传中...',
+                    success: function (layero) {
+                        layero.find('.layui-layer-content').css({
+                            'padding-top': '39px',
+                            'width': '60px',
+                            'color': '#ffffff'
+                        });
+                    }
+                });
+
+                var data = $("#form-inspect-add").serializeArray();
+                $.ajax({
+                    url: ctx + "aupipes/inspect/add",
+                    type: 'post',
+                    data: data,
+                    contentType: 'application/x-www-form-urlencoded',
+                    dataType: "json",
+                    success: function (result) {
+                        layer.closeAll('loading');
+                        layer.msg(result.msg);
+                        $("#detail").html("");
+                        $("#detail").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+
+    });
+
+
+    var userListApi = ctx + "system/role/api/selectUserByKeys";
+
+    $(function () {
+        //获取下发人员列表
+        inspectWorkerInit();
+        //获取登录当前发布人员
+        getFbTaskWorker();
+        //应用多选插件
+        //$('#inspectWorkerList').multiselect();
+    });
+
+    function inspectWorkerInit() {
+        $.ajax({
+            type: "GET",
+            url: userListApi,
+            data: {"keys": "inspect_man"},
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function (result) {
+                $("#inspectWorkerList").empty();
+                $("#inspectWorkerId").empty();
+
+                if (result.code == 0) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        //$("#inspectWorkerList").append('<option value="' + item.userId + '">' + item.userName + '</option>');
+                        if (i == 0) {
+                            $("#inspectWorkerList").append('<input name="inspectWorkerId" id="inspectWorkerId"  type="hidden">' +
+                                '<input name="inspectWorker" id="inspectWorker"  type="hidden">' +
+                                '<input type="checkbox" name="xjWorker" value="' + item.userId + '" title="' + item.userName + '" required lay-verify="required"  lay-skin="primary" checked>');
+                            $("#inspectWorker").val(item.userName);
+                            $("#inspectWorkerId").val(item.userId);
+                        } else {
+                            $("#inspectWorkerList").append('<input type="checkbox" name="xjWorker" value="' + item.userId + '" title="' + item.userName + '" required lay-verify="required"  lay-skin="primary" >');
+                        }
+                    }
+                    layui.form.render();
+                }
+            }
+        });
+        /*$("#inspectWorkerList").change(function () {
+            $("#inspectWorkerId").val($('#inspectWorkerList option:selected').val());
+            $("#inspectWorker").val($('#inspectWorkerList option:selected').text());
+        })*/
+    };
+
+    function getFbTaskWorker() {
+        $.ajax({
+            type: "GET",
+            url: ctx + "aupipes/inspect/getFbTaskWorker",
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                    $("#distributeWorker").val(data.data[0]);
+                    $("#distributeWorkerId").val(data.data[1]);
+                }
+            },
+        })
+    }
+
+</script>

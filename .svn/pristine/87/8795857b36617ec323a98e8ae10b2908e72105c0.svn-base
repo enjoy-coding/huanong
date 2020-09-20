@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScShopMapper">
+
+    <resultMap type="ScShop" id="ScShopResult">
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopTitle"    column="shop_title"    />
+        <result property="shopTel"    column="shop_tel"    />
+        <result property="shopAddress"    column="shop_address"    />
+        <result property="shopContent"    column="shop_content"    />
+        <result property="shopFile"    column="shop_file"    />
+        <result property="shopType"    column="shop_type"    />
+        <result property="shopStatus"    column="shop_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    jdbcType="BIGINT"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    jdbcType="BIGINT"    />
+        <result property="remark"    column="remark"    />
+
+    </resultMap>
+
+    <sql id="selectScShopVo">
+        select shop_id, shop_name, shop_title, shop_tel,shop_address, shop_content, shop_file, shop_type, shop_status, create_by, create_time, update_by, update_time, remark from sc_shop
+    </sql>
+
+    <select id="selectScShopList" parameterType="ScShop" resultMap="ScShopResult">
+        <include refid="selectScShopVo"/>
+        <where>
+            <if test="shopId != null  and shopId != ''"> and shop_id  = #{shopId}</if>
+            <if test="shopName != null  and shopName != ''">
+            	<bind name="_shopName" value="'%'+ shopName +'%'"/>
+            	and shop_name like #{_shopName}
+            </if>
+            <if test="shopTitle != null  and shopTitle != ''"> and shop_title = #{shopTitle}</if>
+            <if test="shopContent != null  and shopContent != ''"> and shop_content = #{shopContent}</if>
+            <if test="shopFile != null  and shopFile != ''"> and shop_file = #{shopFile}</if>
+            <if test="shopType != null  and shopType != ''"> and shop_type = #{shopType}</if>
+            <if test="shopStatus != null  and shopStatus != ''"> and shop_status = #{shopStatus}</if>
+        </where>
+        order  by update_time desc
+    </select>
+
+    <select id="selectShopAll" resultMap="ScShopResult">
+		<include refid="selectScShopVo"/>
+	</select>
+	
+    <select id="selectScShopById" parameterType="Long" resultMap="ScShopResult">
+        <include refid="selectScShopVo"/>
+        where shop_id = #{shopId}
+    </select>
+
+    <insert id="insertScShop" parameterType="ScShop">
+        insert into sc_shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopId != null ">shop_id,</if>
+            <if test="shopName != null  and shopName != ''">shop_name,</if>
+            <if test="shopTel != null  and shopTel != ''">shop_tel,</if>
+            <if test="shopTitle != null  and shopTitle != ''">shop_title,</if>
+            <if test="shopAddress != null  and shopAddress != ''">shop_address,</if>
+            <if test="shopContent != null  and shopContent != ''">shop_content,</if>
+            <if test="shopFile != null  and shopFile != ''">shop_file,</if>
+            <if test="shopType != null  and shopType != ''">shop_type,</if>
+            <if test="shopStatus != null  and shopStatus != ''">shop_status,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopId != null ">#{shopId},</if>
+            <if test="shopName != null  and shopName != ''">#{shopName},</if>
+            <if test="shopTel != null  and shopTel != ''">#{shopTel},</if>
+            <if test="shopTitle != null  and shopTitle != ''">#{shopTitle},</if>
+            <if test="shopAddress != null  and shopAddress != ''">#{shopAddress},</if>
+            <if test="shopContent != null  and shopContent != ''">#{shopContent},</if>
+            <if test="shopFile != null  and shopFile != ''">#{shopFile},</if>
+            <if test="shopType != null  and shopType != ''">#{shopType},</if>
+            <if test="shopStatus != null  and shopStatus != ''">#{shopStatus},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateScShop" parameterType="ScShop">
+        update sc_shop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopName != null  and shopName != ''">shop_name = #{shopName},</if>
+            <if test="shopTitle != null  and shopTitle != ''">shop_title = #{shopTitle},</if>
+            <if test="shopTel != null  and shopTel != ''">shop_tel = #{shopTel},</if>
+            <if test="shopAddress != null  and shopAddress != ''">shop_address = #{shopAddress},</if>
+            <if test="shopContent != null  and shopContent != ''">shop_content = #{shopContent},</if>
+            <if test="shopFile != null  and shopFile != ''">shop_file = #{shopFile},</if>
+            <if test="shopType != null  and shopType != ''">shop_type = #{shopType},</if>
+            <if test="shopStatus != null  and shopStatus != ''">shop_status = #{shopStatus},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where shop_id = #{shopId}
+    </update>
+
+    <delete id="deleteScShopById" parameterType="Long">
+        delete from sc_shop where shop_id = #{shopId}
+    </delete>
+
+    <delete id="deleteScShopByIds" parameterType="String">
+        delete from sc_shop where shop_id in
+        <foreach item="shopId" collection="array" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </delete>
+
+</mapper>

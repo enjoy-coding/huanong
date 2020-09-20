@@ -1,0 +1,88 @@
+<!--用水弹框-->
+<div class="sdphBox waterBox hide">
+    <div class="oh sdphTabTop">
+        <!--<p class="txt fl">-->
+        <!--<span><i></i></span>-->
+        <!--<span><i></i></span>-->
+        <!--<span><i></i></span>-->
+        <!--</p>-->
+        <form class="layui-form oh fr">
+            <div class="layui-form-item fr">
+                <div class="layui-inline">
+                    <label class="layui-form-label">查询</label>
+                    <div class="layui-input-inline">
+                        <!--<select name="interest" lay-filter="aihao" lay-ignore id="ysph"-->
+                        <!--style="font-size: 0.83vw;background: none;color: #fff;border: 1px solid #03d8d6;line-height: 3.2vh;height: 3.2vh;width: 12.1vw">-->
+                        <!--<option value="1">1月用水量</option>-->
+                        <!--</select>-->
+
+                        <input type="text" class="layui-input" id="test2-ystk"  autocomplete="off">
+                    </div>
+                    <!--<button type="button" class="layui-btn" lay-submit="" lay-filter="demo1"-->
+                    <!--onclick="NHJG.getysph(document.getElementById('ysph').value)">-->
+                    <!--<i class="iconfont icon-sousuo"></i>查询-->
+                    <!--</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-tab layuiTab2" lay-filter="bottom-Tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">华中农大中心泵房</li>
+            <li>华中农大西苑泵房</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show oh sdphListBox">
+                <div class="sdphTitle" th:each="AupRecordWater:${list}"
+                     th:if="${AupRecordWater.cachelevel eq '1'}">
+                    <h4 th:text="${AupRecordWater.cachename}"></h4>
+                    <p>
+                        <span>出线水量(吨)<i th:text="${AupRecordWater.readusenumber}"></i></span>
+                        <span>汇总水量(吨)<i th:text="${AupRecordWater.calcusenumber}"></i></span>
+                        <span>耗损率<i th:text="${AupRecordWater.wastepercent}+'%'"></i></span>
+                    </p>
+                </div>
+                <div class="layui-row sdphList waterList">
+                    <div th:each="AupRecordWater:${list}"
+                         th:if="${AupRecordWater.cachelevel eq '2'}" class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                        <div class="list pr">
+                            <div class="tt pr tt2">
+                                <span class="pa"
+                                      th:text="${AupRecordWater.cachename}" style="left: 1vh;"></span>
+                                <span class="pa"
+                                                         th:onclick="NHJG.detailWster('[(${AupRecordWater.id})]')">楼栋用水详情</span>
+                            </div>
+                            <ul class="pw15 ph30 oh">
+                                <li>
+                                    <p>月用水量</p>
+                                    <h4 class="clRed" th:text="${AupRecordWater.readusenumber}"></h4>
+                                </li>
+                                <li>
+                                    <p>楼栋总用水量</p>
+                                    <h4 class="clRed" th:text="${AupRecordWater.calcusenumber}"></h4>
+                                </li>
+                                <li>
+                                    <p>耗损率</p>
+                                    <h4 class="clRed" th:text="${AupRecordWater.wastepercent}+'%'"></h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--table2内容-->
+            <div class="layui-tab-item bengzhan2">
+                泵站2
+            </div>
+            <div class="layui-tab-item">
+                泵站3
+            </div>
+            <div class="layui-tab-item">
+                泵站4
+            </div>
+            <div class="layui-tab-item">
+                泵站5
+            </div>
+        </div>
+    </div>
+</div>

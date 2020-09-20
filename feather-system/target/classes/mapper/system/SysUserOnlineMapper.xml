@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.system.mapper.SysUserOnlineMapper">
+
+	<resultMap type="SysUserOnline" id="SysUserOnlineResult">
+		<id     property="sessionId"         column="sessionId"         />
+		<result property="loginName"         column="login_name"        />
+		<result property="deptName"          column="dept_name"         />
+		<result property="ipaddr"            column="ipaddr"            />
+		<result property="loginLocation"     column="login_location"    />
+		<result property="browser"           column="browser"           />
+		<result property="os"                column="os"                />
+		<result property="status"            column="status"            />
+		<result property="startTimestamp"    column="start_timestamp"    jdbcType="BIGINT"   />
+		<result property="lastAccessTime"    column="last_access_time"    jdbcType="BIGINT"  />
+		<result property="expireTime"        column="expire_time"       />
+	</resultMap>
+	
+	<sql id="selectOnlineVo">
+       select sessionId, login_name, dept_name, ipaddr, login_location, browser, os, status, start_timestamp, last_access_time, expire_time 
+	   from sys_user_online
+    </sql>
+    
+	<select id="selectOnlineById" parameterType="String" resultMap="SysUserOnlineResult">
+		<include refid="selectOnlineVo"/>
+		where sessionid = #{sessionid}
+	</select>
+
+	<insert id="insertOnline" parameterType="SysUserOnline">
+		insert into sys_user_online(sessionId, login_name, dept_name, ipaddr, login_location, browser, os, status, start_timestamp, last_access_time, expire_time)
+        values (#{sessionId}, #{loginName}, #{deptName}, #{ipaddr}, #{loginLocation}, #{browser}, #{os}, #{status}, #{startTimestamp, jdbcType=BIGINT}, #{lastAccessTime, jdbcType=BIGINT}, #{expireTime})
+	</insert>
+	
+	<update id="updateOnline" parameterType="SysUserOnline">
+		update sys_user_online 
+		set sessionId = #{sessionId}, login_name = #{loginName}, dept_name = #{deptName}, ipaddr = #{ipaddr}, login_location = #{loginLocation}, browser = #{browser}, 
+		    os = #{os}, status = #{status}, start_timestamp = #{startTimestamp, jdbcType=BIGINT}, last_access_time = #{lastAccessTime, jdbcType=BIGINT}, expire_time = #{expireTime}
+		where sessionid = #{sessionId}
+	</update>
+	
+ 	<delete id="deleteOnlineById" parameterType="String">
+ 		delete from sys_user_online where sessionId = #{sessionId}
+ 	</delete>
+ 	
+ 	<select id="selectUserOnlineList" parameterType="SysUserOnline" resultMap="SysUserOnlineResult">
+		<include refid="selectOnlineVo"/>
+		<where>
+			<if test="ipaddr != null and ipaddr != ''">
+				<bind name="_ipaddr" value="'%'+ ipaddr +'%'"/>
+				AND ipaddr like #{_ipaddr}
+			</if>
+			<if test="loginName != null and loginName != ''">
+				<bind name="_loginName" value="'%'+ loginName +'%'"/>
+				AND login_name like #{_loginName}
+			</if><if test="userName != null and userName != ''">
+		    	<bind name="_userName" value="'%'+ userName +'%'"/>
+				AND user_name like #{_userName}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectOnlineByExpired" parameterType="String" resultMap="SysUserOnlineResult">
+		<include refid="selectOnlineVo"/> o 
+		WHERE o.last_access_time <![CDATA[ <= ]]> #{lastAccessTime, jdbcType=BIGINT} ORDER BY o.last_access_time ASC
+	</select>
+
+</mapper> 

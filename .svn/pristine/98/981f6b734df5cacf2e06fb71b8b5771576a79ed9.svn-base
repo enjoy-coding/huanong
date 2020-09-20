@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.prd.mapper.PrdAppversionMapper">
+    
+    <resultMap type="PrdAppversion" id="PrdAppversionResult">
+        <result property="versionId"       column="version_id"    />
+        <result property="createTime"      column="create_time"    jdbcType="BIGINT" />
+        <result property="createBy"        column="create_by"    />
+        <result property="versionNumber"   column="version_number"    />
+        <result property="versionOs"       column="version_os"    />
+        <result property="versionPackage"  column="version_package"    />
+        <result property="versionSpecial"  column="version_special"    />
+        <result property="versionName"     column="version_name"    />
+        <result property="appFile"         column="app_file"    />
+        <result property="iconFile"        column="icon_file"    />
+        <result property="iconImagePath"   column="icon_image_path"    />
+        <result property="remark"          column="remark"    />
+        <association property="appAttachment"  javaType="com.feather.prd.domain.PrdAttachment">
+        	<result property="fileId"    column="app_file_id"    />
+        	<result property="fileName"  column="app_file_name"    />
+	        <result property="filePath"  column="app_file_path"    />
+	        <result property="fileSize"  column="app_file_size"    />
+        </association>
+        <association property="iconAttachment"  javaType="com.feather.prd.domain.PrdAttachment">
+        	<result property="fileId"    column="icon_file_id"    />
+        	<result property="fileName"  column="icon_file_name"    />
+	        <result property="filePath"  column="icon_file_path"    />
+        </association>
+    </resultMap>
+
+    <sql id="selectPrdAppversionVo">
+        select t.version_id, t.create_time, t.create_by, t.version_number, t.version_os, t.version_package, t.version_special, t.version_name, t.app_file, t.icon_file, t.remark
+               ,a.file_id as app_file_id, a.file_name as app_file_name, a.file_path as app_file_path, a.file_size as app_file_size
+               ,i.file_id as icon_file_id, i.file_name as icon_file_name, i.file_path as icon_file_path
+               ,i.file_path as icon_image_path
+          from prd_appversion t
+          left join prd_attachment a on a.file_id = t.app_file
+          left join prd_attachment i on i.file_id = t.icon_file
+    </sql>
+
+    <select id="selectPrdAppversionList" parameterType="PrdAppversion" resultMap="PrdAppversionResult">
+        <include refid="selectPrdAppversionVo"/>
+        <where>  
+            <if test="versionNumber != null "> and version_number = #{versionNumber}</if>
+            <if test="versionOs != null  and versionOs != ''"> and version_os = #{versionOs}</if>
+            <if test="versionPackage != null  and versionPackage != ''"> and version_package = #{versionPackage}</if>
+            <if test="versionSpecial != null  and versionSpecial != ''"> and version_special = #{versionSpecial}</if>
+            <if test="versionName != null  and versionName != ''">
+            	<bind name="_versionName" value="'%'+ versionName +'%'"/>
+	            and version_name like #{_versionName}
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectPrdAppversionById" parameterType="Long" resultMap="PrdAppversionResult">
+        <include refid="selectPrdAppversionVo"/>
+        where version_id = #{versionId}
+    </select>
+    
+    <select id="selectPrdAppversionLastByPackage" parameterType="String" resultMap="PrdAppversionResult">
+        <include refid="selectPrdAppversionVo"/>
+        where version_package = #{versionPackage}
+    </select>
+        
+    <insert id="insertPrdAppversion" parameterType="PrdAppversion">
+        insert into prd_appversion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="versionId != null ">version_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="versionNumber != null ">version_number,</if>
+            <if test="versionOs != null  and versionOs != ''">version_os,</if>
+            <if test="versionPackage != null  and versionPackage != ''">version_package,</if>
+            <if test="versionSpecial != null  and versionSpecial != ''">version_special,</if>
+            <if test="versionName != null  and versionName != ''">version_name,</if>
+            <if test="appFile != null">app_file,</if>
+            <if test="iconFile != null">icon_file,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="versionId != null ">#{versionId},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="versionNumber != null ">#{versionNumber},</if>
+            <if test="versionOs != null  and versionOs != ''">#{versionOs},</if>
+            <if test="versionPackage != null  and versionPackage != ''">#{versionPackage},</if>
+            <if test="versionSpecial != null  and versionSpecial != ''">#{versionSpecial},</if>
+            <if test="versionName != null  and versionName != ''">#{versionName},</if>
+            <if test="appFile != null">#{appFile},</if>
+            <if test="iconFile != null">#{iconFile},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePrdAppversion" parameterType="PrdAppversion">
+        update prd_appversion
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="versionNumber != null ">version_number = #{versionNumber},</if>
+            <if test="versionOs != null  and versionOs != ''">version_os = #{versionOs},</if>
+            <if test="versionPackage != null  and versionPackage != ''">version_package = #{versionPackage},</if>
+            <if test="versionSpecial != null">version_special = #{versionSpecial},</if>
+            <if test="versionName != null  and versionName != ''">version_name = #{versionName},</if>
+            <if test="appFile != null">app_file = #{appFile},</if>
+            <if test="iconFile != null">icon_file = #{iconFile},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where version_id = #{versionId}
+    </update>
+
+    <delete id="deletePrdAppversionById" parameterType="Long">
+        delete from prd_appversion where version_id = #{versionId}
+    </delete>
+
+    <delete id="deletePrdAppversionByIds" parameterType="String">
+        delete from prd_appversion where version_id in 
+        <foreach item="versionId" collection="array" open="(" separator="," close=")">
+            #{versionId}
+        </foreach>
+    </delete>
+    
+</mapper>

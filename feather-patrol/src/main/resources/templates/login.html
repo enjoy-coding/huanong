@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>工务巡检管理系统</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" href="../static/bus/patrol/img/favicon.ico" th:href="@{/bus/patrol/img/favicon.ico}" />
+	<link rel="icon" href="../static/bus/patrol/img/favicon.ico" th:href="@{/bus/patrol/img/favicon.ico}" />
+	<link rel="stylesheet" href="../static/def/css/font-awesome.min.css" th:href="@{/def/css/font-awesome.min.css}"/>
+	<link rel="stylesheet" href="../static/bus/patrol/AmazeUI-2.7.2/assets/css/amazeui.min.css" th:href="@{/bus/patrol/AmazeUI-2.7.2/assets/css/amazeui.min.css}" />
+	<style type="text/css">
+		.am-slides img {
+			max-height: 530px;
+		}
+	</style>
+	<script>
+		if (self != top) { 
+			top.location.href = self.location.href;
+		}
+	</script>
+</head>
+<body>
+
+	<!-- 顶部 -->
+	<div id="div_header" class="container" style="background:rgba(40,98,161,0.8)">
+		<div class="am-g am-g-fixed">
+			<div class="am-u-lg-3 am-padding-horizontal-xs">
+				<div class="am-text-center">
+					<img th:src="@{/bus/patrol/img/logo.png}" style="max-height:68px">
+				</div>
+			</div>
+			<div class="am-u-lg-9 am-padding-horizontal-xs">
+				<div class="am-text-middle am-text-center am-text-xl am-cf" style="height:68px;line-height:68px;color:#fff">
+					工务巡检管理系统
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="am-g am-g-fixed" style="margin-top:20px">
+
+		<div class="am-u-lg-3 am-padding-horizontal-xs">
+			<div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" style="border:1px solid #e5e5e5">
+				<div style="margin:10px">
+					<ul class="am-tabs-nav am-cf">
+						<li class="am-active"><a>用户登录</a></li>
+						<li class="" style="background-color:#fff;border-bottom:1px solid #ddd"><a>用户注册</a></li>
+					</ul>
+					<div class="am-tabs-bd" style="border:0">
+						<div data-tab-panel-0 class="am-tab-panel am-active">
+							<form class="am-form">
+								<fieldset class="am-form-set am-margin-bottom-xs">
+									<input type="text" id="login_account" placeholder="账号" class="am-margin-top-sm">
+									<input type="password" id="login_password" placeholder="密码" class="am-margin-top-sm">
+									<div class="am-checkbox">
+										<label>
+											<input type="checkbox" id="login_remember">记住我
+										</label>
+									</div>
+								</fieldset>
+								<div class="loginbar_btn" style="padding-top:10px">
+									<input id="btn_login" type="button" class="am-btn am-btn-success am-btn-block" value="登&nbsp;&nbsp;录" />
+									<p id="login_msg" class="am-text-center am-text-xs" style="margin:7px;color:red"></p>
+								</div>
+							</form>
+						</div>
+						
+						<div data-tab-panel-1 class="am-tab-panel am-padding-vertical-0">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="am-u-lg-9 am-padding-horizontal-xs">
+			<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+				<ul class="am-slides" th:if="${topLogFacade.size()} > 0">
+					<li th:each="facade:${topLogFacade}"><img th:src="${facade}"></li>
+				</ul>
+				<ul class="am-slides" th:if="${topLogFacade.size()} == 0">
+					<li><img th:src="@{/bus/patrol/img/slider01.jpg}"></li>
+					<li><img th:src="@{/bus/patrol/img/slider02.jpg}"></li>
+					<li><img th:src="@{/bus/patrol/img/slider03.jpg}"></li>
+					<li><img th:src="@{/bus/patrol/img/slider04.jpg}"></li>
+					<li><img th:src="@{/bus/patrol/img/slider05.jpg}"></li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- footer -->
+	<div class="am-g am-g-fixed">
+		<div class="am-u-lg-3 am-padding-horizontal-xs">
+			<div id="footer_company" style="position:fixed;bottom:10px">
+				<a href="http://fstwh.com/media/firm" target="_blank">弗赛特（武汉）系统工程有限公司</a>
+				<span>&copy;</span>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script src="../static/def/js/jquery.min.js" th:src="@{/def/libs/jquery/jquery-1.11.min.js}"></script>
+	<script src="../static/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.min.js" th:src="@{/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.min.js}"></script>
+	<script src="../static/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.ie8polyfill.min.js" th:src="@{/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.ie8polyfill.min.js}"></script>
+	<script src="../static/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.widgets.helper.min.js" th:src="@{/bus/patrol/AmazeUI-2.7.2/assets/js/amazeui.widgets.helper.min.js}"></script>
+	<script type="text/javascript">
+		var submitting = false;
+		$(function(){
+			$.extend(String.prototype, {
+		        trim: function() {
+		            return this.replace(/(^\s*)|(\s*$)|\r|\n/g, '');
+		        }
+			});
+
+			var clearMsgNote = function(){
+				$("#login_msg").html("");
+			};
+			$("input").change(clearMsgNote);
+			$("select").change(clearMsgNote);
+			
+			var locateCompanyDiv = function(){
+				var $company = $("#footer_company");
+				var docwidth = $(document.body).width();
+				if (docwidth >= 1030 && $company.css("margin-left") == "0px") {
+					$company.css("margin-left", "-20px").css("width", "").css("text-align", "");
+				} else if (docwidth < 1030) {
+					$company.css("margin-left","0px").css("width", "100%").css("text-align", "center");
+				}
+			}
+			
+			var init = function(){
+				locateCompanyDiv();
+				if (!submitting) {
+					$("#login_msg").html("");
+				}
+			};
+			
+			var login = function(){
+				if (submitting) {
+					return;
+				}
+				if ($("#login_account").val() == "") {
+					$("#login_msg").html("请输入登录账号");
+					$("#login_account").focus();
+					return;
+				}
+				if ($("#login_password").val() == "") {
+					$("#login_msg").html("请输入登录密码");
+					$("#login_password").focus();
+					return;
+				}
+				submitting = true;
+				$("#login_msg").html("");
+				
+				var original = $("#btn_login").html();
+				$("#btn_login").attr("disabled", true).html('登录中..');
+				
+				$.ajax({
+					type: "POST", 
+					url: ctx + 'login', 
+					dataType: "json", 
+					data: {
+						"username": $("#login_account").val(),
+						"password": $("#login_password").val(),
+						"rememberMe": $("#login_remember").is(':checked')
+					},
+					success: function (json) {
+						submitting = false;
+						if (json && json.code == 0) {
+							location.href = ctx + 'index';
+						} else {
+							$("#login_msg").html(json.msg);
+							$("#btn_login").attr("disabled", false).html(original);
+						}
+					},
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						submitting = false;
+						$("#btn_login").attr("disabled", false).html(original);
+						$("#login_msg").html(errorThrown);
+					}
+				});
+			};
+			$("#btn_login").click(login);
+			
+			$("#login_account").bind('keypress',function(event){
+				if (event.keyCode == "13")
+					login();
+			});
+			$("#login_password").bind('keypress',function(event){
+				if (event.keyCode == "13")
+					login();
+			});
+			$(window).resize(locateCompanyDiv)
+			
+			init();
+		});
+	</script>
+</body>
+</html>

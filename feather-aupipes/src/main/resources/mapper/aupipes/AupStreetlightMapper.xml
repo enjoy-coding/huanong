@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupStreetlightMapper">
+
+    <resultMap type="AupStreetlight" id="AupStreetlightResult">
+        <result property="lid" column="lid"/>
+        <result property="pid" column="pid"/>
+        <result property="sid" column="sid"/>
+        <result property="cuid" column="cuid"/>
+        <result property="ctype" column="ctype"/>
+        <result property="luid" column="luid"/>
+        <result property="lch" column="lch"/>
+        <result property="lchs" column="lchs"/>
+        <result property="name" column="name"/>
+        <result property="num" column="num"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
+        <result property="rs" column="rs"/>
+        <result property="ls" column="ls"/>
+        <result property="dim" column="dim"/>
+        <result property="dims" column="dims"/>
+        <result property="alarms" column="alarms"/>
+        <result property="kadd" column="kadd"/>
+        <result property="kch" column="kch"/>
+        <result property="solar" column="solar"/>
+        <result property="groupid" column="groupId"/>
+        <result property="lgnum" column="lgnum"/>
+        <result property="id" column="id"/>
+        <result property="parentId" column="parentId"/>
+        <result property="u" column="u"/>
+        <result property="i" column="i"/>
+        <result property="p" column="p"/>
+        <result property="pf" column="pf"/>
+        <result property="e" column="e"/>
+        <result property="lu" column="lu"/>
+        <result property="life" column="life"/>
+        <result property="control" column="control"/>
+    </resultMap>
+
+    <sql id="selectAupStreetlightVo">
+       select s.lid, s.pid, s.name, s.num, s.lat, s.lng, s.id, s.parentId,s.cuid,s.luid
+        from aup_streetlight s
+     </sql>
+
+    <sql id="selectAupStreetlightDetailVo">
+       select s.lid, s.pid, s.name, s.num, s.lat, s.lng, s.id, s.parentId,d.u,d.i,d.p,d.pf,d.alarms,d.life,d.lu,c.sname as control
+        from aup_streetlight s
+        left join aup_streetlight_detail d on s.luid = d.luid
+        left join aup_streetlight_control c on s.sid = c.sid</sql>
+
+    <select id="selectAupStreetlightList" parameterType="AupStreetlight" resultMap="AupStreetlightResult">
+        <include refid="selectAupStreetlightVo"/>
+        <where>
+            <if test="pid != null  and pid != ''">and s.pid = #{pid}</if>
+            <if test="sid != null  and sid != ''">and s.sid = #{sid}</if>
+            <if test="cuid != null  and cuid != ''">and s.cuid = #{cuid}</if>
+            <if test="luid != null  and luid != ''">and s.luid = #{luid}</if>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and s.name like #{_name}
+            </if>
+            <if test="id != null">and s.id = #{id}</if>
+            <if test="parentId != null">and s.parentId = #{parentId}</if>
+        </where>
+    </select>
+
+    <select id="selectAupStreetlightById" parameterType="String" resultMap="AupStreetlightResult">
+        <include refid="selectAupStreetlightVo"/>
+        where s.lid = #{lid}
+    </select>
+
+    <select id="selectAupStreetlightByIuid" parameterType="String" resultMap="AupStreetlightResult">
+        <include refid="selectAupStreetlightVo"/>
+        where s.luid = #{luid}
+    </select>
+
+    <insert id="insertAupStreetlight" parameterType="AupStreetlight">
+        insert into aup_streetlight
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lid != null  and lid != ''">lid,</if>
+            <if test="pid != null  and pid != ''">pid,</if>
+            <if test="sid != null  and sid != ''">sid,</if>
+            <if test="cuid != null  and cuid != ''">cuid,</if>
+            <if test="ctype != null  and ctype != ''">ctype,</if>
+            <if test="luid != null  and luid != ''">luid,</if>
+            <if test="lch != null  and lch != ''">lch,</if>
+            <if test="lchs != null  and lchs != ''">lchs,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="rs != null  and rs != ''">rs,</if>
+            <if test="ls != null  and ls != ''">ls,</if>
+            <if test="dim != null  and dim != ''">dim,</if>
+            <if test="dims != null  and dims != ''">dims,</if>
+            <if test="alarms != null  and alarms != ''">alarms,</if>
+            <if test="kadd != null  and kadd != ''">kadd,</if>
+            <if test="kch != null  and kch != ''">kch,</if>
+            <if test="solar != null  and solar != ''">solar,</if>
+            <if test="groupid != null  and groupid != ''">groupId,</if>
+            <if test="lgnum != null  and lgnum != ''">lgnum,</if>
+            <if test="id != null">id,</if>
+            <if test="parentId != null">parentId,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lid != null  and lid != ''">#{lid},</if>
+            <if test="pid != null  and pid != ''">#{pid},</if>
+            <if test="sid != null  and sid != ''">#{sid},</if>
+            <if test="cuid != null  and cuid != ''">#{cuid},</if>
+            <if test="ctype != null  and ctype != ''">#{ctype},</if>
+            <if test="luid != null  and luid != ''">#{luid},</if>
+            <if test="lch != null  and lch != ''">#{lch},</if>
+            <if test="lchs != null  and lchs != ''">#{lchs},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="lng != null  and lng != ''">#{lng},</if>
+            <if test="rs != null  and rs != ''">#{rs},</if>
+            <if test="ls != null  and ls != ''">#{ls},</if>
+            <if test="dim != null  and dim != ''">#{dim},</if>
+            <if test="dims != null  and dims != ''">#{dims},</if>
+            <if test="alarms != null  and alarms != ''">#{alarms},</if>
+            <if test="kadd != null  and kadd != ''">#{kadd},</if>
+            <if test="kch != null  and kch != ''">#{kch},</if>
+            <if test="solar != null  and solar != ''">#{solar},</if>
+            <if test="groupid != null  and groupid != ''">#{groupid},</if>
+            <if test="lgnum != null  and lgnum != ''">#{lgnum},</if>
+            <if test="id != null">#{id},</if>
+            <if test="parentId != null">#{parentId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupStreetlight" parameterType="AupStreetlight">
+        update aup_streetlight
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null  and pid != ''">pid = #{pid},</if>
+            <if test="sid != null  and sid != ''">sid = #{sid},</if>
+            <if test="cuid != null  and cuid != ''">cuid = #{cuid},</if>
+            <if test="ctype != null  and ctype != ''">ctype = #{ctype},</if>
+            <if test="luid != null  and luid != ''">luid = #{luid},</if>
+            <if test="lch != null  and lch != ''">lch = #{lch},</if>
+            <if test="lchs != null  and lchs != ''">lchs = #{lchs},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="lat != null  and lat != ''">lat = #{lat},</if>
+            <if test="lng != null  and lng != ''">lng = #{lng},</if>
+            <if test="rs != null  and rs != ''">rs = #{rs},</if>
+            <if test="ls != null  and ls != ''">ls = #{ls},</if>
+            <if test="dim != null  and dim != ''">dim = #{dim},</if>
+            <if test="dims != null  and dims != ''">dims = #{dims},</if>
+            <if test="alarms != null  and alarms != ''">alarms = #{alarms},</if>
+            <if test="kadd != null  and kadd != ''">kadd = #{kadd},</if>
+            <if test="kch != null  and kch != ''">kch = #{kch},</if>
+            <if test="solar != null  and solar != ''">solar = #{solar},</if>
+            <if test="groupid != null  and groupid != ''">groupId = #{groupid},</if>
+            <if test="lgnum != null  and lgnum != ''">lgnum = #{lgnum},</if>
+            <if test="id != null">id = #{id},</if>
+            <if test="parentId != null">parentId = #{parentId},</if>
+        </trim>
+        where lid = #{lid}
+    </update>
+
+    <delete id="deleteAupStreetlightById" parameterType="String">
+        delete from aup_streetlight where lid = #{lid}
+    </delete>
+
+    <delete id="deleteAupStreetlightByIds" parameterType="String">
+        delete from aup_streetlight where lid in
+        <foreach item="lid" collection="array" open="(" separator="," close=")">
+            #{lid}
+        </foreach>
+    </delete>
+
+    <update id="updateLightTime" >
+        update aup_streetlight_time
+        <trim prefix="SET" suffixOverrides=",">
+         <if test="offtime != null  and offtime != ''">offtime = #{offtime},</if>
+         <if test="ontime != null  and ontime != ''">ontime = #{ontime},</if>
+        </trim>
+        where id=1
+    </update>
+
+    <select id="getLightTime" resultType="map">
+        select * from aup_streetlight_time
+    </select>
+
+</mapper>

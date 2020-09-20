@@ -1,0 +1,26 @@
+<!-- 智能安防 -->
+<li>
+	<i class="iconfont icon-menjin"></i>
+	<p>门禁</p>
+	<h5 id="znaf_mj">40</h5>
+</li>
+<li><!--    //20200312改为水浸报警-->
+	<i class="iconfont icon-jingbao"></i>
+	<p>水浸报警</p>
+	<h5 id="znaf_hwxbj">15</h5>
+</li>
+<li>
+	<i class="iconfont icon-yangan"></i>
+	<p>烟感</p>
+	<h5 id="znaf_yg">14</h5>
+</li>
+<li>
+	<i class="iconfont icon-shexiangtou1"></i>
+	<p>摄像头</p>
+	<h5 id="znaf_sxt">20</h5>
+</li>
+<!--<li>
+	<i class="iconfont icon-jiaoyin"></i>
+	<p>小动物入侵</p>
+	<h5 id="znaf_xdwrq">01</h5>
+</li>-->

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="feather-admin:war">
+    <output-path>$PROJECT_DIR$/feather-admin/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>feather-admin</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="feather-admin.war">
+      <element id="artifact" artifact-name="feather-admin:war exploded" />
+    </root>
+  </artifact>
+</component>

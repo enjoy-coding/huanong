@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>监控数据</title>
+        <link rel="stylesheet" th:href="@{/def/libs/layui-2.5.5/css/layui.css}">
+        <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/font.css}">
+        <link rel="stylesheet" th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css}">
+        <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/common.css}">
+        <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/insidePage.css}">
+        <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/ldmn.css}">
+        <style>
+
+            .xhjcTable .layui-input-block input {
+                width: 200px;
+            }
+        </style>
+        <script th:inline="javascript">
+            var ctx = [[@{
+                /}]];
+                var jclx = [[${jclx}]];
+                var ModelManager = [];
+        </script>
+    </head>
+    <body>
+        <div class="contentBox insidePageBox pr">
+            <!--右侧-->
+            <div class="pa wjBox">
+                <!--左侧内容-->
+                <input type="hidden" id="id" th:value="${id}">
+                <!-- 历史数据查询 -->
+                <div class="tableModel" style="display: none" id="lssj">
+                    <div class="searchForm layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-tab layui-tab-brief timeTab" lay-filter="nhtjTitle">
+                                <label>统计时长：</label>
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">时</li>
+                                    <li>日</li>
+                                    <li>月</li>
+                                    <li>年</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item nhtjContent layui-show">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">起止时间：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="test9" placeholder=" 至 " autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-tab-item nhtjContent">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">起止时间：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="test6" placeholder=" 至 " autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-tab-item nhtjContent">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">起止时间：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="test8" placeholder=" 至 " autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-tab-item nhtjContent">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">起止时间：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="test7" placeholder=" 至 " autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label>叠加步长：
+                                    <select class="bcSelect">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </label>
+                                <button type="submit" class="layui-btn searchBtn" lay-submit="" lay-filter="demo1">
+                                    查询数据
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="lineBox">
+                        <div class="layui-tab layui-tab-brief lineBox-left" lay-filter="nhtjTitle">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">环比曲线</li>
+                                <li>同比曲线</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item nhtjContent layui-show">
+                                    <div id="tbLine"></div>
+                                </div>
+                                <div class="layui-tab-item nhtjContent">
+                                    ffffff
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lineBox-right">
+                            <div class="layui-tab layui-tab-brief" lay-filter="nhtjTitle">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">常用</li>
+                                    <li>所有</li>
+                                </ul>
+                                <div class="layui-tab-content tabCheck">
+                                    <div class="layui-tab-item nhtjContent layui-show">
+                                        <ul>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                            <li><input type="checkbox">休眠时间</li>
+                                        </ul>
+                                    </div>
+                                    <div class="layui-tab-item nhtjContent">
+                                        ffffff
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--漏数据分析数据-->
+                <div class="tableModel" id="jcsj">
+                    <div class="insidePageOh">
+                        <form class="layui-form layerForm pd30 xhjcTable">
+                            <div class="layui-row">
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item ">
+                                        <label class="layui-form-label">起止日期：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="leak_stime"
+                                                   autocomplete="off"   placeholder="开始时间">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item smLabel">
+                                        <label class="layui-form-label">至</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="leak_etime"
+                                                   autocomplete="off" placeholder="结束时间">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item smLabel">
+                                        <div class="layui-input-block">
+                                            <button type="button" id="leak_query" class="layui-btn czBtn" lay-submit=""
+                                                    lay-filter="demo1">查询
+                                                </button>
+                                            <button type="button" id="leak_reset"  class="layui-btn czBtn" lay-submit=""
+                                                    lay-filter="query">重置
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </form>
+                        <div class="pw15 layuiTabBox layuiPage historyTab">
+                            <!--<div id="jcsjTable" lay-filter="leaktable" class="">
+
+                            </div>-->
+
+                            <table id="leaktable" class="layui-table"  lay-skin="nob" lay-size="sm" lay-filter="leaktable">
+                                <thead>
+                                <tr>
+                                    <th>位置</th>
+                                    <th>设备名称</th>
+                                    <th>设备状态</th>
+                                    <th>监测时间</th>
+                                </tr>
+                                </thead>
+                                <tbody id="page_template_body_id">
+
+                                </tbody>
+                            </table>
+                            <div id="imovie-page-div"></div>
+                            <div class="exportTab"> </div>
+                        </div>
+                    </div>
+                    <fieldset class="layui-elem-field layui-field-title xcxx  zs_jcsj">
+                        <legend id="leakTitle" class="jcsjline">2019-12-12 监测数据</legend>
+                    </fieldset>
+                    <div class="zs_charLine">
+                        <!-- 信号波动振幅 -->
+                        <div id="xhbd_char"></div>
+                        <!-- 异常系数 -->
+                        <div id="ycxs_char"></div>
+                    </div>
+
+
+                </div>
+
+                <!-- 信号监测数据 -->
+                <div class="tableModel" style="display: none" id="xhjcsj">
+                    <div class="insidePageOh">
+                        <form id="streetMonitorQueryData" class="layui-form layerForm pd30 xhjcTable">
+                            <div class="layui-row">
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item ">
+                                        <label class="layui-form-label">起止日期：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="xhjc_sttime"
+                                                   autocomplete="off"  placeholder="开始时间">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item smLabel">
+                                        <label class="layui-form-label">至</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="xhjc_endtime"
+                                                   autocomplete="off"    placeholder="结束时间">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4 layui-col-sm4">
+                                    <div class="layui-form-item smLabel">
+                                        <div class="layui-input-block">
+                                            <button type="button" id="query"  class="layui-btn czBtn" lay-submit=""
+                                                    lay-filter="query">查询
+                                            </button>
+                                            <button type="button" id="reset"  class="layui-btn czBtn" lay-submit=""
+                                                    lay-filter="query">重置
+                                            </button>
+                                            <button type="button" id="exp"  class="layui-btn czBtn" lay-submit=""
+                                                    lay-filter="exp">导出
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="pw15 layuiTabBox layuiPage historyTab">
+                            <div id="lsgzTable"></div>
+                        </div>
+                        <!--<div class="layui-col-md4 layui-col-sm4">
+                            <div class="layui-form-item smLabel">
+                                <div class="layui-input-block">
+                                    <button type="submit" class="layui-btn czBtn" lay-submit="" lay-filter="demo1"
+                                            style="margin-top: -50px;">导出
+                                    </button>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script th:src="@{/def/js/jquery.min.js}"></script>
+    <script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+    <script th:src="@{/def/libs/echarts/echarts.js}"></script>
+    <script th:src="@{/bus/aupipes/lib/js/common.js(v=${staticResourcesVersion})}"></script>
+    <script th:src="@{/bus/aupipes/lib/js/YXJK.js(v=${staticResourcesVersion})}"></script>
+    <script>
+        $(function () {
+            YXJK_JCSJ.init($("#id").val());
+
+        });
+
+    </script>
+    <script id="page_template_id" type="text/html">
+        {{#  layui.each(d.data, function(index, item){ }}
+        <tr>
+            <td>{{item.PlaceAddress || ''}}</td>
+            <td>{{item.SiteNO || ''}}</td>
+            <td>{{item.state || ''}}</td>
+            <td>{{item.RecDateTime || ''}}</td>
+        </tr>
+        {{#  }); }}
+    </script>
+</html>

@@ -1,0 +1,48 @@
+{
+  "theme": "软件语言包",
+  "name": "zh-CHT",
+  "cName": "中文-新加坡",
+  "identifier": "0x1004",
+  "country": "中文（新加坡）",
+  "description": "软件语言包(中文-新加坡)，用于多语言匹配，请勿修改",
+  "content": {
+    "mUnit": "米",
+    "kmUnit": "公里",
+    "sqkmUnit": "平方公里",
+    "sqmUnit": "平方米",
+    "N": "N",
+    "S": "S",
+    "E": "E",
+    "W": "W",
+    "elevation": "海拔",
+    "eyeAltitude": "視點高",
+    "copyright": "@2018,KQ GEO Software Systems",
+    "scale":"比例尺",
+
+    "ClickToEditThisObject": "點擊開始編輯對象",
+    "ClickToAddMarker": "點擊添加圖標",
+    "PositionIs": "位置",
+    "ClickToAddFirstPoint": "點擊添加第一個點",
+    "ClickToAddNewPoint": "點擊新增一個點",
+    "DoubleClickToFinishDrawing": "雙擊結束繪製",
+    "RightClickToFinishDrawing": "右擊結束繪製",
+    "ClickToStartDrawingRectangle": "點擊開始繪製矩形(面)",
+    "DragToChangeRectangleRectangle": "拖拽以改變矩形大小",
+    "ClickAgainToFinishDrawing": "再次點擊完成繪製",
+    "ClickToStartDrawingCircle": "點擊開始繪製圓形(面)",
+    "MoveMouseToChangeCircleRadius": "移動鼠標改變圓形大小",
+    "DoubleClickToRemoveThisPoint": "雙擊刪除該節點",
+    "DragToCreateANewPoint": "拖拽以創建新的節點",
+    "DragToChangeTheCornersOfRectangle":"拖拽鼠標調整矩形頂點",
+    "DragToChangeTheExcentricityAndRadius":"拖拽鼠標調整偏心距和半徑",
+    "DragToChangeTheRadius":"拖拽鼠標調整半徑",
+    "ClickToStartDrawingPoint": "點擊開始繪製點",
+    "ClickToStartDrawingMarker": "點擊開始繪製圖標標注",
+    "ClickToStartDrawingPolyline": "點擊開始繪製多段綫",
+    "ClickToStartDrawingPolygon": "點擊開始繪製多邊形(面)",
+    "ClickToStartDrawingAnyRectangle": "點擊開始繪製任意矩形(面)",
+    "RemoveAllPrimitives":"移除全部幾何體"
+
+
+  }
+}

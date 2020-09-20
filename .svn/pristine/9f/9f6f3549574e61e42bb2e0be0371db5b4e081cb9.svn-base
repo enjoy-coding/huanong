@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWarringUserMapper">
+    
+    <resultMap type="AupWarringUser" id="AupWarringUserResult">
+        <result property="id"    column="id"    />
+        <result property="warringcategory"    column="warringcategory"    />
+        <result property="name"    column="name"    />
+        <result property="userid"    column="userid"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="openid"    column="openid"    />
+        <result property="loginname"    column="loginname"    />
+        <result property="obj"    column="obj"    />
+    </resultMap>
+
+    <sql id="selectAupWarringUserVo">
+        select id, warringcategory, name, userid, phonenumber, openid,loginname,obj from aup_warring_user
+    </sql>
+
+    <select id="selectAupWarringUserList" parameterType="AupWarringUser" resultMap="AupWarringUserResult">
+        <include refid="selectAupWarringUserVo"/>
+        <where>  
+            <if test="warringcategory != null  and warringcategory != ''"> and warringcategory = #{warringcategory}</if>
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and name like #{_name}
+            </if>
+            <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
+            <if test="phonenumber != null  and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
+            <if test="openid != null  and openid != ''"> and openid = #{openid}</if>
+        </where>
+    </select>
+    
+    <select id="selectAupWarringUserById" parameterType="String" resultMap="AupWarringUserResult">
+        <include refid="selectAupWarringUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAupWarringUser" parameterType="AupWarringUser">
+        insert into aup_warring_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="warringcategory != null  and warringcategory != ''">warringcategory,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="userid != null  and userid != ''">userid,</if>
+            <if test="phonenumber != null  and phonenumber != ''">phonenumber,</if>
+            <if test="openid != null  and openid != ''">openid,</if>
+            <if test="obj != null  and obj != ''">obj,</if>
+            <if test="loginname != null  and loginname != ''">loginname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="warringcategory != null  and warringcategory != ''">#{warringcategory},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="userid != null  and userid != ''">#{userid},</if>
+            <if test="phonenumber != null  and phonenumber != ''">#{phonenumber},</if>
+            <if test="openid != null  and openid != ''">#{openid},</if>
+            <if test="obj != null  and obj != ''">#{obj},</if>
+            <if test="loginname != null  and loginname != ''">#{loginname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupWarringUser" parameterType="AupWarringUser">
+        update aup_warring_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warringcategory != null  and warringcategory != ''">warringcategory = #{warringcategory},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="userid != null  and userid != ''">userid = #{userid},</if>
+            <if test="phonenumber != null  and phonenumber != ''">phonenumber = #{phonenumber},</if>
+            <if test="openid != null  and openid != ''">openid = #{openid},</if>
+            <if test="obj != null  and obj != ''">obj = #{obj},</if>
+            <if test="loginname != null  and loginname != ''">loginname = #{loginname},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupWarringUserById" parameterType="String">
+        delete from aup_warring_user where id = #{id}
+    </delete>
+
+    <delete id="deleteAupWarringUserByIds" parameterType="String">
+        delete from aup_warring_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getUserByName" resultType="map">
+        select * from sys_user where user_name like '%'+#{name} +'%'
+    </select>
+
+</mapper>

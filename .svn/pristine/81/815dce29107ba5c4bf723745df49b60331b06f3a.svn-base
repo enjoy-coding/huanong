@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupBuildingSideMapper">
+
+    <resultMap type="AupBuildingSide" id="AupBuildingSideResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="areano" column="areaNo"/>
+        <result property="pid" column="pid"/>
+        <result property="type" column="type"/>
+        <result property="level_" column="level_"/>
+        <result property="important" column="important"/>
+        <result property="cacheId" column="cacheId"/>
+        <result property="buildingType" column="buildingType"/>
+    </resultMap>
+
+    <sql id="selectAupBuildingSideVo">
+        select id, name, areaNo, pid,level_,cacheId,important,type from aup_building_side
+    </sql>
+
+    <select id="getBuildSide" resultType="map">
+        select * from aup_building_side
+        <where>
+            <if test="areano != null  and areano != ''">
+                and areaNo = #{areano}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupBuildingSideList" parameterType="AupBuildingSide" resultMap="AupBuildingSideResult">
+        <include refid="selectAupBuildingSideVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="areano != null  and areano != ''">
+                and areaNo = #{areano}
+            </if>
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+
+            <if test="type != null  and type != ''">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and type like #{_type}
+            </if>
+
+            <if test="important != null ">
+                and important = #{important}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+    <select id="selectAupBuildingSideListLdjd" parameterType="AupBuildingSide" resultMap="AupBuildingSideResult">
+        SELECT
+        DISTINCT
+        s.id as id,
+        s.name as name,
+        s.areaNo as areaNo,
+        s.pid as pid,
+        s.type as type,
+        s.level_ as level_,
+        s.important as important,
+        s.cacheId as cacheId,
+        c.name as 'BuildingType'
+        FROM
+        aup_building_side s
+        LEFT JOIN aup_building b ON s.areaNo = b.[No]
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_BuildingGroup g on g.no = b.areaNo
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_House h on h.buildingno = b.no
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_Account a on a.house = h.id
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NTAccountCategory c on c.id = a.accountCategory
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and s.name like #{_name}
+            </if>
+            <if test="areano != null  and areano != ''">
+                <bind name="_areano" value="'%'+ areano +'%'"/>
+                and s.areaNo like #{_areano}
+            </if>
+            <if test="pid != null ">
+                and s.pid = #{pid}
+            </if>
+
+            <if test="type != null  and type != ''">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and s.type like #{_type}
+            </if>
+            and
+            c.[parent] NOT LIKE '0001%' AND c.[parent] NOT LIKE '0002%' AND c.[parent] NOT LIKE 'root%'
+        </where>
+    </select>
+
+
+    <select id="selectAupBuildingSideZdjzList" parameterType="AupBuildingSide" resultMap="AupBuildingSideResult">
+        SELECT
+        DISTINCT
+        s.id as id,
+        s.name as name,
+        s.areaNo as areaNo,
+        s.pid as pid,
+        s.type as type,
+        s.level_ as level_,
+        s.important as important,
+        s.cacheId as cacheId,
+        c.name as 'BuildingType'
+        FROM
+        aup_building_side s
+        LEFT JOIN aup_building b ON s.areaNo = b.[No]
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_BuildingGroup g on g.no = b.areaNo
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_House h on h.buildingno = b.no
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NT_AgriculturalUniversity_Account a on a.house = h.id
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].dbo.NTAccountCategory c on c.id = a.accountCategory
+        <where>
+            <if test="cacheId != null  and cacheId != ''">
+              <bind name="_cacheId" value="'%'+ cacheId +'%'"/>
+              and s.cacheId like #{_cacheId}
+            </if>
+            and
+            c.[parent] NOT LIKE '0001%' AND c.[parent] NOT LIKE '0002%' AND c.[parent] NOT LIKE 'root%'
+        </where>
+    </select>
+
+    <select id="selectAupBuildingSideById" parameterType="int" resultMap="AupBuildingSideResult">
+        <include refid="selectAupBuildingSideVo"></include>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupBuildingSide" parameterType="AupBuildingSide">
+        insert into aup_building_side
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="areano != null  and areano != ''">areaNo,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="type != null  and type != ''">type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="areano != null  and areano != ''">#{areano},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupBuildingSide" parameterType="AupBuildingSide">
+        update aup_building_side
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="areano != null  and areano != ''">areaNo = #{areano},</if>
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupBuildingSideById" parameterType="Long">
+        delete from aup_building_side where id = #{id}
+    </delete>
+
+    <delete id="deleteAupBuildingSideByIds" parameterType="String">
+        delete from aup_building_side where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <!--重点建筑物查询-->
+    <select id="selectAupBuildingSideImportantList" parameterType="AupBuildingSide" resultMap="AupBuildingSideResult">
+        <include refid="selectAupBuildingSideVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="areano != null  and areano != ''">
+                <bind name="_areano" value="'%'+ areano +'%'"/>
+                and areaNo like #{_areano}
+            </if>
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+
+            <if test="type != null  and type != ''">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and type like #{_type}
+            </if>
+
+            <if test="important != null ">
+                and important = #{important}
+            </if>
+        </where>
+    </select>
+
+</mapper>

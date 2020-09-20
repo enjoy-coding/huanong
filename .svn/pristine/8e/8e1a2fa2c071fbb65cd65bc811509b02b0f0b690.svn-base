@@ -1,0 +1,48 @@
+{"id":"1",
+  "curtotal":"116",
+  "total":"500",
+  "tables":[
+    {"tid":"1","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"全部","icon":"icon-peidianfang"},
+    {"tid":"11","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"泵房","icon":"icon-shuibeng"},
+    {"tid":"12","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"路灯","icon":"icon-dengpao"},
+    {"tid":"13","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"探漏","icon":"icon-neiwangtance"},
+    {"tid":"14","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"电表","icon":"icon-dian1"},
+    {"tid":"15","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"水表","icon":"icon-humidity"},
+    {"tid":"16","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"巡检","icon":"icon-xunjian1"},
+    {"tid":"17","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"监控","icon":"icon-shexiangtou"},
+    {"tid":"18","pubcurtatal":"20","pubtatal":"85","pubpercent":"40%","name":"水质","icon":"icon-shuizhi"}
+  ],
+  "infaotables":[
+    {"itid":"111","tid":"11","areaNo":"000076","name":"泵房","itstatus":"0","content":"泵房 未处理 荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园1","sarea":"荟园F8-F12","stype":"泵房1","sid":"1SHB0212","yjname":"1泵房故障","yjtime":"2019/07/03 10:11:58","yjstatus":"处理","yjlevel":"1一级报警","yjori":"1设备报警"},
+    {"itid":"112","tid":"11","areaNo":"000076","name":"泵房","itstatus":"1","content":"泵房 处理中 荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园2","sarea":"荟园F8-F13","stype":"泵房2","sid":"2SHB01333","yjname":"2泵房故障","yjtime":"2019/07/03 10:11:58","yjstatus":"处理","yjlevel":"23一级报警","yjori":"3设备报警"},
+    {"itid":"113","tid":"11","areaNo":"000076","name":"泵房","itstatus":"2","content":"泵房 处理 荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园3","sarea":"荟园F8-F14","stype":"泵房3","sid":"2SHB01215422","yjname":"3泵房故障","yjtime":"2019/07/03 10:11:58","yjstatus":"1末处理","yjlevel":"4一级报警","yjori":"4设备报警"},
+    {"itid":"114","tid":"12","areaNo":"0ac10affc17042b9a6b25883b53d12e7","name":"路灯","itstatus":"0","content":"路灯 未处理 荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园4","sarea":"荟园F8-F15","stype":"路灯4","sid":"3SHB012124","yjname":"4路灯故障","yjtime":"2019/07/03 10:11:58","yjstatus":"1末处理","yjlevel":"3一级报警","yjori":"5设备报警"},
+    {"itid":"115","tid":"12","areaNo":"112a4df4c2a243c6b5fcd2c4ea3ba5ed","name":"路灯","itstatus":"1","content":"路灯 处理中 3荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园5","sarea":"荟园F8-F16","stype":"路灯5","sid":"SHB0194","yjname":"5路灯故障","yjtime":"2019/07/03 10:11:58","yjstatus":"2末处理","yjlevel":"5一级报警","yjori":"6设备报警"},
+    {"itid":"116","tid":"12","areaNo":"141524b09bdb4c00b21eb5099d9a509a","name":"路灯","itstatus":"1","content":"路灯 处理3  荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园6","sarea":"荟园F8-F17","stype":"路灯6","sid":"SHB0884","yjname":"6路灯故障","yjtime":"2019/07/03 10:11:58","yjstatus":"3末处理","yjlevel":"6一级报警","yjori":"7设备报警"},
+    {"itid":"117","tid":"13","areaNo":"000092","name":"探漏","itstatus":"0","content":"探漏 已处理 荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园7","sarea":"荟园F8-F18","stype":"探漏7","sid":"7SHB012154","yjname":"7探漏故障","yjtime":"2019/07/03 10:11:58","yjstatus":"4末处理","yjlevel":"7一级报警","yjori":"8设备报警"},
+    {"itid":"118","tid":"14","areaNo":"000071","name":"电表","itstatus":"0","content":"电表 2019-08-01 10:10:23荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园8","sarea":"荟园F8-F19","stype":"电表8","sid":"0SHB012154","yjname":"8电表故障","yjtime":"2019/07/03 10:11:58","yjstatus":"5末处理","yjlevel":"8一级报警","yjori":"9设备报警"},
+    {"itid":"119","tid":"15","areaNo":"000082","name":"水表","itstatus":"0","content":"水表 2019-08-01 10:10:23荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园9","sarea":"荟园F8-F11","stype":"水表阀门9","sid":"5SHB012154","yjname":"9水表故障","yjtime":"2019/07/03 10:11:58","yjstatus":"6末处理","yjlevel":"9一级报警","yjori":"23设备报警"},
+    {"itid":"1110","tid":"16","areaNo":"000058","name":"巡检","itstatus":"0","content":"巡检 2019-08-01 10:10:23荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园82","sarea":"荟园F8-F112","stype":"巡检0","sid":"1SHB012154","yjname":"0巡检故障","yjtime":"2019/07/03 10:11:58","yjstatus":"7末处理","yjlevel":"23一级报警","yjori":"11设备报警"},
+    {"itid":"1111","tid":"17","areaNo":"000031","name":"监控","itstatus":"0","content":"监控 2019-08-01 10:10:23荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园83","sarea":"荟园F8-F113","stype":"监控22","sid":"5SHB012154","yjname":"22监控故障","yjtime":"2019/07/03 10:11:58","yjstatus":"8末处理","yjlevel":"22一级报警","yjori":"1设备报警"},
+    {"itid":"1112","tid":"18","areaNo":"000102","name":"水质","itstatus":"1","content":"水质 2019-08-01 10:10:23荟园F1-12设备损坏2019-08-01 10:10:23荟园F1-12设备损坏","sname":"荟园84","sarea":"荟园F8-F113","stype":"水质12","sid":"6SHB012154","yjname":"12水质故障","yjtime":"2019/07/03 10:11:58","yjstatus":"1末处理","yjlevel":"11一级报警","yjori":"13设备报警"}
+  ],
+  "dytables":[
+    {"dtid":"1","itid":"111","presur":"0.5","spresur":"0.8","daypresur":"0.6"},
+    {"dtid":"2","itid":"112","presur":"0.5","spresur":"0.8","daypresur":"0.6"}
+  ],
+  "edata": [
+    {"itid":"111","xdata":["2011","2012","2013","2014"],"ydata":["1","2","3","4"]},
+    {"itid":"112","xdata":["2011","2012","2013","2014"],"ydata":["11","12","13","14"]},
+    {"itid":"113","xdata":["2011","2012","2013","2014"],"ydata":["4","5","6","7"]},
+    {"itid":"114","xdata":["2011","2012","2013","2014"],"ydata":["7","8","9","4"]},
+    {"itid":"115","xdata":["2011","2012","2013","2014"],"ydata":["11","1","3","4"]},
+    {"itid":"116","xdata":["2011","2012","2013","2014"],"ydata":["11","11","3","14"]},
+    {"itid":"117","xdata":["2011","2012","2013","2014"],"ydata":["10","2","13","1"]},
+    {"itid":"118","xdata":["2011","2012","2013","2014"],"ydata":["1","2","13","4"]},
+    {"itid":"119","xdata":["2011","2012","2013","2014"],"ydata":["11","2","13","4"]},
+    {"itid":"1110","xdata":["2011","2012","2013","2014"],"ydata":["1","12","13","1"]},
+    {"itid":"1111","xdata":["2011","2012","2013","2014"],"ydata":["1","12","13","4"]},
+    {"itid":"1112","xdata":["2011","2012","2013","2014"],"ydata":["11","12","13","14"]}
+  ]
+
+}

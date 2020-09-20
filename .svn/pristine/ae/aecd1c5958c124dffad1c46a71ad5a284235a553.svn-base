@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>能源保障服务平台</title>
+    <link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/def/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet">
+    <link th:href="@{/def/libs/swiper/css/swiper.min.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/font.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/common.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/index.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <!-- 三维css -->
+    <link th:href="@{/bus/aupipes/Cesium/Widgets/widgets.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/css/3d/common.css(v=${staticResourcesVersion})}" type="text/css"/>
+    <script th:inline="javascript">
+        var ctx = [[@{/}]];
+        var staticResourcesVersion = [[${staticResourcesVersion}]];
+        var aupipeService = [[${aupipeService}]];
+        var celouService = [[${celouService}]];
+    </script>
+</head>
+<body>
+<div class="contentBox pr homePage">
+    <!--地图-->
+    <div class="map pa" id="cesiumContainer">
+        <div id="slider" style="visibility: hidden;"></div>
+    </div>
+    <!--顶部-->
+    <div class="topBox">
+        <div class="left pa">
+            <img th:src="@{/bus/aupipes/lib/images/indexLogoLeft.png}" alt="">
+        </div>
+        <ul class="topRight pa">
+        	<li id="currtime" style="padding-right:25px;font-size: 1.2vw;font-family: jixieziti">2020年06月10日 10:10:10</li>
+            <li><a href="javascript:window.open(ctx +'index','console');"><i class="iconfont icon-houtaiguanli"></i></a></li>
+        </ul>
+        <div class="topBg">
+            <img class="logo" th:src="@{/bus/aupipes/lib/images/indexLogo.png}" alt="">
+        </div>
+    </div>
+    <!--左侧-->
+    <div class="leftBox pa">
+        <div class="leftContent pr vh">
+            <div class="leftTxtW">
+                <div class="indexTitle bg2">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index} : 'javascript:;'">运行监控 <i>详情</i><span>(在线/总数)</span></a>
+                </div>
+                <div id="fragment-sbtj" class="layui-row">
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt" >
+                        <span class="icon"><i class="iconfont icon-humidity"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=meter} : 'javascript:;'">竞达水表</a></p>
+                        <h5>
+                            <i class="online" id="sbtj_sb_zx">4805</i>
+                        </h5>
+                        <h5 class="allNumber" >
+                            <i id="sbtj_sb_zs">4805</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-dian1"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=meter} : 'javascript:;'">竞达电表</a></p>
+                        <h5>
+                            <i class="online"  id="sbtj_db_zx">5107</i>
+                        </h5>
+                        <h5 class="allNumber" >
+                            <i  id="sbtj_db_zs">5107</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-humidity"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=meter} : 'javascript:;'">盛帆水表</a></p>
+                        <h5>
+                            <i class="online" id="sbtj_sfsb_zx">535</i>
+                        </h5>
+                        <h5 class="allNumber">
+                            <i   id="sbtj_sfsb_zs">535</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-dian1"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=meter} : 'javascript:;'">盛帆电表</a></p>
+                        <h5>
+                            <i class="online" id="sbtj_sfdb_zx">710</i>
+                        </h5>
+                        <h5 class="allNumber" >
+                             <i id="sbtj_sfdb_zs">714</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-dengpao"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=streetlight} : 'javascript:;'">路灯</a></p>
+                        <h5>
+                            <i class="online"  id="sbtj_ld_zx">605</i>
+                        </h5>
+                        <h5 class="allNumber">
+                            <i   id="sbtj_ld_zs">605</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-neiwangtance"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=leak} : 'javascript:;'"> 探漏</a></p>
+                        <h5>
+                            <i class="online" id="sbtj_tl_zx">100</i>
+                        </h5>
+                        <h5 class="allNumber">
+                            <i   id="sbtj_tl_zs">100</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-shexiangtou"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=monitor} : 'javascript:;'">安防</a></p>
+                        <h5>
+                            <i class="online"  id="sbtj_jk_zx">65</i>
+                        </h5>
+                        <h5 class="allNumber">
+                            <i   id="sbtj_jk_zs">65</i>
+                        </h5>
+                    </div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 sbtjTxt">
+                        <span class="icon"><i class="iconfont icon-peidianfang"></i></span>
+                        <p><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=waterQuality} : 'javascript:;'" > 水质</a></p>
+                        <h5>
+                            <i class="online" id="sbtj_jc_zx">5</i>
+                        </h5>
+                        <h5  class="allNumber">
+                            <i  id="sbtj_jc_zs">5</i>
+                        </h5>
+                    </div>
+
+                </div>
+            </div>
+            <div class="indexYjcz leftTxtW">
+                <div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:yjcz')} == '' ? @{/screen/yjcz/index} : 'javascript:;'">预警处置 <i>详情</i></a>
+                </div>
+                <div id="fragment-yjcz" class="indexYjczList">
+
+                    <div class=" swiper-wrapper">
+                        <ul class="swiper-slide">
+                            <li>
+                                <a href="javascript:;">
+                                    <span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+                                    <p id="yjcz_msg1">1.0000-00-00 00:00:00……</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+                                    <p id="yjcz_msg2">2.0000-00-00 00:00:00……</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="swiper-slide">
+                            <li>
+                                <a href="javascript:;">
+                                    <span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+                                    <p id="yjcz_msg3">3.0000-00-00 00:00:00……</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}"  alt=""></span>
+                                    <p id="yjcz_msg4">4.0000-00-00 00:00:00……</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="indexYamn">
+                <div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:jcbz')} == '' ? @{/screen/jcbz/index?menuCode=lzfx} : 'javascript:;'">决策保障 <i>详情</i></a>
+                </div>
+                <div class="indexYamnTxt oh yamnChange">
+                    <div class="right">
+                        <ul>
+                            <li><a th:href="${@permission.hasPermi('aupipes:screen:jcbz')} == '' ? @{/screen/jcbz/index?menuCode=lzfx} : 'javascript:;'"><i class="iconfont icon-dian1"></i>拉闸限电</a></li>
+                            <li><a th:href="${@permission.hasPermi('aupipes:screen:jcbz')} == '' ? @{/screen/jcbz/index?menuCode=gfts} : 'javascript:;'"><i class="iconfont icon-humidity"></i>关阀停水</a></li>
+                            <li><a th:href="${@permission.hasPermi('aupipes:screen:jcbz')} == '' ? @{/screen/jcbz/index?menuCode=znpg} : 'javascript:;'"><i class="iconfont icon-shangxiashuiguan"></i>智能排管</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="leftTxtW">
+            </div>
+            <!--路灯情况-->
+            <div class="leftTxtW">
+                <div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=streetlight} : 'javascript:;'">路灯状态 <i>详情</i></a>
+                </div>
+                <div id="fragment-ldqk" class="pw15">
+
+                    <div class="indexTime oh">
+                        <div class="left fl">
+                            <span class="clGreen">开灯时间: </span><span class="txt" id="ldqk_kdsj">19:00:00</span>
+                        </div>
+                        <div class="right fr">
+                            <span class="clGreen">关灯时间：</span><span class="txt" id="ldqk_gdsj">07:00:00</span>
+                        </div>
+                    </div>
+                    <div class="indexTimeNumber oh">
+                        <div class="left">
+                            <dl>
+                                <dt>
+                                    <img th:src="@{/bus/aupipes/lib/images/echartsIcon.png}" alt="">
+                                    <p id="ldqk_kzsltj">9/9</p>
+                                </dt>
+                                <dd>
+                                    <h5>控制数量统计</h5>
+                                    <span>(在线数/总数)</span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <img th:src="@{/bus/aupipes/lib/images/echartsIcon.png}" alt="">
+                                    <p id="ldqk_sltj">600/605</p>
+                                </dt>
+                                <dd>
+                                    <h5>数量统计</h5>
+                                    <span>(亮灯数/总数)</span>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="right">
+                            <img th:src="@{/bus/aupipes/lib/images/ElectricityIcon.gif}" alt="" style="width:1.6vw;">
+                            <h5 id="ldqk_rydl">690.53</h5>
+                            <p class="clGreen">昨日用电量</p>
+                            <span class="clGreen">(度)</span>
+                        </div>
+                    </div>
+
+                </div>
+                <!--智能安防-->
+                <div class="indexSecurity">
+                    <!--<div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=monitor} : 'javascript:;'">智能安防 <i>详情</i></a>
+                </div>
+                    <ul id="fragment-znaf" class="iconGroup">
+                        <li>
+                            <i class="iconfont icon-menjin"></i>
+                            <p>门禁</p>
+                            <h5 id="znaf_mj">40</h5>
+                        </li>
+                        <li>
+                            <i class="iconfont icon-jingbao"></i>
+                            <p>水浸报警</p>
+                            <h5 id="znaf_hwxbj">15</h5>
+                        </li>
+                        <li>
+                            <i class="iconfont icon-yangan"></i>
+                            <p>烟感</p>
+                            <h5 id="znaf_yg">14</h5>
+                        </li>
+                        <li>
+                            <i class="iconfont icon-shexiangtou1"></i>
+                            <p>摄像头</p>
+                            <h5 id="znaf_sxt">20</h5>
+                        </li>
+                        &lt;!&ndash;<li>
+                            <i class="iconfont icon-jiaoyin"></i>
+                            <p>小动物入侵</p>
+                            <h5 id="znaf_xdwrq">11</h5>
+                        </li>&ndash;&gt;
+
+                    </ul>-->
+
+                    <div class="indexTitle"><a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=powerHouse} : 'javascript:;'">配电房 <i>详情</i></a></div>
+                    <div id="DistributionRoom" class="distributionRoom">
+                        <ul id="powerHouseInfo" class="swiper-wrapper">
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>荟园中心配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>212</i></h6>
+                                    <h6><span>回路:</span><i>01</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>总配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>05</i></h6>
+                                    <h6><span>回路:</span><i>24</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>广场配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>03</i></h6>
+                                    <h6><span>回路:</span><i>26</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>西苑南配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>03</i></h6>
+                                    <h6><span>回路:</span><i>13</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>荟园中心配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>07</i></h6>
+                                    <h6><span>回路:</span><i>23</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>图书馆配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>05</i></h6>
+                                    <h6><span>回路:</span><i>37</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>科技园配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>04</i></h6>
+                                    <h6><span>回路:</span><i>28</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>开发区配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>02</i></h6>
+                                    <h6><span>回路:</span><i>24</i></h6>
+                                </div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="left fl">
+                                    <i class="iconfont icon-peidianfang"></i>
+                                    <h5>西苑西配电房</h5>
+                                </div>
+                                <div class="right fr">
+                                    <h6><span>变压器: </span><i>02</i></h6>
+                                    <h6><span>回路:</span><i>17</i></h6>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+
+                    <div class="indexTitle"><a href="javascript:void(0);">子系统入口</a></div>
+                    <ul class="zhswList flex-between">
+                        <li><a href="" id="jnjgURL" target="_blank">节能监管</a></li>
+                        <li><a href="javascript:void(0);" onclick="openld();" id="ldURL">路灯系统</a></li>
+                        <li><a href="javascript:void(0);" onclick="openbf()" >泵房系统</a></li>
+                        <li><a href="javascript:void(0);" onclick="opentl()">探漏系统</a></li>
+                        <li><a href="" id="AqglURL" target="_blank">安防系统</a></li>
+                        <li><a href="" id="jlsf" target="_blank">能源大厅</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--左侧收缩按钮-->
+            <span class="leftBtn pa"></span>
+            <!--图层-->
+            <div class="layerTree pa">
+                <span class="mapIcon leftMore layerBtn"><i class="iconfont icon-tuceng"></i></span>
+                <div class="layerTreeList topTreeList mapIconTxt hide pr">
+                    <div class="site-demo-button pa siteButton">
+                        <button class="layui-btn site-demo-active" data-type="treeExpand">展开</button>
+                    </div>
+                    <div class="layui-tab layui-tab-brief layuiTab1" lay-filter="layerTreeTab" lay-allowclose="true">
+                        <ul class="layui-tab-title title2 nhtjTitle">
+                            <li class="layui-this" lay-id="tabLayer">图层</li>
+                        </ul>
+                        <div class="layui-tab-content tabContent">
+                            <div class="layui-tab-item layui-show">
+                                <div class="ztreeBox">
+                                    <ul id="tt" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧-->
+    <div class="rightBox pa">
+        <div class="pr vh">
+            <!--能耗统计-->
+            <div class="leftTxtW indexNhjg">
+                <div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:nhjg')} == '' ? @{/screen/nhjg/index} : 'javascript:;'">能耗监管 <i>详情</i></a>
+                </div>
+                <ul id="fragment-nhtj-total" class="ldqkList oh pw15">
+
+                    <!-- 能耗监管（用水用电 总量） -->
+                    <li>
+                        <p>
+                            昨日用电量 <span>（万度）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_yesterday_usenumber_ele">4.25</span>
+                        </h5>
+                    </li>
+                    <li>
+                        <p>
+                            昨日用水量 <span>（万吨）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_yesterday_usenumber_water">0.39</span>
+                        </h5>
+                    </li>
+                    <li>
+                        <p>
+                            月用电量 <span>（万度）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_total_yydl">118.46</span>
+                        </h5>
+                    </li>
+                    <li>
+                        <p>
+                            月用水量 <span>（万吨）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_total_yysl">10.76</span>
+                        </h5>
+                    </li>
+                    <li>
+                        <p>
+                            年用电量 <span>（万度）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_total_zydl">2023.09</span>
+                        </h5>
+                    </li>
+                    <li>
+                        <p>
+                            年用水量 <span>（万吨）</span>
+                        </p>
+                        <h5>
+                            <span id="nhtj_total_zysl">184.53</span>
+                        </h5>
+                    </li>
+
+                </ul>
+                <div class="indexXjwx">
+                    <div class="indexTitle"><a th:href="${@permission.hasPermi('aupipes:screen:xjwx')} == '' ? @{/screen/ryxj/index} : 'javascript:;'">能源业务 <i>详情</i></a></div>
+                    <div class="content">
+                        <h4 class="oh">巡检&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>当月数：<i id="wxxj_czs">0</i></span><span class="fr">总数： <i id="wxxj_zs">0</i></span></h4>
+                        <div class="layui-row numberList">
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-calender color_orange"></i><span id="wxxj_wx">0</span></h5>
+                                <p class="color_orange">待处理</p>
+                            </div>
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-xunjian2 color_yellow"></i><span id="wxxj_zx">0</span></h5>
+                                <p class="color_yellow">处理中</p>
+                            </div>
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-wancheng1 color_green"></i><span id="wxxj_yx">0</span></h5>
+                                <p class="color_green">已完成</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="oh">报修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>当月数：<i id="bx_curMonth">0</i></span><span class="fr"><span class="fr">总数： <i id="bx_zs">66</i></span></h4>
+                        <div class="layui-row numberList">
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-calender color_orange"></i><span id="wxxj_dcl">0</span></h5>
+                                <p class="color_orange">待处理</p>
+                            </div>
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-xunjian2 color_yellow"></i><span id="wxxj_clz">6</span></h5>
+                                <p class="color_yellow">处理中</p>
+                            </div>
+<!--                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-xunjian2 color_yellow"></i><span id="wxxj_cl">6</span></h5>
+                                <p class="color_yellow">待处理</p>
+                            </div>-->
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-wancheng1 color_green"></i><span id="wxxj_ywc">60</span></h5>
+                                <p class="color_green">已完成</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="oh">事务督办    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>当月数：<i id="sw_curMonth">30</i></span><span class="fr">总数：<i id="sw_zs">30</i></span></h4>
+                        <div class="layui-row numberList">
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-calender color_orange"></i><span id="sw_dcl">1</span></h5>
+                                <p class="color_orange">待处理</p>
+                            </div>
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-xunjian2 color_yellow"></i><span id="sw_clz">4</span></h5>
+                                <p class="color_yellow">处理中</p>
+                            </div>
+                            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                                <h5><i class="iconfont icon-wancheng1 color_green"></i><span id="sw_ywc">25</span></h5>
+                                <p class="color_green">已完成</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--泵房信息-->
+            <div class="bfxxBox">
+                <div class="indexTitle">
+                    <a th:href="${@permission.hasPermi('aupipes:screen:yxjk')} == '' ? @{/screen/yxjk/index?menuCode=pump} : 'javascript:;'">泵房信息 <i>详情</i></a>
+                </div>
+                <div class="bfxxTxt pw15 swiper-container">
+                    <ul id="fragment-bfxx" class="swiper-wrapper">
+
+                        <!-- 泵房信息 -->
+                        <li class="swiper-slide">
+                            <div class="zxbfTxt">
+                                <h5>中心泵房</h5>
+                                <div class="number oh">
+                                    <h4 class="name">泵组名称</h4>
+                                    <dl>
+
+                                        <dd class="clGreen">出口压力</dd>
+                                        <dd id="bfxx_ckyl1">4.1bar</dd>
+                                    </dl>
+                                    <dl>
+
+                                        <dd class="clGreen">中心泵房液位</dd>
+                                        <dd id="bfxx_zxbfyw1">3.9m</dd>
+                                    </dl>
+                                    <div class="line"></div>
+                                    <h4 class="name">泵组名称</h4>
+                                    <dl>
+
+                                        <dd class="clGreen">工作数/泵总数</dd>
+                                        <dd id="bfxx_numTotal1">4/9</dd>
+                                    </dl>
+                                    <dl>
+
+                                        <dd class="clGreen">泵房日用电量</dd>
+                                        <dd id="bfxx_bfrydl1">250kwh</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="zxbfEcharts pr">
+                                <div id="bfxxGslEcharts11" class="echarts"></div>
+                                <div class="right pa">
+                                    <h5>中心泵房</h5>
+                                    <h6>运行异常</h6>
+                                    <h2 id="bfxx_yxyc1">5</h2>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="swiper-slide">
+                            <div class="zxbfTxt">
+                                <h5>西苑泵房</h5>
+                                <div class="number oh">
+                                    <h4 class="name">泵组名称</h4>
+                                    <dl>
+                                        <dd class="clGreen">出口压力</dd>
+                                        <dd id="bfxx_ckyl2">4.1bar</dd>
+                                    </dl>
+                                    <dl>
+                                        <dd class="clGreen">西苑泵房液位</dd>
+                                        <dd id="bfxx_zxbfyw2">3.9m</dd>
+                                    </dl>
+                                    <div class="line"></div>
+                                    <h4 class="name">泵组名称</h4>
+                                    <dl>
+
+                                        <dd class="clGreen">工作数/泵总数</dd>
+                                        <dd id="bfxx_numTotal2">4/9</dd>
+                                    </dl>
+                                    <dl>
+
+                                        <dd class="clGreen">泵房日用电量</dd>
+                                        <dd id="bfxx_bfrydl2">250kwh</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="zxbfEcharts pr">
+                                <div id="bfxxGslEcharts22" class="echarts"></div>
+                                <div class="right pa">
+                                    <h5>西苑泵房</h5>
+                                    <h6>运行异常</h6>
+                                    <h2 id="bfxx_yxyc2">5</h2>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+<!--                    <div class="swiper-pagination"></div>-->
+                </div>
+            </div>
+            <span class="rightBtn pa"></span>
+            <!--搜索框-->
+            <div class="searchBox pa">
+                <div class="searchContent pr">
+                    <input type="text" value="" id="searchName" onfocus="showSearchLabel()" autocomplete="off">
+                    <i class="pa iconfont icon-sousuo searchIcon" onclick="searchIndex()"></i>
+                </div>
+                <div style="display: none;" class="searchLabel">
+                    <label><input name="search" value="0" type="radio" checked>搜位置</label>
+                    <label><input name="search" value="1" type="radio">搜预警</label>
+                    <label><input name="search" value="2" type="radio">搜维修</label>
+                    <label><input name="search" value="3" type="radio">搜设备</label>
+                </div>
+            </div>
+            <!--工具图标-->
+            <div class="mapShrinkButton pa"><span class="mapIcon rightMore"><i class="iconfont icon-gongju"></i></span></div>
+            <ul class="mapBtnList pa hide">
+                <!--<li>
+                    <span class="mapIcon" title="俯视"><i class="iconfont icon-fushi"></i></span>
+                </li>-->
+                <!-- <li>
+                    <span class="mapIcon" title="放大"><i class="iconfont icon-jia"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon" title="缩小"><i class="iconfont icon-jian"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon" title="正北"><i class="iconfont icon-icon"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon" title="漫游"><i class="iconfont icon-shou"></i></span>
+                </li> -->
+                <!--<li>
+                    <span class="mapIcon" title="全屏"><i class="iconfont icon-quanping"></i></span>
+                </li>-->
+                <!--<li>
+                    <span class="mapIcon" title="地下浏览"><i class="iconfont icon-dixialiulan"></i></span>
+                </li>-->
+                <!--<li>
+                    <span class="mapIcon" title="水流流向"><i class="iconfont icon-ic_shuiliu"></i></span>
+                </li>-->
+                <!--<li>
+                    <span class="mapIcon" title="电流流向"><i class="iconfont icon-dianliu"></i></span>
+                </li>-->
+                <li>
+                    <span class="mapIcon" title="全图"><i class="iconfont icon-quantu"></i></span>
+                    <h5>全图</h5>
+                </li>
+                <li>
+                    <span class="mapIcon" title="俯视"><i class="iconfont icon-fushi"></i></span>
+                    <h5>俯视</h5>
+                </li>
+                <li>
+                    <span class="mapIcon mapIconActive" title="属性查询"><i class="iconfont icon-xuanqu"></i></span>
+                    <h5>查询</h5>
+                </li>
+                <li>
+                    <span class="mapIcon" title="清除"><i class="iconfont icon-shanchu-copy-copy"></i></span>
+                    <h5>清除</h5>
+                </li>
+                <li>
+                    <span class="mapIcon rightMore" title="测量"><i class="iconfont icon-chizi"></i></span>
+                    <h5>测量</h5>
+                    <div class="mapIconCont hide ruler" style="width:32vw;">
+                        <span class="txt">地表面积</span>
+                        <span class="txt">水平面积</span>
+                        <span class="txt">净距测量</span>
+                        <span class="txt">垂直测量</span>
+                        <span class="txt">地表测量</span>
+                        <span class="txt">水平测量</span>
+                        <span class="txt">坐标测量</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="mapIcon" title="地上透明"><i class="iconfont icon-dishangliulan"></i></span>
+                    <h5>透明</h5>
+                </li>
+                <li>
+                    <span class="mapIcon mapIconActive" title="图层对比"><i class="iconfont icon-fenping"></i></span>
+                    <h5>卷帘</h5>
+                </li>
+                <li>
+                    <span class="mapIcon rightMore lengendBtn" title="图例"><i
+                            class="iconfont icon-huabanfuben"></i></span>
+                    <h5>图例</h5>
+                    <div class="mapLegend hide">
+                        <img th:src="@{/bus/aupipes/lib/images/indexTuli.png}" alt="">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--底部弹框-->
+    <div class="bottomLayer pw15 pa">
+        <!--底部内容显示-->
+        <div class="pr vh">
+            <span class="closeBtn pa" onclick="closeBtn()"><i class="iconfont icon-guanbi"></i></span>
+            <!--拉闸分析-->
+            <div class="layui-tab layuiTab2" lay-filter="bottomTab">
+                <ul class="layui-tab-title" id="searchTab">
+
+                </ul>
+                <div class="layui-tab-content" id="searchTabList">
+                    <div class="layui-tab-item layui-show">
+                        <div class="table moreTable page">
+                            <div id="lffxTable" lay-filter="lffxFilter"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/def/js/jquery.min.js}"></script>
+<script th:src="@{/def/js/ajaxhook.min.js}"></script>
+<script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<script th:src="@{/def/libs/jquery-ztree/3.5/js/jquery.ztree.core-3.5.js}"></script>
+<script th:src="@{/def/libs/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.js}"></script>
+<script th:src="@{/def/libs/echarts/echarts.js}"></script>
+<script th:src="@{/def/libs/sockjs-client/sockjs.min.js}"></script>
+<script th:src="@{/def/libs/stomp/stomp.min.js}"></script>
+<script th:src="@{/bus/aupipes/lib/js/common.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/lib/js/index.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/lib/js/layerConfig.js(v=${staticResourcesVersion})}"></script>
+<!-- 三维js -->
+<script th:src="@{/def/js/xml2json.min.js}"></script>
+<script th:src="@{/bus/aupipes/Cesium/Cesium.js}"></script>
+<script th:src="@{/bus/aupipes/js/3d/polyfill.min.js}"></script>
+<script th:src="@{/bus/aupipes/js/3d/config.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/js/3d/initLayerTree.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/js/3d/init3DMap.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/js/3d/bim-catalog.min.js(v=${staticResourcesVersion})}"></script>
+<!--决策保障分析-->
+<script th:src="@{/bus/aupipes/analyse/js/global.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/analyse/kqWeb3d/kqWeb3d.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/analyse/js/GFTS.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/analyse/js/LZXD.js(v=${staticResourcesVersion})}"></script>
+<script th:src="@{/bus/aupipes/analyse/js/GWYX.js(v=${staticResourcesVersion})}"></script>
+
+<script>
+    // 泵房信息循环向左切换
+    var mySwiper = new Swiper('.swiper-container', {
+        observer : true,
+        observeParents : true,
+        slidesPerView : 1,
+        spaceBetween: 30,
+        // loop: true,
+        autoplay: true,
+//      pagination: {
+//          el: '.swiper-pagination',
+//          clickable: true
+//      },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    })
+
+    //鼠标覆盖停止自动切换
+    mySwiper.el.onmouseover = function () {
+        mySwiper.autoplay.stop();
+    }
+
+    //鼠标离开开始自动切换
+    mySwiper.el.onmouseout = function () {
+        mySwiper.autoplay.start();
+    }
+
+    // js智能安防
+    var mySwiper3 = new Swiper('#DistributionRoom',{
+    	navigation: {
+	        nextEl: '.swiper-button-next',
+	        prevEl: '.swiper-button-prev',
+	    },
+        spaceBetween: 30,
+        loop: true,
+        autoplay: true
+    });
+    //鼠标覆盖停止自动切换
+    mySwiper3.el.onmouseover = function(){
+        mySwiper3.autoplay.stop();
+    }
+
+    //鼠标离开开始自动切换
+    mySwiper3.el.onmouseout = function(){
+        mySwiper3.autoplay.start();
+    }
+
+
+</script>
+</html>

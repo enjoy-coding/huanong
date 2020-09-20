@@ -1,0 +1,47 @@
+<!--泵房信息-->
+<div class="sbxjBox">
+    <div class="sbxjJbxx">
+        <h3></h3>
+        <div class="rcxjXxxx">
+            <h6>基本信息</h6>
+            <div class="table">
+                <ul  class="sbxxList">
+                    <li>设备名称：<span id="pump_name"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="rwxjZxbf">
+            <div class="layui-tab layui-tab-brief" lay-filter="demo">
+                <ul class="layui-tab-title title2 nhtjTitle">
+                    <li class="layui-this" lay-id="y"><i class="iconfont icon-houtaiguanli"></i>泵组1</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item nhtjContent layui-show">
+                        <div class="rcxjXxxx">
+                            <h3>市政压力:<span id="szyl">无数据获取</span></h3>
+                        </div>
+                        <!-- 仪表盘 -->
+                        <div class="gaugeBox">
+                            <div class="gaugeBox_div">
+                                <!-- 输出频率-->
+                                <div id="char_0" class="pump_char"></div>
+                                <!-- 水箱液位 -->
+                                <div id="char_1" class="pump_char"></div>
+                                <!-- 出口压力 -->
+                                <div id="char_2" class="pump_char"></div>
+                                <!-- 设定压力 -->
+                                <div id="char_3" class="pump_char"></div>
+                            </div>
+                        </div>
+                        <div class="bplbBox">
+                            <h3>泵组数:<span id="pumCount">0</span>个</h3>
+                            <div class="table">
+                                <div id="yxjk_pump_detail_table"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

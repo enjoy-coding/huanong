@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<title>APP 下载中心</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui">
+		<link rel="stylesheet" th:href="@{/def/css/prd/appversion/css.css}">
+	</head>
+	<body>
+		<div class="row-fluid breadcrumbs margin-bottom-20">
+			<div class="container">
+				<h1 class="pull-left">[(${name})]</h1>
+				<ul class="pull-right breadcrumb">
+					<li>版本：[(${number})]</li>
+					<li>大小：[(${sizeStr})]</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="container content">
+			<div>
+				<div style="text-align:center">
+					<img th:src="${icon}" class="appicon">
+				</div>
+			</div>
+			<div style="margin-top:30px;">
+				<div class="margin-bottom-20" style="text-align:center">
+					<div class="spinner">
+						<div class="showtext">正在安装，请按 Home 键在桌面查看</div>
+						<div class="loading"></div>
+						<a th:href="${file}" class="btn-u btn-u-lg">点击安装</a>
+					</div>
+				</div>
+				<div style="text-align:center">
+					<span class="label label-success">适用于Android设备</span>
+				</div>
+			</div>
+		</div>
+		<div id="shade" style="display:none">
+			<p>
+				微信中请这样：<br>打开右上角按钮<br>选择<span>在浏览器打开</span><br>下载
+			</p>
+			<img th:src="@{/def/img/rightarrow.png}" alt="" style="position:absolute;display:block;right:30px;top:20px;width:100px;">
+		</div>
+		<script>
+			window.onload = function() {
+				if(isWeiXin())
+				document.getElementById('shade').style.display = 'block';
+			};
+
+			function isWeiXin() {
+				var ua = window.navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i) == 'micromessenger') {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		</script>
+	</body>
+</html>

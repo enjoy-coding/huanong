@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.aupipes.mapper.NtDataCleaningUseNumMonthMapper">
+    <resultMap id="BaseResultMap" type="NtDataCleaningUseNumMonth">
+
+        <result column="sortCode" property="sortcode"/>
+        <result column="deleteMark" property="deletemark"/>
+        <result column="enabledMark" property="enabledmark"/>
+        <result column="canWrite" property="canwrite"/>
+        <result column="description" property="description"/>
+        <result column="createDate" property="createdate"/>
+        <result column="createUserId" property="createuserid"/>
+        <result column="createUserName" property="createusername"/>
+        <result column="modifyDate" property="modifydate"/>
+        <result column="modifyUserId" property="modifyuserid"/>
+        <result column="modifyUserName" property="modifyusername"/>
+        <result column="accountId" property="accountid"/>
+        <result column="userId" property="userid"/>
+        <result column="accountName" property="accountname"/>
+        <result column="jobNumber" property="jobnumber"/>
+        <result column="openDate" property="opendate"/>
+        <result column="accountCategoryId" property="accountcategoryid"/>
+        <result column="accountCategoryName" property="accountcategoryname"/>
+        <result column="areaId" property="areaid"/>
+        <result column="areaName" property="areaname"/>
+        <result column="address" property="address"/>
+        <result column="jobLevel" property="joblevel"/>
+        <result column="jobLevelName" property="joblevelname"/>
+        <result column="branch" property="branch"/>
+        <result column="branchName" property="branchname"/>
+        <result column="meterTypeId" property="metertypeid"/>
+        <result column="meterTypeName" property="metertypename"/>
+        <result column="useNumber" property="usenumber"/>
+        <result column="readDate" property="readdate"/>
+        <result column="meterSn" property="metersn"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, sortCode, deleteMark, enabledMark, canWrite, description, createDate, createUserId, 
+    createUserName, modifyDate, modifyUserId, modifyUserName, accountId, userId, accountName, 
+    jobNumber, openDate, accountCategoryId, accountCategoryName, areaId, areaName, address, 
+    jobLevel, jobLevelName, branch, branchName, meterTypeId, meterTypeName, useNumber, 
+    readDate, meterSn
+  </sql>
+    <sql id="Blob_Column_List">
+    fullAccountCategoryId
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="NtDataCleaningUseNumMonth">
+        select
+        <include refid="Base_Column_List"/>
+        from NT_DataCleaning_UseNumMonth
+        <where>
+            <if test="address != null  and address != ''">
+                <bind name="_address" value="'%'+ address +'%'"/>
+                and address like #{_address}
+            </if>
+
+            <if test="metertypename != null  and metertypename != ''">
+                <bind name="_metertypename" value="'%'+ metertypename +'%'"/>
+                and meterTypeName like #{_metertypename}
+            </if>
+
+            <if test="readdate != null  and readdate != ''">
+                <![CDATA[and readDate >= cast(#{readdate} as datetime)]]>
+            </if>
+
+            <if test="endtime != null  and endtime != ''">
+                <![CDATA[and readDate < cast(#{endtime} as datetime)]]>
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKeyList" resultMap="BaseResultMap"
+            parameterType="com.feather.aupipes.domain.NtDataCleaningUseNumMonth">
+        select
+        <include refid="Base_Column_List"/>
+
+        from NT_DataCleaning_UseNumMonth
+        <where>
+            <!--<if test="sortcode != null  and sortcode != ''">and sortCode = #{sortcode}</if>-->
+            <!--<if test="deletemark != null  and deletemark != ''">and deleteMark = #{deletemark}</if>-->
+            <!--<if test="enabledmark != null  and enabledmark != ''">and enabledMark = #{enabledmark}</if>-->
+            <!--<if test="canwrite != null  and canwrite != ''">and canWrite = #{canwrite}</if>-->
+            <!--<if test="description != null  and description != ''">and description = #{description}</if>-->
+            <!--<if test="createdate != null  and createdate != ''">and createDate = #{createdate}</if>-->
+
+            <!--<if test="createuserid != null  and createuserid != ''">and createUserId = #{createuserid}</if>-->
+            <!--<if test="createusername != null  and createusername != ''">and createUserName = #{createusername}</if>-->
+            <!--<if test="modifydate != null  and modifydate != ''">and modifyDate = #{modifydate}</if>-->
+            <!--<if test="modifyuserid != null  and modifyuserid != ''">and modifyUserId = #{modifyuserid}</if>-->
+            <!--<if test="modifyusername != null  and modifyusername != ''">and modifyUserName = #{modifyusername}</if>-->
+            <!--<if test="accountid != null  and accountid != ''">and accountId = #{accountid}</if>-->
+
+            <!--<if test="userid != null  and userid != ''">and userId = #{userid}</if>-->
+            <!--<if test="accountname != null  and accountname != ''">and accountName = #{accountname}</if>-->
+            <!--<if test="jobnumber != null  and jobnumber != ''">and jobNumber = #{jobnumber}</if>-->
+            <!--<if test="opendate != null  and opendate != ''">and openDate = #{opendate}</if>-->
+            <!--<if test="accountcategoryid != null  and accountcategoryid != ''">and accountCategoryId =-->
+            <!--#{accountcategoryid}-->
+            <!--</if>-->
+            <!--<if test="accountcategoryname != null  and accountcategoryname != ''">and accountCategoryName =-->
+            <!--#{accountcategoryname}-->
+            <!--</if>-->
+
+            <!--<if test="areaid != null  and areaid != ''">and areaId = #{areaid}</if>-->
+            <!--<if test="areaname != null  and areaname != ''">and areaName = #{areaname}</if>-->
+            <!--<if test="address != null  and address != ''">and address = #{address}</if>-->
+
+            <if test="address != null  and address != ''">
+                <bind name="_address" value="'%'+ address +'%'"/>
+                and address like #{_address}
+            </if>
+
+            <!--<if test="joblevel != null  and joblevel != ''">and jobLevel = #{joblevel}</if>-->
+            <!--<if test="joblevelname != null  and joblevelname != ''">and jobLevelName = #{joblevelname}</if>-->
+            <!--<if test="branch != null  and branch != ''">and branch = #{branch}</if>-->
+
+            <!--<if test="branchname != null  and branchname != ''">and branchName = #{branchname}</if>-->
+            <!--<if test="metertypeid != null  and metertypeid != ''">and meterTypeId = #{metertypeid}</if>-->
+            <!--<if test="meterTypeName != null  and meterTypeName != ''">and meterTypeName = #{meterTypeName}</if>-->
+
+            <if test="metertypename != null  and metertypename != ''">
+                <bind name="_meterTypeName" value="'%'+ metertypename +'%'"/>
+                and meterTypeName like #{_meterTypeName}
+            </if>
+            <!--<if test="usenumber != null  and usenumber != ''">and useNumber = #{usenumber}</if>-->
+            <!--<if test="readDate != null  and readDate != ''">and readDate LIKE #{%readDate%}</if>-->
+
+            <if test="readdate != null  and readdate != ''">
+                <bind name="_readDate" value="'%'+ readdate +'%'"/>
+                and readDate like #{_readDate}
+            </if>
+
+            <!--<if test="metersn != null  and metersn != ''">and meterSn = #{metersn}</if>-->
+        </where>
+    </select>
+</mapper>

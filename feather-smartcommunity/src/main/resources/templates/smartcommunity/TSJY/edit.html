@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改投诉建议')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TSJY-edit" th:object="${zhsqTsjy}">
+            <input id="tsjyid" name="tsjyid" th:field="*{tsjyid}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">建议ID：</label>
+                <div class="col-sm-8">
+                    <input name="tsjyid" th:field="*{tsjyid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-8">
+                    <input name="xm" th:field="*{xm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">建议内容：</label>
+                <div class="col-sm-8">
+                    <input name="jynr" th:field="*{jynr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">建议时间：</label>
+                <div class="col-sm-8">
+                    <input name="jysj" th:field="*{jysj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">附件：</label>
+                <div class="col-sm-8">
+                    <input name="fj" th:field="*{fj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复内容：</label>
+                <div class="col-sm-8">
+                    <input name="hfnr" th:field="*{hfnr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复时间：</label>
+                <div class="col-sm-8">
+                    <input name="hfsj" th:field="*{hfsj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复人：</label>
+                <div class="col-sm-8">
+                    <input name="hfr" th:field="*{hfr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "smartcommunity/TSJY";
+        $("#form-TSJY-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#tsjyid").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-TSJY-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.tsjyid) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.tsjyid;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：tsjyid");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

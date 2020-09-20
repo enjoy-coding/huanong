@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupServiceInfoMapper">
+
+    <resultMap type="AupServiceInfo" id="AupServiceInfoResult">
+        <result property="id"    column="id"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="serviceModelNum"    column="service_model_num"    />
+        <result property="serviceAddress"    column="service_address"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="serviceStatus"    column="service_status"    />
+    </resultMap>
+
+    <sql id="selectAupServiceInfoVo">
+        select id, service_name, service_model_num, service_address, create_time, update_time, service_status from aup_service_info
+    </sql>
+
+    <select id="selectAupServiceInfoList" parameterType="AupServiceInfo" resultMap="AupServiceInfoResult">
+        <include refid="selectAupServiceInfoVo"/>
+        <where>
+            <if test="id != null  and id != ''">
+                and id = #{id}
+            </if>
+            <if test="serviceName != null  and serviceName != ''">
+                <bind name="_serviceName" value="'%'+ serviceName +'%'"/>
+                and service_name like #{_serviceName}
+            </if>
+            <if test="serviceModelNum != null  and serviceModelNum != ''">
+                <bind name="_serviceModelNum" value="'%'+ serviceModelNum +'%'"/>
+                and service_model_num like #{_serviceModelNum}
+            </if>
+            <if test="serviceAddress != null  and serviceAddress != ''">
+                <bind name="_serviceAddress" value="'%'+ serviceAddress +'%'"/>
+                and service_address like #{_serviceAddress}
+            </if>
+            <if test="serviceStatus != null  and serviceStatus != ''">
+                <bind name="_serviceStatus" value="'%'+ serviceStatus +'%'"/>
+                and service_status like #{_serviceStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupServiceInfoById" parameterType="Long" resultMap="AupServiceInfoResult">
+        <include refid="selectAupServiceInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupServiceInfo" parameterType="AupServiceInfo">
+        insert into aup_service_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="serviceName != null  and serviceName != ''">service_name,</if>
+            <if test="serviceModelNum != null  and serviceModelNum != ''">service_model_num,</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">service_address,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="serviceName != null  and serviceName != ''">#{serviceName},</if>
+            <if test="serviceModelNum != null  and serviceModelNum != ''">#{serviceModelNum},</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">#{serviceAddress},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">#{serviceStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupServiceInfo" parameterType="AupServiceInfo">
+        update aup_service_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceName != null  and serviceName != ''">service_name = #{serviceName},</if>
+            <if test="serviceModelNum != null  and serviceModelNum != ''">service_model_num = #{serviceModelNum},</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">service_address = #{serviceAddress},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status = #{serviceStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupServiceInfoById" parameterType="Long">
+        delete from aup_service_info where id = #{id}
+    </delete>
+
+    <delete id="deleteAupServiceInfoByIds" parameterType="String">
+        delete from aup_service_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

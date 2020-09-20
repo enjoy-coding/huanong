@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('编辑栏目')"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-articlecolumn-add" th:object="${articleColumn}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目类型：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('cms_articlecolumn_type')}">
+                    <input type="radio" th:id="type" name="type" th:value="${dict.dictValue}" th:field="*{type}">
+                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">发布审核：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_need')}">
+                    <input type="radio" th:id="publishAudit" name="publishAudit" th:value="${dict.dictValue}" th:field="*{publishAudit}">
+                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">推送审核：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_need')}">
+                    <input type="radio" th:id="shareAudit" name="shareAudit" th:value="${dict.dictValue}" th:field="*{shareAudit}">
+                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+            </div>
+        </div>
+       <!-- <div class="form-group">
+            <label class="col-sm-3 control-label ">首页显示：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_yes')}">
+                    <input type="radio" th:id="${dict.dictCode}" name="isNav" th:value="${dict.dictValue}"
+                           th:field="*{isNav}">
+                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">栏目名称(中文必填)：</label>
+            <div class="col-sm-8">
+                <input type="hidden" name="id" id="id" th:field="*{id}">
+                <input type="hidden" name="level" id="level" th:field="*{level}">
+                <input class="form-control" type="text" name="name" id="name" th:field="*{name}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">站点别名(英文必填)：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="alias" id="alias" th:field="*{alias}" required>
+            </div>
+        </div>
+        <div class="form-group" th:if="${articleColumn ne 0}">
+            <label class="col-sm-3 control-label ">父栏目</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="parentName" id="parentName" th:field="*{parentName}" onclick="selectArticleColumnTree()" readonly>
+                <input type="hidden" name="parentId" id="parentId" th:field="*{parentId}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">首页记录数(数字)：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="frontMaxSize" id="frontMaxSize" th:field="*{frontMaxSize}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">所属站点：</label>
+            <div class="col-sm-8">
+                <input type="hidden" name="siteId" id="treeId" th:field="*{siteId}" required>
+                <input class="form-control" type="text" name="siteName" id="siteName" th:field="*{siteName}" readonly>
+            </div>
+        </div>
+     <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目列表页：</label>
+            <div class="col-sm-8">
+                <select id="listTpl" class="form-control">
+                    <option th:each="dict:${@dict.getType('cms_site_listTpl')}" th:value="${dict.dictValue}"
+                            th:text="${dict.dictLabel}+'('+${dict.dictValue}+')'" th:selected="${dict.dictValue eq articleColumn.listTpl}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">栏目内容页：</label>
+            <div class="col-sm-8">
+                <select id="contentTpl" class="form-control">
+                    <option th:each="dict:${@dict.getType('cms_site_contentTpl')}" th:value="${dict.dictValue}"
+                            th:text="${dict.dictLabel}+'('+${dict.dictValue}+')'" th:selected="${dict.dictValue eq articleColumn.contentTpl}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">排序：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="orderNum" id="orderNum" th:field="*{orderNum}" required>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/javascript">
+    var prefix = ctx + "cms/articlecolumn";
+
+    /*function selectSite() {
+        var siteId = $("#siteId").val();
+        if($.common.isEmpty(siteId)){
+            siteId = 1;
+        }
+        var url = ctx + "cms/site/dialogList/" + siteId;
+        var options = {
+            title: '选择站点',
+            width: "600",
+            height: "500",
+            url: url,
+            callBack: doSubmit
+        };
+        $.modal.openOptions(options);
+    }
+
+    /!**
+     * 提交选择站点
+     * @param index
+     * @param layero
+     *!/
+    function doSubmit(index, layero){
+        var body = layer.getChildFrame('body', index);
+        var siteId = body.find('#siteId').val();
+        var siteName = body.find('#siteName').val();
+        $("#siteId").val(siteId);
+        $("#siteName").val(siteName);
+        if($.common.isEmpty(siteId)){
+            $.modal.msgWarning("请选择一个站点!");
+        }
+        layer.close(index);
+    }*/
+
+    function selectArticleColumnTree(){
+        $.common.selectArticleColumnTree(ctx, "parentId", "parentName");
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-articlecolumn-add").serializeArray();
+            var type = $.form.selectCheckeds("type");
+            var publishAudit = $.form.selectCheckeds("publishAudit");
+            var shareAudit = $.form.selectCheckeds("shareAudit");
+            var listTpl = $.form.selectSelects("listTpl");
+            var contentTpl = $.form.selectSelects("contentTpl");
+
+            data.push({"name": "type", "value": type});
+            data.push({"name": "publishAudit", "value": publishAudit});
+            data.push({"name": "shareAudit", "value": shareAudit});
+            data.push({"name": "listTpl", "value": listTpl});
+            data.push({"name": "contentTpl", "value": contentTpl});
+            $.operate.save({
+                url: prefix + "/editDo",
+                data: data,
+                success: "close"
+            });
+        }
+    }
+</script>
+</body>
+</html>

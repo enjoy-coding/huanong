@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('水分区列表')" />
+    <th:block th:include="include :: ztree-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用电分区</h5>
+                    </div>
+                   <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <a class="btn btn-success" id="add" shiro:hasPermission="aupipes:electricity:add">
+                                <i class="fa fa-plus"></i> 新增
+                            </a>
+                            <a class="btn btn-danger" id="remove" shiro:hasPermission="aupipes:electricity:remove">
+                                <i class="fa fa-remove"></i> 删除
+                            </a>
+                            <a class="btn btn-info" id="refresh" shiro:hasPermission="aupipes:electricity:remove">
+                                <i class="fa fa-refresh"></i> 刷新
+                            </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="tree" class="ztree"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><a class="btn btn-warning"><span style="color: white;" id="showSelected">根节点</span></a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" id="electricityForm" class="form-horizontal m-t">
+                            <div th:fragment="electricityFragment" id="electricityFragment">
+                               <input type="hidden" id="id" name="id" th:field="${electricity.id}">
+                                <input type="hidden" name="pid" th:field="${electricity.pid}">
+                                <input id="categoryId" name="categoryId" type="hidden" th:field="${electricity.categoryId}" />
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">地区名称:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="cachename" class="form-control" th:field="${electricity.cachename}"
+                                            placeholder="请输入地区名称" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">所属地区:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="parentName" name="parentName" th:field="${electricity.parentName}"
+                                            class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">类型:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="type"
+                                            th:disabled="${electricity.type=='变电站'}">
+                                            <option th:selected="${electricity.type=='变电站'}" value="变电站" disabled>变电站
+                                            </option>
+                                            <option th:selected="${electricity.type=='配电房'}" value="配电房">配电房</option>
+                                            <option th:selected="${electricity.type=='变压器'}" value="变压器">变压器</option>
+                                            <option th:selected="${electricity.type=='楼栋'}" value="楼栋">楼栋
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">用能性质:</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="categoryName" onclick="selectCategoryTree()" readonly="true" th:field="${electricity.categoryName}">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">变比:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="typeno" th:field="${electricity.bb}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">表号:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text"  th:field="${electricity.tableid}" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group draggable">
+                                    <div class="col-sm-12 col-sm-offset-3">
+                                        <button type="button" onclick="saveElectricity()" class="btn btn-primary"><i
+                                                class="fa fa-check"></i>&nbsp;保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: ztree-js" />
+    <th:block th:include="include :: ztree-async-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "aupipes/electricity";
+        var fragment = "electricityFragment";
+        var ztree = "tree";
+        var selectTreeNode;//选中的树节点 
+        var selectTreeId; 
+        var selectTreeName;
+        var control = {
+            prefix :prefix,
+            fragment: fragment,
+            formId : "electricityForm"
+        }
+        var controlFn = new ztreeControl(control);
+
+        $(function () {
+            /**新增*/
+            $("#add").click(function(){
+                controlFn.add(selectTreeId,selectTreeName)
+            });
+            /**删除*/
+            $("#remove").click(function(){
+                controlFn.remove(selectTreeId,selectTreeNode)
+            });
+            /**刷新*/
+            $("#refesh").click(function(){
+                controlFn.refresh(selectTreeId,selectTreeName)
+            });
+            queryElectricityList();
+        });
+
+        /**
+         * 用能性质
+         */
+        function selectCategoryTree(){
+            var options = {
+				title: '性质选中',
+				width: "380",
+				url: prefix + "/selectCategoryTree/" + ($("#categoryId").val()||'0'),
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+	   			var node = window["layui-layer-iframe"+ index].selectedTreeNode;
+	   			$("#categoryId").val(node.id_);
+	   			$("#categoryName").val(node.name);
+	   			layer.close(index);
+		}
+
+
+        /**
+         * 获取用水分区结构
+         */
+        function queryElectricityList() {
+            var option = {
+                treeId: ztree,
+                isSearch: false,
+                inputId: "",
+                isStringId:false,
+                url: prefix +"/ztree/list",
+                zTreeOnClick: function (event, treeId, treeNode) {
+                    selectTreeNode = treeNode;
+                    selectTreeId = treeNode.id;
+                    selectTreeName = treeNode.name;
+                    $("#showSelected").text(treeNode.name+"——【编辑】");
+                    controlFn.queryRightDetail(treeNode.id);
+                }
+
+            }
+            new ztreeAsync(option);
+        }
+
+
+
+
+        /**
+         *  保存
+         */
+        function saveElectricity() {
+            var id = $("#id").val();
+            controlFn.saveRight(id,function(result){
+                if(result.code == 0){
+                    //刷新当前父节点
+                    $.modal.msgSuccess(result.msg);
+                    if(isAddOrEdit(id)) {
+                        refreshNode(ztree,result.data.id);
+                    }else{
+                        refreshParentNode(ztree);
+                    }
+                    controlFn.editSaveDetail(result.data.id,result.data.name);
+
+                }else{
+                    $.modal.msgError(result.msg);
+                }
+            })
+        }
+
+    </script>
+</body>
+
+</html>

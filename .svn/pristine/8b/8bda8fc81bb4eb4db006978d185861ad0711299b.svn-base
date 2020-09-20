@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqZnafMapper">
+
+    <!--设备类型统计-->
+    <select id="getCountSb" resultType="map">
+        select count(*) as num,sblx from ZHSQ_ZC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        GROUP BY sblx
+    </select>
+    <!--获取异常数据-->
+    <select id="getYcList" resultType="map">
+        select top(10)* from ZHSQ_YC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        ORDER BY YCSJ desc
+    </select>
+    <!--门禁进出统计-->
+    <select id="getCountMj" resultType="map">
+        select Count(*)as num,jczt from ZHSQ_MJJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        GROUP BY JCZT
+    </select>
+
+    <select id="getMjjcList" resultType="map">
+        select * from ZHSQ_MJJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+         ORDER BY JCSJ desc
+    </select>
+    <!--闸机进出统计-->
+    <select id="getCountZj" resultType="map">
+        select Count(*)as num,jczt from ZHSQ_ZJJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        GROUP BY JCZT
+    </select>
+
+    <select id="getZjjcList" resultType="map">
+        select * from ZHSQ_ZJJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+         ORDER BY JCSJ desc
+    </select>
+
+    <!--道杆进出统计-->
+    <select id="getCountDg" resultType="map">
+        select Count(*)as num,jczt from ZHSQ_DGJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        GROUP BY JCZT
+    </select>
+
+    <select id="getDgjcList" resultType="map">
+        select * from ZHSQ_DGJC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+         ORDER BY JCSJ desc
+    </select>
+
+    <select id="getSxtList" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_SXT] n
+
+        <where>
+             wzlx= #{wzlx}
+            <choose>
+                <when test="xqid!=null and xqid!=''">and n.XQID=#{xqid}</when>
+                <otherwise>and n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+</mapper>

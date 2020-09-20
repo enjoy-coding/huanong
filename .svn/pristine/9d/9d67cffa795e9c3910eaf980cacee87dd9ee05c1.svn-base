@@ -1,0 +1,428 @@
+# 项目相关配置
+feather:
+    # 版本
+    version: 4.0.0
+    # 日志路径
+    logPath: /feather/aupipes/logs
+    # 文件路径
+    profile: E:/feather/aupipes/uploadPath
+    # 获取ip地址开关
+    addressEnabled: false
+    # 用户配置
+    user:
+        password:
+            # 密码错误{maxRetryCount}次锁定10分钟, 小于等于0 时不检查
+            maxRetryCount: 0
+    # snowflake唯一ID
+    snowflake: 
+        # 数据中心ID
+        datacenterId: 1
+        # 机器ID
+        workerId: 1
+    # 防止XSS攻击
+    xss: 
+        # 过滤开关
+        enabled: true
+        # 排除链接（多个用逗号分隔）
+        excludes: /system/notice/*
+        # 匹配链接
+        urlPatterns: /system/*,/system/monitor/*,/system/tool/*
+    # 接口swagger文档配置
+    swagger:
+        enable: false
+        group: 三维智慧管网
+        version: 1.0
+        description: fancy <img src="${server.servlet.context-path}/def/img/mlgl.jpg" style="max-width:100px" />
+        package: com.feather.aupipes.controller
+        path: 
+    # websocket配置
+    websocket: 
+        enabled: true
+        endpoint: /api/websocket
+        origins: "*"
+        sockJS: true
+    # 文件上传配置
+    upload:
+        # 文件名长度限制
+        maxFileNameLength: 100
+        # 文件类型黑名单
+        notAllowExtension: exe,bat
+        # 缩略图处理
+        thumbnail:
+            image: 800,600
+            video: 800,600
+            pdf: 800,600
+            ppt: 1024,768
+
+# 开发环境配置
+server:
+    # 服务器的HTTP端口，默认为80
+    port: 80
+    servlet:
+        # 应用的访问路径
+        context-path: /
+    tomcat:
+        # tomcat的URI编码
+        uri-encoding: UTF-8
+        # tomcat最大线程数，默认为200
+        max-threads: 800
+        # Tomcat启动初始化的线程数，默认值25
+        min-spare-threads: 30
+ 
+# 日志配置
+logging:
+    level:
+        com.feather: warn
+        org.springframework: warn
+
+# MyBatis
+mybatis:
+    # 搜索指定包别名
+    typeAliasesPackage: com.feather
+    # 配置mapper的扫描，找到所有的mapper.xml映射文件
+    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    # 加载全局的配置文件
+    configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper分页插件
+pagehelper: 
+    # helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    auto-dialect: true
+    auto-runtime-dialect: true
+
+# Shiro
+shiro:
+    user:
+        # 登录地址
+        loginUrl: /login
+        # 权限认证失败地址
+        unauthorizedUrl: /unauth
+        # 首页地址
+        indexUrl: /screen/index
+        # 匿名访问
+        anon:
+            # 静态资源
+            - /favicon.ico**
+            - /def/**
+            - /captcha**
+            # 静态业务资源
+            - /bus/**
+            # 开放接口
+            - /**/api/**
+            # 上传下载资源
+            - /profile/**
+            # 单点登录回调地址
+            - /sso/**
+            # 微信相关
+            - /MP_verify_aQLP39gwWmf7qlB3.txt**
+            - /wx/**
+    cookie:
+        # 设置Cookie的域名 默认空，即当前访问的域名
+        domain: 
+        # 设置cookie的有效访问路径
+        path: /
+        # 设置HttpOnly属性
+        httpOnly: true
+        # 设置Cookie的过期时间，天为单位
+        maxAge: 30
+    session:
+        # Session超时时间（分钟），-1代表永不过期（默认30分钟）
+        expireTime: 30
+        # 同步session到数据库的周期（默认1分钟）
+        dbSyncPeriod: 1
+        # 相隔多（分钟）检查一次session的有效性，默认就是10分钟
+        validationInterval: 10
+        # 同一个用户最大会话数，比如2的意思是同一个账号允许最多同时两个人登录（默认-1不限制）
+        maxSession: -1
+        # 踢出之前登录的/之后登录的用户，默认踢出之前登录的用户
+        kickoutAfter: false
+
+# Spring配置
+spring:
+    # 模板引擎
+    thymeleaf:
+        mode: HTML
+        encoding: utf-8
+        # 禁用缓存
+        cache: false
+        # 静态变量
+        staticVariables:
+            # 静态资源版本
+            staticResourcesVersion: 20060827
+            # 地图服务基础地址
+            aupipeService: http://swbz.hzau.edu.cn
+            # 探漏服务基础地址
+            celouService: https://www.celou.vip
+            # 微信服务基础地址
+            weixinService: http://swbz.hzau.edu.cn/wx
+    # 资源信息
+    messages:
+        # 国际化资源文件路径
+        basename: static/def/i18n/messages
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    # 文件上传
+    servlet:
+        multipart:
+            # 单个文件大小
+            max-file-size: 4000MB
+            # 设置总上传的文件大小
+            max-request-size: 4000MB
+    # 服务模块
+    devtools:
+        restart:
+            # 热部署开关
+            enabled: false
+    # redis
+    redis:
+        db0:
+            # 默认缓存时间（秒） 86400秒=24小时
+            expire: 86400
+        db1:
+            # 默认缓存时间（秒） 172800秒=48小时
+            expire: 172800
+        host: 127.0.0.1
+        port: 6379
+        password: 
+        # 客户端超时时间单位是毫秒 默认是2000
+        timeout: 
+        # 最大空闲数
+        maxIdle: 20
+        # 连接池的最大数据库连接数
+        maxActive: -1
+        # 控制一个pool可分配多少个jedis实例,用来替换上面的maxActive
+        maxTotal: 100
+        # 最大建立连接等待时间。如果超过此时间将接到异常
+        maxWaitMillis: 100
+        # 连接的最小空闲时间
+        minEvictableIdleTimeMillis: 864000000
+        # 每次释放连接的最大数目
+        numTestsPerEvictionRun: 10
+        # 逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程
+        timeBetweenEvictionRunsMillis: 300000
+        # 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+        testOnBorrow: true
+        # 在空闲时检查有效性
+        testWhileIdle: false
+    # 数据源配置
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        druid:
+            # 默认数据源
+            default:
+                url: jdbc:sqlserver://211.69.132.89:1433;DatabaseName=zhapp
+                username: sa
+                password: SQLserver2012
+                validationQuery: SELECT 1
+            a:
+                enabled: true
+                url: jdbc:sqlserver://211.69.140.162:803;DatabaseName=NT.AgriculturalUniversity.Logistics
+                username: observer
+                password: Ob123
+                validationQuery: SELECT 1
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter: 
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: 
+                login-password: 
+            filter:
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 2000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+aupipes:
+    smsapi: http://106.ihuyi.cn/webservice/sms.php?method=Submit
+wx:
+    config:
+        appid: wx0a0242a18bf7e529
+        appsecret: 63dd34604ce61942514d2fb2bf4031f4
+        domain: swbz.hzau.edu.cn
+capacity:
+  templates:
+    - name: 雨水管线段
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: ps
+      layerId: 31
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,FLOWDIRECT,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 路灯管线段
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: dl
+      layerId: 20
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,CAB_COUNT,HOLE_NUM,LINE_STYLE,VOLTAGE,PRESSURE,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 给水管线段
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: gs
+      layerId: 14
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 污水管线段
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: ps
+      layerId: 36
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,FLOWDIRECT,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 天然气管线段
+      url: http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: rq
+      layerId: 42
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,PRESSURE,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 供电管线段
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: dl
+      layerId: 25
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4526
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,CAB_COUNT,HOLE_NUM,LINE_STYLE,VOLTAGE,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+# 数据源配置
+KqGISRest:
+    # 给水追溯分析
+    jsxUrl: http://swbz.hzau.edu.cn/KQGis/rest/services/huan/networkserver/traceback
+    # 追溯分析，向上
+    jsxParam0: layerId=15&destination=&middlepoint=&barrierpoints=&avoidareas=&mode=0&geoSRS=EPSG:4326&outSRS=EPSG:4326&origin=
+    # 追溯分析，向下
+    jsxParam1: layerId=15&destination=&middlepoint=&barrierpoints=&avoidareas=&mode=1&geoSRS=EPSG:4326&outSRS=EPSG:4326&origin=
+    # 给水点
+    jxdUrl: http://swbz.hzau.edu.cn/KQGis/rest/services/huan/queryserver/query
+    jxdParam: layerId=14&startindex=0&reqcount=1000&geoSRS=EPSG:4326&outSRS=EPSG:4326&fields=SDM,MBBSM,ANGLE,EXP_NO,FEATURE,MAP_NO,SZTF,S_CODE,SUBSID,SURF_H,X,Y,STRUCT_C12,FHDM,DIMING,PITBTM_H,#length#,#area#&where=&version=2.0&geometry=
+
+   # 空间查询
+    #给水线路查询
+    jsLintQuery: http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+    jsLintQueryParam: layerId=12&startindex=0&reqcount=2000&geoSRS=EPSG:4326&outSRS=EPSG:4326&geometry=&fields=OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#&version= 2.0&where=
+   # 给水点查询
+    jsPointQuery: http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+    jsPointQueryParam: layerId=11&startindex=0&reqcount=2000&geoSRS=EPSG:4326&outSRS=EPSG:4326&geometry=&fields=OID,GEOMETRY,YSDM,BMBSM,ANGLE,EXP_NO,FEATURE,MAP_NO,MAP_NUM,S_CODE,SUBSID,SURF_H,X,Y,STRUCT_CODE,R_NAME,PIPEP_H,PIPEP_ID,B_DEPTH,WELL_DEPTH,MC_SPECIFY,PIPEP_TYPE,MC_SHAPE,MC_MATERIAL,PIPEP_STATE,PIPEP_MEMO,#length#,#area#&version= 2.0&where=
+
+    # 缓冲分析
+    bufferUrl:  http://swbz.hzau.edu.cn/KQGis/rest/services/geometryserver/buffer
+    bufferUrlParam:  geoSRS=EPSG:4326&outSRS=EPSG:4326&sideType=left&radius=&version=2.0&data=
+    # 投影转换  wgs84->china 2000 38
+    projectionUrl:  http://swbz.hzau.edu.cn/KQGis/rest/services/geometryserver/project
+    projectionParam:  geoSRS=EPSG:4326&outSRS=EPSG:4526&version=2.0&data=
+query:
+  templates:
+    - name: 给水管线
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: gs
+      layerId: 14
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4326
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name : 给水点
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: gs
+      layerId: 12
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4326
+      geometry:
+      fields:  OID,GEOMETRY,YSDM,BMBSM,ANGLE,EXP_NO,FEATURE,MAP_NO,MAP_NUM,S_CODE,SUBSID,SURF_H,X,Y,STRUCT_CODE,R_NAME,PIPEP_H,PIPEP_ID,B_DEPTH,WELL_DEPTH,MC_SPECIFY,PIPEP_TYPE,MC_SHAPE,MC_MATERIAL,PIPEP_STATE,PIPEP_MEMO,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 供电管线
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: dl
+      layerId: 25
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4326
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,PIPE_LEN,B_CODE,D_S,D_TYPE,E_DEEP,E_POINT,LOGIC_ID,MAP_ID,MAP_NUM,MATERIAL,MDATE,S_DEEP,S_POINT,R_NAME,LOCAL_TYPE,P_D_S,P_EDEEP,P_MATERIAL,P_SDEEP,CAB_COUNT,HOLE_NUM,LINE_STYLE,VOLTAGE,START_X,START_Y,END_X,END_Y,PIPEL_ID,START_H,END_H,PIPEL_STATE,PIPEL_MEMO,SHAPE_LENG,KANQDB_LENGTH,#length#,#area#
+      where:
+      version: 2.0
+
+    - name: 供电管线点
+      url:  http://swbz.hzau.edu.cn/KQGis/rest/services/huanong/queryserver/query
+      typeName: dl
+      layerId: 23
+      startindex: 0
+      reqcount: 2000
+      geoSRS: EPSG:4326
+      outSRS: EPSG:4326
+      geometry:
+      fields: OID,GEOMETRY,YSDM,BMBSM,ANGLE,EXP_NO,FEATURE,MAP_NO,MAP_NUM,S_CODE,SUBSID,SURF_H,X,Y,STRUCT_CODE,R_NAME,PIPEP_H,PIPEP_ID,B_DEPTH,WELL_DEPTH,MC_SPECIFY,MC_SHAPE,MC_MATERIAL,PIPEP_STATE,PIPEP_MEMO,PIPEP_TYPE,#length#,#area#
+      where:
+      version: 2.0

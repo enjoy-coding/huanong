@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupControlEnergyMapper">
+    
+    <resultMap type="AupControlEnergy" id="AupControlEnergyResult">
+        <result property="id"    column="id"    />
+        <result property="cuid"    column="cuid"    />
+        <result property="years"    column="years"    />
+        <result property="month"    column="month"    />
+        <result property="day"    column="day"    />
+        <result property="stime"    column="stime"    />
+        <result property="fullpower"    column="fullpower"    />
+        <result property="lighttime"    column="lighttime"    />
+        <result property="ontime"    column="ontime"    />
+        <result property="offtime"    column="offtime"    />
+        <result property="ratedenergy"    column="ratedenergy"    />
+        <result property="userdenengy"    column="userdenengy"    />
+        <result property="offcount"    column="offcount"    />
+        <result property="lightcount"    column="lightcount"    />
+    </resultMap>
+
+    <sql id="selectAupControlEnergyVo">
+        select id, cuid, years, month, day, stime, fullpower, lighttime, ontime, offtime, ratedenergy, userdenengy, offcount, lightcount from aup_control_energy
+    </sql>
+    <select id="selectAupControlEnergyByTime" parameterType="AupControlEnergy" resultType="Map">
+        SELECT ISNULL(SUM(CAST((CONVERT(DECIMAL(16,2),userdenengy)/1000) as DECIMAL(16,3))), 0) as totalEnergy
+               /* ,SUM(CONVERT(bigint,e.fullpower))/1000 as  fullpower
+                ,SUM(CONVERT(bigint,e.lightcount)) as lightcount*/
+        FROM aup_control_energy e
+        <where>
+            <if test="params.beginYear != null and params.beginYear != ''"><!-- 开始时间检索 -->
+                and e.years &gt;= convert(int,#{params.beginYear, jdbcType=INTEGER})
+            </if>
+            <if test="params.beginMonth != null and params.beginMonth != ''"><!-- 开始时间检索 -->
+                and e.[month] &gt;= convert(int,#{params.beginMonth, jdbcType=INTEGER})
+            </if>
+            <if test="params.beginDay != null and params.beginDay != ''"><!-- 开始时间检索 -->
+                and e.[day] &gt;= convert(int,#{params.beginDay, jdbcType=INTEGER})
+            </if>
+            <if test="params.endYear != null and params.endYear != ''"><!-- 结束时间检索 -->
+                and e.years &lt;= convert(int,#{params.endYear, jdbcType=INTEGER})
+            </if>
+            <if test="params.endMonth != null and params.endMonth != ''"><!-- 结束时间检索 -->
+                and e.[month] &lt;= convert(int,#{params.endMonth, jdbcType=INTEGER})
+            </if>
+            <if test="params.endDay != null and params.endDay != ''"><!-- 结束时间检索 -->
+                and e.[day] &lt;= convert(int,#{params.endDay, jdbcType=INTEGER})
+            </if>
+        </where>
+
+
+    </select>
+
+    <select id="selectAupControlEnergyList" parameterType="AupControlEnergy" resultMap="AupControlEnergyResult">
+        <include refid="selectAupControlEnergyVo"/>
+        <where>  
+            <if test="cuid != null  and cuid != ''"> and cuid = #{cuid}</if>
+            <if test="years != null  and years != ''"> and years = #{years}</if>
+            <if test="month != null  and month != ''"> and month = #{month}</if>
+            <if test="day != null  and day != ''"> and day = #{day}</if>
+            <if test="stime != null  and stime != ''"> and stime = #{stime}</if>
+            <if test="fullpower != null  and fullpower != ''"> and fullpower = #{fullpower}</if>
+            <if test="lighttime != null  and lighttime != ''"> and lighttime = #{lighttime}</if>
+            <if test="ontime != null  and ontime != ''"> and ontime = #{ontime}</if>
+            <if test="offtime != null  and offtime != ''"> and offtime = #{offtime}</if>
+            <if test="ratedenergy != null  and ratedenergy != ''"> and ratedenergy = #{ratedenergy}</if>
+            <if test="userdenengy != null  and userdenengy != ''"> and userdenengy = #{userdenengy}</if>
+            <if test="offcount != null  and offcount != ''"> and offcount = #{offcount}</if>
+            <if test="lightcount != null  and lightcount != ''"> and lightcount = #{lightcount}</if>
+        </where>
+    </select>
+    
+    <select id="selectAupControlEnergyById" parameterType="String" resultMap="AupControlEnergyResult">
+        <include refid="selectAupControlEnergyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAupControlEnergy" parameterType="AupControlEnergy">
+        insert into aup_control_energy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="cuid != null  and cuid != ''">cuid,</if>
+            <if test="years != null  and years != ''">years,</if>
+            <if test="month != null  and month != ''">month,</if>
+            <if test="day != null  and day != ''">day,</if>
+            <if test="stime != null  and stime != ''">stime,</if>
+            <if test="fullpower != null  and fullpower != ''">fullpower,</if>
+            <if test="lighttime != null  and lighttime != ''">lighttime,</if>
+            <if test="ontime != null  and ontime != ''">ontime,</if>
+            <if test="offtime != null  and offtime != ''">offtime,</if>
+            <if test="ratedenergy != null  and ratedenergy != ''">ratedenergy,</if>
+            <if test="userdenengy != null  and userdenengy != ''">userdenengy,</if>
+            <if test="offcount != null  and offcount != ''">offcount,</if>
+            <if test="lightcount != null  and lightcount != ''">lightcount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="cuid != null  and cuid != ''">#{cuid},</if>
+            <if test="years != null  and years != ''">#{years},</if>
+            <if test="month != null  and month != ''">#{month},</if>
+            <if test="day != null  and day != ''">#{day},</if>
+            <if test="stime != null  and stime != ''">#{stime},</if>
+            <if test="fullpower != null  and fullpower != ''">#{fullpower},</if>
+            <if test="lighttime != null  and lighttime != ''">#{lighttime},</if>
+            <if test="ontime != null  and ontime != ''">#{ontime},</if>
+            <if test="offtime != null  and offtime != ''">#{offtime},</if>
+            <if test="ratedenergy != null  and ratedenergy != ''">#{ratedenergy},</if>
+            <if test="userdenengy != null  and userdenengy != ''">#{userdenengy},</if>
+            <if test="offcount != null  and offcount != ''">#{offcount},</if>
+            <if test="lightcount != null  and lightcount != ''">#{lightcount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupControlEnergy" parameterType="AupControlEnergy">
+        update aup_control_energy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cuid != null  and cuid != ''">cuid = #{cuid},</if>
+            <if test="years != null  and years != ''">years = #{years},</if>
+            <if test="month != null  and month != ''">month = #{month},</if>
+            <if test="day != null  and day != ''">day = #{day},</if>
+            <if test="stime != null  and stime != ''">stime = #{stime},</if>
+            <if test="fullpower != null  and fullpower != ''">fullpower = #{fullpower},</if>
+            <if test="lighttime != null  and lighttime != ''">lighttime = #{lighttime},</if>
+            <if test="ontime != null  and ontime != ''">ontime = #{ontime},</if>
+            <if test="offtime != null  and offtime != ''">offtime = #{offtime},</if>
+            <if test="ratedenergy != null  and ratedenergy != ''">ratedenergy = #{ratedenergy},</if>
+            <if test="userdenengy != null  and userdenengy != ''">userdenengy = #{userdenengy},</if>
+            <if test="offcount != null  and offcount != ''">offcount = #{offcount},</if>
+            <if test="lightcount != null  and lightcount != ''">lightcount = #{lightcount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupControlEnergyById" parameterType="String">
+        delete from aup_control_energy where id = #{id}
+    </delete>
+
+    <delete id="deleteAupControlEnergyByIds" parameterType="String">
+        delete from aup_control_energy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

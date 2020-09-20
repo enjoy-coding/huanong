@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<meta charset="UTF-8">
+	<th:block th:include="include :: header('菜单列表')" />
+	<th:block th:include="include :: treeTable-css" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="menu-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								关键字：<input id="edt-search" type="text" name="menuName" />
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" id="btn-search"><i
+										class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped" style="padding-top: 15px">
+				<div class="btn-group-sm" id="toolbar" role="group">
+					<a class="btn btn-success" id="outSideAdd" lay-event="add_lay"
+						shiro:hasPermission="system:menu:add">
+						<i class="fa fa-plus"></i> 新增
+					</a>
+					<a class="btn btn-primary" id="outSideEdit" shiro:hasPermission="system:menu:edit">
+						<i class="fa fa-edit"></i> 修改
+					</a>
+					<a class="btn btn-info" id="expandAll">
+						<i class="fa fa-exchange"></i> 展开/折叠
+					</a>
+				</div>
+
+				<div class="fixed-table-container">
+					<table id="bootstrap-tree-table"></table>
+				</div>
+			</div>
+			<div>
+				<input type="hidden" id="pid">
+				<input type="hidden" id="editState">
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: treeTable-js" />
+	<script th:inline="javascript">
+		var addFlag = [[${@permission.hasPermi('system:menu:add') }]];
+		var editFlag = [[${@permission.hasPermi('system:menu:edit') }]];
+		var removeFlag = [[${@permission.hasPermi('system:menu:remove') }]];
+		var datas = [[${@dict.getType('sys_show_hide')}]];
+		var prefix = ctx + "system/menu"
+		var expandFlag = null;
+
+
+		layui.config({
+			base: ctx + 'def/libs/layui-2.5.5/lay/modules/'
+		}).extend({
+			treeTable: '/treeTable/treeTable'
+		}).use(['layer', 'util', 'treeTable'], function () {
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			var treeTable = layui.treeTable;
+			// 渲染表格
+
+			var insTb = treeTable.render({
+				elem: '#bootstrap-tree-table',
+				tree: {
+					iconIndex: 1,
+					arrowType: 'arrow2',
+				},
+				treeDefaultClose: true,     //是否默认折叠
+				text: {},
+				cols: [
+					{ type: 'radio' },
+					{
+						title: '菜单名称',
+						field: 'name',
+						width: '20%',
+						templet: function (row) {
+							if (row.params.icon == null || row.params.icon == "") {
+								return row.name;
+							} else {
+								return '<i class="' + row.params.icon + '"></i> <span class="nav-label">' + row.name + '</span>';
+							}
+						}
+					},
+					{
+						field: 'orderNum',
+						title: '排序',
+						width: '7%',
+						align: "left",
+						templet: function (row) {
+							return row.params.orderNum
+						}
+					},
+					{
+						field: 'url',
+						title: '请求地址',
+						width: '20%',
+						align: "left",
+						templet: function (row) {
+							return row.params.url
+						}
+					},
+					{
+						title: '类型',
+						field: 'menuType',
+						width: '7%',
+						align: "left",
+						templet: function (item) {
+							if (item.params.menuType == 'M') {
+								return '<span class="label label-success">目录</span>';
+							}
+							else if (item.params.menuType == 'C') {
+								return '<span class="label label-primary">菜单</span>';
+							}
+							else if (item.params.menuType == 'F') {
+								return '<span class="label label-warning">按钮</span>';
+							}
+						}
+					},
+					{
+						field: 'visible',
+						title: '可见',
+						width: '7%',
+						align: "left",
+						templet: function (row) {
+							if (row.params.menuType == 'F') {
+								return '-';
+							}
+							return $.table.selectDictLabel(datas, row.params.visible);
+						}
+					},
+					{
+						field: 'perms',
+						title: '权限标识',
+						width: '22%',
+						align: "left",
+						templet: function (row) {
+							return row.params.perms == null ? "" : row.params.perms;
+						}
+					},
+					{
+						title: '操作',
+						width: '180',
+						align: "left",
+						templet: function (row) {
+							var actions = [];
+							actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" lay-event = "edit" ><i class="fa fa-edit"></i>编辑</a> ');
+							actions.push('<a class="btn btn-info btn-xs ' + addFlag + '" href="javascript:void(0)" lay-event = "add"><i class="fa fa-plus"></i>新增</a> ');
+							actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" lay-event = "del"><i class="fa fa-trash"></i>删除</a>');
+							return actions.join('');
+						}
+					}],
+				done: function (res, curr, count) {
+					layer.closeAll('loading');
+				},
+				reqData: function (data, callback) {
+					setTimeout(function () {  // 故意延迟一下
+						var menuUrl = prefix + "/root/list";
+						menuUrl += ((data ? ('/selectMenuById/' + data.id) : ''));
+						$.get(menuUrl, function (result) {
+							callback(result.data);
+						});
+					}, 400);
+				},
+				style: 'margin-top:0;'
+			});
+
+			treeTable.on('tool(bootstrap-tree-table)', function (obj) {
+				var data = obj.data;
+				var layEvent = obj.event;
+				var id = data.id;
+				var pid_ = data.pid;
+
+
+				//获取当前点击的层级
+				if (layEvent === 'add') {
+					var insertUrl = prefix + "/add/" + id;
+					editMenu("新增菜单", insertUrl, function () {
+						setAddRefresh(id, pid_);
+					});
+
+				} else if (layEvent === 'edit') {
+					var updateUrl = prefix + "/edit/" + id;
+					editMenu("修改菜单", updateUrl, function (index) {
+						setEditRefresh(pid_);
+					});
+				} else if (layEvent === 'del') {
+					setDelRefresh(id, pid_, data.name);
+				}
+			});
+
+			/**
+			 * 编辑后刷新
+			 */
+			setEditRefresh = function (pid_) {
+				var pid = $("#pid").val();
+				var editState = $("#editState").val();
+				if (editState == 1) {
+					if (pid == 0 || pid_ == 0) {
+						insTb.refresh();
+					} else if (pid_ == pid) {
+						insTb.refresh(pid);
+					} else {
+						insTb.refresh(pid);
+						insTb.expand(pid);
+						insTb.fold(pid_);
+					}
+				}
+			}
+
+			/**
+			 * 新增刷新
+			 */
+			setAddRefresh = function (id, pid_) {
+				var editState = $("#editState").val();
+				if (editState == 1) {
+					if (pid_ == 0) {
+						insTb.refresh();
+						setTimeout(function () {
+							insTb.expand(id);
+						}, 800);
+					} else {
+						insTb.refresh(pid_);
+						insTb.refresh(id);
+						setTimeout(function () {
+							insTb.expand(id);
+						}, 100);
+					}
+
+				}
+			}
+
+			setDelRefresh = function (id, pid_, name) {
+				isLastChildren(id, function (hasLastResult) {
+					remove(id, name, function (result) {
+						if (hasLastResult.data.isLastChildren) {
+							var id = hasLastResult.data.parentMenu.parentId;
+							refresh_(id)
+							setTimeout(function () {
+								insTb.expand(id);
+							}, 200);
+
+						} else {
+							refresh_(pid_);
+						}
+						$.modal.alertSuccess(result.msg);
+
+					});
+				})
+
+			}
+
+			setTimeout(function () {
+				$('body').children('.page-loading').hide();
+			}, 100);
+
+			/**
+			 * 展开/折叠
+			 */
+			$("#expandAll").click(function () {
+				expandFlag = false;
+				var components = insTb.getComponents();
+				var table = components.$table;
+				var $tr = table.children('tbody').children('tr');
+				$tr.each(function () {
+					if ($(this).hasClass('ew-tree-table-open')) {
+						expandFlag = true;
+						return false;
+					}
+				});
+
+				if (expandFlag) {
+					insTb.foldAll();
+				} else {
+					insTb.expandAll();
+				}
+			});
+
+			var refresh_ = function (id) {
+				if (id == 0) {
+					insTb.refresh();
+				} else {
+					insTb.refresh(id);
+				}
+			}
+			/**
+			 * 新增根节点
+			 */
+			$("#outSideAdd").click(function () {
+				var url = prefix + "/add/" + 0;
+				editMenu("新增菜单", url, function () {
+					var editState = $("#editState").val();
+					if (editState == 1) {
+						insTb.refresh();
+					}
+				})
+			});
+
+			/**
+			 * 编辑选中radio行
+			 */
+			$("#outSideEdit").click(function () {
+				//获取选中
+				var list = insTb.checkStatus();
+				if (list == undefined || list.length == 0) {
+					$.modal.alertWarning("请至少选择一条记录");
+					return;
+				}
+				var id = list[0].id;
+				var url = prefix + "/edit/" + id;
+				editMenu("修改菜单", url, function (result) {
+					var editState = $("#editState").val();
+					if (editState == 1) {
+						var pid = result.data.pid;
+						setEditRefresh(pid_);
+					}
+				})
+
+			});
+
+			/**
+			 *	搜索
+			 */
+			$("#btn-search").click(function () {
+				var keyword = $('#edt-search').val();
+				if (keyword) {
+					insTb.filterData(keyword)
+				} else {
+					insTb.clearFilter();
+					insTb.foldAll();
+				}
+			});
+		});
+
+		/**
+		 * 判断是否是最后一个节点
+		 */
+		function isLastChildren(id, fn) {
+			$.get(prefix + "/hasLastChildren/" + id, fn);
+		}
+		/**
+		 * 删除
+		 * @param id
+		 * @param name
+		 * @param fn
+		 */
+		function remove(id, name, fn) {
+			$.modal.confirm("确定删除【" + name + "】吗？", function () {
+				var removeUrl = prefix + "/remove/" + id;
+				$.get(removeUrl, function (result) {
+					fn(result);
+				});
+
+			});
+		}
+
+		/**
+		 * 新增或者编辑
+		 * @param title
+		 * @param url
+		 * @param endFn
+		 * @param cancelFn
+		 */
+		function editMenu(title, url, callBack) {
+			$("#editState").val(0)
+			layer.open({
+				type: 2,
+				area: ['800px', ($(window).height() - 50) + 'px'],
+				fix: false,
+				//不固定
+				maxmin: true,
+				shade: 0.3,
+				title: title,
+				content: url,
+				btn: ['确定', '关闭'],
+				// 弹层外区域关闭
+				shadeClose: true,
+				yes: function (index, layero) {
+					var iframeWin = layero.find('iframe')[0];
+					iframeWin.contentWindow.submitHandler(index, layero);
+				},
+				end: callBack,
+				cancel: function () {
+					callBack();
+					return;
+				}
+			});
+		}
+
+
+	</script>
+</body>
+
+</html>

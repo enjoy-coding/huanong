@@ -1,0 +1,176 @@
+{
+    "iamgerylayers": [],
+
+    "3dtiels": {
+        "list": [{
+            "name": "给水管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/给水管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        }, {
+            "name": "给水管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/给水管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(133,203,232,1)"
+        }, {
+            "name": "供电管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/供电管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        }, {
+            "name": "供电管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/供电管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba( 237,0,0,1)"
+        },
+        {
+            "name": "路灯管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/路灯管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        },
+        {
+            "name": "路灯管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/路灯管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(244,0,244,1)"
+        },
+        {
+            "name": "天然气管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/天然气管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        },
+        {
+            "name": "天然气管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/天然气管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(239,180,251,1)"
+            
+        },
+        {
+            "name": "污水管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/污水管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        },
+        {
+            "name": "污水管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/污水管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba( 194,131,76,1)"
+           
+        },
+        {
+            "name": "雨水管线点",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/雨水管线点/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(108,118,108,1)"
+        },
+        {
+            "name": "雨水管线段",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/管线数据/3DTile/Pipeline_copy/雨水管线段/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(152,78,43,1)"
+        },
+        {
+            "name": "BIM模型",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/3dtile/西苑南区配电房/西苑南区配电房/西苑南区配电房/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":""
+        },
+        {
+            "name": "倾斜摄影",
+            "show": true,
+            "url": "./static/data/华农三维-试点管线数据和BIM数据/倾斜摄影3dtile/3dTile/3dTile/tileset.json",
+            "position": [],
+            "heading": 0,
+            "shadows": 1,
+            "isFly": false,
+            "description": "",
+            "isKq3dServer":false,
+            "color":"rgba(255,255,255,1)"
+        }
+        
+    ],
+        "description": "3dtiels图层配置"
+    }
+}

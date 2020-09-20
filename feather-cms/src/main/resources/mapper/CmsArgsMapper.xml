@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.cms.mapper.CmsArgsMapper">
+    
+    <resultMap type="CmsArgs" id="CmsArgsResult">
+        <result property="argsId"    column="args_id"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT" />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT" />
+        <result property="updateBy"    column="update_by"    />
+        <result property="argsEntity"    column="args_entity"    />
+        <result property="argsTag"    column="args_tag"    />
+        <result property="argsKey"    column="args_key"    />
+        <result property="argsValue"    column="args_value"    />
+        <result property="argsSort"    column="args_sort"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+    
+    <resultMap type="CmsArgs" id="CmsArgsShortResult">
+		<id     property="argsId"     column="args_id"    />
+		<result property="argsKey"    column="args_key"   />
+		<result property="argsValue"  column="args_value" />
+		<result property="argsSort"   column="args_sort"  />
+	</resultMap>
+
+    <sql id="selectCmsArgsVo">
+        select args_id, create_time, create_by, update_time, update_by, args_entity, args_tag, args_key, args_value, args_sort, remark from cms_args
+    </sql>
+
+    <select id="selectCmsArgsList" parameterType="CmsArgs" resultMap="CmsArgsResult">
+        <include refid="selectCmsArgsVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectCmsArgsById" parameterType="Long" resultMap="CmsArgsResult">
+        <include refid="selectCmsArgsVo"/>
+        where args_id = #{argsId}
+    </select>
+        
+    <insert id="insertCmsArgs" parameterType="CmsArgs">
+        insert into cms_args
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="argsId != null ">args_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="argsEntity != null ">args_entity,</if>
+            <if test="argsTag != null  and argsTag != ''">args_tag,</if>
+            <if test="argsKey != null  and argsKey != ''">args_key,</if>
+            <if test="argsValue != null  and argsValue != ''">args_value,</if>
+            <if test="argsSort != null ">args_sort,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="argsId != null ">#{argsId},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="argsEntity != null ">#{argsEntity},</if>
+            <if test="argsTag != null  and argsTag != ''">#{args_tag},</if>
+            <if test="argsKey != null  and argsKey != ''">#{argsKey},</if>
+            <if test="argsValue != null  and argsValue != ''">#{argsValue},</if>
+            <if test="argsSort != null ">#{args_sort},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsArgs" parameterType="CmsArgs">
+        update cms_args
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="argsEntity != null ">args_entity = #{argsEntity},</if>
+            <if test="argsTag != null  and argsTag != ''">args_tag = #{args_tag},</if>
+            <if test="argsKey != null  and argsKey != ''">args_key = #{argsKey},</if>
+            <if test="argsValue != null  and argsValue != ''">args_value = #{argsValue},</if>
+            <if test="argsSort != null ">args_sort = #{args_sort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where args_id = #{argsId}
+    </update>
+
+    <delete id="deleteCmsArgsById" parameterType="Long">
+        delete from cms_args where args_id = #{argsId}
+    </delete>
+
+    <delete id="deleteCmsArgsByIds" parameterType="String">
+        delete from cms_args where args_id in 
+        <foreach item="argsId" collection="array" open="(" separator="," close=")">
+            #{argsId}
+        </foreach>
+    </delete>
+    
+</mapper>

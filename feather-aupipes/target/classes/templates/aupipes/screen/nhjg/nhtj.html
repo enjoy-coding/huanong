@@ -1,0 +1,78 @@
+<!--能耗统计-->
+<div class="title sgfxTitle">能耗统计</div>
+<ul class="sdphNhtjList pd15" id="nhtj_total" >
+    <li>
+       <h4></h4>
+        <p class="clGreen" style="display: inline"></p><p class="clGreen" style="display: inline"></p>
+    </li>
+    <li>
+        <h4>[[*{currtNum}]]</h4>
+        <p class="clGreen" style="display: inline">本月用量</p><p class="clGreen" style="display: inline"></p>
+    </li>
+    <li>
+        <h5 class="clRed"><i class="iconfont icon-jiantou-copy1"></i>55</h5>
+        <p class="clGreen">环比</p>
+    </li>
+</ul>
+<div class="layui-tab layui-tab-brief layuiTab1"
+     lay-filter="sdphNhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this">用量</li>
+        <!--<li>趋势</li>-->
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div id="sdphylEcharts" class="sdphylEcharts"></div>
+        </div>
+        <!--趋势-->
+        <div class="layui-tab-item nhtjContent">
+            <div id="sdphqsEcharts" class="sdphylEcharts"></div>
+        </div>
+    </div>
+</div>
+<!--类别信息-->
+<div class="layui-tab layui-tab-brief layuiTab1"
+     lay-filter="sdphNhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this">分区用量</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div id="lbxxEcharts" class="sdphylEcharts"></div>
+        </div>
+    </div>
+</div>
+<!--面积水耗-->
+<div class="layui-tab layui-tab-brief layuiTab1"
+     lay-filter="sdphNhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this" id="areaWater">面积水耗</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <!--<p id="area" class="mjshTxt">-->
+					<!--<span>人员总数：<em class="clYellow">12000</em>人-->
+					<!--</span> <span>面积水耗：<em class="clYellow">10.39吨/人</em></span> <span-->
+                    <!--class="clRed"><i class="iconfont icon-jiantou-copy">2.39</i>%</span>-->
+            <!--</p>-->
+            <div id="mjshEcharts" style="height；20vh" class="sdphshEcharts"></div>
+        </div>
+    </div>
+</div>
+<!--人均水耗-->
+<!--<div class="layui-tab layui-tab-brief layuiTab1"-->
+<!--     lay-filter="sdphNhtjTitle">-->
+<!--    <ul class="layui-tab-title title2 nhtjTitle">-->
+<!--        <li class="layui-this" id="perCapitaWater">人均水耗</li>-->
+<!--    </ul>-->
+<!--    <div class="layui-tab-content">-->
+<!--        <div class="layui-tab-item nhtjContent layui-show">-->
+<!--            &lt;!&ndash;<p id="person" class="mjshTxt">&ndash;&gt;-->
+<!--					&lt;!&ndash;<span>人员总数：<em class="clYellow">12000</em>人&ndash;&gt;-->
+<!--					&lt;!&ndash;</span> <span>人均水耗：<em class="clYellow">10.39吨/人</em></span> <span&ndash;&gt;-->
+<!--                    &lt;!&ndash;class="clRed"><i class="iconfont icon-jiantou-copy">2.39</i>%</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;</p>&ndash;&gt;-->
+<!--            <div id="rjshEcharts" class="sdphshEcharts"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

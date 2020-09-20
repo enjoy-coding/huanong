@@ -1,0 +1,92 @@
+<div class="bottomLayer ksxjForm">
+    <div class="shrink">
+        <i class="iconfont iconguanbi pa clearBtn" onclick="ydxj.ydxj2Back();"></i>
+    </div>
+    <form class="layui-form bottomLayerFrom" id="xjlbForm" action="" enctype="multipart/form-data">
+        <input type="hidden" id="ydxj2TaskId" name="taskId" value="$(ydxjTaskId)" />
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="inspectWorker" id="inspectWorker">
+                    </div>
+                </div>
+            </div>
+            <!--<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input">
+                    </div>
+                </div>
+            </div>-->
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备类型：</label>
+                    <div class="layui-input-block">
+                        <select name="serviceType" id="serviceType" lay-filter="aihaoSblx">
+                            <option value=""></option>
+                            <option value="0">无异常</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input fl" style="width:80%" name="serviceName" id="serviceName">
+                        <button class="layui-btn bg_green fr" style="width:18%">关联</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备状态：</label>
+                    <div class="layui-input-block">
+                        <select name="serviceStatus" id="serviceStatus"  lay-filter="aihaoStatus">
+                            <option value=""></option>
+                            <option value="0">无异常</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检记录：</label>
+                    <div class="layui-input-block">
+                        <textarea name="description" id="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">多媒体：</label>
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn bg_green upload" id="test1">上传图片</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-upload">
+                <div class="layui-upload-list uploadList">
+                    <img class="layui-upload-img">
+                    <img class="layui-upload-img">
+                    <img class="layui-upload-img">
+                    <img class="layui-upload-img">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row btnGroup layui-col-space20">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-xs-offset2 layui-col-sm-offset2 layui-col-md-offset2">
+                        <button type="button" class="layui-btn bg_green" onclick="ydxj.ydxj2Save();">保存</button>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                        <button type="button" class="layui-btn bg_green" onclick="ydxj.ydxj2Back();">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

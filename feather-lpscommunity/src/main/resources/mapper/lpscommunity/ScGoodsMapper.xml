@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScGoodsMapper">
+    
+    <resultMap type="ScGoods" id="ScGoodsResult">
+        <result property="goodsId"    column="goods_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsBrand"    column="goods_brand"    />
+        <result property="goodsContent"    column="goods_content"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="goodsQuantity"    column="goods_quantity"    />
+        <result property="goodsUnit"    column="goods_unit"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time" jdbcType="BIGINT"   />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"  />
+        <result property="remark"    column="remark"    />
+        <association property="shop"    column="shop_id" javaType="ScShop" resultMap="ScShopResult" />
+        <collection  property="files"   javaType="java.util.List"        resultMap="ScFileInfoResult" />
+    </resultMap>
+
+    <resultMap type="ScShop" id="ScShopResult">
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopTitle"    column="shop_title"    />
+        <result property="shopTel"    column="shop_tel"    />
+        <result property="shopAddress"    column="shop_address"    />
+   </resultMap>
+
+    <resultMap type="ScFileInfo" id="ScFileInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <sql id="selectScGoodsVo">
+    select g.goods_id, g.shop_id, g.goods_name, g.goods_brand, g.goods_content, g.goods_price, g.goods_quantity
+			, g.goods_unit, g.create_by, g.create_time, g.update_by, g.update_time, g.remark
+			,s.shop_name,shop_title,s.shop_tel,s.shop_address
+		from sc_goods  g
+		join sc_shop s on s.shop_id = g.shop_id
+
+    </sql>
+
+    <sql id="selectScGoodsFileVo">
+       select g.goods_id, g.shop_id, g.goods_name, g.goods_brand, g.goods_content, g.goods_price, g.goods_quantity
+			, g.goods_unit, g.create_by, g.create_time, g.update_by, g.update_time, g.remark
+			,s.shop_name,shop_title,s.shop_tel,s.shop_address
+			,f.file_id,f.file_name,f.file_path
+		from sc_goods  g
+		join sc_shop s on s.shop_id = g.shop_id
+        left join sc_file_info f on f.file_target = g.goods_id and f.file_code = 'goods'
+
+    </sql>
+
+    <select id="selectScGoodsListByShopId" parameterType="Long" resultMap="ScGoodsResult">
+        <include refid="selectScGoodsVo"/>
+        where s.shop_id = #{shopId}
+    </select>
+
+    <select id="selectScGoodsList" parameterType="ScGoods" resultMap="ScGoodsResult">
+        <include refid="selectScGoodsVo"/>
+        <where>
+            <if test="shopId != null "> and g.shop_id = #{shopId}</if>
+            <if test="params.shopId != null "> and g.shop_id = #{params.shopId}</if>
+            <if test="params.shopName != null  and params.shopName != ''">
+                <bind name="_shopName" value="'%'+ params.shopName +'%'"/>
+                and s.shop_name like #{_shopName}
+            </if>
+            <if test="goodsName != null  and goodsName != ''">
+            	<bind name="_goodsName" value="'%'+ goodsName +'%'"/>
+            	and g.goods_name like #{_goodsName}
+            </if>
+            <if test="goodsBrand != null  and goodsBrand != ''">
+            	<bind name="_goodsBrand" value="'%'+ goodsBrand +'%'"/>
+            	and g.goods_brand like #{_goodsBrand}
+            </if>
+            <if test="goodsContent != null  and goodsContent != ''">
+            	<bind name="_goodsContent" value="'%'+ goodsContent +'%'"/>
+            	and g.goods_content like #{_goodsContent}
+            </if>
+            <if test="goodsPrice != null "> and g.goods_price = #{goodsPrice}</if>
+            <if test="goodsQuantity != null "> and g.goods_quantity = #{goodsQuantity}</if>
+            <if test="goodsUnit != null  and goodsUnit != ''"> and g.goods_unit = #{goodsUnit}</if>
+        </where>
+    </select>
+    
+    <select id="selectScGoodsById" parameterType="Long" resultMap="ScGoodsResult">
+        <include refid="selectScGoodsVo"/>
+        where g.goods_id = #{goodsId}
+    </select>
+
+    <select id="selectScGoodsFileById" parameterType="Long" resultMap="ScGoodsResult">
+        <include refid="selectScGoodsFileVo"/>
+        where g.goods_id = #{goodsId}
+    </select>
+
+
+    <insert id="insertScGoods" parameterType="ScGoods">
+        insert into sc_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="shopId != null ">shop_id,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsBrand != null  and goodsBrand != ''">goods_brand,</if>
+            <if test="goodsContent != null  and goodsContent != ''">goods_content,</if>
+            <if test="goodsPrice != null ">goods_price,</if>
+            <if test="goodsQuantity != null ">goods_quantity,</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">goods_unit,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="shopId != null ">#{shopId},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsBrand != null  and goodsBrand != ''">#{goodsBrand},</if>
+            <if test="goodsContent != null  and goodsContent != ''">#{goodsContent},</if>
+            <if test="goodsPrice != null ">#{goodsPrice},</if>
+            <if test="goodsQuantity != null ">#{goodsQuantity},</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">#{goodsUnit},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScGoods" parameterType="ScGoods">
+        update sc_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null ">shop_id = #{shopId},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsBrand != null  and goodsBrand != ''">goods_brand = #{goodsBrand},</if>
+            <if test="goodsContent != null  and goodsContent != ''">goods_content = #{goodsContent},</if>
+            <if test="goodsPrice != null ">goods_price = #{goodsPrice},</if>
+            <if test="goodsQuantity != null ">goods_quantity = #{goodsQuantity},</if>
+            <if test="goodsUnit != null  and goodsUnit != ''">goods_unit = #{goodsUnit},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="deleteScGoodsById" parameterType="Long">
+        delete from sc_goods where goods_id = #{goodsId}
+    </delete>
+
+
+    <delete id="deleteScGoodsByIds" parameterType="String">
+        delete from sc_goods where goods_id in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+    
+</mapper>

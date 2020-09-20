@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupTjElectricityByYearMonthMapper">
+    
+    <resultMap type="AupTjElectricityByYearMonth" id="AupTjElectricityByYearMonthResult">
+        <result property="id"    column="id"    />
+        <result property="cacheId"    column="cacheId"    />
+        <result property="cacheName"    column="cacheName"    />
+        <result property="cacheLevel"    column="cacheLevel"    />
+        <result property="year"    column="year"    />
+        <result property="month"    column="month"    />
+        <result property="tableUseNumber"    column="tableUseNumber"    />
+        <result property="scaleTableUseNumber"    column="scaleTableUseNumber"    />
+        <result property="sumUseNumber"    column="sumUseNumber"    />
+        <result property="scaleSumUseNumber"    column="scaleSumUseNumber"    />
+        <result property="shl"    column="shl"    />
+        <result property="scaleShl"    column="scaleShl"    />
+        <result property="tableCount"    column="tableCount"    />
+        <result property="createTime"    column="createTime"    />
+    </resultMap>
+
+    <sql id="selectAupTjElectricityByYearMonthVo">
+        select id, cacheId, cacheName, cacheLevel, year, month, tableUseNumber, scaleTableUseNumber, sumUseNumber, scaleSumUseNumber, shl,scaleShl, tableCount, createTime from aup_TjElectricityByYearMonth
+    </sql>
+
+    <select id="selectAupTjElectricityByYearMonthList" parameterType="AupTjElectricityByYearMonth" resultMap="AupTjElectricityByYearMonthResult">
+        <include refid="selectAupTjElectricityByYearMonthVo"/>
+        <where>  
+            <if test="cacheId != null  and cacheId != ''"> and cacheId = #{cacheId}</if>
+            <if test="cacheName != null  and cacheName != ''">
+            	<bind name="_cacheName" value="'%'+ cacheName +'%'"/>
+            	and cacheName like #{_cacheName}
+            </if>
+            <if test="cacheLevel != null "> and cacheLevel = #{cacheLevel}</if>
+            <if test="year != null "> and year = #{year}</if>
+            <if test="month != null "> and month = #{month}</if>
+            <if test="tableUseNumber != null "> and tableUseNumber = #{tableUseNumber}</if>
+            <if test="scaleTableUseNumber != null "> and scaleTableUseNumber = #{scaleTableUseNumber}</if>
+            <if test="sumUseNumber != null "> and sumUseNumber = #{sumUseNumber}</if>
+            <if test="scaleSumUseNumber != null "> and scaleSumUseNumber = #{scaleSumUseNumber}</if>
+            <if test="shl != null "> and shl = #{shl}</if>
+            <if test="tableCount != null "> and tableCount = #{tableCount}</if>
+            <if test="createTime != null  and createTime != ''"> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAupTjElectricityByYearMonthById" parameterType="Long" resultMap="AupTjElectricityByYearMonthResult">
+        <include refid="selectAupTjElectricityByYearMonthVo"/>
+        where id = #{id}
+    </select>
+        
+
+    <select id="queryAupTjElectricityByParams" parameterType="AupTjElectricityByYearMonth" resultMap="AupTjElectricityByYearMonthResult">
+            SELECT  e.id
+                ,e.cacheId
+                ,e.cacheName
+                ,e.cacheLevel
+                ,e.[year]
+                ,e.[month]
+                ,cast(round(e.tableUseNumber,2) as decimal (16,2) ) as tableUseNumber
+                --,cast(round(e.scaleTableUseNumber,2) as decimal(16,2) ) as  scaleTableUseNumber
+                ,cast(round(e.sumUseNumber,2) as decimal (16,2)) as sumUseNumber
+                --,cast(round(e.scaleSumUseNumber,2) as decimal (16,2)) as scaleSumUseNumber
+                --,e.createTime
+                ,e.shl as shl
+                --,e.scaleShl
+                --,e.tableCount
+                ,(SELECT cast(round(t.sumUseNumber,2) as decimal (16,2)) as sumUseNumber
+                FROM aup_TjElectricityByYearMonth t
+                WHERE  (e.[month] = 1 AND t.year = e.year -1 AND t.[month] = 12) OR (t.year = e.year AND t.month = e.month - 1 )
+                AND t.cacheId = e.cacheId
+                ) as preSumUseNumber
+                FROM aup_TjElectricityByYearMonth e
+                <where>
+                    <if test="cacheName != null  and cacheName != ''">
+                        <bind name="_cacheName" value="'%'+ cacheName +'%'"/>
+                        and e.cacheName like #{_cacheName}</if>
+                    <if test="cacheId != null  and cacheId != ''">
+                        <bind name="_cacheId" value="'%'+ cacheId +'%'"/>
+                        and e.cacheId like #{_cacheId}</if>
+                    <if test="cacheLevel != null ">
+                        and e.cacheLevel = #{cacheLevel} <!--等级-->
+                    </if>
+                    <if test="params.beginYear != null and params.beginYear != ''"><!-- 开始时间检索 -->
+                        and e.[year] &gt;= #{params.beginYear, jdbcType=VARCHAR}
+                    </if>
+                    <if test="params.beginMonth != null and params.beginMonth != ''"><!-- 开始时间检索 -->
+                        and e.[month] &gt;= #{params.beginMonth, jdbcType=VARCHAR}
+                    </if>
+
+                    <if test="params.endYear != null and params.endYear != ''"><!-- 结束时间检索 -->
+                        and  e.[year] &lt;= #{params.endYear, jdbcType=VARCHAR}
+                    </if>
+                    <if test="params.endMonth != null and params.endMonth != ''"><!-- 结束时间检索 -->
+                        and e.[month] &lt;= #{params.endMonth, jdbcType=VARCHAR}
+                    </if>
+                </where>
+    </select>
+
+</mapper>

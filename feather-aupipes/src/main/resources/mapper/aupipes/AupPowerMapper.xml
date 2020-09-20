@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPowerMapper">
+
+    <resultMap type="AupPower" id="AupPowerResult">
+        <result property="id" column="id"/>
+        <result property="bsm" column="BSM"/>
+        <result property="name" column="name"/>
+        <result property="lxbh" column="lxbh"/>
+        <result property="type" column="type"/>
+        <result property="fjbs" column="FJBS"/>
+        <result property="sbqk" column="SBQK"/>
+        <result property="x" column="X"/>
+        <result property="y" column="Y"/>
+        <result property="h" column="H"/>
+        <result property="mj" column="MJ"/>
+        <result property="bz" column="BZ"/>
+        <result property="areano" column="areano"/>
+        <result property="pid" column="pid"/>
+        <result property="byq" column="byq"/>
+        <result property="hl" column="hl"/>
+        <result property="hlmc" column="hlmc"/>
+        <result property="gh" column="gh"/>
+        <result property="hlId" column="hlId"/>
+        <result property="fwId" column="fwId"/>
+        <result property="hasChildren" column="hasChildren"/>
+    </resultMap>
+
+    <sql id="selectAupPowerVo">
+        select id, BSM, name, lxbh, type, FJBS, SBQK, X, Y, H, MJ, BZ, areano, pid,byq,hl,hasChildren from aup_power
+    </sql>
+    <select id="checkAupPowerBsmNoUnque" resultMap="AupPowerResult">
+        <include refid="selectAupPowerVo"/>
+        where bsm = #{bsm}
+    </select>
+    <select id="checkAupPowerHasChildren" parameterType="Long" resultType="int">
+       select count(1) from aup_power
+        where pid = #{pid}
+    </select>
+
+    <select id="selectAupPowerList" parameterType="AupPower" resultMap="AupPowerResult">
+        <include refid="selectAupPowerVo"/>
+        <where>
+            <if test="bsm != null  and bsm != ''">and BSM = #{bsm}</if>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="lxbh != null  and lxbh != ''">and lxbh = #{lxbh}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="fjbs != null  and fjbs != ''">and FJBS = #{fjbs}</if>
+            <if test="sbqk != null  and sbqk != ''">and SBQK = #{sbqk}</if>
+            <if test="x != null  and x != ''">and X = #{x}</if>
+            <if test="y != null  and y != ''">and Y = #{y}</if>
+            <if test="h != null  and h != ''">and H = #{h}</if>
+            <if test="mj != null  and mj != ''">and MJ = #{mj}</if>
+            <if test="bz != null  and bz != ''">and BZ = #{bz}</if>
+            <if test="areano != null  and areano != ''">and areano = #{areano}</if>
+            <if test="pid != null ">and pid = #{pid}</if>
+        </where>
+    </select>
+
+    <select id="selectAupPowerById" parameterType="Long" resultMap="AupPowerResult">
+        <include refid="selectAupPowerVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAupPowerCountByPid"  parameterType="Long" resultType="Integer">
+        select count(1) from aup_power where pid = #{pid}
+    </select>
+
+
+    <insert id="insertAupPower" useGeneratedKeys="true" keyProperty="id" parameterType="AupPower">
+        insert into aup_power
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="bsm != null  and bsm != ''">BSM,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="lxbh != null  and lxbh != ''">lxbh,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="fjbs != null  and fjbs != ''">FJBS,</if>
+            <if test="sbqk != null  and sbqk != ''">SBQK,</if>
+            <if test="x != null  and x != ''">X,</if>
+            <if test="y != null  and y != ''">Y,</if>
+            <if test="h != null  and h != ''">H,</if>
+            <if test="mj != null  and mj != ''">MJ,</if>
+            <if test="bz != null  and bz != ''">BZ,</if>
+            <if test="areano != null  and areano != ''">areano,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="hasChildren !=null " >hasChildren,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="bsm != null  and bsm != ''">#{bsm},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="lxbh != null  and lxbh != ''">#{lxbh},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="fjbs != null  and fjbs != ''">#{fjbs},</if>
+            <if test="sbqk != null  and sbqk != ''">#{sbqk},</if>
+            <if test="x != null  and x != ''">#{x},</if>
+            <if test="y != null  and y != ''">#{y},</if>
+            <if test="h != null  and h != ''">#{h},</if>
+            <if test="mj != null  and mj != ''">#{mj},</if>
+            <if test="bz != null  and bz != ''">#{bz},</if>
+            <if test="areano != null  and areano != ''">#{areano},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="hasChildren !=null ">#{hasChildren},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupPower" parameterType="AupPower">
+        update aup_power
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bsm != null  and bsm != ''">BSM = #{bsm},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="lxbh != null  and lxbh != ''">lxbh = #{lxbh},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="fjbs != null  and fjbs != ''">FJBS = #{fjbs},</if>
+            <if test="sbqk != null  and sbqk != ''">SBQK = #{sbqk},</if>
+            <if test="x != null  and x != ''">X = #{x},</if>
+            <if test="y != null  and y != ''">Y = #{y},</if>
+            <if test="h != null  and h != ''">H = #{h},</if>
+            <if test="mj != null  and mj != ''">MJ = #{mj},</if>
+            <if test="bz != null  and bz != ''">BZ = #{bz},</if>
+            <if test="areano != null  and areano != ''">areano = #{areano},</if>
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="hasChildren !=null ">hasChildren = #{hasChildren},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupPowerById" parameterType="Long">
+        delete from aup_power where id = #{id}
+    </delete>
+
+    <delete id="deleteAupPowerByIds" parameterType="String">
+        delete from aup_power where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据回路查询房屋配电房信息 -->
+    <select id="selectPdfInfoList" parameterType="String" resultType="Map" >
+        SELECT DISTINCT
+            hg.HLID,
+            hg.FWID,
+            h.HLMC,
+            h.GH,
+            ap.*
+        FROM
+            LINK_SDE.sde.dbo.HL_GX hg
+        LEFT JOIN LINK_SDE.sde.dbo.HL h ON hg.HLID = h.HLID LEFT JOIN aup_power ap on hg.PDFID= ap.BSM
+        WHERE
+            hg.PDFID= #{arg0}
+        and hg.FWID = #{arg1}
+        AND hg.HLID = #{arg2}
+    </select>
+
+</mapper>

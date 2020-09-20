@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqSqglMapper">
+
+    <!--车辆概况统计-->
+    <select id="getCountGk" resultType="map">
+        select count(*) as num,cx from ZHSQ_CL
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        GROUP BY cx
+    </select>
+    <!--进出状态-->
+    <select id="getCountJc" resultType="map">
+       select count(*)as num,jczt from ZHSQ_DGJC
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        GROUP BY jczt
+         ORDER BY jczt desc
+    </select>
+    <!--车辆类型-->
+    <select id="getCountLx" resultType="map">
+            select cllx,jczt,count(*)as num from ZHSQ_DGJC
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        GROUP BY cllx,jczt
+        ORDER BY CLLX,jczt desc
+    </select>
+
+  <!--  <select id="">
+       select * from ZHSQ_CL
+
+    </select>-->
+
+
+    <!--左侧人员统计-->
+    <select id="selectRyxjCount" parameterType="map" resultType="map">
+        SELECT
+        count(1) as zrs,
+        (SELECT count(1) FROM [dbo].[ZHSQ_JM] jm left join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where> and jm.SFCZ='常驻人口') as czrs,
+        (SELECT count(1) FROM [dbo].[ZHSQ_JM] jm left join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where> and jm.SFCZ='外来人口') as ldrs
+
+        FROM [dbo].[ZHSQ_JM] jm left join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+        </where>
+    </select>
+
+
+    <!--年龄结构统计-->
+    <select id="getNlCount" parameterType="map" resultType="map">
+        SELECT
+        count(case when jc.[NL] <![CDATA[ < ]]> N'20' then 1 else null end) as a,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'20' and jc.[NL] <![CDATA[ <= ]]> N'30' then 1 else null end) as b,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'31' and jc.[NL] <![CDATA[ <= ]]> N'40' then 1 else null end) as c,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'41' and jc.[NL] <![CDATA[ <= ]]> N'50' then 1 else null end) as d,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'51' and jc.[NL] <![CDATA[ <= ]]> N'60' then 1 else null end) as e,
+        count(case when jc.[NL] <![CDATA[ > ]]> N'60' then 1 else null end) as f
+        FROM
+        (SELECT jm.* FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+            <if test="sfcz != null  and sfcz != ''"> and jm.SFCZ = #{sfcz}</if>
+        </where>) as jc
+    </select>
+
+    <!--男女比例统计-->
+    <select id="getNnBlCount" parameterType="map" resultType="map">
+        SELECT jm.XB ,count(1) as MUN FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+            <if test="sfcz != null  and sfcz != ''"> and jm.SFCZ = #{sfcz}</if>
+        </where>
+        GROUP BY jm.XB
+    </select>
+
+    <!--民族比例统计-->
+    <select id="getMzBlCount" parameterType="map" resultType="map">
+        SELECT jm.MZ,count(1) as MUN FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+            <if test="sfcz != null  and sfcz != ''"> and jm.SFCZ = #{sfcz}</if>
+        </where>
+        GROUP BY jm.MZ
+    </select>
+
+    <!--人员列表-->
+    <select id="getRyList" parameterType="map" resultType="map">
+        SELECT jm.* FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="xqid != null  and xqid != ''"> and ld.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and ld.SQID = #{sqid}</if>
+            <if test="sfcz != null  and sfcz != ''"> and jm.SFCZ = #{sfcz}</if>
+            <if test="ry != null  and ry != ''">
+                <bind name="_ry" value="'%'+ ry +'%'"/>
+                and jm.XM like #{_ry}
+            </if>
+        </where>
+    </select>
+
+    <!--人员信息-->
+    <select id="getRyInfo" parameterType="map" resultType="map">
+        SELECT jm.* FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="jmid != null  and jmid != ''"> and jm.JMID = #{jmid}</if>
+        </where>
+    </select>
+
+    <!--手环信息-->
+    <select id="getBraceletInfo" parameterType="map" resultType="map">
+        SELECT id,imei,heartRate,dbp,sdp,oxygen,bloodSugar,temperature,createDate FROM [dbo].[ZHSQ_ZNSB] b
+        WHERE imei = '356201199014211' AND type = 'health'
+        AND createDate = (SELECT MAX(createDate) as sj FROM [dbo].[ZHSQ_ZNSB] c WHERE c.imei = b.imei AND type = 'health')
+    </select>
+
+    <!--查询定位信息-->
+    <select id="getLocationInfo" parameterType="map" resultType="map">
+        SELECT lat,lon,createDate
+        FROM [dbo].[ZHSQ_ZNSB] b
+        WHERE imei = '356201199014211' AND type = 'location'
+        AND createDate = (SELECT MAX(createDate) as sj FROM [dbo].[ZHSQ_ZNSB] c WHERE c.imei = b.imei  AND type = 'location')
+    </select>
+
+    <!--查询设备信息-->
+    <select id="getBreatHeartInfo" parameterType="map" resultType="map">
+        SELECT battery,pedometer,jtmBattery ,createDate
+        FROM [dbo].[ZHSQ_ZNSB] b
+        WHERE imei = '356201199014211' AND type = 'beatHeart'
+        AND createDate = (SELECT MAX(createDate) as sj FROM [dbo].[ZHSQ_ZNSB] c WHERE c.imei = b.imei  AND type = 'beatHeart')
+    </select>
+
+    <!--查询报警信息-->
+    <select id="getWarringInfo" parameterType="map" resultType="map">
+        SELECT content,type,lat,lon,warningType,createDate
+        FROM [dbo].[ZHSQ_ZNSB]
+        WHERE type = 'warning'
+        AND createDate = (SELECT MAX(createDate) FROM [dbo].[ZHSQ_ZNSB] WHERE type = 'warning' )
+    </select>
+
+    <!--重点事件详情-->
+    <select id="getZdsjInfo" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_YC]
+        <where>
+            <if test="ycid != null  and ycid != ''"> and YCID = #{ycid}</if>
+        </where>
+    </select>
+
+
+    <!--巡检任务详情-->
+    <select id="getXjrwInfo" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_WYXC]
+        <where>
+            <if test="wyxcid != null  and wyxcid != ''"> and WYXCID = #{wyxcid}</if>
+        </where>
+    </select>
+
+
+    <!--巡检任务坐标详情-->
+    <select id="getXjrwZbInfo" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_WYXCGJ]
+        <where>
+            <if test="wyxcid != null  and wyxcid != ''"> and WYXCID = #{wyxcid}</if>
+        </where>
+    </select>
+
+
+    <!--左侧房屋统计-->
+    <select id="selectZcfwCount" parameterType="map" resultType="map">
+        SELECT
+        count(1) as fwzs,
+        count(case when jc.FWRZQK='入住' then 1 else null end) as rz,
+        count(case when jc.FWRZQK='空置' then 1 else null end) as kz,
+        count(case when jc.FWLYLX='商业' then 1 else null end) as sy,
+        count(case when jc.FWLYLX='住宅' then 1 else null end) as zz,
+        count(case when jc.FWLYLX='其他' then 1 else null end) as qt,
+        count(case when jc.CQZT='自有' then 1 else null end) as zy,
+        count(case when jc.CQZT='出租' then 1 else null end) as zf,
+        (SELECT count(DISTINCT fw.LDID) FROM [dbo].[ZHSQ_FW] fw
+        <where>
+            <if test="xqid != null  and xqid != ''"> and fw.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and fw.SQID = #{sqid}</if>
+        </where>) as lds
+        FROM
+        (SELECT fw.* FROM [dbo].[ZHSQ_FW] fw
+        <where>
+            <if test="xqid != null  and xqid != ''"> and fw.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and fw.SQID = #{sqid}</if>
+        </where>) as jc
+    </select>
+
+
+    <!--左侧房屋入住率统计-->
+    <select id="selectZcfwRzlCount" parameterType="map" resultType="map">
+        SELECT
+        (CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t2.rzrs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as rzl,
+        (CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t3.sys,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as syrzl,
+        (CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t4.zzs,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as zzrzl,
+        (CASE WHEN t1.zs = 0 THEN 0 ELSE CAST(round((CAST(round(t5.qts,2) as DECIMAL(18,2)) /CAST(round(t1.zs,2) as DECIMAL(18,2)))*100,2) as DECIMAL(18,2)) END) as qtrzl
+        FROM
+        (
+        SELECT ISNULL(COUNT(1), 0) as zs FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+        ) as t1
+        OUTER apply(
+        SELECT ISNULL(COUNT(1), 0) as rzrs FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and FWRZQK = '入住'
+        ) as t2
+        OUTER apply(
+        SELECT ISNULL(COUNT(1), 0) as sys FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and FWLYLX = '商业'
+        ) as t3
+        OUTER apply(
+        SELECT ISNULL(COUNT(1), 0) as zzs FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and FWLYLX = '住宅'
+        ) as t4
+        OUTER apply(
+        SELECT ISNULL(COUNT(1), 0) as qts FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> and FWLYLX = '其他'
+        ) as t5
+    </select>
+
+    <!--房屋列表-->
+    <select id="getFwList" parameterType="map" resultType="map">
+        SELECT DISTINCT * FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="fwrzqk != null  and fwrzqk != ''"> and FWRZQK = #{fwrzqk}</if>
+            <if test="fwlylx != null  and fwlylx != ''"> and FWLYLX = #{fwlylx}</if>
+            <if test="fw != null  and fw != ''">
+                <bind name="_fw" value="'%'+ fw +'%'"/>
+                and (LDMC like #{_fw} OR MPH like #{_fw} OR FWRZQK like #{_fw} OR FWLYLX like #{_fw})
+            </if>
+        </where>
+    </select>
+
+    <!--左侧房屋图表统计-->
+    <select id="selectZcfwTbCount" parameterType="map" resultType="map">
+		  SELECT CQZT ,count(*) as MUN FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where> GROUP BY CQZT
+    </select>
+
+    <!--楼栋列表-->
+    <select id="getLdList" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_LD]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="ld != null  and ld != ''">
+                <bind name="_ld" value="'%'+ ld +'%'"/>
+                and (LDMC like #{_ld} OR JZWMJ like #{_ld} OR CS like #{_ld})
+            </if>
+        </where>
+    </select>
+
+    <!--房屋信息-->
+    <select id="getFwInfo" parameterType="map" resultType="map">
+        SELECT jm.*,ld.LDMC FROM [dbo].[ZHSQ_JM] jm join [dbo].[ZHSQ_LD] ld on jm.LDID=ld.LDID
+        <where>
+            <if test="fwid != null  and fwid != ''"> and jm.FWID = #{fwid}</if>
+            <if test="ldid != null  and ldid != ''"> and jm.LDID = #{ldid}</if>
+        </where>
+    </select>
+
+
+    <!--楼栋弹框信息-->
+    <select id="getLdInfo" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_FW]
+        <where>
+            <if test="ldid != null  and ldid != ''"> and LDID = #{ldid}</if>
+        </where>
+    </select>
+
+</mapper>

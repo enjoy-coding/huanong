@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('任务结束')" />
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="col-sm-12 select-table table-striped">
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>标题：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control"  type="text" th:field="${scParkrent.parkrentTitle}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>类型：</label>
+                        <div class="col-sm-8">
+                            <select class="form-control m-b" th:with="type=${@dict.getType('sc_task_state1')}" disabled>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="${scParkrent.parkrentType}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>负责人：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" th:field="${scParkrent.parkrentName}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>联系电话：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" th:field="${scParkrent.parkrentTel}" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <h4 class="form-header h4">志愿者列表</h4>
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <form class="form-horizontal" id="form-parkrent-edit" th:object="${scParkrent}">
+                <input name="parkrentId" id="parkrentId" type="hidden" th:field="*{parkrentId}" />
+                <input name="auditState" id="auditState" type="hidden" th:field="*{auditState}" />
+                <h4 class="form-header h4">结项打分</h4>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span class="requiredstar"></span>打分：</label>
+                        <div class="col-sm-8">
+                            <input name="parkrentScore" id="parkrentScore" class="form-control" type="text"
+                                th:field="*{parkrentScore}" />
+                            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>总分将均分给每个志愿者</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "sc/parkrent";
+        var sex =  [[${@dict.getType('sys_user_sex')}]];
+
+        $(function () {
+            var options = {
+                url: prefix + "/volunteer/list",
+                removeUrl: prefix + "/remove",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                showColumns: false,
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                modalName: "志愿者列表",
+                queryParams: queryParams,
+                columns: [
+                    {
+                        field: 'userId',
+                        title: 'id',
+                        visible: false
+                    },
+                    {
+                        field: 'volunteerName',
+                        title: '姓名'
+                    },
+                    {
+                        field: 'volunteerSex',
+                        title: '性别',
+                        align: 'center',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(sex, value);
+                        }
+                        
+                    },
+                    {
+                        field: 'volunteerTel',
+                        title: '志愿者电话'
+                    },
+                    {
+                        field: 'volunteerBir',
+                        title: '出生日期'
+                    },
+                    {
+                        field: 'volunteerIdcard',
+                        title: '身份证号'
+                    }
+                ]
+            };
+            $.table.init(options);
+        });
+
+        function queryParams(params) {
+            var search = $.table.queryParams(params);
+            search.parkrentId = $("#parkrentId").val();
+            return search;
+        }
+
+        $("#form-parkrent-edit").validate({
+            rules: {
+                parkrentScore: {
+                    required: true,
+                    number: true,
+                    min: 10
+                },
+            },
+            messages:{
+                parkrentScore:{
+                    required:"必须填写分数！",
+                    number:"必须是数字",
+                    min:"最小值为10",
+                }
+            },
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                    url: prefix + "/over",
+                    data: $("#form-parkrent-edit").serializeArray(),
+                    success: function (result, _option) {
+                        $.operate.saveSuccess(result);
+                    }
+                });
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

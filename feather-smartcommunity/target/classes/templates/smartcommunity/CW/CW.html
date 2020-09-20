@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('车位列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>车位id：</p>
+                                <input type="text" name="cwid"/>
+                            </li>
+                            <li>
+                                <p>车位类型(地上,地下)：</p>
+                                <select name="cwlx" th:with="type=${@dict.getType('pg_cw_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>车位编号：</p>
+                                <input type="text" name="cwbh"/>
+                            </li>
+                            <li>
+                                <p>当前车位状态(空闲,占用)：</p>
+                                <select name="cwzt" th:with="type=${@dict.getType('pg_cw_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>小区id：</p>
+                                <input type="text" name="xqid"/>
+                            </li>
+                            <li>
+                                <p>社区id：</p>
+                                <input type="text" name="sqid"/>
+                            </li>
+                            <li>
+                                <p>停车场id：</p>
+                                <input type="text" name="tccid"/>
+                            </li>
+                            <li>
+                                <p>停车场名称：</p>
+                                <input type="text" name="tccmc"/>
+                            </li>
+                            <li>
+                                <p>车位种类：</p>
+                                <input type="text" name="cwzl"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="smartcommunity:CW:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="smartcommunity:CW:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="smartcommunity:CW:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="smartcommunity:CW:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('smartcommunity:CW:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('smartcommunity:CW:remove')}]];
+        var cwlxDatas = [[${@dict.getType('pg_cw_type')}]];
+        var cwDatas = [[${@dict.getType('pg_cw_status')}]];
+        var prefix = ctx + "smartcommunity/CW";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "车位",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'cwid', 
+                    title : '车位id'
+                },
+                {
+                    field : 'cwlx', 
+                    title : '车位类型(地上,地下)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(cwlxDatas, value);
+                    }
+                },
+                {
+                    field : 'cwbh', 
+                    title : '车位编号'
+                },
+                {
+                    field : 'cwzt', 
+                    title : '当前车位状态(空闲,占用)',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(cwDatas, value);
+                    }
+                },
+                {
+                    field : 'xqid', 
+                    title : '小区id'
+                },
+                {
+                    field : 'sqid', 
+                    title : '社区id'
+                },
+                {
+                    field : 'tccid', 
+                    title : '停车场id'
+                },
+                {
+                    field : 'tccmc', 
+                    title : '停车场名称'
+                },
+                {
+                    field : 'cwzl', 
+                    title : '车位种类'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.cwid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.cwid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

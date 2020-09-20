@@ -1,0 +1,75 @@
+
+<h5 class="title3 clGreen">开挖分析</h5>
+<form class="layui-form layuiForm pw15 kwfxFrom" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="float: inherit;">分析图层：</label>
+        <div class="layui-row checkBox">
+            <div class="layui-col-md12 layui-col-sm6 layui-col-xs6">
+                <label class="layui-form-label" style="width: 5.5vw;">全选/全不选</label>
+                <div class="layui-input-block">
+                    <input class="pa layerSwichBtn switchKwfxAll" type="checkbox" name="all" lay-skin="switch" lay-filter="switchBtnAll" lay-text="ON|OFF">
+                </div>
+            </div>
+           <!-- <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <label class="layui-form-label">全不选</label>
+                <div class="layui-input-block">
+                    <input class="pa layerSwichBtn switchKwfxAll" type="checkbox" name="all" lay-skin="switch" lay-filter="switchBtnNone" lay-text="ON|OFF">
+                </div>
+            </div>-->
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="js" class="switchBtn" title="给水管线" lay-skin="primary" lay-filter="switchBtn">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="gd" class="switchBtn" title="供电管线" lay-skin="primary" lay-filter="switchBtn">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="ld" class="switchBtn" title="路灯管线" lay-skin="primary" lay-filter="switchBtn">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="trq" class="switchBtn" title="天然气管线" lay-skin="primary" lay-filter="switchBtn">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="ws" class="switchBtn" title="污水管线" lay-skin="primary" lay-filter="switchBtn" >
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="ys" class="switchBtn" title="雨水管线" lay-skin="primary" lay-filter="switchBtn" >
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">绘图方式：</label>
+        <div class="layui-input-block">
+            <select name="geoType" lay-filter="geoType">
+                <option value="0">圆形</option>
+                <option value="1">矩形</option>
+                <option value="2">多边形</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开挖深度：</label>
+        <div class="layui-input-block pr unit">
+            <input type="text" name="depth" lay-verify="depth" autocomplete="off" placeholder="请输入深度" class="layui-input">
+            <span class="pa txt">m</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.kwfx.draw()">绘制</button>
+            </div>
+            <!--<div class="layui-col-md6 layui-col-sm6 layui-col-xs6 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.kwfx.startWd()">开始挖洞</button>
+            </div>-->
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.kwfx.startWd()">开挖分析</button>
+            </div>
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.kwfx.clear()">清除</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="kwxq">
+
+</div>

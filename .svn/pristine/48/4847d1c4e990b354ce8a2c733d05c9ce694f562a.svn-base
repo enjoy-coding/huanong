@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('吃美食')"/>
+    <th:block th:include="include :: summernote-css"/>
+    <th:block th:include="include :: jasny-bootstrap-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-npInfo" th:object="${npInfo}">
+        <input id="infoId" name="infoId" th:field="*{infoId}" type="hidden"/>
+        <input id="infoType" name="infoType" th:field="*{infoType}" type="hidden"/>
+        <input id="mainPic" name="mainPic" type="hidden" th:field="*{mainPic}"/>
+        <input id="content" name="content" type="hidden" th:field="*{content}"/>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar">*</span>标题：</label>
+                    <div class="col-sm-10">
+                        <input name="title" class="form-control" type="text" th:field="*{title}" id="title" required />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">简介：</label>
+                    <div class="col-sm-10">
+                        <input name="subTitle" class="form-control" type="text" th:field="*{subTitle}" id="subTitle"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">封面：</label>
+            <div class="col-sm-10">
+                <div class="fileinput fileinput-new" style="text-align:center;">
+                    <div class="fileinput-preview thumbnail iconImage img-preview-self"
+                         data-trigger="fileinput">
+                        <img id="picImg" th:src="@{*{mainPic}}">
+                    </div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new ">选择封面</span>
+                            <input type="file" id="file" name="file" onchange="uploadPic()"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-10">
+                        <input name="addInfo1" class="form-control" type="text" th:field="*{addInfo1}" id="addInfo1"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">类别：</label>
+                    <div class="col-sm-10">
+                        <select name="addInfo2" id="addInfo2" class="form-control m-b"
+                                th:with="type=${@dict.getType('np_spot_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{addInfo2}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">坐标X：</label>
+                    <div class="col-sm-8">
+                        <input name="x" class="form-control" type="text" th:field="*{x}" id="x"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">坐标Y：</label>
+                    <div class="col-sm-8">
+                        <input name="y" class="form-control" type="text" th:field="*{y}" id="y"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">电话：</label>
+                    <div class="col-sm-8">
+                        <input name="addInfo2" class="form-control" type="text" th:field="*{addInfo2}" id="addInfo2"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">网站：</label>
+                    <div class="col-sm-8">
+                        <input name="addInfo3" class="form-control" type="text" th:field="*{addInfo3}" id="addInfo3"/>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" >内容：</label>
+                    <div class="col-sm-10 multi-column-3-padding">
+                        <div id="editor" class="summernote"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+
+<script th:src="@{/bus/napo/js/info.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "np/info";
+
+    $(function () {
+        initSummernote(180, "content");
+    });
+
+    function uploadPic() {
+        uploadCoverImage("file", "picImg", "mainPic")
+    }
+
+    $("#form-npInfo").validate({
+        rules:{
+            hot:{
+                digits:true
+            }
+        },
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#infoId").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            debugger;
+            $("#content").val(sHTML);
+            console.log($('#form-npInfo').serialize())
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-npInfo').serialize(),
+                success: function (result, _option) {
+                    if (isAdd()) {
+                        if (result.data.infoId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.infoId;
+                        } else {
+                            $.modal.msgError("没有返回数据：infoId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

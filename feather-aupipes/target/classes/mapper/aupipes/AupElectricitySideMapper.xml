@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupElectricitySideMapper">
+
+    <resultMap type="AupElectricitySide" id="AupElectricitySideResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="cacheid"    column="cacheId"    />
+        <result property="cachelevel"    column="cacheLevel"    />
+        <result property="cachename"    column="cacheName"    />
+        <result property="type"    column="type"    />
+        <result property="typeid"    column="typeId"    />
+        <result property="typeno"    column="typeNo"    />
+        <result property="buildarea"    column="buildArea"    />
+        <result property="personcount"    column="personCount"    />
+        <result property="tableCount"    column="tableCount"    />
+        <result property="bb"    column="bb"    />
+        <result property="hlmc"    column="hlmc"    />
+        <result property="sfjsbb"    column="sfjsbb"    />
+        <result property="sortcode"    column="sortCode"    />
+        <result property="haschildren"    column="hasChildren"    />
+        <result property="tableid"    column="tableId"    />
+        <result property="sfjszh"    column="sfjszh"    />
+        <result property="categoryId"    column="categoryId"    />
+        <result property="categoryName" column="categoryName"/>
+    </resultMap>
+
+    <sql id="selectAupElectricitySideVo">
+        select id, pid, cacheId, cacheLevel, cacheName, type
+                , typeId, typeNo, buildArea, personCount
+                , tableCount, bb, hlmc, sfjsbb, sortCode
+                , hasChildren, tableId,sfjszh,categoryId,categoryName 
+        from aup_electricity_side
+    </sql>
+
+    <select id="selectAupElectricitySideListByPid" parameterType="AupElectricitySide" resultMap="AupElectricitySideResult">
+        <include refid="selectAupElectricitySideVo"/>
+        <where>  
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+        </where>
+    </select>
+    <select id="selectAupElectricitySideList" parameterType="AupElectricitySide" resultMap="AupElectricitySideResult">
+        <include refid="selectAupElectricitySideVo"/>
+        <where>
+            <if test="cacheid != null and cacheid !='' ">
+                and cacheId = #{cacheid}
+            </if>
+            <if test="cachename != null  and cachename != ''">
+            	<bind name="_cachename" value="'%'+ cachename +'%'"/>
+            	and cacheName like #{_cachename}
+            </if>
+            <if test="type != null  and type != ''">
+            	<bind name="_type" value="'%'+ type +'%'"/>
+            	and type like #{_type}
+            </if>
+            <if test="typeid != null  and typeid != ''">
+            	<bind name="_typeid" value="'%'+ typeid +'%'"/>
+            	and typeId like #{_typeid}
+            </if>
+            <if test="typeno != null  and typeno != ''">
+            	<bind name="_typeno" value="'%'+ typeno +'%'"/>
+            	and typeNo like #{_typeno}
+            </if>
+            <if test="buildarea != null ">
+            	<bind name="_buildarea" value="'%'+ buildarea +'%'"/>
+            	and buildArea like #{_buildarea}
+            </if>
+            <if test="personcount != null ">
+            	<bind name="_personcount" value="'%'+ personcount +'%'"/>
+            	and personCount like #{_personcount}
+            </if>
+            <if test="pid != null ">
+                and pid = #{pid}
+            </if>
+
+            <if test="tableCount != null ">
+            	<bind name="_tableCount" value="'%'+ tableCount +'%'"/>
+            	and tableCount like #{_tableCount}
+            </if>
+            <if test="bb != null  and bb != ''">
+            	<bind name="_bb" value="'%'+ bb +'%'"/>
+            	and bb like #{_bb}
+            </if>
+            <if test="hlmc != null  and hlmc != ''">
+            	<bind name="_hlmc" value="'%'+ hlmc +'%'"/>
+            	and hlmc like #{_hlmc}
+            </if>
+            <if test="sfjsbb != null ">
+            	<bind name="_sfjsbb" value="'%'+ sfjsbb +'%'"/>
+            	and sfjsbb like #{_sfjsbb}
+            </if>
+            <if test="sortcode != null ">
+            	<bind name="_sortcode" value="'%'+ sortcode +'%'"/>
+            	and sortCode like #{_sortcode}
+            </if>
+            <if test="haschildren != null ">
+            	<bind name="_haschildren" value="'%'+ haschildren +'%'"/>
+            	and hasChildren like #{_haschildren}
+            </if>
+            <if test="tableid != null  and tableid != ''">
+            	<bind name="_tableid" value="'%'+ tableid +'%'"/>
+            	and tableId like #{_tableid}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectAupElectricitySideById" parameterType="Long" resultMap="AupElectricitySideResult">
+        <include refid="selectAupElectricitySideVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="checkAupElectricitySideHasChildren" parameterType="Long" resultType="Integer">
+        select  count(1) from  aup_electricity_side
+        where pid = #{id}
+    </select>
+
+    <insert id="insertAupElectricitySide" useGeneratedKeys="true" keyProperty="id" parameterType="AupElectricitySide">
+        insert into aup_electricity_side
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="cacheid != null  and cacheid != ''">cacheId,</if>
+            <if test="cachelevel != null ">cacheLevel,</if>
+            <if test="cachename != null  and cachename != ''">cacheName,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="typeid != null  and typeid != ''">typeId,</if>
+            <if test="typeno != null  and typeno != ''">typeNo,</if>
+            <if test="buildarea != null ">buildArea,</if>
+            <if test="personcount != null ">personCount,</if>
+            <if test="tableCount != null ">tableCount,</if>
+            <if test="bb != null  and bb != ''">bb,</if>
+            <if test="hlmc != null  and hlmc != ''">hlmc,</if>
+            <if test="sfjsbb != null ">sfjsbb,</if>
+            <if test="sortcode != null ">sortCode,</if>
+            <if test="haschildren != null ">hasChildren,</if>
+            <if test="tableid != null  and tableid != ''">tableId,</if>
+            <if test="sfjszh != null ">sfjszh,</if>
+            <if test="categoryId != null ">categoryId,</if>
+            <if test="categoryName != null  and categoryName != ''">categoryName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="cacheid != null  and cacheid != ''">#{cacheid},</if>
+            <if test="cachelevel != null ">#{cachelevel},</if>
+            <if test="cachename != null  and cachename != ''">#{cachename},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="typeid != null  and typeid != ''">#{typeid},</if>
+            <if test="typeno != null  and typeno != ''">#{typeno},</if>
+            <if test="buildarea != null ">#{buildarea},</if>
+            <if test="personcount != null ">#{personcount},</if>
+            <if test="tableCount != null ">#{tableCount},</if>
+            <if test="bb != null  and bb != ''">#{bb},</if>
+            <if test="hlmc != null  and hlmc != ''">#{hlmc},</if>
+            <if test="sfjsbb != null ">#{sfjsbb},</if>
+            <if test="sortcode != null ">#{sortcode},</if>
+            <if test="haschildren != null ">#{haschildren},</if>
+            <if test="tableid != null  and tableid != ''">#{tableid},</if>
+            <if test="sfjszh != null ">#{sfjszh},</if>
+            <if test="categoryId != null ">#{categoryId},</if>
+            <if test="categoryName != null  and categoryName != ''">#{categoryName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupElectricitySide" parameterType="AupElectricitySide">
+        update aup_electricity_side
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="cacheid != null  and cacheid != ''">cacheId = #{cacheid},</if>
+            <if test="cachelevel != null ">cacheLevel = #{cachelevel},</if>
+            <if test="cachename != null  and cachename != ''">cacheName = #{cachename},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="typeid != null  and typeid != ''">typeId = #{typeid},</if>
+            <if test="typeno != null  and typeno != ''">typeNo = #{typeno},</if>
+            <if test="buildarea != null ">buildArea = #{buildarea},</if>
+            <if test="personcount != null ">personCount = #{personcount},</if>
+            <if test="tableCount != null ">tableCount = #{tableCount},</if>
+            <if test="bb != null  and bb != ''">bb = #{bb},</if>
+            <if test="hlmc != null  and hlmc != ''">hlmc = #{hlmc},</if>
+            <if test="sfjsbb != null ">sfjsbb = #{sfjsbb},</if>
+            <if test="sortcode != null ">sortCode = #{sortcode},</if>
+            <if test="haschildren != null ">hasChildren = #{haschildren},</if>
+            <if test="tableid != null  and tableid != ''">tableId = #{tableid},</if>
+            <if test="sfjszh != null ">sfjszh = #{sfjszh},</if>
+            <if test="categoryId != null ">categoryId = #{categoryId},</if>
+            <if test="categoryName != null  and categoryName != ''">categoryName = #{categoryName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupElectricitySideById" parameterType="Long">
+        delete from aup_electricity_side where id = #{id}
+    </delete>
+
+    <delete id="deleteAupElectricitySideByIds" parameterType="String">
+        delete from aup_electricity_side where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

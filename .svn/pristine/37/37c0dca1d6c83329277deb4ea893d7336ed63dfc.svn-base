@@ -1,0 +1,128 @@
+<!--巡检记录-->
+<head>
+    <style>
+        .layui-table-grid-down{
+            display:none;
+        }
+        .layui-layer-btn {
+            display:block;
+        }
+    </style>
+</head>
+<div id="xjjlLayerBox" class="xjjlLayerBox hide">
+    <form id="taskDetail" class="layui-form mt15 formBox mw15">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">下发时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="inspectTime" class="layui-input test-item" placeholder="开始到结束" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4 layui-col-sm4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检人员：</label>
+                    <div class="layui-input-block">
+                        <!--<input type="text" class="layui-input test-item" id="inspectName" placeholder="请输入巡检人员姓名" autocomplete="off">-->
+                        <select class="layui-input test-item" id="inspectName">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4 layui-col-sm4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检状态：</label>
+                        <!--<input type="text" class="layui-input test-item" placeholder="请选择巡检人员姓名" autocomplete="off">-->
+                    <div class="layui-input-block">
+                        <select class="layui-input test-item" id="inspectState">
+                            <option value="">全部</option>
+                            <option value="0">未巡</option>
+                            <option value="1">在巡</option>
+                            <option value="2">已巡</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-form-item btngroup">
+                    <button type="button" onclick="RYXJ.queryInspectList()" class="btn active">查询</button>
+                    <!--<button type="button" onclick="RYXJ.addInspect()" class="btn">新增</button>-->
+                    <button type="button" onclick="RYXJ.exportExcel2()" class="btn">导出</button>
+                    <button type="button" onclick="RYXJ.delInspect()" class="btn">删除</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="table page pw15 tableLg xjjlTable">
+        <div id="xjjlTable2" lay-filter="xjjlTable2"></div>
+    </div>
+</div>
+
+<!--巡检统计--弹框-->
+<div id="xjtjLayerBox" class="hide pd30 xjtjLayerBox">
+    <div class="xjtjBtnGroup oh">
+        <button type="button">今日</button>
+        <button type="button">近7日</button>
+        <button type="button">近1月</button>
+        <button type="button">近1年</button>
+        <div class="zdyBtn fl">
+            <span>自定义：</span>
+            <input type="text" class="xjtjInput" autocomplete="off">
+            <span>至</span>
+            <input type="text" class="xjtjInput" autocomplete="off">
+            <button type="button">确定</button>
+        </div>
+    </div>
+    <div class="xjfxEchartsBox">
+        <div class="content pr">
+            <h5 class="pa"><i class="iconfont icon-xunjian"></i>巡检统计</h5>
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                    <div id="zbfxEcharts" class="xjtjEchart">a</div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                    <div id="qyzbEcharts" class="xjtjEchart">a</div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                    <div id="slfxEcharts" class="xjtjEchart">a</div>
+                </div>
+            </div>
+        </div>
+        <div class="lineBlue mh15"></div>
+        <div class="content pr">
+            <h5 class="pa"><i class="iconfont icon-renyuan"></i>人员统计</h5>
+            <div id="rwtjEcharts" class="rwtjEcharts"></div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function(){
+
+    })
+
+    //巡检记录查询
+    RYXJ.queryInspectList = function () {
+        var status=$("#inspectState option:selected").val();
+        var inspectName = $("#inspectName").val();
+        var startTime, endTime, time = $("#inspectTime").val().split("到");
+        // alert($("#inspectTime").val());
+        if(time.length > 1){
+            startTime = time[0].trim();
+            endTime = time[1].trim();
+        }else{
+            startTime = "";
+            endTime = "";
+        }
+
+        inspectTableIns.reload({
+            where:{
+                inspectWorker: inspectName,
+                inspectStatus: status,
+                "params[beginTime]": startTime,
+                "params[endTime]": endTime
+            }
+        });
+    }
+</script>

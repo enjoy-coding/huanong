@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqTsjyMapper">
+    
+    <resultMap type="ZhsqTsjy" id="ZhsqTsjyResult">
+        <result property="tsjyid"    column="TSJYID"    />
+        <result property="xm"    column="XM"    />
+        <result property="jynr"    column="JYNR"    />
+        <result property="jysj"    column="JYSJ"    />
+        <result property="fj"    column="FJ"    />
+        <result property="hfnr"    column="HFNR"    />
+        <result property="hfsj"    column="HFSJ"    />
+        <result property="hfr"    column="HFR"    />
+    </resultMap>
+
+    <sql id="selectZhsqTsjyVo">
+        select TSJYID, XM, JYNR, JYSJ, FJ, HFNR, HFSJ, HFR from ZHSQ_TSJY
+    </sql>
+
+    <select id="selectZhsqTsjyList" parameterType="ZhsqTsjy" resultMap="ZhsqTsjyResult">
+        <include refid="selectZhsqTsjyVo"/>
+        <where>  
+            <if test="tsjyid != null  and tsjyid != ''"> and TSJYID = #{tsjyid}</if>
+            <if test="xm != null  and xm != ''"> and XM = #{xm}</if>
+            <if test="jynr != null  and jynr != ''"> and JYNR = #{jynr}</if>
+            <if test="jysj != null  and jysj != ''"> and JYSJ = #{jysj}</if>
+            <if test="fj != null  and fj != ''"> and FJ = #{fj}</if>
+            <if test="hfnr != null  and hfnr != ''"> and HFNR = #{hfnr}</if>
+            <if test="hfsj != null  and hfsj != ''"> and HFSJ = #{hfsj}</if>
+            <if test="hfr != null  and hfr != ''"> and HFR = #{hfr}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqTsjyById" parameterType="String" resultMap="ZhsqTsjyResult">
+        <include refid="selectZhsqTsjyVo"/>
+        where TSJYID = #{tsjyid}
+    </select>
+        
+    <insert id="insertZhsqTsjy" parameterType="ZhsqTsjy">
+        insert into ZHSQ_TSJY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tsjyid != null  and tsjyid != ''">TSJYID,</if>
+            <if test="xm != null  and xm != ''">XM,</if>
+            <if test="jynr != null  and jynr != ''">JYNR,</if>
+            <if test="jysj != null  and jysj != ''">JYSJ,</if>
+            <if test="fj != null  and fj != ''">FJ,</if>
+            <if test="hfnr != null  and hfnr != ''">HFNR,</if>
+            <if test="hfsj != null  and hfsj != ''">HFSJ,</if>
+            <if test="hfr != null  and hfr != ''">HFR,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tsjyid != null  and tsjyid != ''">#{tsjyid},</if>
+            <if test="xm != null  and xm != ''">#{xm},</if>
+            <if test="jynr != null  and jynr != ''">#{jynr},</if>
+            <if test="jysj != null  and jysj != ''">#{jysj},</if>
+            <if test="fj != null  and fj != ''">#{fj},</if>
+            <if test="hfnr != null  and hfnr != ''">#{hfnr},</if>
+            <if test="hfsj != null  and hfsj != ''">#{hfsj},</if>
+            <if test="hfr != null  and hfr != ''">#{hfr},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqTsjy" parameterType="ZhsqTsjy">
+        update ZHSQ_TSJY
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xm != null  and xm != ''">XM = #{xm},</if>
+            <if test="jynr != null  and jynr != ''">JYNR = #{jynr},</if>
+            <if test="jysj != null  and jysj != ''">JYSJ = #{jysj},</if>
+            <if test="fj != null  and fj != ''">FJ = #{fj},</if>
+            <if test="hfnr != null  and hfnr != ''">HFNR = #{hfnr},</if>
+            <if test="hfsj != null  and hfsj != ''">HFSJ = #{hfsj},</if>
+            <if test="hfr != null  and hfr != ''">HFR = #{hfr},</if>
+        </trim>
+        where TSJYID = #{tsjyid}
+    </update>
+
+    <delete id="deleteZhsqTsjyById" parameterType="String">
+        delete from ZHSQ_TSJY where TSJYID = #{tsjyid}
+    </delete>
+
+    <delete id="deleteZhsqTsjyByIds" parameterType="String">
+        delete from ZHSQ_TSJY where TSJYID in 
+        <foreach item="tsjyid" collection="array" open="(" separator="," close=")">
+            #{tsjyid}
+        </foreach>
+    </delete>
+
+    <select id="getSuggestionList" resultType="map">
+       SELECT top(10)m.*,n.* from ZHSQ_TSJY m LEFT JOIN ZHSQ_XQ n on m.XQID= n.XQID
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">m.XQID=#{xqid}</when>
+                <otherwise>m.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        ORDER BY m.jysj desc
+    </select>
+
+</mapper>

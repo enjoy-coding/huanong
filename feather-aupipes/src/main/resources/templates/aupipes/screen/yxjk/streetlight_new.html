@@ -1,0 +1,215 @@
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this">路灯</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div class="layui-row">
+                <form class="layui-form layuiForm streetLampForm pw15 ph30" action="">
+                    <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开始时间：</label>
+                            <div class="layui-input-block pr unit">
+                                <input type="text" id="beginTime" name="title" lay-verify="title" autocomplete="off" placeholder="请选择开始时间" class="layui-input">
+                                <span class="pa txt"><i class="layui-icon layui-icon-date"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">结束时间：</label>
+                            <div class="layui-input-block pr unit">
+                                <input type="text" id="endTime" name="title" lay-verify="title" autocomplete="off" placeholder="请选择结束时间" class="layui-input">
+                                <span class="pa txt"><i class="layui-icon layui-icon-date"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="StreetLampBtn">
+                        <button type="button" id="streetlightControlQuery" class="streetLampBtn">查询</button>
+                    </div>
+                </form>
+            </div>
+            <div class="streetLampNub">
+                <div class="layui-row">
+                    <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                        <h2>查询总用电量</h2>
+                        <h4 id="totalEnergy">100kw</h4>
+                    </div>
+                    <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                        <h2>实时光照值 </h2>
+                        <h4 id="fullpower">100kw</h4>
+                    </div>
+                    <div class="layui-col-md4 layui-col-sm4 layui-col-xs4">
+                        <h2><span >实时亮灯数</span>/路灯总数</h2>
+                        <h4 id="lightCount">30 <span class="clGreen">/605</span></h4>
+                    </div>
+                </div>
+                <div class="swichBtn oh">
+                    <span class="fl">路灯控制：</span>
+                    <button type="button" class="streetLampBtn fl">全部开启</button>
+                    <button type="button" class="streetLampBtn fl">全部关闭</button>
+                </div>
+            </div>
+            <div class="controllerList">
+                <ul id="controls">
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="layui-row">
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>控制器：</label><span>01</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>状态：</label><span>在线</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>电压：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                                <p><label>功率：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p><label>电流：</label><span>100kw</span></p>
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                                <p>
+                                    <label>路灯控制：</label>
+                                    <button type="button" class="streetLampBtn">开启</button>
+                                    <button type="button" class="streetLampBtn">关闭</button>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

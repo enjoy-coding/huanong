@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('志愿者风采详情')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet"/>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-style-edit" th:object="${scVolunteerStyle}">
+            <input id="styleId" name="styleId" th:field="*{styleId}" type="hidden">
+            <input name="volunteerId" th:field="*{volunteerId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">志愿者姓名：</label>
+                <div class="col-sm-8">
+                    <input name="volunteerId" disabled th:field="${scVolunteerStyle.volunteer.volunteerName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">标题：</label>
+                <div class="col-sm-8">
+                    <input name="styleTitle" disabled th:field="*{styleTitle}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <textarea name="styleContent" disabled rows="5" class="form-control">[[*{styleContent}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"></label>
+                <div class="col-sm-8">
+                    <div id="Pic_pass">
+                        <div class="picDiv">
+                            <div class='imageDiv' th:each="f:${fileInfoList}">
+                                <img th:src="${f.filePath}" class="img"  />
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/style";
+
+        $(function(){
+            $(".img").click(function (){
+                var url = prefix +"/pic";
+                // imageView(this,url);
+            });
+        })
+        $("#form-style-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#styleId").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-style-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.styleId) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.styleId;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：styleId");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

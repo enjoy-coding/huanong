@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改文件')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-file-edit" th:object="${cmsFile}">
+            <input id="fileId" name="fileId" th:field="*{fileId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属域：</label>
+                <div class="col-sm-8">
+                    <input name="fileDomain" th:field="*{fileDomain}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="fileName" th:field="*{fileName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">属性：</label>
+                <div class="col-sm-8">
+                    <input name="fileAttr" th:field="*{fileAttr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序值：</label>
+                <div class="col-sm-8">
+                    <input name="fileSort" th:field="*{fileSort}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">人工保存：</label>
+                <div class="col-sm-8">
+                    <input name="fileManual" th:field="*{fileManual}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "cms/file";
+        $("#form-file-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#fileId").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-file-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.fileId) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.fileId;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：fileId");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

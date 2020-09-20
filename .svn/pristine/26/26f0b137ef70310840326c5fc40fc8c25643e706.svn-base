@@ -1,0 +1,422 @@
+.cesium-viewer-cesiumWidgetContainer .cesium-widget canvas {
+    cursor: default !important;
+}
+
+.cesium-viewer .compass {
+    top: 50px;
+}
+
+.cesium-viewer .navigation-controls {
+    top: 150px;
+}
+
+.corridor {
+    position: absolute;
+    right: 10px;
+    bottom: 50px;
+    z-index: 999;
+}
+
+.corridor-brief {
+    position: fixed;
+    /*width: 297px;*/
+    width: 752px;
+    height: 52px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 99;
+    /*background-image: url(../images/bg_1.png);*/
+    background-image: url(../images/bg_title.png);
+    background-size: 100% 100%;
+    padding: 0px 10px;
+    overflow: hidden;
+}
+
+.corridor-brief p.title {
+    line-height: 48px;
+    color: #64EDE8;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    /*text-shadow: 4px 4px 4px #000;*/
+    letter-spacing: 3px;
+    background-image: -webkit-linear-gradient(bottom, red, #fd8403, yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.corridor-brief .content {
+    color: wheat;
+    margin: 10px 0px 10px 0px;
+    padding: 5px;
+    max-height: 175px;
+    /*max-width: 100%;*/
+    box-sizing: border-box;
+    line-height: 25px;
+    text-shadow: 2px 2px 2px #000;
+    word-wrap: break-word;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
+}
+
+
+/******* 底部滚动菜单 开始************/
+
+.img-box {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    width: 500px;
+    margin-left: -250px;
+    height: 100px;
+    z-index: 999;
+}
+
+.img-box .img-list li {
+    position: absolute;
+}
+
+.img-box .img-list li img {
+    width: 64px;
+    height: 64px;
+}
+
+.img-box .img-list li:nth-child(1),
+.img-box .img-list li:nth-child(11) {
+    opacity: 0.1;
+}
+
+.img-scroll .prev,
+.img-scroll .next {
+    position: absolute;
+    display: block;
+    width: 28px;
+    height: 40px;
+    text-align: center;
+    bottom: 10px;
+    background-color: #000000b5;
+    border-radius: 4px;
+}
+
+.img-scroll .prev {
+    left: 50%;
+    margin-left: -100px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.img-scroll .next {
+    left: 50%;
+    margin-left: 72px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.img-scroll .prev:hover,
+.img-scroll .next:hover {
+    background-color: #2883dad4;
+}
+
+.img-scroll .prev img,
+.img-scroll .next img {
+    width: 100%;
+    height: 100%;
+}
+
+.img-scroll .show_btn {
+    position: absolute;
+    left: 50%;
+    margin-left: -60px;
+    bottom: 10px;
+    width: 120px;
+    height: 40px;
+    line-height: 38px;
+    background-color: #000000b5;
+    border-radius: 8px;
+    background-image: url(../images/hide_item.png);
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    cursor: pointer;
+}
+
+.img-scroll .show_btn:hover {
+    background-color: #2883dad4;
+}
+
+.img-scroll .show_btn span {
+    color: #fff;
+    margin-left: 50px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.img-list {
+    position: absolute;
+    left: -45px
+}
+
+.img-list ul li {
+    display: block;
+    width: 90px;
+    height: 90px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+.img-list ul .item_img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-list ul .item_img .img2 {
+    position: absolute;
+    top: 10px;
+    left: 28px;
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.img-list ul .item_img .img2:hover {
+    transform: scale(1.2);
+}
+
+.bottom-box {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: auto;
+    width: 516px;
+    margin-left: -258px;
+    /*background: #fff;*/
+    z-index: 998;
+}
+
+.bottom-box ul li {
+    position: absolute;
+    display: table;
+    width: 66px;
+    height: 66px;
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+    background: url('../images/world_button_6line_def.png') center no-repeat;
+    cursor: pointer !important;
+}
+
+.bottom-box ul li.active {
+    background: url('../images/world_button_6line_sel.png') center no-repeat;
+}
+
+.bottom-box ul li:hover {
+    background: url('../images/world_button_6line_sel.png') center no-repeat;
+}
+
+.bottom-box ul li span {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.bottom-box ul li:nth-child(1) {
+    left: 0px;
+    bottom: 10px;
+}
+
+.bottom-box ul li:nth-child(2) {
+    left: 90px;
+    bottom: 60px;
+}
+
+.bottom-box ul li:nth-child(3) {
+    left: 180px;
+    bottom: 110px;
+}
+
+.bottom-box ul li:nth-child(4) {
+    left: 270px;
+    bottom: 110px;
+}
+
+.bottom-box ul li:nth-child(5) {
+    left: 360px;
+    bottom: 60px;
+}
+
+.bottom-box ul li:nth-child(6) {
+    left: 450px;
+    bottom: 10px;
+}
+
+.bottom-box-btn {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 36px;
+    width: 162px;
+    margin-left: -81px;
+    background: #fff;
+    color: #fff;
+    z-index: 999;
+    text-align: center;
+    line-height: 32px;
+    font-size: 13px;
+    cursor: pointer;
+    background: url('../images/world_button_openline_def.png') center no-repeat;
+}
+
+.bottom-box-btn.active {
+    background: url('../images/world_button_openline_sel.png') center no-repeat;
+}
+
+.bottom-box-btn span {
+    font-size: 13px !important;
+}
+
+
+/******* 底部滚动菜单 结束************/
+
+
+/******* 室内展厅 开始************/
+
+.sn-viewer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    z-index: 9999;
+    display: none;
+}
+
+.sn-viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.sn-viewer .return-btn {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    z-index: 99;
+}
+
+.sn-viewer .return-btn .button {
+    height: 40px;
+    width: auto;
+    text-decoration: none;
+    border-radius: 2px;
+    background-color: rgba(37, 37, 37, .9);
+    *background-color: #252525;
+    filter: alpha(opacity=90);
+    border-radius: 2px 2px 0 0;
+    background-color: #252525;
+    _background-color: #252525;
+    *background-color: #252525;
+    background-color: rgba(37, 37, 37, .9);
+    display: inline-block;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.return-btn .button span {
+    background-image: url(../images/album_aae0aec.png);
+    width: 11px;
+    height: 18px;
+    background-position: -98px -80px;
+    margin: 11px 8px 11px 19px;
+    display: inline-block;
+}
+
+.return-btn .button em {
+    line-height: 40px;
+    height: 40px;
+    vertical-align: top;
+    color: gray;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: none;
+    margin-right: 12px;
+    font-size: 12px;
+}
+
+
+/******* 室内展厅 结束************/
+
+
+/********** 右侧图表展示 开始********************/
+
+.charts-container {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    right: 10px;
+    width: 20vw;
+    z-index: 99;
+    box-sizing: border-box;
+    /* background: #fff; */
+    /* background: url(../images/bg04.png) no-repeat;
+    background-size: 100% 100%; */
+    border-image: url(../img/bg04.png) 22 45 22 10 round;
+}
+
+.charts-container .close {
+    position: absolute;
+    display: inline-block;
+    top: 0px;
+    right: 0px;
+    height: 26px;
+    width: 39px;
+    background: url(../images/close.png) no-repeat;
+    cursor: pointer;
+}
+
+.charts-container .top {
+    border-top: 22px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 45px solid transparent;
+    border-bottom: 0;
+    border-image: url(../images/bg04.png) 22 45 22 10 round;
+    background-color: transparent;
+    height: 20px;
+    line-height: 20px;
+    /* background-image: url(../images/bg04_02.png); */
+    /* background-repeat: no-repeat, no-repeat; */
+    /* background-position: left center, center; */
+    /* background-size: auto, 100% 100%; */
+    padding-left: 20px;
+    padding-right: 35px;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.charts-container .content {
+    color: #fff;
+    background-color: transparent;
+    background-image: url(../images/bg28.png);
+    border: 1px solid #73ffff;
+    border-top: 0;
+    position: absolute;
+    top: 31px;
+    bottom: 0;
+    width: 100%;
+}
+
+.charts-container .content .riskchart {
+    height: 50%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    /* border: 1px solid #fff; */
+}
+
+
+/********** 右侧图表展示 结束********************/

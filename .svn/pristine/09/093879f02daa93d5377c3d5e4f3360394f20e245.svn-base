@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupCountMapper">
+    <!-- 更新统计设备表-->
+    <update id="updateEquipmentCount" statementType="CALLABLE">
+        {CALL updateEquipmentCount}
+    </update>
+
+    <!-- 更新行政地区，半个月早上5点更新一次啊-->
+    <insert id="insertAupArea" statementType="CALLABLE">
+        {CALL insertAupArea}
+    </insert>
+
+    <!-- 更新户信息，半个月早上3点更新一次啊-->
+    <insert id="insertHouseMeterInfo" statementType="CALLABLE">
+        {CALL insertHouseMeterInfo}
+    </insert>
+
+    <!-- 更新水分区读数，每天凌晨1更新一次-->
+    <select id="insertWaterUseNumber" statementType="CALLABLE">
+        {CALL insertWaterUseNumber(
+            #{year,jdbcType=VARCHAR,mode = IN}
+            ,#{month,jdbcType =VARCHAR,mode = IN}
+        )}
+    </select>
+    <select id="insetElectricityUseNumber" statementType="CALLABLE">
+           {CALL insetElectricityUseNumber(
+            #{year,jdbcType=VARCHAR,mode = IN}
+            ,#{month,jdbcType =VARCHAR,mode = IN}
+        )}
+    </select>
+
+
+    <!-- 更新户表读数，每天凌晨5点更新-->
+    <update id="updateHouseMeterInfo" statementType="CALLABLE">
+        {CALL updateHouseMeterInfo}
+    </update>
+
+    <!-- 更新行政地区表状态，每天凌晨4点更新-->
+    <update id="updateMeterInfo" statementType="CALLABLE">
+        {CALL updateMeterInfo}
+    </update>
+
+    <!-- 更新行政地区表读数，每天凌晨0点更新-->
+    <update id="updateMeterUseNumber" statementType="CALLABLE">
+        {CALL updateMeterUseNumber}
+    </update>
+
+    <!-- 更新用量统计，每天早上6更新一次-->
+    <update id="updateTotalUseNumber" statementType="CALLABLE">
+        {CALL updateTotalUseNumber}
+    </update>
+
+
+    <select id="queryTotalUseNumber" statementType="CALLABLE" resultType="Map">
+       {CALL nyjk_queryTotalUseNumber(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+            ,#{important,jdbcType =VARCHAR,mode = IN})
+            }
+
+    </select>
+
+    <!-- 面积水耗，电耗-->
+    <select id="queryAreaUseNumber" statementType="CALLABLE" resultType="Map">
+      {
+        CALL nyjk_queryAreaUseNumber(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+            ,#{important,jdbcType =VARCHAR,mode = IN}
+            )
+          }
+    </select>
+
+
+</mapper>

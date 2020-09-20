@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScPrizesMapper">
+    
+    <resultMap type="ScPrizes" id="ScPrizesResult">
+        <result property="prizesId"    column="prizes_id"    />
+        <result property="prizesName"    column="prizes_name"    />
+        <result property="prizesNum"    column="prizes_num"   jdbcType="INTEGER"   />
+        <result property="prizesScore"    column="prizes_score"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time" jdbcType="BIGINT"     />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"    />
+        <result property="remark"    column="remark"    />
+        <collection  property="files"   javaType="java.util.List"        resultMap="ScFileInfoResult" />
+    </resultMap>
+
+    <resultMap type="ScFileInfo" id="ScFileInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <sql id="selectScPrizesVo">
+        select prizes_id, prizes_name, prizes_num, prizes_score, create_by, create_time, update_by, update_time, remark from sc_prizes
+    </sql>
+
+    <sql id="selectScPrizesByFileVo">
+        select p.prizes_id, p.prizes_name, p.prizes_num, p.prizes_score, p.create_by, p.create_time, p.update_by, p.update_time,p.remark 
+				,f.file_id,f.file_name,f.file_path
+	    from sc_prizes p
+	    left join sc_file_info f on f.file_target = p.prizes_id and f.file_code = 'prizes' 
+    </sql>
+
+
+    <select id="selectScPrizesList" parameterType="ScPrizes" resultMap="ScPrizesResult">
+        <include refid="selectScPrizesVo"/>
+        <where>  
+            <if test="prizesName != null  and prizesName != ''">
+            	<bind name="_prizesName" value="'%'+ prizesName +'%'"/>
+            	and prizes_name like #{_prizesName}
+            </if>
+            <if test="prizesNum != null "> and prizes_num = #{prizesNum}</if>
+            <if test="prizesScore != null "> and prizes_score = #{prizesScore}</if>
+        </where>
+    </select>
+    
+    <select id="selectScPrizesById" parameterType="Long" resultMap="ScPrizesResult">
+        <include refid="selectScPrizesVo"/>
+        where prizes_id = #{prizesId}
+    </select>
+
+    <select id="selectScPrizesFileById" parameterType="Long" resultMap="ScPrizesResult">
+        <include refid="selectScPrizesByFileVo"/>
+        where prizes_id = #{prizesId}
+    </select>
+
+    <select id="checkPrizesNumById" parameterType="Long" resultMap="ScPrizesResult">
+        <include refid="selectScPrizesVo"/>
+        where prizes_id = #{prizesId} and prizes_num > 0
+    </select>
+        
+    <insert id="insertScPrizes" parameterType="ScPrizes">
+        insert into sc_prizes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="prizesId != null ">prizes_id,</if>
+            <if test="prizesName != null  and prizesName != ''">prizes_name,</if>
+            <if test="prizesNum != null ">prizes_num,</if>
+            <if test="prizesScore != null ">prizes_score,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="prizesId != null ">#{prizesId},</if>
+            <if test="prizesName != null  and prizesName != ''">#{prizesName},</if>
+            <if test="prizesNum != null ">#{prizesNum,jdbcType=INTEGER},</if>
+            <if test="prizesScore != null ">#{prizesScore},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT  },</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScPrizes" parameterType="ScPrizes">
+        update sc_prizes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="prizesName != null  and prizesName != ''">prizes_name = #{prizesName},</if>
+            <if test="prizesNum != null ">prizes_num = #{prizesNum,jdbcType=INTEGER},</if>
+            <if test="prizesScore != null ">prizes_score = #{prizesScore},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where prizes_id = #{prizesId}
+    </update>
+
+    <delete id="deleteScPrizesById" parameterType="Long">
+        delete from sc_prizes where prizes_id = #{prizesId}
+    </delete>
+
+    <delete id="deleteScPrizesByIds" parameterType="String">
+        delete from sc_prizes where prizes_id in 
+        <foreach item="prizesId" collection="array" open="(" separator="," close=")">
+            #{prizesId}
+        </foreach>
+    </delete>
+    
+</mapper>

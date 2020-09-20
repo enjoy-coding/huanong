@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>决策保障--管网分析</title>
+    <link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/font.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/common.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/css/insidePage.css(v=${staticResourcesVersion})}" rel="stylesheet">
+    <script th:inline="javascript">
+        var ctx = [[@{/}]];
+    </script>
+    <style>
+        .xxtsBox p{
+            margin: 10px;
+            text-indent: 0px;
+        }
+        .xxtsBox textarea {
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            height: 200px;
+            background: none;
+            color:#fff;
+            text-indent: 30px;
+            border: 1px solid rgba(255,2555,255,.4);
+        }
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #fff;
+        }
+
+        input:-moz-placeholder,
+        textarea:-moz-placeholder {
+            color:#fff;
+        }
+
+        input::-moz-placeholder,
+        textarea::-moz-placeholder {
+            color:#fff;
+        }
+
+        input:-ms-input-placeholder,
+        textarea:-ms-input-placeholder {
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class="xxtsBox">
+
+    <p>
+    <textarea type="text" id="troubleYy" placeholder="" autocomplete="off">兹因xxxx问题需要：预定于yyyy-MM-dd hh:mm:ss至yyyy-MM-dd hh:mm:ss止，你的位置将停止供电/供水
+        后勤管理中心 yyyy-MM-dd</textarea>
+    </p>
+    <!--<h5>停电通知</h5>
+    <h6 class="underline clGreen"><input  th:value="${lzxdXxts.area}" value="" type="text" id="areaName" autocomplete="off"/>：</h6>
+    <p>兹因
+        <span class="underline clGreen">
+                <input  value="" type="text" id="troubleYy" autocomplete="off"/>
+            </span>
+        需要：预定于
+        <span class="underline clGreen">
+                <input type="text" class="layui-input" id="dataTime1" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off" >
+            </span>
+        至
+        <span class="underline clGreen">
+                <input type="text" class="layui-input" id="dataTime2" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off" >
+            &lt;!&ndash;<input value="2019-02-12 8:30:00" type="text" autocomplete="off"/>&ndash;&gt;
+            </span>
+        止，&lt;!&ndash;你所处
+        <span class="underline clGreen">
+                <input value="华北路至梅园路" type="text" autocomplete="off"/>
+            </span>，&ndash;&gt;将停止供电。
+    </p>
+    <p>请用户相互转告，早做准备，感谢您对后勤工作的支持。</p>
+    <h6>后勤管理中心</h6>
+    <h6 id="nowTime"></h6>-->
+    <div class="fsBox">
+        发送至：
+        <input type="checkbox" name="dx" value="wx"> 微信
+        <input type="checkbox" name="dx" value="dx"> 短信
+    </div>
+    <div class="btuGrounp">
+        <button type="button" class="Btn bgGreen" id="resetMessage">重置</button>
+        <button type="button" class="Btn bgGreen2" id="sendMessage">发送</button>
+    </div>
+</div>
+</body>
+<script th:src="@{/def/js/jquery.min.js}"></script>
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<script  th:inline="javascript">
+    var allUser;
+    var typeName;
+    var wxOpenIds;
+    var phoneNums;
+    var userIds;
+    var msg = "";
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#dataTime1'
+            , type: 'datetime'
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#dataTime2'
+            , type: 'datetime'
+        });
+    });
+    var prefix = ctx + "screen/jcbz";
+
+    $(function(){
+        getTime();
+        getAllUser();
+    });
+    //获取当前时间
+    function getTime(){
+        typeName=[[${typeName}]];
+        var nowDate = showTime(0);
+        var nextDate = showTime(1);
+        //var msg="兹因xxxx问题需要：预定于"+nextDate+" 08:00:00 至"+nextDate+"16:00:00 止，你的位置将停止供电。后勤管理中心" + str;
+        msg="";
+        if(typeName=="lzxd"){
+            msg="兹因xxxx问题需要：预定于"+nextDate+" 08:00 至"+nextDate+" 16:00 止，你的位置将停止供电\n" +
+                "        后勤管理中心"+ nowDate;
+        }else if(typeName=="gfts"){
+            msg="兹因xxxx问题需要：预定于"+nextDate+" 08:00 至"+nextDate+" 16:00 止，你的位置将停止供水\n" +
+                "        后勤管理中心"+ nowDate;
+        }
+        $("#troubleYy").val(msg);
+    }
+
+    //获取所有发送人员信息
+    function getAllUser(){
+        //allUser=parent.JCBZ.jcbzData.lzxdXxtsHqyhList;
+        wxOpenIds=parent.JCBZ.jcbzData.lzxdXxtsHqyhWxStr;
+        phoneNums=parent.JCBZ.jcbzData.lzxdXxtsHqyhPhoneStr;
+        userIds=parent.JCBZ.jcbzData.lzxdXxtsHqyhUserIdStr;
+    }
+
+    $("#sendMessage").click(function(){
+        debugger;
+        //var areaName = $("#areaName").val();
+        //var dataTime1 = $("#dataTime1").val();
+        //var dataTime2 = $("#dataTime2").val();
+        //var troubleYy = $("#troubleYy").text();
+        var troubleYy = $("#troubleYy").val();
+        if(troubleYy==""){
+            layer.msg("未填写原因!");
+            return;
+        }
+        var obj = document.getElementsByName('dx');
+        console.log(obj);
+        var str = '';
+        for (var i = 0; i < obj.length; i++) {
+            if(i==0){
+                if (obj[i].checked) str += obj[i].value;
+            }else{
+                if (obj[i].checked) str += ( ',' + obj[i].value) ;
+            }
+        }
+        if(str==""){
+            layer.msg("未选择发送方式！");
+            return;
+        }
+        console.log(str == '' ? '你还没有选择任何内容！' : str);
+
+        $.ajax({
+            type: 'post',
+            async: false,
+            data:{
+                troubleYy:troubleYy,
+                //allUser:JSON.stringify(allUser),
+                //wxOpenIds: wxOpenIds,
+                //phoneNums: phoneNums,
+                userIds: userIds,
+                typeName: typeName
+            },
+            url: prefix + '/sendMessage?type='+str,
+            success: function (data) {
+                if(data.code==0){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);//关闭当前页
+                    parent.layer.msg(data.msg);
+                }
+                if(data.code==500){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);//关闭当前页
+                    parent.layer.msg("没有发送权限");
+                }
+            }
+         });
+    });
+
+    $("#resetMessage").click(function(){
+
+        $("#troubleYy").val(msg);
+        $("#dataTime1").val("");
+        $("#dataTime2").val("");
+    });
+
+    function showTime(pdVal) {
+        var trans_day = "";
+        var cur_date =  new Date();
+        var cur_year = cur_date.getFullYear();
+
+        var cur_month = cur_date.getMonth() + 1;
+        var real_date = cur_date.getDate();
+        cur_month = cur_month > 9 ? cur_month : ("0" + cur_month);
+        real_date = real_date > 9 ? real_date : ("0" + real_date);
+        eT = cur_year + "-" + cur_month + "-" + real_date;
+        if (pdVal == 1) {
+            trans_day = addByTransDate(eT, 1);
+        }
+        else if (pdVal == -1) {
+            trans_day = reduceByTransDate(eT, 1);
+        }
+        else {
+            trans_day = eT;
+        }
+        //处理
+        return trans_day;
+    }
+    function addByTransDate(dateParameter, num) {
+        var translateDate = "", dateString = "", monthString = "", dayString = "";
+        translateDate = dateParameter.replace("-", "/").replace("-", "/");
+        var newDate = new Date(translateDate);
+        newDate = newDate.valueOf();
+        newDate = newDate + num * 24 * 60 * 60 * 1000;
+        newDate = new Date(newDate);
+        //如果月份长度少于2，则前加 0 补位
+        if ((newDate.getMonth() + 1).toString().length == 1) {
+            monthString = 0 + "" + (newDate.getMonth() + 1).toString();
+        } else {
+            monthString = (newDate.getMonth() + 1).toString();
+        }
+        //如果天数长度少于2，则前加 0 补位
+        if (newDate.getDate().toString().length == 1) {
+            dayString = 0 + "" + newDate.getDate().toString();
+        } else {
+            dayString = newDate.getDate().toString();
+        }
+        dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+        return dateString;
+    }
+
+</script>
+</html>

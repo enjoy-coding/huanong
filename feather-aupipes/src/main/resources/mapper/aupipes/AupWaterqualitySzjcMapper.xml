@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWaterqualitySzjcMapper">
+
+    <resultMap type="AupWaterqualitySzjc" id="AupWaterqualitySzjcResult">
+        <result property="id"    column="id"    />
+        <result property="jcsj"    column="jcsj"    />
+        <result property="jclx"    column="jclx"    />
+        <result property="ygfrjy"    column="ygfrjy"    />
+        <result property="dcsddl"    column="dcsddl"    />
+        <result property="zd"    column="zd"    />
+        <result property="ph"    column="ph"    />
+        <result property="orp"    column="orp"    />
+        <result property="wd"    column="wd"    />
+        <result property="oid"    column="oid"    />
+    </resultMap>
+
+    <sql id="selectAupWaterqualitySzjcVo">
+        select id, jcsj, jclx, ygfrjy, dcsddl, zd, ph, orp, wd,oid from aup_waterQuality_szjc
+    </sql>
+    <select id="selectAupWaterqualitySzjcByOid" parameterType="Long" resultMap="AupWaterqualitySzjcResult">
+        select  id, jcsj, jclx, ygfrjy, dcsddl, zd, ph, orp, wd,oid from aup_waterQuality_szjc
+        where oid = #{oid}
+        order by jcsj desc
+    </select>
+
+    <select id="selectAupWaterqualitySzjcList" parameterType="AupWaterqualitySzjc" resultMap="AupWaterqualitySzjcResult">
+        <include refid="selectAupWaterqualitySzjcVo"/>
+        <where>
+            <if test="oid !=null">
+                and oid = #{oid}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupWaterqualitySzjcById" parameterType="Long" resultMap="AupWaterqualitySzjcResult">
+        <include refid="selectAupWaterqualitySzjcVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupWaterqualitySzjc" parameterType="AupWaterqualitySzjc">
+        insert into aup_waterQuality_szjc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">oid,</if>
+            <if test="id != null  and id != ''">id,</if>
+            <if test="jcsj != null  and jcsj != ''">jcsj,</if>
+            <if test="jclx != null  and jclx != ''">jclx,</if>
+            <if test="ygfrjy != null  and ygfrjy != ''">ygfrjy,</if>
+            <if test="dcsddl != null ">dcsddl,</if>
+            <if test="zd != null ">zd,</if>
+            <if test="ph != null ">ph,</if>
+            <if test="orp != null  and orp != ''">orp,</if>
+            <if test="wd != null ">wd,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">#{oid},</if>
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="jcsj != null  and jcsj != ''">#{jcsj},</if>
+            <if test="jclx != null  and jclx != ''">#{jclx},</if>
+            <if test="ygfrjy != null  and ygfrjy != ''">#{ygfrjy},</if>
+            <if test="dcsddl != null ">#{dcsddl},</if>
+            <if test="zd != null ">#{zd},</if>
+            <if test="ph != null ">#{ph},</if>
+            <if test="orp != null  and orp != ''">#{orp},</if>
+            <if test="wd != null ">#{wd},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupWaterqualitySzjc" parameterType="AupWaterqualitySzjc">
+        update aup_waterQuality_szjc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jcsj != null  and jcsj != ''">jcsj = #{jcsj},</if>
+            <if test="jclx != null  and jclx != ''">jclx = #{jclx},</if>
+            <if test="ygfrjy != null  and ygfrjy != ''">ygfrjy = #{ygfrjy},</if>
+            <if test="dcsddl != null ">dcsddl = #{dcsddl},</if>
+            <if test="zd != null ">zd = #{zd},</if>
+            <if test="ph != null ">ph = #{ph},</if>
+            <if test="orp != null  and orp != ''">orp = #{orp},</if>
+            <if test="wd != null ">wd = #{wd},</if>
+            <if test="oid != null ">oid = #{oid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupWaterqualitySzjcById" parameterType="String">
+        delete from aup_waterQuality_szjc where id = #{id}
+    </delete>
+
+    <delete id="deleteAupWaterqualitySzjcByIds" parameterType="String">
+        delete from aup_waterQuality_szjc where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

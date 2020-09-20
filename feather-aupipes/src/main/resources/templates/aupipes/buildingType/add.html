@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增楼栋详情')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-buildingtype-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">区域No：</label>
+                <div class="col-sm-8">
+                    <input name="areano" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">楼栋No：</label>
+                <div class="col-sm-8">
+                    <input name="no" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">区域名称：</label>
+                <div class="col-sm-8">
+                    <input name="areaname" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">楼栋名称：</label>
+                <div class="col-sm-8">
+                    <input name="buildingname" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">楼栋类型：</label>
+                <div class="col-sm-8">
+                    <!--<select name="buildingtype" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>-->
+                    <select name="buildingtype" class="form-control m-b" th:with="type=${@dict.getType('building_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictLabel}"></option>
+                    </select>
+                   <!-- <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>-->
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "aupipes/buildingType"
+        $("#form-buildingtype-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                //$.operate.save(prefix + "/add", $('#form-buildingtype-add').serialize());
+                $.operate.save({
+                    url: prefix +"/add",
+                    data: $('#form-buildingtype-add').serialize(),
+                    success: function(result, _option) {
+                        if(result.code==0){
+                            $.modal.msgSuccess(result.msg);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

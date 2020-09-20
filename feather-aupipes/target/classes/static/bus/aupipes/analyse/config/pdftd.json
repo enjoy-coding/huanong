@@ -1,0 +1,83 @@
+{
+    "changetime": 8000,
+    "kuaijinchangetime": 5000,
+    "kuaituichangetime": 11000,
+    "xitongbaojing": {
+        "position": {
+            "x": 114.34244,
+            "y": 30.47643,
+            "z": 44.15
+        },
+        "image": {
+            "pdfsb": "bus/aupipes/analyse/images/img/pdf1hsb.png"
+        },
+        "text": "配电房设备故障，发出报警"
+    },
+    "tongzhigongzuo": {
+        "position": {
+            "x": 114.34912,
+            "y": 30.47996,
+            "z": 75.23
+        },
+        "title": "后勤部",
+        "label": {
+            "text": "通知工作人员",
+            "texttwo": "通过微信或者短信自动将预警信息发送给工作人员"
+        },
+        "image": {
+            "leftphone": "bus/aupipes/analyse/images/img/shoudaoweixin.png",
+            "rightphone": "bus/aupipes/analyse/images/img/tzgzry.png"
+        }
+    },
+    "gongzuorenyuankancha": {
+        "position": {
+            "x": 114.34243,
+            "y": 30.47643,
+            "z": 44.15
+        },
+        "image": {
+            "gzrykc": "bus/aupipes/analyse/images/img/gzrykc.png"
+        },
+        "text": "工作人员现场勘查"
+    },
+    "qiyongbeigongdianyuan": {
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/qdbydy.png"
+        },
+        "text": "启用备供电源"
+    },
+    "tongzhixiangguanyonghu": {
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/tzxgyh.png"
+        },
+        "text": "工作人员向用户通知停电时间"
+    },
+    "linshigongdian": {
+        "position": {
+            "x": 114.34404,
+            "y": 30.47726,
+            "z": 54.30
+        },
+        "image": {
+            "lsgd": "bus/aupipes/analyse/images/img/lsgd.png"
+        },
+        "text": "临时供电"
+    },
+    "zuzhiweixiu": {
+        "position": {
+            "x": 114.34243,
+            "y": 30.47643,
+            "z": 44.15
+        },
+        "image": {
+            "gzryjxwx": "bus/aupipes/analyse/images/img/gzryjxwx.png"
+        },
+        "text": "组织维修"
+    },
+    "huifugongdian": {
+        "image": {
+            "hfzcgd": "bus/aupipes/analyse/images/img/hfzcgd.png"
+        },
+        "text": "恢复供电"
+    }
+}

@@ -1,0 +1,50 @@
+
+<h5 class="title3 clGreen">横断面分析</h5>
+<form class="layui-form layuiForm pw15 kwfxFrom" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="float: inherit;">分析图层：</label>
+        <div class="layui-row checkBox">
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="gs" class="switchBtn" title="给水管线" lay-skin="primary">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="dl" class="switchBtn" title="供电管线" lay-skin="primary">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="dl" class="switchBtn" title="路灯管线" lay-skin="primary">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="rq" class="switchBtn" title="天然气管线" lay-skin="primary">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="ps" class="switchBtn" title="污水管线" lay-skin="primary">
+            </div>
+            <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                <input type="checkbox" name="ps" class="switchBtn" title="雨水管线" lay-skin="primary">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">绘图方式：</label>
+        <div class="layui-input-block">
+           <!-- <input type="text" name="geoType" lay-verify="depth" autocomplete="off" placeholder="线" class="layui-input">-->
+            <select name="geoType" lay-filter="geoType" disabled="disabled">
+                <option value="0">线</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.hdfx.draw()">绘制</button>
+            </div>
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.hdfx.analysis()">分析</button>
+            </div>
+            <div class="layui-col-md4 layui-col-sm4 layui-col-xs4 txtC mb15">
+                <button type="button" class="formBtn" onclick="JCBZ.hdfx.clear()">清除</button>
+            </div>
+        </div>
+    </div>
+</form>
+

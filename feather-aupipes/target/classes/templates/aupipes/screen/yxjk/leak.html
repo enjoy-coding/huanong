@@ -1,0 +1,21 @@
+<!--探漏-->
+<div class="sbxjBox">
+    <div class="sbxjXxxx">
+        <h3>详细信息</h3>
+        <div class="rcxjXxxx" th:object="${leak}">
+            <h6>设备信息</h6>
+            <label>设备名称：[[*{siteno}]]</label> <label>设备状态：正常</label> <label>位置：[[*{placeaddress}]]</label>
+            <label>管径：[[*{pipediameter}]]毫米</label> <label>管道埋深：[[*{pipedepth}]]米</label>
+            <label>管道材质：[[*{pipematerial}]]</label>
+        </div>
+        <div class="rcxjXxxx">
+            <h6>监测信息</h6>
+            <!-- 监测信息图表 -->
+            <!-- 信号波动振幅 -->
+            <div id="xhbd_Charts"></div>
+            <!-- 异常系数 -->
+            <div id="ycxs_Charts"></div>
+            <span class="btn-shadow active but jcxxBtn">监测数据</span>
+        </div>
+    </div>
+</div>

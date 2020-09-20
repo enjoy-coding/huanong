@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('社区商家信息列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <p>姓名：</p>
+                            <input type="text" name="shopName"/>
+                        </li>
+                        <li>
+                            <p>标题：</p>
+                            <input type="text" name="shopTitle"/>
+                        </li>
+                        <li>
+                            <p>图片：</p>
+                            <input type="text" name="shopFile"/>
+                        </li>
+<!--                        <li>-->
+<!--                            <p>分类：</p>-->
+<!--                            <select name="shopType" th:with="type=${@dict.getType('sc_shop_type')}">-->
+<!--                                <option value="">所有</option>-->
+<!--                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
+<!--                            </select>-->
+<!--                        </li>-->
+                        <li>
+                            <p>状态：</p>
+                            <select name="shopStatus" th:with="type=${@dict.getType('sys_normal_disable')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="sc:shop:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.editFull()" shiro:hasPermission="sc:shop:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="sc:shop:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="sc:shop:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('sc:shop:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('sc:shop:remove')}]];
+    var listFlag = [[${@permission.hasPermi('sc:shop:list')}]];
+    var types = [[${@dict.getType('sc_shop_type')}]];
+    var prefix = ctx + "sc/shop";
+
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "社区商家信息",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'shopId',
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'shopName',
+                    title : '负责人'
+                },
+                {
+                    field : 'shopTitle',
+                    title : '标题'
+                },
+                {
+                    field : 'shopType',
+                    title : '分类',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(types, value);
+                    }
+
+                },
+                {
+                    field : 'shopTel',
+                    title : '电话'
+                },
+                {
+                    field : 'updateTime',
+                    title : '提交时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.shopId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-info btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="detail(\'' + row.shopId + '\')"><i class="fa fa-list-ul"></i>商品列表</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.shopId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    /*商品列表-详细*/
+		function detail(shopId) {
+		    var url = prefix + '/goods/' + shopId;
+		    $.modal.openTab("商品列表", url);
+		}
+</script>
+</body>
+</html>

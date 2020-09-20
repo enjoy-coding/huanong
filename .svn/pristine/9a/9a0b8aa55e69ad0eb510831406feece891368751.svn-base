@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('志愿者任务表列表')" />
+    <script th:src="@{/bus/lpscommunity/js/uploadImg.js}"></script>
+
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>任务标题：</p>
+                                <input type="text" name="params[parkrentTitle]" />
+                            </li>
+                            <li>
+                                <p>志愿者名称：</p>
+                                <input type="text" name="params[volunteerName]" />
+                            </li>
+                            <li>
+                                <p>审核状态：</p>
+                                <select name="auditState" th:with="type=${@dict.getType('sc_audit_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>通过状态：</p>
+                                <select name="auditPassState" th:with="type=${@dict.getType('sc_audit_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:taskVolunteer:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('sc:taskVolunteer:remove') }]];
+        var prefix = ctx + "sc/taskVolunteer";
+        var auditState = [[${@dict.getType('sc_audit_status') }]];
+        var auditPassState = [[${@dict.getType('sc_audit_type') }]];
+
+        $(function () {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                auditDetailUrl: prefix + "/audit/detail/{id}",
+                modalName: "志愿者任务表",
+                showColumns: false,
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'tvId',
+                    title: 'null',
+                    visible: false
+                },
+                {
+                    field: 'parkrent.parkrentId',
+                    title: '任务',
+                    visible: false
+                },
+                {
+                    field: 'volunteer.userId',
+                    title: '志愿者',
+                    visible: false
+                },
+                {
+                    field: 'parkrent.parkrentName',
+                    title: '任务名称',
+                    formatter: function (value, row, index) {
+                      return row.parkrent == null?"":row.parkrent.parkrentName;
+                    }
+                },
+                {
+                    field: 'volunteer.volunteerName',
+                    title: '志愿者姓名',
+                    formatter: function (value, row, index) {
+                      return row.volunteer == null?"":row.volunteer.volunteerName;
+                    }
+                },
+                {
+                    field: 'auditState',
+                    title: '审核状态',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(auditState, value);
+                    }
+                },
+                {
+                    field: 'auditPassState',
+                    title: '审核通过状态',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(auditPassState, value);
+                    }
+                },
+
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        if (row.auditState == 0) {
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.tvId + '\')"><i class="fa fa-edit"></i>审核</a> ');
+                        } else {
+                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="detailFull(\'' + row.tvId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+                        }
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.tvId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+</html>

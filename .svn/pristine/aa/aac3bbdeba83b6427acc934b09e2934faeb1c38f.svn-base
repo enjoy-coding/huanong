@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改巡点')" />
+    <link th:href="@{/def/libs/viewer/viewer.min.css}" rel="stylesheet"/>
+    <style type="text/css">
+    	.ptr-facades {
+    		padding-right: 15px;
+    	}
+    	.ptr-facades img {
+    		max-width: 150px;
+    		max-height: 150px
+    	}
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-card-edit" th:object="${card}">
+            <input id="cardId" name="cardId" th:field="*{cardId}" type="hidden">
+			<input name="cardDeptpt"  type="hidden" th:field="*{cardDept}" id="cardDept"/>
+            <h4 class="form-header h4">基本信息</h4>
+			<div class="row">
+            	<div class="col-sm-6">
+		            <div class="form-group">    
+		            	<label class="col-sm-4 control-label"><span class="requiredstar">*</span>类型：</label>
+		                <div class="col-sm-8">
+		                    <select name="cardType" class="form-control m-b" th:with="type=${@dict.getType('patrol_card_type')}">
+		                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{cardType}"></option>
+		                    </select>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label"><span class="requiredstar">*</span>所属部门：</label>
+		                <div class="col-sm-8">
+		                    <div class="input-group">
+		                        <input class="form-control" type="text" name="deptName" onclick="selectDeptTree()" id="deptName" th:field="*{deptName}" required>
+		                       	<span class="input-group-addon"><i class="fa fa-search"></i></span>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">线名：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardLine" th:field="*{cardLine}" class="form-control" type="text">
+		                    <!-- select name="cardLine" class="form-control m-b" th:with="type=${@dict.getType('patrol_line_type')}">
+		                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{cardLine}"></option>
+		                    </select -->
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		            	<label class="col-sm-4 control-label">行别：</label>
+		                <div class="col-sm-8">
+		                    <select name="cardSide" class="form-control m-b" th:with="type=${@dict.getType('patrol_side_type')}">
+		                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{cardSide}"></option>
+		                    </select>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">里程：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardMileage" th:field="*{cardMileage}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		        	<div class="form-group">
+						<label class="col-sm-4 control-label">上次巡检：</label>
+						<div class="col-sm-8">
+							<input th:field="*{lastPatrol}" class="form-control" type="text" readonly>
+						</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+                	<div class="form-group">
+						<label class="col-sm-4 control-label">周期（天）：</label>
+						<div class="col-sm-8">
+							<input th:field="*{patrolPlan}" class="form-control" type="text" readonly>
+						</div>
+					</div>
+                </div>
+                <div class="col-sm-6">
+                	<div class="form-group">
+						<label class="col-sm-4 control-label">逾期（天）：</label>
+						<div class="col-sm-8">
+							<input th:field="*{overdueDay}" class="form-control" type="text" readonly>
+						</div>
+					</div>
+                </div>
+            </div>
+            <h4 class="form-header h4">二维码</h4>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">第一个：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardQrcode1" th:field="*{cardQrcode1}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">第二个：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardQrcode2" th:field="*{cardQrcode2}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">第三个：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardQrcode3" th:field="*{cardQrcode3}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">第四个：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardQrcode4" th:field="*{cardQrcode4}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">第五个：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardQrcode5" th:field="*{cardQrcode5}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <h4 class="form-header h4">地理外观</h4>
+		    <div class="row">
+		        <div class="col-sm-6">
+		            <div class="form-group">    
+		                <label class="col-sm-4 control-label">坐标：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardCoordinate" th:field="*{cardCoordinate}" class="form-control" type="text">
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+                	<div class="form-group">    
+		                <label class="col-sm-4 control-label">地名：</label>
+		                <div class="col-sm-8">
+		                    <input name="cardAddress" th:field="*{cardAddress}" class="form-control" type="text">
+		                </div>
+		            </div>
+                </div>
+            </div>
+            <div class="row">
+            	<div class="col-sm-12">
+                	<div class="form-group" id="cardMap">
+	            		<label class="col-sm-2 control-label" onclick="$('.file').trigger('click')">照片：</label>
+	            		<div class="col-sm-10" id="div-facades">
+	            			<label class="ptr-facades" th:each="facade:*{facades}">
+								<img th:src="${facade.facadeUrl}" />
+							</label>
+	                    </div>
+	                </div>
+            	</div>
+            </div>
+		    <div class="row">
+                <div class="col-sm-12">
+		            <div class="form-group">    
+		                <label class="col-sm-2 control-label">说明：</label>
+		                <div class="col-sm-10">
+		                    <textarea name="remark" maxlength="500" class="form-control" rows="6">[[*{remark}]]</textarea>
+		                </div>
+		            </div>
+		        </div>
+		   </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()" shiro:hasPermission="patrol:log:edit"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:src="@{/def/libs/viewer/viewer.min.js}"></script>
+    <script type="text/javascript">
+        var prefix = ctx + "patrol/card";
+        $("#form-card-edit").validate({
+            focusCleanup: true
+        });
+        
+        new Viewer(document.getElementById('cardMap'));
+
+	    function isAdd() {
+			return $("#cardId").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+            	var qrcArr = [];
+            	qrcArr.push($("#cardQrcode1").val());
+            	qrcArr.push($("#cardQrcode2").val());
+            	qrcArr.push($("#cardQrcode3").val());
+            	qrcArr.push($("#cardQrcode4").val());
+            	qrcArr.push($("#cardQrcode5").val());
+
+                if (qrcArr.join("") == "") {
+                	$.modal.msgError("至少有一个二维码。");
+                	return;
+                }
+                var repeat = $.common.findRepeat(qrcArr, "index");
+                if (repeat != null) {
+                	$.modal.msgError("二维码重复："+ qrcArr[repeat]);
+                	return;
+                }
+                
+                $.operate.saveTab({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-card-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.cardId) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.cardId;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：cardId");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+        
+        /*用户管理-修改-选择部门树*/
+        function selectDeptTree() {
+            var url = ctx + "system/dept/selectDeptTree/" + ($("#cardDept").val()||'0');
+		    var options = {
+				title: '选择部门',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			//if ($.tree.notAllowParents(tree)) {
+    			var node = window["layui-layer-iframe"+ index].selectedTreeNode;
+    			$("#cardDept").val(node.id);
+    			$("#deptName").val(node.name);
+    			layer.close(index);
+			//}
+		}
+    </script>
+</body>
+</html>

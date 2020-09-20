@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('审核信息发布')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="main-content">
+    <form class="form-horizontal" id="form-parkrent-edit" th:object="${scParkrent}">
+        <input name="parkrentId"  id="parkrentId" type="hidden"  th:field="*{parkrentId}"/>
+        <input name="auditState"  id="auditState" type="hidden"  th:field="*{auditState}"/>
+        <h4 class="form-header h4">基本信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>标题：</label>
+                    <div class="col-sm-8">
+                        <input  class="form-control" type="text"  th:field="*{parkrentTitle}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>类型：</label>
+                    <div class="col-sm-6">
+                        <select  class="form-control m-b" th:with="type=${@dict.getType('sc_task_state1')}" disabled>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{parkrentType}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>负责人：</label>
+                    <div class="col-sm-6">
+                        <input  class="form-control" type="text"  th:field="*{parkrentName}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>联系电话：</label>
+                    <div class="col-sm-6">
+                        <input  class="form-control" type="text" th:field="*{parkrentTel}" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group">-->
+<!--                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>开始时间：</label>-->
+<!--                    <div class="col-sm-8">-->
+<!--                        <input  class="form-control" type="text"  th:field="*{beginTime}" readonly>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group">-->
+<!--                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>结束时间：</label>-->
+<!--                    <div class="col-sm-8">-->
+<!--                        <input  class="form-control" type="text"  th:field="*{endTime}" readonly>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar"></span>图片：</label>
+                    <div class="col-sm-10">
+                        <div id="Pic_pass">
+                           <div class="picDiv" >
+                               <div class='imageDiv' th:each="f:${scFileInfoList}" >
+                                   <img th:src="${f.filePath}" onclick="imageView(this)"  style="cursor:pointer;" />
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">内容：</label>
+                    <div class="col-xs-8">
+                        <textarea  maxlength="500"  class="form-control" rows="5" readonly > [[*{parkrentContent}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="form-header h4">审核信息</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar">*是否通过</span>：</label>
+                    <div class="col-sm-8">
+                        <select name="auditPassState" class="form-control m-b" th:with="type=${@dict.getType('sc_audit_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{auditPassState}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">内容：</label>
+                    <div class="col-xs-8">
+                        <textarea name="auditContent" maxlength="500" class="form-control" rows="5">[[*{auditContent}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    var prefix = ctx + "sc/parkrent";
+    var auditDetaiPiclUrl = prefix +"/audit/detail/pic";
+    $("#form-audit-edit").validate({
+        focusCleanup: true
+    });
+
+    $(function(){
+        if(isAudit()){
+            $('input,select,textarea',$("#form-parkrent-edit")).attr('disabled',true);
+        }
+    })
+    function isAudit(){
+       return $("#auditState").val()==1?true:false;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save({
+                url: prefix + "/audit",
+                data: $("#form-parkrent-edit").serializeArray(),
+                success: function(result, _option) {
+                    $.operate.saveSuccess(result);
+                }
+            });
+        }
+    }
+
+
+
+    /**
+     * 多图预览
+     * @param e
+     */
+    function imageView(e){
+        var url = auditDetaiPiclUrl+"?parkrentId="+$("#parkrentId").val();
+        $.getJSON(url, function(json){
+            layer.photos({
+                photos: json,
+                anim: 0,
+                closeBtn:1,
+                shade:0.3
+            });
+        });
+    }
+
+</script>
+</body>
+</html>

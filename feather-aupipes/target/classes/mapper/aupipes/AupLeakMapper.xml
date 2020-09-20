@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupLeakMapper">
+
+    <resultMap type="AupLeak" id="AupLeakResult">
+        <result property="placeid" column="placeId"/>
+        <result property="placename" column="placeName"/>
+        <result property="placeaddress" column="placeAddress"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+        <result property="siteno" column="siteNO"/>
+        <result property="leakstate" column="leakState"/>
+        <result property="leakage" column="leakage"/>
+        <result property="areaname" column="areaName"/>
+        <result property="pipematerial" column="pipeMaterial"/>
+        <result property="pipediameter" column="pipeDiameter"/>
+        <result property="pipedepth" column="pipeDepth"/>
+        <result property="pipeid" column="pipeId"/>
+        <result property="pipetype" column="pipeType"/>
+    </resultMap>
+
+    <sql id="selectAupLeakVo">
+        select placeId, placeName, placeAddress, lng, lat, siteNO, leakState, leakage, areaName, pipeMaterial, pipeDiameter, pipeDepth, pipeId, pipeType from aup_leak
+    </sql>
+
+    <select id="selectAupLeakList" parameterType="AupLeak" resultMap="AupLeakResult">
+        <include refid="selectAupLeakVo"/>
+        <where>
+            <if test="placename != null  and placename != ''">
+                <bind name="_placename" value="'%'+ placename +'%'"/>
+                and placeName like #{_placename}
+            </if>
+            <if test="placeaddress != null  and placeaddress != ''">
+                <bind name="_placeaddress" value="'%'+ placeaddress +'%'"/>
+                and placeAddress like #{_placeaddress}
+            </if>
+            <if test="lng != null  and lng != ''">
+                <bind name="_lng" value="'%'+ lng +'%'"/>
+                and lng like #{_lng}
+            </if>
+            <if test="lat != null  and lat != ''">
+                <bind name="_lat" value="'%'+ lat +'%'"/>
+                and lat like #{_lat}
+            </if>
+            <if test="siteno != null  and siteno != ''">
+                <bind name="_siteno" value="'%'+ siteno +'%'"/>
+                and siteNO like #{_siteno}
+            </if>
+            <if test="leakstate != null  and leakstate != ''">
+                <bind name="_leakstate" value="'%'+ leakstate +'%'"/>
+                and leakState like #{_leakstate}
+            </if>
+            <if test="leakage != null  and leakage != ''">
+                <bind name="_leakage" value="'%'+ leakage +'%'"/>
+                and leakage like #{_leakage}
+            </if>
+            <if test="areaname != null  and areaname != ''">
+                <bind name="_areaname" value="'%'+ areaname +'%'"/>
+                and areaName like #{_areaname}
+            </if>
+            <if test="pipematerial != null  and pipematerial != ''">
+                <bind name="_pipematerial" value="'%'+ pipematerial +'%'"/>
+                and pipeMaterial like #{_pipematerial}
+            </if>
+            <if test="pipediameter != null  and pipediameter != ''">
+                <bind name="_pipediameter" value="'%'+ pipediameter +'%'"/>
+                and pipeDiameter like #{_pipediameter}
+            </if>
+            <if test="pipedepth != null  and pipedepth != ''">
+                <bind name="_pipedepth" value="'%'+ pipedepth +'%'"/>
+                and pipeDepth like #{_pipedepth}
+            </if>
+            <if test="pipeid != null  and pipeid != ''">
+                <bind name="_pipeid" value="'%'+ pipeid +'%'"/>
+                and pipeId like #{_pipeid}
+            </if>
+            <if test="pipetype != null  and pipetype != ''">
+                <bind name="_pipetype" value="'%'+ pipetype +'%'"/>
+                and pipeType like #{_pipetype}
+            </if>
+        </where>
+        order by siteNO
+    </select>
+
+    <select id="selectAupLeakById" parameterType="Integer" resultMap="AupLeakResult">
+        <include refid="selectAupLeakVo"/>
+        where placeId = #{placeId}
+    </select>
+
+    <insert id="insertAupLeak" parameterType="AupLeak">
+        insert into aup_leak
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="placeid != null ">placeId,</if>
+            <if test="placename != null  and placename != ''">placeName,</if>
+            <if test="placeaddress != null  and placeaddress != ''">placeAddress,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="siteno != null  and siteno != ''">siteNO,</if>
+            <if test="leakstate != null  and leakstate != ''">leakState,</if>
+            <if test="leakage != null  and leakage != ''">leakage,</if>
+            <if test="areaname != null  and areaname != ''">areaName,</if>
+            <if test="pipematerial != null  and pipematerial != ''">pipeMaterial,</if>
+            <if test="pipediameter != null  and pipediameter != ''">pipeDiameter,</if>
+            <if test="pipedepth != null  and pipedepth != ''">pipeDepth,</if>
+            <if test="pipeid != null  and pipeid != ''">pipeId,</if>
+            <if test="pipetype != null  and pipetype != ''">pipeType,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="placeid != null ">#{placeid},</if>
+            <if test="placename != null  and placename != ''">#{placename},</if>
+            <if test="placeaddress != null  and placeaddress != ''">#{placeaddress},</if>
+            <if test="lng != null  and lng != ''">#{lng},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="siteno != null  and siteno != ''">#{siteno},</if>
+            <if test="leakstate != null  and leakstate != ''">#{leakstate},</if>
+            <if test="leakage != null  and leakage != ''">#{leakage},</if>
+            <if test="areaname != null  and areaname != ''">#{areaname},</if>
+            <if test="pipematerial != null  and pipematerial != ''">#{pipematerial},</if>
+            <if test="pipediameter != null  and pipediameter != ''">#{pipediameter},</if>
+            <if test="pipedepth != null  and pipedepth != ''">#{pipedepth},</if>
+            <if test="pipeid != null  and pipeid != ''">#{pipeid},</if>
+            <if test="pipetype != null  and pipetype != ''">#{pipetype},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupLeak" parameterType="AupLeak">
+        update aup_leak
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="placename != null  and placename != ''">placeName = #{placename},</if>
+            <if test="placeaddress != null  and placeaddress != ''">placeAddress = #{placeaddress},</if>
+            <if test="lng != null  and lng != ''">lng = #{lng},</if>
+            <if test="lat != null  and lat != ''">lat = #{lat},</if>
+            <if test="siteno != null  and siteno != ''">siteNO = #{siteno},</if>
+            <if test="leakstate != null  and leakstate != ''">leakState = #{leakstate},</if>
+            <if test="leakage != null  and leakage != ''">leakage = #{leakage},</if>
+            <if test="areaname != null  and areaname != ''">areaName = #{areaname},</if>
+            <if test="pipematerial != null  and pipematerial != ''">pipeMaterial = #{pipematerial},</if>
+            <if test="pipediameter != null  and pipediameter != ''">pipeDiameter = #{pipediameter},</if>
+            <if test="pipedepth != null  and pipedepth != ''">pipeDepth = #{pipedepth},</if>
+            <if test="pipeid != null  and pipeid != ''">pipeId = #{pipeid},</if>
+            <if test="pipetype != null  and pipetype != ''">pipeType = #{pipetype},</if>
+        </trim>
+        where placeId = #{placeid}
+    </update>
+
+    <delete id="deleteAupLeakById" parameterType="Long">
+        delete from aup_leak where placeId = #{placeid}
+    </delete>
+
+    <delete id="deleteAupLeakByIds" parameterType="String">
+        delete from aup_leak where placeId in
+        <foreach item="placeid" collection="array" open="(" separator="," close=")">
+            #{placeid}
+        </foreach>
+    </delete>
+
+</mapper>

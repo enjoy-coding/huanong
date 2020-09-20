@@ -1,0 +1,516 @@
+.indexChange .CloseRight{
+	right:-18vw;
+}
+.zhzlLeftContent{
+	position:fixed;
+	top:9.26vh;
+	left:0;
+}
+.zhzlPersonnelList{
+	width:10vw;
+	position:relative;
+	padding:0.2vh 0;
+}
+.zhzlPersonnelList:after,.zhzlPersonnelList:before{
+	position:absolute;
+	display:inline-block;
+	content: '';
+	height:0.2vh;
+	left:0;
+	right:0;
+}
+.zhzlPersonnelList:after{
+	bottom:0;
+	background:url(../images/zhzlPersonnelList_top.png) no-repeat;
+	background-size: 100% 100%;
+}
+.zhzlPersonnelList:before{
+	top:0;
+	background:url(../images/zhzlPersonnelList_bottom.png) no-repeat;
+	background-size: 100% 100%;
+}
+.zhzlPersonnelList .content{
+	background:url(../images/zhzlPersonnelList_c.png) right repeat-y;
+}
+.zhzlPersonnelList .total dt{
+	width:2.6vw;
+	margin:0.92vh 0.52vw;
+	float:left;
+}
+.zhzlPersonnelList .total dt img{
+	display:block;
+	width:100%;
+}
+.zhzlPersonnelList .total dd{
+	margin:0.92vh 0.52vw;
+}
+.zhzlPersonnelList .total{
+	text-align: right;
+	overflow: hidden;
+}
+.zhzlPersonnelList .list li{
+	cursor: pointer;
+	margin:0 0.2vw;
+	padding:0 0.52vw;
+	overflow: hidden;
+	color:#fff;
+	line-height:4vh;
+	font-size:0.72vw;
+}
+.zhzlPersonnelList .list li.active,.zhzlPersonnelList .list li:hover{
+	background: url(../images/zhzl_txtBg_green_left.png) left no-repeat;
+}
+.zhzlPersonnelList .list li .number{
+	float: right;
+}
+.SearchBox2{
+	position:relative;
+	z-index: 2000;
+}
+.SearchBox2 input{
+	color:#e5e5e5;
+	display:inline-block;
+	width:100%;
+	height:4vh;
+	border-radius:4px;
+	background:#26272c;
+	border:none;
+	line-height:3vh;
+	padding:0.5vh 2vw 0.5vh 0.52vw;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.SearchBox2 .searchIco{
+	right:0.5vw;
+	top:0.5vh;
+	line-height:3vh;
+	width:1.5vw;
+	text-align: center;
+	cursor: pointer;
+	color:#29d9c4;
+}
+.searchResult{
+	height:70vh;
+	overflow-y: auto;
+}
+.searchResult li{
+	line-height:3.2vh;
+	position:relative;
+	border-bottom:1px solid #7b7c7e;
+	padding:0.92vh 0 0.92vh 1.6vw;
+}
+.searchResult li .number{
+	position:absolute;
+	left:0;
+	top:60%;
+	margin-top:-2.2vh;
+	font-size:1.6vw;
+	width:1.6vw;
+	text-align: center;
+	color:#fff;
+}
+.searchResult li:hover,.searchResult li.active{
+	cursor: pointer;
+	background:rgba(35,169,181,.4);
+}
+.layuiPage{
+	text-align: center;
+}
+.layuiPage .layui-laypage-curr .layui-laypage-em{
+	background:#2cebc0;
+}
+.layuiPage a:hover{
+	color:#2cebc0;
+}
+.layuiPage .layui-laypage-curr .layui-laypage-em{
+	top:0;
+	left:0;
+	padding:0;
+}
+.layuiPage a, .layuiPage span{
+	border: none;
+	color:#fff;
+	background:#676765;
+	padding:0 0.2vw;
+	height:2.6vh;
+	line-height:2.6vh;
+	/*margin: 0 0.2vw;*/
+}
+.subpageNavigation{
+	position:fixed;	
+	z-index: 1000;
+	left:50%;
+	top:10vh;
+	width:24vw;
+	margin-left:-12vw;
+	display: flex;
+    justify-content: space-between;
+}
+.subpageNavigation li{
+	cursor: pointer;
+	text-align: center;
+	color:#fff;
+	line-height:3.4vh;
+	font-size:0.82vw;
+	padding:0 1vw;
+	background:url(../images/zhzl_tabBg_gray.png) no-repeat;
+	background-size:100% 100%;
+}
+.subpageNavigation li i{
+	font-size:1.6vh;
+	margin-right:0.52vw;
+}
+.subpageNavigation li.active,.subpageNavigation li:hover{
+	background:url(../images/zhzl_tabBg_active.png) no-repeat;
+	background-size:100% 100%;
+}
+.znaf_bjtj{
+	padding:0.92vh 0.52vw;
+}
+.znaf_bjtj p{
+	line-height:4vh;
+	color:#fff;
+	font-size:0.72vw;
+}
+/*进度条*/
+.layuiProgress{
+	margin-right:2vw;
+	height:3px;
+	background:#535456;
+}
+.layuiProgress .layui-bg-green{
+	background:#43e8bf!important;
+}
+.layuiProgress .layui-bg-orange{
+	background:#fde57c!important;
+}
+.layuiProgress .layui-bg-red{
+	background:#f38949!important;
+}
+.layuiProgress .layui-bg-blue{
+	background:#7aedfb!important;
+}
+.layuiProgress .layui-progress-text{
+	position:absolute;
+	color:#fff;
+	font-size:0.52vw;
+	right:-2vw;
+	line-height:0.3vh;
+	top:0;
+}
+.layuiProgress .layui-progress-bar{
+	height:3px;
+}
+.znaf_bjzs{
+	width: 100%;
+    height: 17vh;
+}
+.gateAccessList{
+	height:68vh;
+	padding-right:0.52vw;
+	overflow-y: auto;
+}
+.gateAccessList li{
+	cursor: pointer;
+	border-bottom:1px solid #707070;
+	position: relative;
+	padding:0.92vh 0 0.92vh 5vw;
+	color:#fff;
+	font-size:0.72vw;
+	line-height:2.6vh;
+}
+.gateAccessList li:hover,.gateAccessList li.active{
+	background:rgba(35,169,181,.4);
+}
+.gateAccessList li .number{
+	position:absolute;
+	left:0;
+	top:0.92;
+	font-size:1.6vw;
+	width:1.6vw;
+	text-align: center;
+	color:#fff;
+}
+.gateAccessList li .img{
+	left:1.8vw;
+	top:0.92;
+	display:block;
+	width:2.6vw;
+	height:6.8vh;
+	position:absolute;
+}
+.gateAccessList li .btn{
+	position:absolute;
+	right:0;
+	top:0.92vh;
+	line-height:2.6vh;
+	display:inline-block;
+	padding:0 0.52vw;
+	color:#fff;
+	font-size:0.7vw;
+	border-radius: 2px;
+	background:#24cd96;
+	cursor: pointer;	
+}
+.znafBottomContent{
+	position: fixed;
+	z-index: 2000;
+	bottom:0;
+	left:0.52vw;
+	width:26vw;
+}
+.znafNewsContainer{
+	width:100%;
+	height:22vh;
+	overflow: hidden;
+	/*overflow-y: auto;*/
+}
+.znafNewsList li span{
+	color:#fd8644;
+	margin-right:0.52vw;
+}
+.znafNewsList li{
+	cursor: pointer;
+	border-radius:2px;
+	line-height:3.5vh;
+	height:3.5vh;
+	background: rgba(29,30,36,.6);
+	font-size:0.72vw;
+	color:#fff;
+	padding:0 1vw;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.znafNewsList li:hover,.znafNewsList li.active{
+	background: rgba(43,62,95,1);
+}
+.tabPercentage .layui-tab-title .layui-this:after{
+	height:3.6vh;
+	line-height:3.6vh;
+}
+.tabPercentage .layui-tab-title,.tabPercentage .layui-tab-title li {
+	height:3.6vh;
+	line-height:3.6vh;
+	font-size:0.82vw;
+}
+.tabPercentage .layui-tab-title li{
+	padding:0;
+	width:50%;
+}
+.tabPercentage .layui-tab-bar{
+	display:none;
+}
+.tabPercentage .layui-tab-content{
+	padding:0.92vh 0.52vw;
+}
+.VideoList ul{
+	height:74vh;
+	padding-right:0.52vw;
+	overflow-y: auto;
+}
+.VideoList li{
+	cursor: pointer;
+}
+
+/*综合治理左侧*/
+
+.zhzlBottomContent{
+	padding-top:2px;
+	background:url(../images/zhzl_bottomTxtBt_Top.png) no-repeat;
+	background-size: 100% 2px;
+	position:fixed;
+	z-index: 2000;
+	bottom:0;
+	left:0;
+	right:0;
+	height:22vh;
+}
+.leftShrink{
+	right:18.5vw;
+}
+.zhzlBottomContent .contentTxt{
+	padding:0 0.52vw;
+	background:url(../images/zhzl_bottomTxtBt_C.png) repeat-x;
+	height:100%;
+}
+.zhzlBottomEcharts{
+	width:100%;
+	height:18vh;
+}
+.staffDistributionTxt p{
+	overflow: hidden;
+	font-size:0.72vw;
+	line-height:3.2vh;
+	color:#fff;
+}
+.lNScaleTxt{
+	padding-top:2.4vh;
+}
+.lNScaleTxt p{
+	padding:0 0.5vw;
+	overflow: hidden;
+	font-size:1.2vw;
+	line-height:4vh;
+	margin-bottom:2vh;
+	background:url(../images/zhzl_txtBg_yellow.png) no-repeat;
+	background-size:100% 100%;
+}
+.lNScaleTxt p.woman{
+	color:#ffe375;
+}
+.lNScaleTxt p.man{
+	background:url(../images/zhzl_txtBg_green.png) no-repeat;
+	background-size:100% 100%;
+}
+.lNScaleTxt p .iconfont{
+	font-size:2vw;
+	vertical-align: middle;
+}
+.rightCloseBtn{
+	cursor: pointer;
+	right:0;
+	top:1vh;
+	z-index: 99;
+}
+.rightCloseBtn:hover{
+	color:#22e6fc!important;
+}
+.zhzlBottomColum{
+	padding-right:2vw;
+}
+.zhzlBottomColum .line{
+	right:0.52vw;
+	top:4vh;
+	bottom:2vh;
+	width:1px;
+	background-color:#706f75;
+}
+.TipBtn{
+    right:3.2vw;
+    top: 0;
+    line-height: 2.6vh;
+    display: inline-block;
+    padding: 0 0.52vw;
+    color: #fff;
+    font-size: 0.7vw;
+    border-radius: 2px;
+    background: #24cd96;
+    cursor: pointer;
+}
+.sqglSubpageNav{
+	width:30vw;
+	margin-left:-15vw;
+}
+.tabThead,.tabBody{
+	width:100%;
+	text-align: center;
+	color:#fff;
+	font-size:0.62vw;
+	line-height:2.2vh;
+}
+.tabThead span,.tabBody span{
+	display:block;
+	font-size:0.62vw;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	vertical-align:middle;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.tabThead{
+	color:#43e8be;
+	border-bottom: 1px solid #7c7875;
+}
+.tabBody {
+	height:66vh;
+	overflow-y: auto;
+	/*background:#999;*/
+}
+.tabBody .colum{
+	padding:0.5vh 0.2vw;
+}
+.tabBody .colum:hover{
+	cursor: pointer;
+	background: rgba(27,233,255,.2);
+}
+.personnelInfoListLayer li{
+	line-height:20px;
+	padding:0.92vh 0.52vw;
+	font-size:12px;
+	position:relative;
+	padding-left:85px;
+}
+.personnelInfoListLayer li img{
+	display: block;
+	width:70px;
+	height:80px;
+	position:absolute;
+	top:0.92vh;
+	left:0.52vw;
+}
+.border_b_gray{
+	border-bottom:1px solid #66636e;
+}
+.parkingSpaceTopList{
+	padding:0 0.52vw;
+	line-height:3.2vh;
+}
+.parkingSpaceTopList span{
+	font-size:0.72vw;
+	color:#fff;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.parkingSpaceNumberStatus{
+	padding:0.92vh 0.52vw;
+	color:#fff;
+	font-size:13px;
+}
+.parkingSpaceLayerList{
+	height:28vh;
+	overflow-y: auto;
+	padding:0.92vh 0.52vw;
+}
+.parkingSpaceLayerList li{
+	cursor: pointer;
+	line-height:3.4vh;
+	text-align: center;
+	font-size:13px;
+	color:#fff;
+	float: left;
+	width:45px;
+	height:60px;
+	margin-left:10px;
+	margin-bottom:20px;
+	border:1px solid #3ae5b1;
+	border-radius:2px;
+}
+.parkingSpaceLayerList li:hover,.parkingSpaceLayerList li.active{
+	background:#2593a0;
+}
+.parkingSpaceLayerList li p{
+	margin-bottom:0.92vh;
+}
+.parkingSpaceLayerList li .iconfont{
+	font-size:40px;
+}
+.layerBottomBtn{
+	bottom:10px;
+	right:10px;
+	line-height:3vh;
+	padding:0 0.52vw;
+	color:#fff;
+	border-radius: 2px;
+	font-size:0.82vw;
+	background:rgba(22,217,237,.6);
+	cursor: pointer;
+	display:block;
+}
+.layerBottomBtn:hover{
+	background:rgba(22,217,237,1);
+}

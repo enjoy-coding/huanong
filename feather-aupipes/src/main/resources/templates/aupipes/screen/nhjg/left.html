@@ -1,0 +1,57 @@
+<!-- 左边面板 -->
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhjg_left_tab">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this">耗水</li>
+        <li>耗电</li>
+        <li>重点建筑</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div class="bjxxSearch ysphSearch pr">
+                <input type="text" id="keyhs" placeholder="请输入关键字..." autocomplete="off">
+                <i class="iconfont icon-sousuo pa"></i>
+                <button type="button" id="ysphtk" class="pa waterBtn btn-shadow">用水平衡</button>
+            </div>
+            <!--<h5 class="title3">华中农业大学</h5>-->
+            <div class="ztreeBox">
+                <ul id="zTree" class="ztree"></ul>
+            </div>
+        </div>
+        <!--耗电-->
+        <div class="layui-tab-item nhtjContent">
+            <div class="bjxxSearch ysphSearch pr">
+                <input type="text" id="keyhd" placeholder="请输入关键字..." autocomplete="off">
+                <i class="iconfont icon-sousuo pa"></i>
+                <button id="ydphtk"  class="pa waterBtn btn-shadow">用电平衡</button>
+            </div>
+            <div class="ztreeBox">
+                <ul id="ydzTree" class="ztree"></ul>
+            </div>
+        </div>
+        <!--重点建筑-->
+        <div class="layui-tab-item nhtjContent">
+            <div class="bjxxSearch zdjzSearch pr">
+                <div class="layui-form pa">
+                    <div class="layui-input-inline">
+                        <select id="zdjz" lay-filter="test">
+                            <option grade="0" value="roote">用电</option>
+                            <option grade="1" value="rootw">用水</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="text" id="keyzdjz" placeholder="请输入关键字..." autocomplete="off">
+                <i class="iconfont icon-sousuo pa"></i>
+            </div>
+            <div class="ztreeBox" style="top: 20px">
+                <ul id="ldzTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sdphTimeSelection pa">
+    <div class="layui-form">
+        <div class="sdphBox layui-input-inline" style="padding-left: 40px;top: -10px">
+            <input type="text" class="layui-input" id="test2-rqxz" autocomplete="off">
+        </div>
+    </div>
+</div>

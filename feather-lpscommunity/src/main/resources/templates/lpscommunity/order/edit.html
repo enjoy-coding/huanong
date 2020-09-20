@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改订单信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-order-edit" th:object="${scOrder}">
+            <input id="orderId" name="orderId" th:field="*{orderId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单名称：</label>
+                <div class="col-sm-8">
+                    <input name="orderName" th:field="*{orderName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品信息：</label>
+                <div class="col-sm-8">
+                    <input  th:field="${scGoods.goodsName}" class="form-control" type="text" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">所属商家：</label>
+                <div class="col-sm-8">
+                    <input  th:field="${scShop.shopName}" class="form-control" type="text" disabled>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备id：</label>
+                <div class="col-sm-8">
+                    <input name="equipmentid" th:field="*{equipmentid}" class="form-control" type="text" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea rows="5" class="form-control">[[*{remark}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/order";
+        $("#form-order-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#orderId").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-order-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.orderId) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.orderId;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：orderId");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

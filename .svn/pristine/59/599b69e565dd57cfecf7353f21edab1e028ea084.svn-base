@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <th:block th:include="include :: header('新增任务')" />
+        <th:block th:include="include :: summernote-css" />
+    </head>
+    <body class="white-bg">
+        <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+            <form class="form-horizontal m" id="form-task-add" th:object="${task}">
+                <input id="id" name="id" th:field="*{id}"  type="hidden">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标题：</label>
+                    <div class="col-sm-10">
+                        <input id="title" name="tile" th:field="*{title}" class="form-control" type="text" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">内容：</label>
+                    <div class="col-sm-10">
+                        <input id="content" name="content" th:field="*{content}" type="hidden">
+                        <div id="editor" class="summernote"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">积分：</label>
+                    <div class="col-sm-10">
+                        <input id="score" name="score" th:field="*{score}" class="form-control" type="text" required digits="true">
+                    </div>
+                </div>
+               <!-- <<div class="form-group">
+                    <label class="col-sm-2 control-label">状态：</label>
+                    <div class="col-sm-10">
+                        <div class="radio-box" th:each="dict : ${@dict.getType('sc_task_state')}">
+                            <input type="radio" th:id="${dict.dictCode}" name="state" th:value="${dict.dictValue}" th:field="*{state}">
+                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                        </div>
+                    </div>
+                </div>-->
+            </form>
+        </div>
+
+        <th:block th:include="include :: footer" />
+        <th:block th:include="include :: summernote-js" />
+        <script type="text/javascript">
+            var prefix = ctx + "sc/task";
+
+            $(function() {
+                $('.summernote').summernote({
+                    placeholder: '请输入内容',
+                    height : 192,
+                    lang : 'zh-CN',
+                    followingToolbar: false,
+                    callbacks: {
+                        onImageUpload: function (files) {
+                            sendFile(files[0], this);
+                        },
+                        onPaste: function (e) {
+                            var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                            e.preventDefault();
+                            document.execCommand('insertText', false, bufferText);
+                        }
+                    }
+                });
+                var content = $("#content").val();
+                $('#editor').summernote('code', content);
+                //默认选中第一个radio
+            });
+
+            // 上传文件
+            function sendFile(file, obj) {
+                var data = new FormData();
+                data.append("file", file);
+                $.ajax({
+                    type: "POST",
+                    url: ctx + "prd/attachment/api/upload",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result.code == web_status.SUCCESS) {
+                            var item = result.data[0];
+                            $(obj).summernote('editor.insertImage', item.filePath, item.fileName);
+                        } else {
+                            $.modal.alertError(result.msg);
+                        }
+                    },
+                    error: function(error) {
+                        $.modal.alertWarning("图片上传失败。");
+                    }
+                });
+            }
+
+
+
+            $("#form-task-add").validate({
+                focusCleanup: true
+            });
+
+            function submitHandler() {
+                if ($.validate.form()) {
+                    var sHTML = $('.summernote').summernote('code');
+                    $("#content").val(sHTML);
+                    $.operate.save({
+                        url: prefix + "/add" ,
+                        data: $('#form-task-add').serialize(),
+                        success: function(result, _option) {
+                            parent = window.parent;
+                            $.modal.close();
+                            setTimeout(function(){
+                                parent.$.modal.msgSuccess(result.msg);
+                            }, 80);
+                        }
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>

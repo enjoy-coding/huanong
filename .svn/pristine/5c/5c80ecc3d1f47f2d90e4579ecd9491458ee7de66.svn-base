@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScOrderMapper">
+    
+    <resultMap type="ScOrder" id="ScOrderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderName"    column="order_name"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="equipmentid"    column="equipmentId"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT"   />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"   jdbcType="BIGINT"  />
+        <association property="goods"    column="goods_id" javaType="ScGoods" resultMap="ScGoodsResult" />
+    </resultMap>
+
+    <resultMap type="ScGoods" id="ScGoodsResult">
+        <result property="goodsId"    column="goods_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsBrand"    column="goods_brand"    />
+        <result property="goodsContent"    column="goods_content"    />
+        <result property="goodsPrice"    column="goods_price"    />
+    </resultMap>
+
+    <sql id="selectScOrderVo">
+        select o.order_id, o.order_name, o.goods_id, o.equipmentId, o.create_by, o.create_time, o.update_by, o.update_time
+			,g.goods_name,g.goods_price,g.goods_content
+        from sc_order o join sc_goods g on g.goods_id = o.goods_id
+    </sql>
+
+    <select id="selectScOrderByGoodsId" parameterType="Long" resultMap="ScOrderResult">
+        <include refid="selectScOrderVo"/>
+        where g.goods_id = #{goodsId}
+    </select>
+
+    <select id="selectScOrderList" parameterType="ScOrder" resultMap="ScOrderResult">
+        <include refid="selectScOrderVo"/>
+        <where>  
+            <if test="orderName != null  and orderName != ''">
+            	<bind name="_orderName" value="'%'+ orderName +'%'"/>
+            	and o.order_name like #{_orderName}
+            </if>
+            <if test="goodsId != null "> and o.goods_id = #{goodsId}</if>
+            <if test="params.goodsName != null  and params.goodsName != ''">
+                <bind name="_goodsName" value="'%'+ params.goodsName +'%'"/>
+                and g.goods_name like #{_goodsName}
+            </if>
+            <if test="equipmentid != null  and equipmentid != ''">
+                <bind name="_equipmentid" value="'%'+ equipmentid +'%'"/>
+                and o.equipmentId like #{_equipmentid}
+               </if>
+        </where>
+    </select>
+    
+    <select id="selectScOrderById" parameterType="Long" resultMap="ScOrderResult">
+        <include refid="selectScOrderVo"/>
+        where o.order_id = #{orderId}
+    </select>
+        
+    <insert id="insertScOrder" parameterType="ScOrder">
+        insert into sc_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">order_id,</if>
+            <if test="orderName != null  and orderName != ''">order_name,</if>
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="equipmentid != null  and equipmentid != ''">equipmentId,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">#{orderId},</if>
+            <if test="orderName != null  and orderName != ''">#{orderName},</if>
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="equipmentid != null  and equipmentid != ''">#{equipmentid},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScOrder" parameterType="ScOrder">
+        update sc_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderName != null  and orderName != ''">order_name = #{orderName},</if>
+            <if test="goodsId != null ">goods_id = #{goodsId},</if>
+            <if test="equipmentid != null  and equipmentid != ''">equipmentId = #{equipmentid},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteScOrderById" parameterType="Long">
+        delete from sc_order where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteScOrderByIds" parameterType="String">
+        delete from sc_order where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+    
+</mapper>

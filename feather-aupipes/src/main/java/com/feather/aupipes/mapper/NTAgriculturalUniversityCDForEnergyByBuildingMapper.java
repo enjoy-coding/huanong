@@ -1,0 +1,12 @@
+package com.feather.aupipes.mapper;
+
+import com.feather.aupipes.domain.NTAgriculturalUniversityCDForEnergyByBuilding;
+
+import java.util.List;
+
+public interface NTAgriculturalUniversityCDForEnergyByBuildingMapper {
+
+    List<NTAgriculturalUniversityCDForEnergyByBuilding> selectByPrimaryKey(NTAgriculturalUniversityCDForEnergyByBuilding ntAgriculturalUniversityCDForEnergyByBuilding);
+
+    List<NTAgriculturalUniversityCDForEnergyByBuilding> selectByPrimaryImportantKey(NTAgriculturalUniversityCDForEnergyByBuilding ntAgriculturalUniversityCDForEnergyByBuilding);
+}

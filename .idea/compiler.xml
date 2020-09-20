@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="feather-common" />
+        <module name="feather-admin" />
+        <module name="feather-patrol" />
+        <module name="feather-website" />
+        <module name="feather-generator" />
+        <module name="feather-quartz" />
+        <module name="feather-lpscommunity" />
+        <module name="feather-hikvnetsdk" />
+        <module name="feather-hikvision" />
+        <module name="feather-smartcommunity" />
+        <module name="feather-common4nutz" />
+        <module name="feather-system" />
+        <module name="feather-meeting" />
+        <module name="feather-cms" />
+        <module name="feather-wx" />
+        <module name="feather-aupipes" />
+        <module name="feather-health" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="feather" target="1.8" />
+      <module name="feather-admin" target="1.8" />
+      <module name="feather-aupipes" target="1.8" />
+      <module name="feather-cms" target="1.8" />
+      <module name="feather-common" target="1.8" />
+      <module name="feather-common4nutz" target="1.8" />
+      <module name="feather-generator" target="1.8" />
+      <module name="feather-health" target="1.8" />
+      <module name="feather-hikvision" target="1.8" />
+      <module name="feather-hikvnetsdk" target="1.8" />
+      <module name="feather-lpscommunity" target="1.8" />
+      <module name="feather-meeting" target="1.8" />
+      <module name="feather-patrol" target="1.8" />
+      <module name="feather-quartz" target="1.8" />
+      <module name="feather-smartcommunity" target="1.8" />
+      <module name="feather-system" target="1.8" />
+      <module name="feather-website" target="1.8" />
+      <module name="feather-wx" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

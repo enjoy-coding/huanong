@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupSearchMapper">
+
+    <!--搜索周边-搜索设备-->
+    <select id="queryEquipment" resultType="map">
+        {
+          CALL search_queryEquipment(
+           #{keywords,jdbcType=VARCHAR,mode = IN}
+           ,#{type,jdbcType=INTEGER,mode = IN}
+          )
+        }
+    </select>
+    <select id="queryPumpDayUseWaterNumber" resultType="map">
+        {
+            CALL index_queryPumpDayUseWaterNumber(
+                #{pumpId,jdbcType = INTEGER,mode = IN}
+            )
+        }
+    </select>
+    <select id="getType" resultType="string">
+       select formSysName from view_warring
+       <where>
+           <if test="content!=null and content!=''">content like  '%'+#{content}+'%'</if>
+       </where>
+        GROUP BY formSysName
+    </select>
+
+    <select id="appYxjkQueryInfoByType" resultType="map">
+          {
+          CALL app_yxjk_queryInfoByType(
+           #{queryType,jdbcType=VARCHAR,mode = IN}
+          )
+        }
+    </select>
+    <select id="appYxjkQueryDetailInfoByTypeId" resultType="map">
+         {
+          CALL app_yxjk_queryDetailInfoById(
+           #{queryType,jdbcType=VARCHAR,mode = IN}
+           ,#{typeId,jdbcType=VARCHAR,mode = IN}
+          )
+        }
+    </select>
+</mapper>

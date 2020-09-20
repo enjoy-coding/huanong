@@ -1,0 +1,239 @@
+<!--<html lang="zh" xmlns:th="http://www.thymeleaf.org">-->
+<head>
+    <style>
+        #inspectWorkerList .layui-form-checkbox span{color:#fff}
+    </style>
+</head>
+<div id="addInpectBox" class="xjjlLayerBox hide">
+    <form id="form-inspect-add" class="layui-form layerForm pd30" method="post">
+        <div class="layui-row" style="margin-top:30px;">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="inspectName" autocomplete="off" placeholder="请输入任务名称" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检人员：</label>
+                    <div class="layui-input-block" id="inspectWorkerList">
+                        <!--<select id="inspectWorkerList" class="form-control select2-multiple" lay-verify="required" multiple>
+                        </select>-->
+                    </div>
+                    <input id="curInspectWorkerId" type="hidden">
+                    <!--<input name="inspectWorkerId" id="inspectWorkerId" type="hidden">
+                    <input name="inspectWorker" id="inspectWorker" type="hidden">-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">巡检区域：</label>
+                    <div class="layui-input-block">
+                        <textarea name="inspectArea" class="layui-textarea" placeholder="请输入巡检区域"  required lay-verify="required"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">下发时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="distributeTime" name="distributeTime" required lay-verify="required" autocomplete="off" placeholder="请选择下发时间" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发布人员：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="distributeWorker" name="distributeWorker" required lay-verify="required" autocomplete="off" placeholder="请输入发布人员" class="layui-input" readonly="readonly">
+                    </div>
+                    <input id="distributeWorkerId" name="distributeWorkerId" type="hidden">
+                </div>
+            </div>
+        </div>
+<!--        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开始时间：</label>
+                    <div class="layui-input-block">
+                        <input id="startTime" type="text" name="startTime" required lay-verify="required" autocomplete="off" placeholder="请选择开始时间" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md9 layui-col-sm9 layui-col-xs9 layui-col-md-offset1 layui-col-sm-offset1 layui-col-xs-offset1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">结束时间：</label>
+                    <div class="layui-input-block">
+                        <input id="endTime" type="text" name="endTime" required lay-verify="required" autocomplete="off" placeholder="请选择结束时间" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="layui-row" style="margin-top:50px;margin-bottom:30px">
+            <div class="layui-col-md10 layui-col-sm10 layui-col-xs10">
+                <div class="layui-form-item btngroup">
+                    <div class="layui-input-block txtC">
+                        <button type="button" class="layui-btn submitBtn" lay-submit lay-filter="saveInspect">立即提交</button>
+                        <button type="button" class="layui-btn czBtn" onclick="closeWin()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--<th:block th:include="include :: select2-js" />
+<th:block th:include="include :: bootstrap-select-js" />-->
+<script type="text/javascript" th:inline="javascript">
+    var loginId = [[${loginId}]];
+    var loginName = [[${loginName}]];
+</script>
+<script>
+    var userListApi = ctx + "system/role/api/selectUserByKeys";
+
+    $(function(){
+        // select.on('change',function () {//监听select的改变
+        //     console.log(select.val());//获取选中的value值
+        //     console.log(select.text());//获取选中的内容
+        // })
+        inspectWorkerInit();
+    })
+
+    function closeWin(){
+        layer.close(addInspectIndex);
+    }
+
+    function inspectAddInit(){//inspectAddInit会在RYXJ.js里面被调用
+
+        $("#distributeWorkerId").val(loginId);
+        $("#distributeWorker").val(loginName);
+
+        RYXJ.laydate.render({
+            elem: '#distributeTime',
+            type: 'datetime',
+            trigger: 'click'
+        });
+
+        RYXJ.laydate.render({
+            elem: '#startTime',
+            type: 'datetime',
+            trigger: 'click'
+        });
+
+        RYXJ.laydate.render({
+            elem: '#endTime',
+            type: 'datetime',
+            trigger: 'click'
+        });
+    }
+
+    function inspectWorkerInit(){
+
+        // var curInspectWorkerId = $("#curInspectWorkerId").val().split(',');
+
+        $.ajax({
+            type: "GET",
+            url: userListApi,
+            data: {"keys": "inspect_man"},
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function (result) {
+                // $("#inspectWorkerId").empty();
+
+                if (result.code == 0) {
+                    $("#inspectName").empty();
+                    $("#inspectWorkerList").empty();
+                    var html = '<option value="">'+"全部"+'</option>';
+                    var data = result.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+
+                        // $("#inspectWorkerList").append('<option value="' + item.userId + '">' + item.userName + '</option>');
+
+                        $("#inspectWorkerList").append('<input type="checkbox" style="color:white" value="' + item.userId + '" title="' + item.userName + '" lay-skin="primary" >');
+
+                        //这部分是巡检记录里添加巡检人员
+                        html +='<option value="'+data[i].userName+'">'+data[i].userName+'</option>';
+                    }
+                    $('#inspectName').append(html);
+                    // $('#inspectWorkerList').val(curInspectWorkerId).trigger("change");
+                    layui.form.render();
+                }
+            }
+        });
+    }
+    
+    layui.form.on('submit(saveInspect)', function (data) {
+
+        var data = $("#form-inspect-add").serializeArray();
+
+        var inspectWorkerIds = getWorkerValue();
+
+        if($.common.isEmpty(inspectWorkerIds)){
+            $.modal.msgError("您尚未选择巡检人员");
+            return;
+        }
+        if(inspectWorkerIds.split(",").length > 10){
+            $.modal.msgError("您选择的巡检人员过多");
+            return;
+        }
+        data.push({"name": "inspectWorkerId", "value": inspectWorkerIds});
+
+        layui.layer.load(2, { //icon支持传入0-2
+            shade: [0.1, '#fff'], //0.1透明度的白色背景
+            content: '上传中...',
+            success: function (layero) {
+                layero.find('.layui-layer-content').css({
+                    'padding-top': '39px',
+                    'width': '60px',
+                    'color': '#ffffff'
+                });
+            }
+        });
+
+        // console.log(data);
+        // var options=$('#wx_faultSelect option:selected');
+        // data.push({"name": "faultType", "value": options.text()});
+        $.ajax({
+            url: RYXJ.api.taskAdd,
+            type: 'post',
+            data: data,
+            contentType:'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function(result) {
+                layer.closeAll('loading');
+                layer.msg(result.msg);
+
+                layer.close(addInspectIndex);//这个addInspectIndex是RYXJ.js里layer.open返回的全局索引
+                inspectTableIns.reload();//这个inspectTableIns是RYXJ.js里面的表格实例
+            }
+        });
+        return false;
+    });
+
+    // 获取选中下拉框项
+    function getWorkerValue () {
+        var selects = "";
+        $.each($("#inspectWorkerList input:checkbox:checked"), function (i) {
+
+            if (0 == i) {
+                selects = $(this).val();
+            } else {
+                selects += ("," + $(this).val());
+            }
+        })
+        return selects;
+    }
+</script>

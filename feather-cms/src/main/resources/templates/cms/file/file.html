@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('文件列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>所属域：</p>
+                                <input type="text" name="fileDomain"/>
+                            </li>
+                            <li>
+                                <p>名称：</p>
+                                <input type="text" name="fileName"/>
+                            </li>
+                            <li>
+                                <p>属性：</p>
+                                <input type="text" name="fileAttr"/>
+                            </li>
+                            <li>
+                                <p>排序值：</p>
+                                <input type="text" name="fileSort"/>
+                            </li>
+                            <li>
+                                <p>人工保存：</p>
+                                <input type="text" name="fileManual"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="cms:file:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="cms:file:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="cms:file:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="cms:file:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('cms:file:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('cms:file:remove')}]];
+        var fileIdDatas = [[${@dict.getType('${column.dictType}')}]];
+        var createTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var createByDatas = [[${@dict.getType('${column.dictType}')}]];
+        var updateTimeDatas = [[${@dict.getType('${column.dictType}')}]];
+        var updateByDatas = [[${@dict.getType('${column.dictType}')}]];
+        var fileDomainDatas = [[${@dict.getType('${column.dictType}')}]];
+        var fileNameDatas = [[${@dict.getType('${column.dictType}')}]];
+        var fileAttrDatas = [[${@dict.getType('${column.dictType}')}]];
+        var fileSortDatas = [[${@dict.getType('${column.dictType}')}]];
+        var fileManualDatas = [[${@dict.getType('${column.dictType}')}]];
+        var remarkDatas = [[${@dict.getType('${column.dictType}')}]];
+        var prefix = ctx + "cms/file";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "文件",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'fileId', 
+                    title : '人工保存',
+                    visible: false
+                },
+                {
+                    field : 'fileDomain', 
+                    title : '所属域',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileDomainDatas, value);
+                    }
+                },
+                {
+                    field : 'fileName', 
+                    title : '名称',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileNameDatas, value);
+                    }
+                },
+                {
+                    field : 'fileAttr', 
+                    title : '属性',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileAttrDatas, value);
+                    }
+                },
+                {
+                    field : 'fileSort', 
+                    title : '排序值',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileSortDatas, value);
+                    }
+                },
+                {
+                    field : 'fileManual', 
+                    title : '人工保存',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileManualDatas, value);
+                    }
+                },
+                {
+                    field : 'remark', 
+                    title : '备注',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(remarkDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.fileId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.fileId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

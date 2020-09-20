@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupStreetlightControlMapper">
+    
+    <resultMap type="AupStreetlightControl" id="AupStreetlightControlResult">
+        <result property="sname"    column="sname"    />
+        <result property="sid"    column="sid"    />
+        <result property="modelid"    column="modelId"    />
+        <result property="cuid"    column="cuid"    />
+        <result property="ctype"    column="ctype"    />
+        <result property="status"    column="status"    />
+        <result property="stime"    column="stime"    />
+        <result property="sync"    column="sync"    />
+        <result property="sim"    column="sim"    />
+        <result property="conn"    column="conn"    />
+        <result property="signals"    column="signals"    />
+        <result property="version"    column="version"    />
+        <result property="ammeters"    column="ammeters"    />
+        <result property="breakers"    column="breakers"    />
+        <result property="poles"    column="poles"    />
+        <result property="lcus"    column="lcus"    />
+        <result property="lamps"    column="lamps"    />
+        <result property="remark"    column="remark"    />
+        <result property="lat"    column="lat"    />
+        <result property="lng"    column="lng"    />
+        <result property="madd"    column="madd"    />
+        <result property="nums"    column="nums"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectAupStreetlightControlVo">
+        select sname, sid, modelId, cuid, ctype, status, stime, sync, sim, conn, signals, version, ammeters, breakers, poles, lcus, lamps, remark, lat, lng, madd, nums, id from aup_streetlight_control
+    </sql>
+
+    <select id="selectAupStreetlightControlList" parameterType="AupStreetlightControl" resultMap="AupStreetlightControlResult">
+        <include refid="selectAupStreetlightControlVo"/>
+        <where>  
+            <if test="sname != null  and sname != ''">
+            	<bind name="_sname" value="'%'+ sname +'%'"/>
+            	and sname like #{_sname}
+            </if>
+            <if test="modelid != null  and modelid != ''"> and modelId = #{modelid}</if>
+            <if test="cuid != null  and cuid != ''"> and cuid = #{cuid}</if>
+            <if test="ctype != null  and ctype != ''"> and ctype = #{ctype}</if>
+            <if test="sid != null  and sid != ''"> and sid = #{sid}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="stime != null  and stime != ''"> and stime = #{stime}</if>
+            <if test="sync != null  and sync != ''"> and sync = #{sync}</if>
+            <if test="sim != null  and sim != ''"> and sim = #{sim}</if>
+            <if test="conn != null  and conn != ''"> and conn = #{conn}</if>
+            <if test="signals != null  and signals != ''"> and signals = #{signals}</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="ammeters != null  and ammeters != ''"> and ammeters = #{ammeters}</if>
+            <if test="breakers != null  and breakers != ''"> and breakers = #{breakers}</if>
+            <if test="poles != null  and poles != ''"> and poles = #{poles}</if>
+            <if test="lcus != null  and lcus != ''"> and lcus = #{lcus}</if>
+            <if test="lamps != null  and lamps != ''"> and lamps = #{lamps}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+            <if test="lng != null  and lng != ''"> and lng = #{lng}</if>
+            <if test="madd != null  and madd != ''"> and madd = #{madd}</if>
+            <if test="nums != null  and nums != ''"> and nums = #{nums}</if>
+            <if test="id != null"> and id = #{id}</if>
+        </where>
+    </select>
+    
+    <select id="selectAupStreetlightControlById" parameterType="String" resultMap="AupStreetlightControlResult">
+        <include refid="selectAupStreetlightControlVo"/>
+        where sid = #{sid}
+    </select>
+        
+    <insert id="insertAupStreetlightControl" parameterType="AupStreetlightControl">
+        insert into aup_streetlight_control
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sname != null  and sname != ''">sname,</if>
+            <if test="sid != null  and sid != ''">sid,</if>
+            <if test="modelid != null  and modelid != ''">modelId,</if>
+            <if test="cuid != null  and cuid != ''">cuid,</if>
+            <if test="ctype != null  and ctype != ''">ctype,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="stime != null  and stime != ''">stime,</if>
+            <if test="sync != null  and sync != ''">sync,</if>
+            <if test="sim != null  and sim != ''">sim,</if>
+            <if test="conn != null  and conn != ''">conn,</if>
+            <if test="signals != null  and signals != ''">signals,</if>
+            <if test="version != null  and version != ''">version,</if>
+            <if test="ammeters != null  and ammeters != ''">ammeters,</if>
+            <if test="breakers != null  and breakers != ''">breakers,</if>
+            <if test="poles != null  and poles != ''">poles,</if>
+            <if test="lcus != null  and lcus != ''">lcus,</if>
+            <if test="lamps != null  and lamps != ''">lamps,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="madd != null  and madd != ''">madd,</if>
+            <if test="nums != null  and nums != ''">nums,</if>
+            <if test="id != null">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sname != null  and sname != ''">#{sname},</if>
+            <if test="sid != null  and sid != ''">#{sid},</if>
+            <if test="modelid != null  and modelid != ''">#{modelid},</if>
+            <if test="cuid != null  and cuid != ''">#{cuid},</if>
+            <if test="ctype != null  and ctype != ''">#{ctype},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="stime != null  and stime != ''">#{stime},</if>
+            <if test="sync != null  and sync != ''">#{sync},</if>
+            <if test="sim != null  and sim != ''">#{sim},</if>
+            <if test="conn != null  and conn != ''">#{conn},</if>
+            <if test="signals != null  and signals != ''">#{signals},</if>
+            <if test="version != null  and version != ''">#{version},</if>
+            <if test="ammeters != null  and ammeters != ''">#{ammeters},</if>
+            <if test="breakers != null  and breakers != ''">#{breakers},</if>
+            <if test="poles != null  and poles != ''">#{poles},</if>
+            <if test="lcus != null  and lcus != ''">#{lcus},</if>
+            <if test="lamps != null  and lamps != ''">#{lamps},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="lng != null  and lng != ''">#{lng},</if>
+            <if test="madd != null  and madd != ''">#{madd},</if>
+            <if test="nums != null  and nums != ''">#{nums},</if>
+            <if test="id != null">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAupStreetlightControl" parameterType="AupStreetlightControl">
+        update aup_streetlight_control
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sname != null  and sname != ''">sname = #{sname},</if>
+            <if test="modelid != null  and modelid != ''">modelId = #{modelid},</if>
+            <if test="cuid != null  and cuid != ''">cuid = #{cuid},</if>
+            <if test="ctype != null  and ctype != ''">ctype = #{ctype},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="stime != null  and stime != ''">stime = #{stime},</if>
+            <if test="sync != null  and sync != ''">sync = #{sync},</if>
+            <if test="sim != null  and sim != ''">sim = #{sim},</if>
+            <if test="conn != null  and conn != ''">conn = #{conn},</if>
+            <if test="signals != null  and signals != ''">signals = #{signals},</if>
+            <if test="version != null  and version != ''">version = #{version},</if>
+            <if test="ammeters != null  and ammeters != ''">ammeters = #{ammeters},</if>
+            <if test="breakers != null  and breakers != ''">breakers = #{breakers},</if>
+            <if test="poles != null  and poles != ''">poles = #{poles},</if>
+            <if test="lcus != null  and lcus != ''">lcus = #{lcus},</if>
+            <if test="lamps != null  and lamps != ''">lamps = #{lamps},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="lat != null  and lat != ''">lat = #{lat},</if>
+            <if test="lng != null  and lng != ''">lng = #{lng},</if>
+            <if test="madd != null  and madd != ''">madd = #{madd},</if>
+            <if test="nums != null  and nums != ''">nums = #{nums},</if>
+            <if test="id != null">id = #{id},</if>
+        </trim>
+        where sid = #{sid}
+    </update>
+
+    <delete id="deleteAupStreetlightControlById" parameterType="String">
+        delete from aup_streetlight_control where sid = #{sid}
+    </delete>
+
+    <delete id="deleteAupStreetlightControlByIds" parameterType="String">
+        delete from aup_streetlight_control where sid in 
+        <foreach item="sid" collection="array" open="(" separator="," close=")">
+            #{sid}
+        </foreach>
+    </delete>
+    
+</mapper>

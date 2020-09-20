@@ -1,0 +1,54 @@
+package ${packageName}.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.feather.common.annotation.Excel;
+#if($table.crud || $table.withDept)
+import com.feather.common.core.domain.BaseEntity;
+#elseif($table.tree)
+import com.feather.common.core.domain.TreeEntity;
+#end
+#foreach ($import in $importList)
+import ${import};
+#end
+
+/**
+ * ${functionName}对象 ${tableName}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+#set($Entity="BaseEntity")
+#if($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${ClassName} extends ${Entity}
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(!$column.superColumn)
+    /** $column.columnComment */
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#if($parentheseIndex != -1)
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+#elseif($column.javaType == 'Date')
+    @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd")
+#else
+    @Excel(name = "${comment}")
+#end
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+}

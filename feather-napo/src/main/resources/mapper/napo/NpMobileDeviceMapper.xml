@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpMobileDeviceMapper">
+
+    <resultMap type="NpMobileDevice" id="NpMobileDeviceResult">
+        <id property="deviceId" column="device_id"/>
+        <result property="sendFlag" column="send_flag"/>
+    </resultMap>
+
+    <sql id="selectNpMobileDeviceVo">
+        select device_id, send_flag, create_time
+		from np_mobile_device md
+    </sql>
+
+    <select id="selectNpMobileDeviceById" parameterType="String" resultMap="NpMobileDeviceResult">
+        <include refid="selectNpMobileDeviceVo"/>
+        where md.device_id = #{deviceId}
+    </select>
+
+    <select id="selectNpMobileDeviceList" parameterType="NpMobileDevice" resultMap="NpMobileDeviceResult">
+        <include refid="selectNpMobileDeviceVo"/>
+        <where>
+            <if test="deviceId != null and deviceId != 0">
+                AND device_id = #{deviceId}
+            </if>
+            <if test="sendFlag != null">
+                AND send_flag = #{sendFlag}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpMobileDevice" parameterType="NpMobileDevice">
+        insert into np_mobile_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != 0">device_id,</if>
+            <if test="sendFlag != null">send_flag,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != 0">#{deviceId},</if>
+            <if test="sendFlag != null">#{sendFlag},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteNpMobileDeviceById" parameterType="String">
+	    delete from np_mobile_device where device_id = #{deviceId}
+	</delete>
+
+    <delete id="deleteNpMobileDeviceByIds" parameterType="String">
+        delete from np_mobile_device where device_id in
+        <foreach collection="array" item="deviceId" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper> 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <layer>
+        <id>BIM</id>
+        <name>bim注记</name>
+        <dataSourceType>GeoJsonExtendDataSource</dataSourceType>
+        <dataSourceUrl>/KQGis/rest/services/bim/MapServer</dataSourceUrl>
+        <layers>0107</layers>
+        <queryLayerId>1</queryLayerId>
+        <queryLayerField></queryLayerField>
+        <icon/>
+        <iconOpen/>
+        <iconClose/>
+        <open>false</open>
+        <checked>false</checked>
+        <children/>
+    </layer>
+
+
+</config>

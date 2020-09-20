@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:include="include :: header('水分区列表')" />
+        <th:block th:include="include :: ztree-css" />
+    </head>
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>配电房</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-success" id="add" shiro:hasPermission="aupipes:power:add">
+                                    <i class="fa fa-plus"></i> 新增
+                                </a>
+                                <a class="btn btn-danger" id="remove" shiro:hasPermission="aupipes:power:remove">
+                                    <i class="fa fa-remove"></i> 删除
+                                </a>
+                                <a class="btn btn-info" id="refesh" shiro:hasPermission="aupipes:power:remove">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="tree" class="ztree"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><a class="btn btn-warning"><span style="color: white;" id="showSelected">110KVA变电站</span></a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" id="powerForm" class="form-horizontal m-t">
+                            <div th:fragment="powerFragment" id="powerFragment">
+                                <input type="hidden" id="id" name="id" th:field="${power.id}">
+                                <input type="hidden" name="pid" th:field="${power.pid}">
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">名称:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="cachename" class="form-control" th:field="${power.name}"
+                                               placeholder="请输入地区名称">
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">所属类型:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="parentName" name="parentName" th:field="${power.parentName}"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">标识码:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="bsm" class="form-control" th:field="${power.bsm}"
+                                               placeholder="请输入标识码" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">类型:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="type"
+                                                th:disabled="${power.type=='变电站'}">
+                                            <option th:selected="${power.type=='变电站'}" value="变电站" disabled>变电站
+                                            </option>
+                                            <option th:selected="${power.type=='一级配电房'}" value="一级配电房">一级配电房</option>
+                                            <option th:selected="${power.type=='次级配电房'}" value="次级配电房">次级配电房</option>
+                                            <option th:selected="${power.type=='箱变'}" value="箱变">箱变
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">x:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="x" th:field="${power.x}"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">y:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="y" th:field="${power.y}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">h:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="h" th:field="${power.h}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">备注:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="bz" th:field="${power.bz}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group draggable">
+                                    <div class="col-sm-12 col-sm-offset-3">
+                                        <button type="button" onclick="savePower()" class="btn btn-primary"><i
+                                                class="fa fa-check"></i>&nbsp;保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <th:block th:include="include :: footer" />
+        <th:block th:include="include :: ztree-js" />
+        <th:block th:include="include :: ztree-async-js" />
+        <script th:inline="javascript">
+            var prefix = ctx + "aupipes/power";
+            var fragment = "powerFragment";
+            var ztree = "tree";
+            var selectTreeNode;//选中的树节点
+            var selectTreeId;
+            var selectTreeName;
+
+
+            var control = {
+                prefix :prefix,
+                fragment: fragment,
+                formId : "powerForm"
+            }
+            var controlFn = new ztreeControl(control);
+            $(function () {
+                /**新增*/
+                $("#add").click(function(){
+                    controlFn.add(selectTreeId,selectTreeName)
+                });
+                /**删除*/
+                $("#remove").click(function(){
+                    controlFn.remove(selectTreeId,selectTreeNode)
+                });
+                /**刷新*/
+                $("#refesh").click(function(){
+                    controlFn.refresh(selectTreeId,selectTreeName)
+                });
+                queryPowerList();
+            });
+
+            function queryPowerList(){
+                var option = {
+                    treeId: ztree,
+                    isSearch: false,
+                    inputId: "",
+                    url: prefix + "/ztree/list",
+
+                    zTreeOnClick: function (event, treeId, treeNode) {
+                        selectTreeNode = treeNode;
+                        selectTreeId = treeNode.id;
+                        selectTreeName = treeNode.name;
+                        $("#showSelected").text(treeNode.name+"——【编辑】");
+                        controlFn.queryRightDetail(treeNode.id);
+                    }
+
+                }
+                new ztreeAsync(option);
+            }
+
+
+            /**
+             *  保存
+             */
+            function savePower() {
+                var id = $("#id").val();
+                controlFn.saveRight(id,function(result){
+                    if(result.code == 0){
+                        //刷新当前父节点
+                        $.modal.msgSuccess(result.msg);
+                        if(isAddOrEdit(id)) {
+                            refreshNode(ztree,result.data.id);
+                        }else{
+                            refreshParentNode(ztree);
+                        }
+                        controlFn.editSaveDetail(result.data.id,result.data.name);
+
+                    }else{
+                        $.modal.msgError(result.msg);
+                    }
+                })
+            }
+
+
+        </script>
+    </body>
+</html>

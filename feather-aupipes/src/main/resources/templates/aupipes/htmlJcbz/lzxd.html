@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>决策保障</title>
+    <link rel="stylesheet" th:href="@{/def/libs/layui-2.5.5/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/font.css}">
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/common.css}">
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/insidePage.css}">
+    <script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</head>
+<body>
+<div class="contentBox insidePageBox pr">
+    <!--地图-->
+    <div class="map pa">
+        <img th:src="@{/bus/aupipes/lib/images/swMap.png}" alt="">
+    </div>
+    <!--顶部-->
+    <div class="insidePageTop pa">
+        <div class="insidePageTopC pr">
+            <h5 class="insidePageTitle pa"><a th:href="@{/bus/aupipes/index.html}">决策保障</a></h5>
+            <ul class="topRight pa">
+                <li><a href=""><i class="iconfont icon-gerenxinxi"></i>个人信息</a></li>
+                <li><a href=""><i class="iconfont icon-houtaiguanli"></i>后台管理</a></li>
+            </ul>
+            <ul class="navList oh">
+                <li class="active"><a href="">拉闸分析</a></li>
+                <li><a href="gfts.html">关阀停水</a></li>
+                <li><a href="znpg.html">智能排管</a></li>
+                <li><a href="gwyx.html">管网运行</a></li>
+                <li><a href="yagl.html">预案管理</a></li>
+                <li><a href="ldmn.html">路灯模拟</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--导航-->
+
+    <!--左侧-->
+    <div class="leftBox pa">
+        <div class="leftContent vh pr">
+            <div class="leftTxtW iframeC nhtjBox">
+                <div class="layui-tab layui-tab-brief" lay-filter="nhtjTitle">
+                    <ul class="layui-tab-title title2 nhtjTitle">
+                        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>设备列表</li>
+                        <li><i class="iconfont icon-tuceng"></i>图层</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item nhtjContent layui-show">
+                            <div class="iframeTree">
+                                <h5 class="title3">100KV变电站</h5>
+                                <div id="layerTree"></div>
+                            </div>
+                        </div>
+                        <!--用电-->
+                        <div class="layui-tab-item nhtjContent">
+                            <h5 class="title3">图层</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左侧收缩按钮-->
+            <span class="leftBtn pa"></span>
+        </div>
+    </div>
+    <!--右侧-->
+    <div class="rightBox pa rightHide">
+        <div class="vh pr">
+            <div class="leftTxtW iframeC">
+                <div class="title sgfxTitle">事故分析</div>
+                <h5 class="title3">地图操作</h5>
+                <div class="mapEdit tabBtnGroup1">
+                    <ul>
+                        <li id="bhsg">
+                            <i class="iconfont icon-bi-copy"></i>
+                            <h6>标绘事故点</h6>
+                        </li>
+                        <li class="tabBtn">
+                            <i class="iconfont icon-fenxi"></i>
+                            <h6>拉闸分析</h6>
+                        </li>
+                        <li class="tabBtn">
+                            <i class="iconfont icon-fanwei"></i>
+                            <h6>影响范围</h6>
+                        </li>
+                        <li class="tabBtn">
+                            <i class="iconfont icon-chengyuan"></i>
+                            <h6>获取用户</h6>
+                        </li>
+                    </ul>
+                </div>
+                <div id="lzfxList">
+                    <div class="title3">拉闸分析</div>
+                    <ul class="yjtjList lzfxNumber">
+                        <li class="active">
+                            <p>变电箱</p>
+                            <h6>25</h6>
+                            <i class="iconfont icon-dian1"></i>
+                        </li>
+                        <li class="active">
+                            <p>供电管线</p>
+                            <h6>1800</h6>
+                            <i class="iconfont icon-guanxian"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div id="yxfwList">
+                    <div class="title3">影响范围</div>
+                    <div class="yxfwNumber pr">
+                        <div class="jml pa">
+                            <h5>1052</h5>
+                            <p>居民楼</p>
+                        </div>
+                        <div class="ssl pa">
+                            <h5>12111</h5>
+                            <p>宿舍楼</p>
+                        </div>
+                        <div class="jxl pa">
+                            <h5>10651</h5>
+                            <p>教学楼</p>
+                        </div>
+                        <div class="syl pa">
+                            <h5>2507</h5>
+                            <p>商业楼</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="tsyhList">
+                    <div class="title3">推送用户</div>
+                    <ul class="pd15 ldqkList tsyhList">
+                        <li>
+                            <h5 ><span id="number5">1210</span></h5>
+                            <p class="clGreen"><i class="iconfont icon-ren"></i>宿舍管理员</p>
+                        </li>
+                        <li>
+                            <h5 ><span id="number6">52261</span></h5>
+                            <p class="clGreen"><i class="iconfont icon-admin"></i>后勤部</p>
+                        </li>
+                        <li>
+                            <h5 ><span id="number7">2235</span></h5>
+                            <p class="clGreen"><i class="iconfont icon-guanliyuan"></i>居民管理员</p>
+                        </li>
+                        <li>
+                            <h5 ><span id="number8">2215</span></h5>
+                            <p class="clGreen"><i class="iconfont icon-ren1"></i>教学管理员</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--<span class="rightBtn pa"></span>-->
+            <!--搜索框-->
+            <!--<div class="searchBox pa">
+                <div class="searchContent pr">
+                    <input type="text" autocomplete="off">
+                    <i class="pa iconfont icon-sousuo searchIcon"></i>
+                </div>
+            </div>-->
+            <!--地图按钮-->
+            <ul class="mapBtnList pa">
+                <!--<li>-->
+                    <!--<span class="mapIcon rightMore"><i class="iconfont icon-d1"></i></span>-->
+                    <!--<div class="mapIconCont hide">-->
+                        <!--<span class="mapIcon"><i class="iconfont icon-d"></i></span>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-jia"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-jian"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-icon"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-shou"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon rightMore"><i class="iconfont icon-chizi"></i></span>
+                    <div class="mapIconCont hide ruler" style="width:10vw;">
+                        <span class="txt">垂直</span>
+                        <span class="txt">水平</span>
+                        <span class="txt">面积</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-xuanqu"></i></span>
+                </li>
+                <li>
+                    <span class="mapIcon"><i class="iconfont icon-yanjing"></i></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--底部弹框-->
+    <div class="bottomLayer pw15 pa">
+        <div class="pr vh">
+            <span class="closeBtn pa" onclick="closeBtn()"><i class="iconfont icon-guanbi"></i></span>
+            <!--拉闸分析-->
+            <div class="layui-tab layuiTab2" lay-filter="bottomTab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">拉阀分析详情</li>
+                    <li>影响范围详情</li>
+                    <li>推送用户详情</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show" >
+                        <div class="table moreTable page">
+                            <div id="lffxTable"></div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item" >
+                        <div class="table moreTable page">
+                            <div id="yxfwTable"></div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item pr">
+                        <div class="table moreTable page">
+                            <div id="hqyhTabe"></div>
+                        </div>
+                        <!--消息发送按钮-->
+                        <div class="pa xxfsBtn">
+                            <button type="button" class="xxts" onclick="layuiBox()"><i class="iconfont icon-dian"></i>信息推送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="bottomLayer pa">-->
+        <!--<div class="pr vh">-->
+            <!--<span class="closeBtn pa" onclick="closeBtn()"><i class="iconfont icon-guanbi"></i></span>-->
+            <!--&lt;!&ndash;拉闸分析&ndash;&gt;-->
+            <!--<h5 class="title3 oh">影响范围详情</h5>-->
+            <!--<div class="pw15 table moreTable">-->
+                <!--<div id="moreListTable"></div>-->
+                <!--<div class="lineBlue"></div>-->
+            <!--</div>-->
+            <!--<div class="page pa">-->
+                <!--<div id="demo1"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+</body>
+<script th:src="@{/def/js/jquery.min.js}"></script>
+<script th:src="@{/def/libs/layui-2.5.5/layui.js}"></script>
+<script th:src="@{/bus/aupipes/lib/js/common.js}"></script>
+<script th:src="@{/bus/aupipes/lib/js/jcbz/lzxd.js}"></script>
+</html>

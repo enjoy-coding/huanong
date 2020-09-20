@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预警处置--关闭预警</title>
+    <link rel="stylesheet" href="/def/libs/layui-2.5.5/css/layui.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/font.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/font/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/common.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/insidePage.css">
+</head>
+<body>
+    <div class="insidePageOh">
+        <form class="layui-form layerForm pd30">
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预案名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预警时间：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预警内容：</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预警来源：</label>
+                        <div class="layui-input-block">
+                            <select name="quiz1">
+                                <option value="">路灯系统</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预警级别：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12 layui-col-xs12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处置状态：</label>
+                        <div class="layui-input-block">
+                            <select name="quiz1">
+                                <option value="">已处置</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处置结果：</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预案文件：</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn" id="test1">上传图片</button>
+                            <div class="layui-upload-list">
+                                <img class="layui-upload-img" id="demo1">
+                                <p id="demoText"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-col-sm12">
+                    <div class="layui-form-item btngroup">
+                        <div class="layui-input-block txtC">
+                            <button type="submit" class="layui-btn submitBtn" lay-submit="" lay-filter="demo1">立即提交</button>
+                            <button type="reset" class="layui-btn czBtn">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script src="/def/js/jquery.min.js"></script>
+<script src="/def/libs/layui-2.5.5/layui.js"></script>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+    })
+</script>
+</html>

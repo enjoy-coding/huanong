@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqCwMapper">
+    
+    <resultMap type="ZhsqCw" id="ZhsqCwResult">
+        <result property="cwid"    column="CWID"    />
+        <result property="cwlx"    column="CWLX"    />
+        <result property="cwbh"    column="CWBH"    />
+        <result property="cwzt"    column="CWZT"    />
+        <result property="xqid"    column="XQID"    />
+        <result property="sqid"    column="SQID"    />
+        <result property="tccid"    column="TCCID"    />
+        <result property="tccmc"    column="TCCMC"    />
+        <result property="cwzl"    column="CWZL"    />
+    </resultMap>
+
+    <sql id="selectZhsqCwVo">
+        select CWID, CWLX, CWBH, CWZT, XQID, SQID, TCCID, TCCMC, CWZL from ZHSQ_CW
+    </sql>
+
+    <select id="selectZhsqCwList" parameterType="ZhsqCw" resultMap="ZhsqCwResult">
+        <include refid="selectZhsqCwVo"/>
+        <where>  
+            <if test="cwid != null  and cwid != ''"> and CWID = #{cwid}</if>
+            <if test="cwlx != null  and cwlx != ''"> and CWLX = #{cwlx}</if>
+            <if test="cwbh != null  and cwbh != ''"> and CWBH = #{cwbh}</if>
+            <if test="cwzt != null  and cwzt != ''"> and CWZT = #{cwzt}</if>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="tccid != null  and tccid != ''"> and TCCID = #{tccid}</if>
+            <if test="tccmc != null  and tccmc != ''"> and TCCMC = #{tccmc}</if>
+            <if test="cwzl != null  and cwzl != ''"> and CWZL = #{cwzl}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqCwById" parameterType="String" resultMap="ZhsqCwResult">
+        <include refid="selectZhsqCwVo"/>
+        where CWID = #{cwid}
+    </select>
+        
+    <insert id="insertZhsqCw" parameterType="ZhsqCw">
+        insert into ZHSQ_CW
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cwid != null  and cwid != ''">CWID,</if>
+            <if test="cwlx != null  and cwlx != ''">CWLX,</if>
+            <if test="cwbh != null  and cwbh != ''">CWBH,</if>
+            <if test="cwzt != null  and cwzt != ''">CWZT,</if>
+            <if test="xqid != null  and xqid != ''">XQID,</if>
+            <if test="sqid != null  and sqid != ''">SQID,</if>
+            <if test="tccid != null  and tccid != ''">TCCID,</if>
+            <if test="tccmc != null  and tccmc != ''">TCCMC,</if>
+            <if test="cwzl != null  and cwzl != ''">CWZL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cwid != null  and cwid != ''">#{cwid},</if>
+            <if test="cwlx != null  and cwlx != ''">#{cwlx},</if>
+            <if test="cwbh != null  and cwbh != ''">#{cwbh},</if>
+            <if test="cwzt != null  and cwzt != ''">#{cwzt},</if>
+            <if test="xqid != null  and xqid != ''">#{xqid},</if>
+            <if test="sqid != null  and sqid != ''">#{sqid},</if>
+            <if test="tccid != null  and tccid != ''">#{tccid},</if>
+            <if test="tccmc != null  and tccmc != ''">#{tccmc},</if>
+            <if test="cwzl != null  and cwzl != ''">#{cwzl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqCw" parameterType="ZhsqCw">
+        update ZHSQ_CW
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cwlx != null  and cwlx != ''">CWLX = #{cwlx},</if>
+            <if test="cwbh != null  and cwbh != ''">CWBH = #{cwbh},</if>
+            <if test="cwzt != null  and cwzt != ''">CWZT = #{cwzt},</if>
+            <if test="xqid != null  and xqid != ''">XQID = #{xqid},</if>
+            <if test="sqid != null  and sqid != ''">SQID = #{sqid},</if>
+            <if test="tccid != null  and tccid != ''">TCCID = #{tccid},</if>
+            <if test="tccmc != null  and tccmc != ''">TCCMC = #{tccmc},</if>
+            <if test="cwzl != null  and cwzl != ''">CWZL = #{cwzl},</if>
+        </trim>
+        where CWID = #{cwid}
+    </update>
+
+    <delete id="deleteZhsqCwById" parameterType="String">
+        delete from ZHSQ_CW where CWID = #{cwid}
+    </delete>
+
+    <delete id="deleteZhsqCwByIds" parameterType="String">
+        delete from ZHSQ_CW where CWID in 
+        <foreach item="cwid" collection="array" open="(" separator="," close=")">
+            #{cwid}
+        </foreach>
+    </delete>
+
+    <select id="getSqCwXx" parameterType="ZhsqCw" resultType="map">
+        SELECT count(case when CWZT=1 then 1 else null end) as allKxCount,
+            count(case when CWZT=2 then 1 else null end) as allZyCount ,
+            count(case when CWLX=1 and CWZT=1 then 1 else null end) as allDsKxCount,
+            count(case when CWLX=1 and CWZT=2 then 1 else null end) as allDsZyCount,
+            count(case when CWLX=2 and CWZT=1 then 1 else null end) as allDxKxCount,
+            count(case when CWLX=2 and CWZT=2 then 1 else null end) as allDxZyCount
+        FROM ZHSQ_CW
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+    </select>
+
+    <select id="getCwInfoLeftOn" parameterType="ZhsqCw" resultType="map">
+        SELECT
+        count(*) allCwCount,
+        (select count(*) from (select distinct TCCID ,CWLX,SQID,XQID from ZHSQ_CW)A
+        <where>
+            <if test="xqid != null  and xqid != ''"> and A.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and A.SQID = #{sqid}</if>
+        </where>
+        )tccCount,
+        count(case when CWZT=1 then 1 else null end) as allKxCount,
+        count(case when CWLX=2 and CWZT=1 then 1 else null end) as allDxKxCount,
+        (select ltrim(Convert(numeric(9,2),count(case when s.CWLX=2 and s.CWZT=1 then 1 else null end)*100.0/ (case when (count(case when s.CWZT=1 then 1 else null end)) = 0 then 1  else (count(case when s.CWZT=1 then 1 else null end)) end)   )) As dxKxBfb from ZHSQ_CW s
+        <where>
+            <if test="xqid != null  and xqid != ''"> and s.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and s.SQID = #{sqid}</if>
+        </where>
+        ) AS dxKxBfb,
+        count(case when CWLX=1 and CWZT=1 then 1 else null end) as allDsKxCount,
+        (select ltrim(Convert(numeric(9,2),count(case when s1.CWLX=1 and s1.CWZT=1 then 1 else null end)*100.0/ (case when (count(case when s1.CWZT=1 then 1 else null end)) = 0 then 1  else (count(case when s1.CWZT=1 then 1 else null end)) end)  )) As dsKxBfb from ZHSQ_CW s1
+        <where>
+            <if test="xqid != null  and xqid != ''"> and s1.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and s1.SQID = #{sqid}</if>
+        </where>
+        ) AS dsKxBfb,
+        count(case when CWZT=2 then 1 else null end) as allZyCount ,
+        count(case when CWLX=2 and CWZT=2 then 1 else null end) as allDxZyCount,
+        (select ltrim(Convert(numeric(9,2),count(case when s.CWLX=2 and s.CWZT=2 then 1 else null end)*100.0/  (case when (count(case when s.CWZT=2 then 1 else null end)) = 0 then 1  else (count(case when s.CWZT=2 then 1 else null end)) end)   )) As dxZyBfb from ZHSQ_CW s
+        <where>
+            <if test="xqid != null  and xqid != ''"> and s.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and s.SQID = #{sqid}</if>
+        </where>
+        ) AS dxZyBfb,
+        count(case when CWLX=1 and CWZT=2 then 1 else null end) as allDsZyCount,
+        (select ltrim(Convert(numeric(9,2),count(case when s.CWLX=1 and s.CWZT=2 then 1 else null end)*100.0/  (case when (count(case when s.CWZT=2 then 1 else null end)) = 0 then 1  else (count(case when s.CWZT=2 then 1 else null end)) end)   )) As dsZyBfb from ZHSQ_CW s
+        <where>
+            <if test="xqid != null  and xqid != ''"> and s.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and s.SQID = #{sqid}</if>
+        </where>
+        ) AS dsZyBfb
+        from ZHSQ_CW
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>
+    </select>
+
+    <select id="getCwInfoLeftDown" parameterType="ZhsqCw"  resultType="map">
+        SELECT
+          TOP 5 s.kxCwCount,TCCID,TCCMC,CWLX
+        FROM
+            (
+                SELECT
+                    TOP 5 COUNT (*) kxCwCount,
+                    TCCID,
+                    TCCMC,
+                    dd.dict_label AS CWLX
+                FROM
+                    ZHSQ_CW
+                LEFT JOIN sys_dict_data dd ON CWLX = dd.dict_value
+                <where>
+                    <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+                    <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+                    AND CWLX = '1'
+                    AND dd.dict_type = 'pg_cw_type'
+                </where>
+                GROUP BY
+                    TCCID,
+                    TCCMC,
+                    dd.dict_label
+                UNION
+                    SELECT
+                        TOP 5 COUNT (*) kxCwCount,
+                        TCCID,
+                        TCCMC,
+                        dd.dict_label AS CWLX
+                    FROM
+                        ZHSQ_CW
+                    LEFT JOIN sys_dict_data dd ON CWLX = dd.dict_value
+                    <where>
+                        <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+                        <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+                        AND CWLX = '2'
+                        AND dd.dict_type = 'pg_cw_type'
+                    </where>
+                    GROUP BY
+                        TCCID,
+                        TCCMC,
+                        dd.dict_label
+            ) s
+        ORDER BY
+            s.kxCwCount DESC,
+            s.TCCID ASC
+    </select>
+
+    <select id="getTccInfoRight" parameterType="ZhsqCw"  resultType="map">
+        SELECT
+            cw.TCCID,
+            cw.TCCMC,
+            dd.dict_label TCCLX,
+            COUNT (cw.CWID) AS cwNum,
+            COUNT (
+                CASE
+                WHEN cw.CWZT = '1' THEN
+                    1
+                ELSE
+                    NULL
+                END
+            ) AS kxCw,
+            COUNT (
+                CASE
+                WHEN cw.CWZT = '2' THEN
+                1
+                ELSE
+                NULL
+                END
+            ) AS zyCw
+        FROM
+            ZHSQ_TCC tc
+        LEFT JOIN ZHSQ_CW cw ON tc.TCCID = cw.TCCID
+        AND tc.XQID = cw.XQID
+        LEFT JOIN sys_dict_data dd
+        on cw.CWLX = dd.dict_value
+        <where>
+            <if test="xqid != null  and xqid != ''"> and cw.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and cw.SQID = #{sqid}</if>
+            <if test="tccid != null  and tccid != ''"> and cw.TCCID = #{tccid}</if>
+            <if test="tccmc != null  and tccmc != ''">
+                <bind name="_tccmc" value="'%'+ tccmc +'%'"/>
+                and cw.TCCMC like #{_tccmc}
+            </if>
+            <if test="cwlx != null  and cwlx != ''">and cw.CWLX = #{cwlx}</if>
+            And dd.dict_type = 'pg_cw_type'
+        </where>
+        GROUP BY
+            cw.TCCID,cw.TCCMC,dd.dict_label
+        order by cw.TCCID
+    </select>
+
+    <select id="getTccXxInfoCenter" parameterType="ZhsqCw"  resultType="map">
+        SELECT
+            CWID,
+            dd.dict_label CWLX,
+            CWBH,
+            dd1.dict_label CWZT,
+            XQID,
+            SQID,
+            TCCID,
+            TCCMC,
+            CWZL
+        FROM
+            ZHSQ_CW cw
+        LEFT JOIN sys_dict_data dd on cw.CWLX = dd.dict_value
+        LEFT JOIN sys_dict_data dd1 on cw.CWZT = dd1.dict_value
+        <where>
+            <if test="xqid != null  and xqid != ''"> and cw.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and cw.SQID = #{sqid}</if>
+            <if test="tccid != null  and tccid != ''"> and cw.TCCID = #{tccid}</if>
+            <if test="cwlx != null  and cwlx != ''">and cw.CWLX = #{cwlx}</if>
+            And dd.dict_type = 'pg_cw_type'
+            And dd1.dict_type = 'pg_cw_status'
+        </where>
+        order by cw.CWID
+    </select>
+
+    <select id="getKxcwInfo" parameterType="ZhsqCw"  resultType="map">
+        SELECT
+            cw.CWID,
+            dd.dict_label CWLX,
+            cw.CWBH,
+            dd1.dict_label CWZT,
+            cw.XQID,
+            cw.SQID,
+            cw.TCCID,
+            cw.TCCMC,
+            cw.CWZL
+        FROM
+            ZHSQ_CW cw
+        LEFT JOIN sys_dict_data dd ON cw.CWLX = dd.dict_value
+        LEFT JOIN sys_dict_data dd1 ON cw.CWZT = dd1.dict_value
+        <where>
+            <if test="xqid != null  and xqid != ''"> and cw.XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and cw.SQID = #{sqid}</if>
+            <if test="cwzt != null  and cwzt != ''"> and cw.CWZT = #{cwzt}</if>
+            <if test="cwid != null  and cwid != ''">
+            <bind name="_cwid" value="'%'+ cwid +'%'"/>
+                and cw.CWID like #{_cwid}
+            </if>
+            AND dd.dict_type = 'pg_cw_type'
+            AND dd1.dict_type = 'pg_cw_status'
+        </where>
+    </select>
+
+    <select id="getKxcwXxInfoList" parameterType="ZhsqCw"  resultType="map">
+        SELECT
+        CWID,
+        dd.dict_label CWLX,
+        CWBH,
+        dd1.dict_label CWZT,
+        XQID,
+        SQID,
+        TCCID,
+        TCCMC,
+        CWZL
+        FROM
+        ZHSQ_CW cw
+        LEFT JOIN sys_dict_data dd on cw.CWLX = dd.dict_value
+        LEFT JOIN sys_dict_data dd1 on cw.CWZT = dd1.dict_value
+        <where>
+          <if test="xqid != null  and xqid != ''"> and cw.XQID = #{xqid}</if>
+          <if test="sqid != null  and sqid != ''"> and cw.SQID = #{sqid}</if>
+          <if test="tccid != null  and tccid != ''"> and cw.TCCID = #{tccid}</if>
+          <if test="tccmc != null  and tccmc != ''"> and cw.TCCMC = #{tccmc}</if>
+          <if test="cwlx != null  and cwlx != ''">and cw.CWLX = #{cwlx}</if>
+            AND dd.dict_type = 'pg_cw_type'
+            AND dd1.dict_type = 'pg_cw_status'
+        </where>
+        ORDER BY
+            cw.CWID
+    </select>
+
+</mapper>

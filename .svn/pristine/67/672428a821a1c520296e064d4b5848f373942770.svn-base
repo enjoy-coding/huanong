@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>预警处置--历史故障</title>
+    <link rel="stylesheet" href="/def/libs/layui-2.5.5/css/layui.css">
+    <link rel="stylesheet" href="/lib/css/font.css">
+    <link rel="stylesheet" href="/lib/font/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/common.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/insidePage.css">
+</head>
+<body>
+    <div class="insidePageOh">
+        <form class="layui-form layerForm pd30">
+            <div class="layui-row">
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">日期：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">时间：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item smLabel">
+                        <label class="layui-form-label">至：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">事件类型：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">事件名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4 layui-col-sm4">
+                    <div class="layui-form-item smLabel">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn czBtn" lay-submit="" lay-filter="demo1">搜索</button>
+                            <button type="reset" class="layui-btn czBtn">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="pw15 layuiTabBox layuiPage">
+            <div id="lsgzTable" lay-filter=""></div>
+        </div>
+    </div>
+</body>
+<script src="/def/js/jquery.min.js"></script>
+<script src="/def/libs/layui-2.5.5/layui.js"></script>
+<script>
+    layui.use(['form','table'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,table = layui.table
+
+        //    历史故障table
+        table.render({
+            elem: '#lsgzTable'
+            ,height: '460'
+            ,skin:'nob'
+            ,size: 'lg' //小尺寸的表格
+            // ,url: '/demo/table/user/' //数据接口
+            ,cols: [[ //标题栏
+                {field: 'serial', title: '序号',align: 'center'},
+                {field: 'type', title: '预警类型', align: 'center',},
+                {field: 'date', title: '日期', align: 'center'},
+                {field: 'name', title: '预警名称', align: 'center'},
+                {field: 'content', title: '预警内容', align: 'center'},
+                {field: 'sby', title: '上报员', align: 'center'},
+            ]]
+            ,data: [{
+                "serial": "1"
+                ,"type": "设备故障"
+                ,"date": "2019年11月1日"
+                ,"name": "东区食堂变电箱发生电路事故"
+                ,"content": "巡检人员在巡查过程中发现东区食堂变电箱箱门已损坏"
+                ,"sby": "张闪"
+            }]
+            ,page:
+                {
+                layout: ['prev', 'page', 'next'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 1 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+
+            }
+        });
+    })
+</script>
+</html>

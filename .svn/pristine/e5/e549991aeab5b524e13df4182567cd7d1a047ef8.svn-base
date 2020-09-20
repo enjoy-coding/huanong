@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScIndexslideMapper">
+    
+    <resultMap type="ScIndexslide" id="ScIndexslideResult">
+        <result property="slideId"    column="slide_id"    />
+        <result property="slidePath"    column="slide_path"    />
+        <result property="slideSort"    column="slide_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    jdbcType="BIGINT"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    jdbcType="BIGINT"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectScIndexslideVo">
+        select slide_id, slide_path, slide_sort, create_by, create_time, update_by, update_time, remark from sc_indexslide
+    </sql>
+
+    <select id="selectScIndexslideList" parameterType="ScIndexslide" resultMap="ScIndexslideResult">
+        <include refid="selectScIndexslideVo"/>
+        <where>  
+            <if test="slidePath != null  and slidePath != ''"> and slide_path = #{slidePath}</if>
+            <if test="slideSort != null "> and slide_sort = #{slideSort}</if>
+        </where>
+    </select>
+    
+    <select id="selectScIndexslideAll" parameterType="ScIndexslide" resultMap="ScIndexslideResult">
+        <include refid="selectScIndexslideVo"/>
+        order by slide_sort
+    </select>
+    
+    <select id="selectScIndexslideById" parameterType="Long" resultMap="ScIndexslideResult">
+        <include refid="selectScIndexslideVo"/>
+        where slide_id = #{slideId}
+    </select>
+        
+    <insert id="insertScIndexslide" parameterType="ScIndexslide">
+        insert into sc_indexslide
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="slideId != null ">slide_id,</if>
+            <if test="slidePath != null  and slidePath != ''">slide_path,</if>
+            <if test="slideSort != null ">slide_sort,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="slideId != null ">#{slideId},</if>
+            <if test="slidePath != null  and slidePath != ''">#{slidePath},</if>
+            <if test="slideSort != null ">#{slideSort},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScIndexslide" parameterType="ScIndexslide">
+        update sc_indexslide
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="slidePath != null  and slidePath != ''">slide_path = #{slidePath},</if>
+            <if test="slideSort != null ">slide_sort = #{slideSort},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where slide_id = #{slideId}
+    </update>
+
+    <delete id="deleteScIndexslideById" parameterType="Long">
+        delete from sc_indexslide where slide_id = #{slideId}
+    </delete>
+
+    <delete id="deleteScIndexslideByIds" parameterType="String">
+        delete from sc_indexslide where slide_id in 
+        <foreach item="slideId" collection="array" open="(" separator="," close=")">
+            #{slideId}
+        </foreach>
+    </delete>
+    
+</mapper>

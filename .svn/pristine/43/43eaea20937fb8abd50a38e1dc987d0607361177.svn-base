@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupInspectCoordinateMapper">
+    
+    <resultMap type="AupInspectCoordinate" id="AupInspectCoordinateResult">
+        <result property="coordinateId"    column="coordinate_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="altitude"    column="altitude"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAupInspectCoordinateVo">
+        select coordinate_id, task_id, longitude, latitude, create_time, update_time from aup_inspect_coordinate
+    </sql>
+
+    <select id="selectAupInspectCoordinateList" parameterType="AupInspectCoordinate" resultMap="AupInspectCoordinateResult">
+        <include refid="selectAupInspectCoordinateVo"/>
+        <where>
+            <if test="taskId != null ">
+                and task_id = #{taskId}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectAupInspectCoordinateById" parameterType="Long" resultMap="AupInspectCoordinateResult">
+    </select>
+        
+    <insert id="insertAupInspectCoordinate" parameterType="AupInspectCoordinate">
+        insert into aup_inspect_coordinate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coordinateId != null ">coordinate_id,</if>
+            <if test="taskId != null ">task_id,</if>
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="altitude != null  and altitude != ''">altitude,</if>
+            create_time, update_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coordinateId != null ">#{coordinateId},</if>
+            <if test="taskId != null ">#{taskId},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="altitude != null  and altitude != ''">altitude,</if>
+            getdate(), getdate()
+         </trim>
+    </insert>
+
+    <update id="updateAupInspectCoordinate" parameterType="AupInspectCoordinate">
+        update aup_inspect_coordinate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null ">task_id = #{taskId},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="altitude != null  and altitude != ''">altitude = #{altitude},</if>
+            <if test="updateTime != null ">update_time = getdate(),</if>
+        </trim>
+        where coordinate_id = #{coordinateId}
+    </update>
+
+    <delete id="deleteAupInspectCoordinateById" parameterType="Long">
+        delete from aup_inspect_coordinate where coordinate_id = #{coordinateId}
+    </delete>
+
+    <delete id="deleteAupInspectCoordinateByIds" parameterType="String">
+        delete from aup_inspect_coordinate where coordinate_id in 
+        <foreach item="coordinateId" collection="array" open="(" separator="," close=")">
+            #{coordinateId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAupInspectCoordinateByTaskIds" parameterType="String">
+        delete from aup_inspect_coordinate where task_id in
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+    
+</mapper>

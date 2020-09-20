@@ -1,0 +1,47 @@
+<!-- 预警处置 -->
+<div class=" swiper-wrapper" >
+	<ul class="swiper-slide"  th:each="list0:${list}">
+		<li th:each="list1:${list0}">
+			<a th:href="@{'/screen/yjcz/index?menuCode=yjcz&menuValue='+${list1.id} }">
+				<span class="icon" th:switch="${list1.level}">
+                   <img th:case="1"  th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt="">
+					<img th:case="2"  th:src="@{/bus/aupipes/lib/images/grade2.gif}" alt="">
+					<img th:case="3"  th:src="@{/bus/aupipes/lib/images/grade3.gif}" alt="">
+                </span>
+				<p id="yjcz_msg1">[(${list1.content})]</p>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<!--
+<div class=" swiper-wrapper">
+	<ul class="swiper-slide">
+		<li>
+			<a th:href="@{/screen/yjcz/index?menuCode=yjcz&menuValue=id01}">
+				<span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+				<p id="yjcz_msg1">1.2019-08-01 10:30:23荟园F1-F12设备损坏设备损坏设备损坏</p>
+			</a>
+		</li>
+		<li>
+			<a th:href="@{/screen/yjcz/index?menuCode=yjcz&menuValue=id02}">
+				<span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+				<p id="yjcz_msg2">2.2019-08-01 10:30:23荟园F1-F12设备损坏设备损坏设备损坏</p>
+			</a>
+		</li>
+	</ul>
+	<ul class="swiper-slide">
+		<li>
+			<a th:href="@{/screen/yjcz/index?menuCode=yjcz&menuValue=id03}">
+				<span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+				<p id="yjcz_msg3">3.2019-08-01 10:30:23荟园F1-F12设备损坏设备损坏设备损坏</p>
+			</a>
+		</li>
+		<li>
+			<a th:href="@{/screen/yjcz/index?menuCode=yjcz&menuValue=id04}">
+				<span class="icon"><img th:src="@{/bus/aupipes/lib/images/grade1.gif}" alt=""></span>
+				<p id="yjcz_msg4">4.2019-08-01 10:30:23荟园F1-F12设备损坏设备损坏设备损坏</p>
+			</a>
+		</li>
+	</ul>
+</div>-->

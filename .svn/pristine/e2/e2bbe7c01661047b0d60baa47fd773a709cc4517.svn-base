@@ -1,0 +1,65 @@
+<span class="open hide">展开</span>
+<div class="bottomLayer searchResult" id="xjlbBottomLayer">
+    <div class="shrink">
+        <span class="close zs-closeOpen" id="shrinkClose" onclick="closeResultMore()">
+            <i class="iconfont iconshousuoxiajiantou"></i>
+        </span>
+        <span class="zs-close" onclick="closeInfo()">
+            <i class="iconfont iconguanbi pa clearBtn"></i>
+        </span>
+    </div>
+    <form class="layui-form bottomLayerFrom" id="xjlbForm" onsubmit="return false;">
+        <div class="layui-row layui-col-space5">
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">维修类型:</label>
+                    <div class="layui-input-block">
+                        <select name="type" lay-filter="type">
+                            <option value=""></option>
+                            <option value="0">电梯故障</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">维修详情:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="detail" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">维修时间:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="test5" class="layui-input" placeholder="开始时间" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item time">
+                    <label class="layui-form-label">至:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="test6" class="layui-input" placeholder="结束时间" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs2 layui-col-sm4 layui-col-md3">
+                <div class="layui-form-item txtR">
+                    <button class="layui-btn bg_green" lay-submit lay-filter="wxFormSearch">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="titleStyle1">查询结果</div>
+    <div class="xjlbList" id="xjlbListBox">
+        <ul id="wxListBox">
+
+        </ul>
+    </div>
+    <div class="listMore">
+        <i class="iconfont icongengduo"></i>
+        <h5>查找更多</h5>
+    </div>
+</div>

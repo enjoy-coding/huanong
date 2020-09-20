@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupTjWaterSideByYearMonthMapper">
+
+    <resultMap type="AupTjWaterSideByYearMonth" id="AupTjWaterSideByYearMonthResult">
+        <result property="id"    column="id"    />
+        <result property="cacheid"    column="cacheId"    />
+        <result property="cachename"    column="cacheName"    />
+        <result property="cachelevel"    column="cacheLevel"    />
+        <result property="year"    column="year"    />
+        <result property="month"    column="month"    />
+        <result property="tableusenumber"    column="tableUseNumber"    />
+        <result property="sumusenumber"    column="sumUseNumber"    />
+        <result property="sideid"    column="sideId"    />
+        <result property="createtime"    column="createTime"    />
+        <result property="shl" column="shl"/>
+    </resultMap>
+
+    <sql id="selectAupTjWaterSideByYearMonthVo">
+        select id, cacheId, cacheName, cacheLevel, year, month, tableUseNumber, sumUseNumber, sideId, createTime,shl from aup_TjwaterSideByYearMonth
+    </sql>
+
+    <select id="queryAupTjByParams" parameterType="AupTjWaterSideByYearMonth" resultMap="AupTjWaterSideByYearMonthResult">
+        SELECT MAX(id) as id
+			, cacheId
+			, cacheName
+			, cacheLevel
+			,[year], [month]
+            , CAST(ROUND(SUM(tableUseNumber), 2) as DECIMAL(16,2)) as tableUseNumber
+            , CAST(ROUND(SUM(sumUseNumber),2) as DECIMAL(16,2)) as sumUseNumber
+			, MAX(sideId) as sideId
+			, MAX(createTime)  as createTime
+			, SUM(shl) as shl
+        FROM aup_TjwaterSideByYearMonth
+        <where>
+            <if test="cachename != null  and cachename != ''">
+                <bind name="_cachename" value="'%'+ cachename +'%'"/>
+                and cachename like #{_cachename}
+            </if>
+            <if test="cacheid != null  and cacheid != ''">
+                <bind name="_cacheid" value="'%'+ cacheid +'%'"/>
+                and cacheId like #{_cacheid}
+            </if>
+            <if test="cachelevel != null "> 
+                and cacheLevel = #{cachelevel} <!--等级-->
+            </if>   
+            <if test="params.beginYear != null and params.beginYear != ''"><!-- 开始时间检索 -->
+                and year &gt;= #{params.beginYear, jdbcType=VARCHAR}
+            </if>
+            <if test="params.beginMonth != null and params.beginMonth != ''"><!-- 开始时间检索 -->
+                and month &gt;= #{params.beginMonth, jdbcType=VARCHAR}
+            </if>
+            
+            <if test="params.endYear != null and params.endYear != ''"><!-- 结束时间检索 -->
+                and year &lt;= #{params.endYear, jdbcType=VARCHAR}
+            </if>
+            <if test="params.endMonth != null and params.endMonth != ''"><!-- 结束时间检索 -->
+                and month &lt;= #{params.endMonth, jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY cacheId,cacheName,cacheLevel,[year],[month]
+        ORDER BY [year],[month]
+    </select>
+    <select id="selectAupTjWaterSideByYearMonthList" parameterType="AupTjWaterSideByYearMonth" resultMap="AupTjWaterSideByYearMonthResult">
+        <include refid="selectAupTjWaterSideByYearMonthVo"/>
+        <where>
+            <if test="cacheid != null  and cacheid != ''">
+             <bind name="_cacheid" value="'%'+ cacheid +'%'"/>
+                and cacheId like #{_cacheid}</if>
+            <if test="cachename != null  and cachename != ''">
+                <bind name="_cachename" value="'%'+ cachename +'%'"/>
+                and cacheName like #{_cachename}
+            </if>
+            <if test="cachelevel != null "> and cacheLevel = #{cachelevel}</if>
+            <if test="year != null "> and year = #{year}</if>
+            <if test="month != null "> and month = #{month}</if>
+            <if test="tableusenumber != null "> and tableUseNumber = #{tableusenumber}</if>
+            <if test="sumusenumber != null "> and sumUseNumber = #{sumusenumber}</if>
+            <if test="sideid != null "> and sideId = #{sideid}</if>
+            <if test="createtime != null  and createtime != ''"> and createTime = #{createtime}</if>
+            <if test="params.beginYear != null and params.beginYear != ''"><!-- 开始时间检索 -->
+                and year &gt;= #{params.beginYear, jdbcType=VARCHAR}
+            </if>
+            <if test="params.beginMonth != null and params.beginMonth != ''"><!-- 开始时间检索 -->
+                and month &gt;= #{params.beginMonth, jdbcType=VARCHAR}
+            </if>
+            <if test="params.endYear != null and params.endYear != ''"><!-- 结束时间检索 -->
+                and year &lt;= #{params.endYear, jdbcType=VARCHAR}
+            </if>
+            <if test="params.endMonth != null and params.endMonth != ''"><!-- 结束时间检索 -->
+                and month &lt;= #{params.endMonth, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupTjWaterSideByYearMonthById" parameterType="Long" resultMap="AupTjWaterSideByYearMonthResult">
+        <include refid="selectAupTjWaterSideByYearMonthVo"/>
+        where id = #{id}
+    </select>
+
+
+    <!--查询当前选中年度每个月的用水量以及上一个年度每一个月的用水量-->
+    <select id="queryMonthUseWater" statementType="CALLABLE" resultType="map">
+        {CALL nyjk_queryMonthUseNumber(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+             ,#{important,jdbcType =VARCHAR,mode = IN})
+            }
+    </select>
+
+    <!--按照树节点点击获取当年用水量，当月用水量，上月用水量和水表数-->
+    <select id="queryRootUseWater" statementType="CALLABLE" resultType="map">
+        {CALL nyjk_queryWaterUseNumberRoot(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+             ,#{important,jdbcType =VARCHAR,mode = IN})
+            }
+    </select>
+
+    <!--按照树节点点击获取当年用水量，当月用水量，上月用水量和水表数-->
+    <select id="querySideUseNumber" statementType="CALLABLE" resultType="map">
+        {CALL nyjk_querySideUseNumber(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+             ,#{important,jdbcType =VARCHAR,mode = IN})
+            }
+    </select>
+
+    <!--按照树节点点击获取户房屋当年用水量，当月用水量，上月用水量和水表数，以及每户水表对应的用量-->
+    <select id="queryRootHouseUseWater" statementType="CALLABLE" resultType="map">
+        {CALL nyjk_queryWaterUseMonthRootHouse(
+            #{cacheId,jdbcType=VARCHAR,mode = IN}
+            ,#{year,jdbcType =VARCHAR,mode = IN}
+           )
+            }
+    </select>
+
+
+    <insert id="insertAupTjWaterSideByYearMonth" parameterType="AupTjWaterSideByYearMonth">
+        insert into aup_TjwaterSideByYearMonth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="cacheid != null  and cacheid != ''">cacheId,</if>
+            <if test="cachename != null  and cachename != ''">cacheName,</if>
+            <if test="cachelevel != null ">cacheLevel,</if>
+            <if test="year != null ">year,</if>
+            <if test="month != null ">month,</if>
+            <if test="tableusenumber != null ">tableUseNumber,</if>
+            <if test="sumusenumber != null ">sumUseNumber,</if>
+            <if test="sideid != null ">sideId,</if>
+            <if test="createtime != null  and createtime != ''">createTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="cacheid != null  and cacheid != ''">#{cacheid},</if>
+            <if test="cachename != null  and cachename != ''">#{cachename},</if>
+            <if test="cachelevel != null ">#{cachelevel},</if>
+            <if test="year != null ">#{year},</if>
+            <if test="month != null ">#{month},</if>
+            <if test="tableusenumber != null ">#{tableusenumber},</if>
+            <if test="sumusenumber != null ">#{sumusenumber},</if>
+            <if test="sideid != null ">#{sideid},</if>
+            <if test="createtime != null  and createtime != ''">#{createtime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupTjWaterSideByYearMonth" parameterType="AupTjWaterSideByYearMonth">
+        update aup_TjwaterSideByYearMonth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cacheid != null  and cacheid != ''">cacheId = #{cacheid},</if>
+            <if test="cachename != null  and cachename != ''">cacheName = #{cachename},</if>
+            <if test="cachelevel != null ">cacheLevel = #{cachelevel},</if>
+            <if test="year != null ">year = #{year},</if>
+            <if test="month != null ">month = #{month},</if>
+            <if test="tableusenumber != null ">tableUseNumber = #{tableusenumber},</if>
+            <if test="sumusenumber != null ">sumUseNumber = #{sumusenumber},</if>
+            <if test="sideid != null ">sideId = #{sideid},</if>
+            <if test="createtime != null  and createtime != ''">createTime = #{createtime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupTjWaterSideByYearMonthById" parameterType="Long">
+        delete from aup_TjwaterSideByYearMonth where id = #{id}
+    </delete>
+
+    <delete id="deleteAupTjWaterSideByYearMonthByIds" parameterType="String">
+        delete from aup_TjwaterSideByYearMonth where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

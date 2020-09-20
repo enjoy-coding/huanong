@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupLeakCountMapper">
+
+    <resultMap type="AupLeakCount" id="AupLeakCountResult">
+        <result property="normal" column="normal"/>
+        <result property="leakage" column="leakage"/>
+        <result property="lose" column="lose"/>
+        <result property="lnterfere" column="lnterfere"/>
+        <result property="doubtleak" column="doubtleak"/>
+    </resultMap>
+
+    <sql id="selectAupLeakCountVo">
+        select normal, leakage, lose, lnterfere, doubtleak from aup_leak_count
+    </sql>
+
+
+    <insert id="insertAupLeakCount" parameterType="AupLeakCount">
+        insert into aup_leak_count
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="normal != null ">normal,</if>
+            <if test="leakage != null ">leakage,</if>
+            <if test="lose != null ">lose,</if>
+            <if test="lnterfere != null ">lnterfere,</if>
+            <if test="doubtleak != null ">doubtleak,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="normal != null ">#{normal},</if>
+            <if test="leakage != null ">#{leakage},</if>
+            <if test="lose != null ">#{lose},</if>
+            <if test="lnterfere != null ">#{lnterfere},</if>
+            <if test="doubtleak != null ">#{doubtleak},</if>
+        </trim>
+    </insert>
+
+
+    <delete id="deleteAupLeakCount">
+        delete from aup_leak_count
+    </delete>
+
+
+</mapper>

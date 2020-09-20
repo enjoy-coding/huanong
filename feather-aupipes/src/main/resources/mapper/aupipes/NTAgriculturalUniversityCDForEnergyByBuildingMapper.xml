@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feather.aupipes.mapper.NTAgriculturalUniversityCDForEnergyByBuildingMapper" >
+  <resultMap id="BaseResultMap" type="NTAgriculturalUniversityCDForEnergyByBuilding" >
+    <id column="id" property="id"/>
+    <result column="sortCode" property="sortcode"/>
+    <result column="deleteMark" property="deletemark"/>
+    <result column="enabledMark" property="enabledmark"/>
+    <result column="canWrite" property="canwrite"/>
+    <result column="description" property="description"/>
+    <result column="createDate" property="createdate"/>
+    <result column="createUserId" property="createuserid"/>
+    <result column="createUserName" property="createusername"/>
+    <result column="modifyDate" property="modifydate"/>
+    <result column="modifyUserId" property="modifyuserid"/>
+    <result column="modifyUserName" property="modifyusername"/>
+    <result column="cacheId" property="cacheid"/>
+    <result column="cacheName" property="cachename"/>
+    <result column="cacheLevel" property="cachelevel"/>
+    <result column="energyType" property="energytype"/>
+    <result column="year" property="year"/>
+    <result column="month" property="month"/>
+    <result column="useNumber" property="usenumber"/>
+    <result column="lastUseNumber" property="lastusenumber"/>
+    <result column="tolUseNumber" property="tolusenumber"/>
+    <result column="hasCount" property="hascount"/>
+    <result column="readTime" property="readtime"/>
+    <result column="building" property="building"/>
+    <result column="buildingName" property="buildingname"/>
+    <result column="area" property="area"/>
+    <result column="areaName" property="areaname"/>
+    <result column="water" property="water"/>
+    <result column="waterName" property="watername"/>
+    <result column="electric" property="electric"/>
+    <result column="electricName" property="electricname"/>
+    <result column="mapId" property="mapid"/>
+    <result column="latitude" property="latitude"/>
+    <result column="longitude" property="longitude"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sortCode, deleteMark, enabledMark, canWrite, description, createDate, createUserId, 
+    createUserName, modifyDate, modifyUserId, modifyUserName, cacheId, cacheName, cacheLevel, 
+    energyType, year, month, useNumber, lastUseNumber, tolUseNumber, hasCount, readTime, 
+    building, buildingName, area, areaName, water, waterName, electric, electricName, 
+    mapId, latitude, longitude
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="NTAgriculturalUniversityCDForEnergyByBuilding">
+    select
+    <include refid="Base_Column_List"/>
+    from [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[NT_AgriculturalUniversity_CDForEnergyByBuilding]
+    <where>
+
+      <if test="year != null  and year != ''">and year = #{year}</if>
+      <if test="month != null  and month != ''">and month = #{month}</if>
+
+      <if test="cacheid != null  and cacheid != ''">and cacheId = #{cacheid}</if>
+
+      <!--<if test="energytype != null  and energytype != ''">and energyType = #{energytype}</if>-->
+
+    </where>
+  </select>
+
+
+  <!--查询重点建筑用量情况-->
+  <select id="selectByPrimaryImportantKey" resultMap="BaseResultMap" parameterType="NTAgriculturalUniversityCDForEnergyByBuilding">
+    select
+    <include refid="Base_Column_List"/>
+    from [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[NT_AgriculturalUniversity_CDForEnergyByBuilding]
+    <where>
+
+      <if test="year != null  and year != ''">and year = #{year}</if>
+      <if test="month != null  and month != ''">and month = #{month}</if>
+      <if test="AupBuildingSideList != null">
+      and cacheId in
+      <foreach item="item" collection="AupBuildingSideList" open="(" separator="," close=")">
+        #{item.cacheId}
+      </foreach>
+      </if>
+    </where>
+  </select>
+
+</mapper>

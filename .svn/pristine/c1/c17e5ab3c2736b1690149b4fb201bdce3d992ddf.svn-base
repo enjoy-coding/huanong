@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改巡检记录设备')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-service-edit" th:object="${service}">
+            <input id="id" name="id" th:field="*{id}" type="hidden">
+            <!--<input id="taskId" name="taskId" th:field="*{taskId}" type="hidden">-->
+            <!--<input id="detailId" name="detailId" th:field="*{detailId}" type="hidden">-->
+            <!--<input id="serviceId" name="serviceId" th:field="*{serviceId}" type="hidden">-->
+            <input id="serviceName" name="serviceName" th:field="*{serviceName}" type="hidden">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检任务：</label>
+                <div class="col-sm-8">
+                    <select id="taskList" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检任务编号：</label>
+                <div class="col-sm-8">
+                    <input name="taskId" th:field="*{taskId}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检记录：</label>
+                <div class="col-sm-8">
+                    <select id="detailList" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检记录编号：</label>
+                <div class="col-sm-8">
+                    <input name="detailId" th:field="*{detailId}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备列表：</label>
+                <div class="col-sm-8">
+                    <select id="serviceList" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备编号：</label>
+                <div class="col-sm-8">
+                    <input name="serviceId" th:field="*{serviceId}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+
+<!--            <div class="form-group">
+                <label class="col-sm-3 control-label">设备名称：</label>
+                <div class="col-sm-8">
+                    <input name="serviceName" th:field="*{serviceName}" class="form-control" type="text">
+                </div>
+            </div>-->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备状态：</label>
+                <div class="col-sm-8">
+                    <select id="serviceStatus" class="form-control" name="serviceStatus">
+<!--                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{serviceStatus}"></option>-->
+                    </select>
+                    <input id="curServiceStatus" th:value="${service.serviceStatus}" type="hidden">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备情况：</label>
+                <div class="col-sm-8">
+                    <textarea name="serviceSituation" th:field="*{serviceSituation}" placeholder="请输入内容" class="form-control" required></textarea>
+                    <!--<input name="serviceSituation" th:field="*{serviceSituation}" class="form-control" type="text">-->
+                </div>
+            </div>
+<!--            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检任务id：</label>
+                <div class="col-sm-8">
+                    <input name="taskId" th:field="*{taskId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">巡检记录id：</label>
+                <div class="col-sm-8">
+                    <input name="detailId" th:field="*{detailId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">设备id：</label>
+                <div class="col-sm-8">
+                    <input name="serviceId" th:field="*{serviceId}" class="form-control" type="text">
+                </div>
+            </div>-->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "aupipes/inspectservice";
+        var taskListUrl = ctx + "aupipes/inspect/list";
+        var detailListUrl = ctx + "aupipes/detail/list";
+        var serviceListUrl = ctx + "aupipes/serviceinfo/list";
+        $("#form-service-edit").validate({
+            focusCleanup: true
+        });
+
+	    function isAdd() {
+			return $("#id").val() ? false : true;
+		}
+
+        function submitHandler() {
+
+            if ($.validate.form()) {
+                var config = {
+                    url: prefix + (isAdd() ? "/add" : "/edit"),
+                    type: "post",
+                    dataType: "json",
+                    data: $('#form-service-edit').serialize(),
+                    beforeSend: function () {
+                        $.modal.loading("正在处理中，请稍后...");
+                        $.modal.disable();
+                    },
+                    success: function (result) {
+                        $.operate.successCallback(result);
+                        $.modal.close();
+                        // $.modal.closeAll();
+                    }
+                };
+                $.ajax(config)
+            }
+        }
+
+        $(function () {
+
+            taskListInit();
+            serviceListInit();
+        })
+
+        //巡检任务初始化select
+        function taskListInit(){
+
+            var curValue = $("#taskId").val();
+
+            $.ajax({
+                type: "POST",
+                url: taskListUrl,
+                data: {"params[inspectStatus]":"1,2"},
+                contentType:'application/x-www-form-urlencoded',
+                dataType: "json",
+                success: function(result){
+
+                    if(result.code == 0){
+                        for (var i = 0; i < result.rows.length; i++) {
+
+                            var item = result.rows[i];
+                            if(item.id == curValue){
+                                $("#taskList").append('<option value="' + item.id + '" selected>' + item.inspectName + '</option>');
+
+                            }else{
+                                $("#taskList").append('<option value="' + item.id + '" >' + item.inspectName + '</option>');
+                            }
+                        }
+
+                        if($.common.isEmpty(curValue)){
+                            $("#taskId").val($('#taskList option:first').val());
+                        }
+                    }
+
+                    detailListInit($("#taskId").val());
+                }
+            });
+
+            $("#taskList").change(function(){
+                $("#taskId").val($('#taskList option:selected').val());
+                $("#detailId").val("");//如果手动切换了任务列表，就重置detailId
+
+                detailListInit($("#taskId").val());
+            })
+        };
+
+        //巡检任务初始化select
+        function detailListInit(taskId){
+            console.log(taskId);
+            if($.common.isEmpty(taskId)){
+                return;
+            }
+
+            var curValue = $("#detailId").val();
+            $("#detailList").empty();
+            $.ajax({
+                type: "POST",
+                url: detailListUrl,
+                data:{"taskId": taskId},
+                contentType:'application/x-www-form-urlencoded',
+                dataType: "json",
+                success: function(result){
+
+                    if(result.code == 0){
+                        for (var i = 0; i < result.rows.length; i++) {
+
+                            var item = result.rows[i];
+                            if(item.id == curValue){
+                                $("#detailList").append('<option value="' + item.id + '" selected>' + item.serviceAddress + '</option>');
+
+                            }else{
+                                $("#detailList").append('<option value="' + item.id + '">' + item.serviceAddress + '</option>');
+                            }
+                        }
+
+                        if($.common.isEmpty(curValue)){//当获取到的值为空，说明是新增页面，因此填入值
+                            $("#detailId").val($('#detailList option:first').val());
+                        }
+
+                    }
+                }
+            });
+
+            $("#detailList").change(function(){
+                $("#detailId").val($('#detailList option:selected').val());
+            })
+        };
+
+        //设备初始化select
+        function serviceListInit(){
+            console.log("serviceListInit");
+            var curValue = $("#serviceId").val();
+
+            $.ajax({//获取设备列表
+                type: "POST",
+                url: serviceListUrl,
+                contentType:'application/x-www-form-urlencoded',
+                dataType: "json",
+                success: function(result){
+
+                    if(result.code == 0){
+                        for (var i = 0; i < result.rows.length; i++) {
+
+                            var item = result.rows[i];
+
+                            if(item.id == curValue){//将设备列表填充到serviceList，如果有与当前值相同的，则置为选中状态
+                                $("#serviceList").append('<option value="' + item.id + '" serviceStatus="' + item.serviceStatus + '" selected>' + item.serviceName + '</option>');
+
+                            }else{
+                                $("#serviceList").append('<option value="' + item.id + '" serviceStatus="' + item.serviceStatus + '" >' + item.serviceName + '</option>');
+                            }
+                        }
+
+                        if($.common.isEmpty(curValue)){//当值为空，说明是新增操作，手动给设备id和设备名称赋值
+                            $("#serviceId").val($('#serviceList option:first').val());
+                            $("#serviceName").val($('#serviceList option:first').text());
+                            initStatusList();
+                        }else{//编辑时进入这里
+                            var curServiceStatus = $("#curServiceStatus").val();//获取传入的设备状态值
+
+                            if($.common.isNotEmpty($('#serviceList option:selected').attr("serviceStatus"))){
+                                var serviceStatusList = $('#serviceList option:selected').attr("serviceStatus").split("|");
+                                for(var i = 0; i < serviceStatusList.length; i++){
+
+                                    if(serviceStatusList[i] == curServiceStatus){
+                                        $("#serviceStatus").append('<option value="' + serviceStatusList[i] + '" selected>' + serviceStatusList[i] + '</option>');
+                                    }else{
+                                        $("#serviceStatus").append('<option value="' + serviceStatusList[i] + '" >' + serviceStatusList[i] + '</option>');
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            $("#serviceList").change(function(){
+                $("#serviceId").val($('#serviceList option:selected').val());
+                $("#serviceName").val($('#serviceList option:selected').text());
+                $("#serviceStatus").empty();
+                initStatusList();
+            })
+        };
+
+        //根据设备列表里选择的设备，找到它对应的serviceStatus，格式为|拼凑的字符串，对select进行初始化
+        function initStatusList(){
+
+            if($.common.isNotEmpty($('#serviceList option:selected').attr("serviceStatus"))){
+                var serviceStatusList = $('#serviceList option:selected').attr("serviceStatus").split("|");
+                for(var i = 0; i < serviceStatusList.length; i++){
+                    $("#serviceStatus").append('<option value="' + serviceStatusList[i] + '" >' + serviceStatusList[i] + '</option>');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWarringCategoryMapper">
+
+    <resultMap type="AupWarringCategory" id="AupWarringCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="code"    column="code"    />
+        <result property="pid"    column="pid"    />
+        <result property="level"    column="level"    />
+        <result property="categoryid"    column="categoryid"    />
+        <result property="categoryparentid"    column="categoryParentid"    />
+    </resultMap>
+
+    <sql id="selectAupWarringCategoryVo">
+        select id, name, code, pid, level, categoryid, categoryParentid from aup_warring_category
+    </sql>
+
+    <select id="getWarringListByPid" resultMap="AupWarringCategoryResult" parameterType="AupWarringCategory">
+        <include refid="selectAupWarringCategoryVo"/>
+        <where>
+            <if test="pid!=null and pid!=''">id=#{pid}</if>
+        </where>
+    </select>
+    <select id="selectAupWarringCategoryList" parameterType="AupWarringCategory" resultMap="AupWarringCategoryResult">
+        <include refid="selectAupWarringCategoryVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+
+                and name = #{name}
+            </if>
+            <if test="code != null  and code != ''">
+                <bind name="_code" value="'%'+ code +'%'"/>
+                and code like #{_code}
+            </if>
+            <if test="pid != null  and pid != ''">
+                <bind name="_pid" value="'%'+ pid +'%'"/>
+                and pid like #{_pid}
+            </if>
+            <if test="level != null ">
+                <bind name="_level" value="'%'+ level +'%'"/>
+                and level like #{_level}
+            </if>
+            <if test="categoryid != null  and categoryid != ''">
+                <bind name="_categoryid" value="'%'+ categoryid +'%'"/>
+                and categoryid like #{_categoryid}
+            </if>
+            <if test="categoryparentid != null  and categoryparentid != ''">
+                <bind name="_categoryparentid" value="'%'+ categoryparentid +'%'"/>
+                and categoryParentid like #{_categoryparentid}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupWarringCategoryById" parameterType="Long" resultMap="AupWarringCategoryResult">
+    </select>
+
+    <insert id="insertAupWarringCategory" parameterType="AupWarringCategory">
+        insert into aup_warring_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="pid != null  and pid != ''">pid,</if>
+            <if test="level != null ">level,</if>
+            <if test="categoryid != null  and categoryid != ''">categoryid,</if>
+            <if test="categoryparentid != null  and categoryparentid != ''">categoryParentid,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="pid != null  and pid != ''">#{pid},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="categoryid != null  and categoryid != ''">#{categoryid},</if>
+            <if test="categoryparentid != null  and categoryparentid != ''">#{categoryparentid},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupWarringCategory" parameterType="AupWarringCategory">
+        update aup_warring_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="pid != null  and pid != ''">pid = #{pid},</if>
+            <if test="level != null ">level = #{level},</if>
+            <if test="categoryid != null  and categoryid != ''">categoryid = #{categoryid},</if>
+            <if test="categoryparentid != null  and categoryparentid != ''">categoryParentid = #{categoryparentid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupWarringCategoryById" parameterType="Long">
+        delete from aup_warring_category where id = #{id}
+    </delete>
+
+    <delete id="deleteAupWarringCategoryByIds" parameterType="String">
+        delete from aup_warring_category where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

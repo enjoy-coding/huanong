@@ -1,0 +1,80 @@
+<div class="listDetail">
+    <div class="pr content">
+        <h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>水电信息</h5>
+        <div class="txt wxdaDetailContent">
+            <ul class="list">
+                <li>
+                    <label class="left fl">楼栋名称:</label>
+                    <p class="right fr">{{ name }}</p>
+                </li>
+                <li>
+                    <label class="left fl">表具数量:</label>
+                    <p class="right fr">{{ list.meterCount }}</p>
+                </li>
+            </ul>
+            <div class="titleStyle1">水表信息</div>
+            <ul class="list">
+                <li>
+                    <label class="left fl">本月用量:</label>
+                    <p class="right fr">{{ list.waterMonthUseNumber }}吨</p>
+                </li>
+                <li>
+                    <label class="left fl">昨日用量:</label>
+                    <p class="right fr">{{ list.yesterdayWaterNumber }}吨</p>
+                </li>
+                <li>
+                    <label class="left fl">水表数量:</label>
+                    <p class="right fr">{{ list.waterCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">水表在线数量:</label>
+                    <p class="right fr">{{ list.waterOnlineCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">水表离线数量:</label>
+                    <p class="right fr">{{ list.waterLineCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">水表质疑数量:</label>
+                    <p class="right fr">{{ list.waterZyCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">最后读取时间:</label>
+                    <p class="right fr">{{ list.lastReadTime }}</p>
+                </li>
+            </ul>
+            <div class="titleStyle1">电表信息</div>
+            <ul class="list">
+                <li>
+                    <label class="left fl">本月用量:</label>
+                    <p class="right fr">{{ list.eleMonthUseNumber }}度</p>
+                </li>
+                <li>
+                    <label class="left fl">昨日用量:</label>
+                    <p class="right fr">{{ list.yesterdayEleNumber }}度</p>
+                </li>
+                <li>
+                    <label class="left fl">电表数量:</label>
+                    <p class="right fr">{{ list.eleCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">电表在线数量:</label>
+                    <p class="right fr">{{ list.eleOnlineCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">电表离线数量:</label>
+                    <p class="right fr">{{ list.eleLineCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">电表质疑数量:</label>
+                    <p class="right fr">{{ list.eleZyCount }}</p>
+                </li>
+                <li>
+                    <label class="left fl">最后读取时间:</label>
+                    <p class="right fr">{{ list.lastReadTime }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

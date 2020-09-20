@@ -1,0 +1,18 @@
+<!--控制器-->
+<div class="sbxjBox">
+    <div class="ldXxxx">
+        <h3>控制器信息</h3>
+        <fieldset class="layui-elem-field layui-field-title xcxx">
+            <legend class="bgline">设备信息</legend>
+        </fieldset>
+        <ul class="ulList">
+            <li>名称：<span id="name">国交控制器</span></li>
+            <li>开关数：<span id="breakers">0</span></li>
+            <li>终端数：<span id="lucs">0</span></li>
+            <li>状态：<span id="status">0</span></li>
+            <li>电流(A)：<span id="i">0</span></li>
+            <li>电压(V)：<span id="u">0</span></li>
+            <li>功率(w)：<span id="p">0</span></li>
+        </ul>
+    </div>
+</div>

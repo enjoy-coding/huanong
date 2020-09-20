@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqGgMapper">
+    
+    <resultMap type="ZhsqGg" id="ZhsqGgResult">
+        <result property="ggid"    column="GGID"    />
+        <result property="gglx"    column="GGLX"    />
+        <result property="bt"    column="BT"    />
+        <result property="nr"    column="NR"    />
+        <result property="fbsj"    column="FBSJ"    />
+        <result property="fbry"    column="FBRY"    />
+        <result property="xxly"    column="XXLY"    />
+    </resultMap>
+
+    <sql id="selectZhsqGgVo">
+        select GGID, GGLX, BT, NR, FBSJ, FBRY, XXLY from ZHSQ_GG
+    </sql>
+
+    <select id="selectZhsqGgList" parameterType="ZhsqGg" resultMap="ZhsqGgResult">
+        <include refid="selectZhsqGgVo"/>
+        <where>  
+            <if test="ggid != null  and ggid != ''"> and GGID = #{ggid}</if>
+            <if test="gglx != null  and gglx != ''"> and GGLX = #{gglx}</if>
+            <if test="bt != null  and bt != ''"> and BT = #{bt}</if>
+            <if test="nr != null  and nr != ''"> and NR = #{nr}</if>
+            <if test="fbsj != null  and fbsj != ''"> and FBSJ = #{fbsj}</if>
+            <if test="fbry != null  and fbry != ''"> and FBRY = #{fbry}</if>
+            <if test="xxly != null  and xxly != ''"> and XXLY = #{xxly}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqGgById" parameterType="String" resultMap="ZhsqGgResult">
+        <include refid="selectZhsqGgVo"/>
+        where GGID = #{ggid}
+    </select>
+        
+    <insert id="insertZhsqGg" parameterType="ZhsqGg">
+        insert into ZHSQ_GG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ggid != null  and ggid != ''">GGID,</if>
+            <if test="gglx != null  and gglx != ''">GGLX,</if>
+            <if test="bt != null  and bt != ''">BT,</if>
+            <if test="nr != null  and nr != ''">NR,</if>
+            <if test="fbsj != null  and fbsj != ''">FBSJ,</if>
+            <if test="fbry != null  and fbry != ''">FBRY,</if>
+            <if test="xxly != null  and xxly != ''">XXLY,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ggid != null  and ggid != ''">#{ggid},</if>
+            <if test="gglx != null  and gglx != ''">#{gglx},</if>
+            <if test="bt != null  and bt != ''">#{bt},</if>
+            <if test="nr != null  and nr != ''">#{nr},</if>
+            <if test="fbsj != null  and fbsj != ''">#{fbsj},</if>
+            <if test="fbry != null  and fbry != ''">#{fbry},</if>
+            <if test="xxly != null  and xxly != ''">#{xxly},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqGg" parameterType="ZhsqGg">
+        update ZHSQ_GG
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="gglx != null  and gglx != ''">GGLX = #{gglx},</if>
+            <if test="bt != null  and bt != ''">BT = #{bt},</if>
+            <if test="nr != null  and nr != ''">NR = #{nr},</if>
+            <if test="fbsj != null  and fbsj != ''">FBSJ = #{fbsj},</if>
+            <if test="fbry != null  and fbry != ''">FBRY = #{fbry},</if>
+            <if test="xxly != null  and xxly != ''">XXLY = #{xxly},</if>
+        </trim>
+        where GGID = #{ggid}
+    </update>
+
+    <delete id="deleteZhsqGgById" parameterType="String">
+        delete from ZHSQ_GG where GGID = #{ggid}
+    </delete>
+
+    <delete id="deleteZhsqGgByIds" parameterType="String">
+        delete from ZHSQ_GG where GGID in 
+        <foreach item="ggid" collection="array" open="(" separator="," close=")">
+            #{ggid}
+        </foreach>
+    </delete>
+    <select id="getZhsqGgList" resultMap="ZhsqGgResult">
+        select * from ZHSQ_GG n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        ORDER BY fbsj desc
+    </select>
+</mapper>

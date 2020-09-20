@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <th:block th:include="include :: header('修改志愿者注册')" />
+        <th:block th:include="include :: datetimepicker-css" />
+        <style>
+            .img_head{
+                max-width: 200px;
+                max-height: 160px;
+            }
+        </style>
+    </head>
+    <body class="white-bg">
+        <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+            <form class="form-horizontal m" id="form-register-edit" th:object="${scVolunteer}">
+                <h4 class="form-header h4">志愿者信息</h4>
+                <input id="userId" name="userId" th:field="*{userId}" type="hidden">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" >头像：</label>
+                            <div class="col-sm-6">
+                                <img th:src="@{${sysFilePath}}" class="img_head" alt="User Image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">志愿者账号：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerAccount" th:field="*{volunteerAccount}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">志愿者积分：</label>
+                            <div class="col-sm-6">
+                                <input name="volunteerScore" th:field="*{volunteerScore}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerName" th:field="*{volunteerName}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">性别：</label>
+                            <div class="col-sm-6">
+                                <select name="volunteerSex" id="volunteerSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}" disabled>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{volunteerSex}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">电话：</label>
+                            <div class="col-sm-6">
+                                <input name="volunteerTel" th:field="*{volunteerTel}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出生日期：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerBir" th:field="*{volunteerBir}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">身份证号：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerIdcard" th:field="*{volunteerIdcard}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">地址：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerAddress" th:field="*{volunteerAddress}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">职业：</label>
+                            <div class="col-sm-8">
+                                <input name="volunteerProfession" th:field="*{volunteerProfession}" class="form-control" type="text" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">个人简介：</label>
+                            <div class="col-sm-8">
+                                <textarea disabled name="volunteerSynopsis" rows="5" class="form-control" >[[*{volunteerSynopsis}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="form-header h4">审核信息</h4>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">审核是否通过：</label>
+                            <div class="col-sm-8">
+                                <select name="auditPassState" id="auditPassState" class="form-control m-b" th:with="type=${@dict.getType('sc_audit_type')}" disabled>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="${scRegister.auditPassState}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">审核内容：</label>
+                            <div class="col-sm-8">
+                                <textarea name="auditContent" rows="3" class="form-control" type="text" disabled>[[${scRegister.auditContent}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <th:block th:include="include :: footer" />
+        <th:block th:include="include :: datetimepicker-js" />
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<h5 class="title_yagl">预案列表
+    <i class="iconfont icon-xiazai1"></i>
+</h5>
+<div class="yalbBox">
+    <ul>
+        <li th:each="obj:${list}" th:id="${obj.id}" th:src="${obj.src}">
+            <h6>[[${obj.name}]]
+                <i class="iconfont"></i>
+            </h6>
+        </li>
+<!--        <li>-->
+<!--            <h6>预案一：活动场所突发停电-->
+<!--                <i class="iconfont icon-xiazai1"></i>-->
+<!--            </h6>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <h6>预案一：活动场所突发停电-->
+<!--                <i class="iconfont icon-xiazai1"></i>-->
+<!--            </h6>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <h6>预案一：活动场所突发停电-->
+<!--                <i class="iconfont icon-xiazai1"></i>-->
+<!--            </h6>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <h6>预案一：活动场所突发停电-->
+<!--                <i class="iconfont icon-xiazai1"></i>-->
+<!--            </h6>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <h6>预案一：活动场所突发停电-->
+<!--                <i class="iconfont icon-xiazai1"></i>-->
+<!--            </h6>-->
+<!--        </li>-->
+    </ul>
+</div>

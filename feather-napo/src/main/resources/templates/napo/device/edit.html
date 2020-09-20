@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改设施设备信息')"/>
+    <th:block th:include="include :: summernote-css"/>
+    <th:block th:include="include :: jasny-bootstrap-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-npDevice" th:object="${npDevice}">
+        <input id="deviceId" name="deviceId" th:field="*{deviceId}" type="hidden"/>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar">*</span>名称：</label>
+                    <div class="col-sm-10">
+                        <input name="name" class="form-control" type="text" th:field="*{name}" id="name" required />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">类型：</label>
+                    <div class="col-sm-8">
+                        <select name="type" id="type" class="form-control m-b"
+                                th:with="type=${@dict.getType('np_device_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{type}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">状态：</label>
+                    <div class="col-sm-8">
+                        <select name="state" id="state" class="form-control m-b"
+                                th:with="type=${@dict.getType('np_device_state')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{state}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-10">
+                        <input name="address" class="form-control" type="text" th:field="*{address}" id="address"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">权属单位：</label>
+                    <div class="col-sm-10">
+                        <input name="ownerUnit" class="form-control" type="text" th:field="*{ownerUnit}" id="ownerUnit"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">联系人电话：</label>
+                    <div class="col-sm-10">
+                        <input name="telephone" class="form-control" type="text" th:field="*{telephone}" id="telephone"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+
+<script th:src="@{/bus/napo/js/info.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "np/device";
+    $("#form-npDevice").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#deviceId").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-npDevice').serialize(),
+                success: function(result, _option) {
+                    if (isAdd()) {
+                        if (result.data.deviceId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.deviceId;
+                        } else {
+                            $.modal.msgError("没有返回数据：deviceId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

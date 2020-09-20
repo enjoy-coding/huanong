@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqYcMapper">
+    
+    <resultMap type="ZhsqYc" id="ZhsqYcResult">
+        <result property="ycid"    column="YCID"    />
+        <result property="ycjb"    column="YCJB"    />
+        <result property="ycnr"    column="YCNR"    />
+        <result property="ycly"    column="YCLY"    />
+        <result property="ycsj"    column="YCSJ"    />
+        <result property="czzt"    column="CZZT"    />
+        <result property="czry"    column="CZRY"    />
+        <result property="czjg"    column="CZJG"    />
+        <result property="fj"    column="FJ"    />
+        <result property="x"    column="X"    />
+        <result property="y"    column="Y"    />
+        <result property="z"    column="Z"    />
+    </resultMap>
+
+    <sql id="selectZhsqYcVo">
+        select YCID, YCJB, YCNR, YCLY, YCSJ, CZZT, CZRY, CZJG, FJ, X, Y, Z from ZHSQ_YC
+    </sql>
+
+    <select id="selectZhsqYcList" parameterType="ZhsqYc" resultMap="ZhsqYcResult">
+        <include refid="selectZhsqYcVo"/>
+        <where>  
+            <if test="ycid != null  and ycid != ''"> and YCID = #{ycid}</if>
+            <if test="ycjb != null  and ycjb != ''"> and YCJB = #{ycjb}</if>
+            <if test="ycnr != null  and ycnr != ''">
+            	<bind name="_ycnr" value="'%'+ ycnr +'%'"/>
+            	and YCNR like #{_ycnr}
+            </if>
+            <if test="ycly != null  and ycly != ''"> and YCLY = #{ycly}</if>
+            <if test="ycsj != null  and ycsj != ''"> and YCSJ = #{ycsj}</if>
+            <if test="czzt != null  and czzt != ''"> and CZZT = #{czzt}</if>
+            <if test="czry != null  and czry != ''"> and CZRY = #{czry}</if>
+            <if test="czjg != null  and czjg != ''"> and CZJG = #{czjg}</if>
+            <if test="fj != null  and fj != ''"> and FJ = #{fj}</if>
+            <if test="x != null  and x != ''"> and X = #{x}</if>
+            <if test="y != null  and y != ''"> and Y = #{y}</if>
+            <if test="z != null  and z != ''"> and Z = #{z}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhsqYcById" parameterType="String" resultMap="ZhsqYcResult">
+        <include refid="selectZhsqYcVo"/>
+        where YCID = #{ycid}
+    </select>
+        
+    <insert id="insertZhsqYc" parameterType="ZhsqYc">
+        insert into ZHSQ_YC
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ycid != null  and ycid != ''">YCID,</if>
+            <if test="ycjb != null  and ycjb != ''">YCJB,</if>
+            <if test="ycnr != null  and ycnr != ''">YCNR,</if>
+            <if test="ycly != null  and ycly != ''">YCLY,</if>
+            <if test="ycsj != null  and ycsj != ''">YCSJ,</if>
+            <if test="czzt != null  and czzt != ''">CZZT,</if>
+            <if test="czry != null  and czry != ''">CZRY,</if>
+            <if test="czjg != null  and czjg != ''">CZJG,</if>
+            <if test="fj != null  and fj != ''">FJ,</if>
+            <if test="x != null  and x != ''">X,</if>
+            <if test="y != null  and y != ''">Y,</if>
+            <if test="z != null  and z != ''">Z,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ycid != null  and ycid != ''">#{ycid},</if>
+            <if test="ycjb != null  and ycjb != ''">#{ycjb},</if>
+            <if test="ycnr != null  and ycnr != ''">#{ycnr},</if>
+            <if test="ycly != null  and ycly != ''">#{ycly},</if>
+            <if test="ycsj != null  and ycsj != ''">#{ycsj},</if>
+            <if test="czzt != null  and czzt != ''">#{czzt},</if>
+            <if test="czry != null  and czry != ''">#{czry},</if>
+            <if test="czjg != null  and czjg != ''">#{czjg},</if>
+            <if test="fj != null  and fj != ''">#{fj},</if>
+            <if test="x != null  and x != ''">#{x},</if>
+            <if test="y != null  and y != ''">#{y},</if>
+            <if test="z != null  and z != ''">#{z},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhsqYc" parameterType="ZhsqYc">
+        update ZHSQ_YC
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ycjb != null  and ycjb != ''">YCJB = #{ycjb},</if>
+            <if test="ycnr != null  and ycnr != ''">YCNR = #{ycnr},</if>
+            <if test="ycly != null  and ycly != ''">YCLY = #{ycly},</if>
+            <if test="ycsj != null  and ycsj != ''">YCSJ = #{ycsj},</if>
+            <if test="czzt != null  and czzt != ''">CZZT = #{czzt},</if>
+            <if test="czry != null  and czry != ''">CZRY = #{czry},</if>
+            <if test="czjg != null  and czjg != ''">CZJG = #{czjg},</if>
+            <if test="fj != null  and fj != ''">FJ = #{fj},</if>
+            <if test="x != null  and x != ''">X = #{x},</if>
+            <if test="y != null  and y != ''">Y = #{y},</if>
+            <if test="z != null  and z != ''">Z = #{z},</if>
+        </trim>
+        where YCID = #{ycid}
+    </update>
+
+    <delete id="deleteZhsqYcById" parameterType="String">
+        delete from ZHSQ_YC where YCID = #{ycid}
+    </delete>
+
+    <delete id="deleteZhsqYcByIds" parameterType="String">
+        delete from ZHSQ_YC where YCID in 
+        <foreach item="ycid" collection="array" open="(" separator="," close=")">
+            #{ycid}
+        </foreach>
+    </delete>
+    <!--按来源统计-->
+    <select id="getSourceCount" resultType="map">
+      select YCLY,count(ycid)as num  from ZHSQ_YC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+        GROUP BY YCLY
+    </select>
+
+    <!--按状态统计-->
+    <select id="getStatusCount" resultType="map">
+      select CZZT,count(ycid)as num from ZHSQ_YC n
+        <where>
+            <choose>
+                <when test="xqid!=null and xqid!=''">n.XQID=#{xqid}</when>
+                <otherwise>n.sqid=#{sqid}</otherwise>
+            </choose>
+        </where>
+       GROUP BY CZZT
+    </select>
+
+
+</mapper>

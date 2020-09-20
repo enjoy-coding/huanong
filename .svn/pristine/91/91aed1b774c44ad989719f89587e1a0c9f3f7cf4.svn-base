@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScPrizesVolunteerMapper">
+    
+    <resultMap type="ScPrizesVolunteer" id="ScPrizesVolunteerResult">
+        <result property="pvId"    column="pv_id"    />
+        <result property="volunteerId"    column="volunteer_id"    />
+        <result property="prizesId"    column="prizes_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time" jdbcType="BIGINT"   />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"  />
+        <association property="prizes"    column="prizes_id" javaType="ScPrizes" resultMap="ScPrizesResult" />
+        <association property="volunteer"    column="volunteer_id" javaType="ScVolunteer" resultMap="VolunteerResult" />
+    </resultMap>
+
+    <resultMap type="ScPrizes" id="ScPrizesResult">
+        <result property="prizesId"    column="prizes_id"    />
+        <result property="prizesName"    column="prizes_name"    />
+        <result property="prizesNum"    column="prizes_num"    />
+        <result property="prizesScore"    column="prizes_score"    />
+    </resultMap>
+
+    <resultMap id="VolunteerResult" type="ScVolunteer">
+        <result property="userId"    column="user_id"    />
+        <result property="volunteerTel"    column="volunteer_tel"    />
+        <result property="volunteerAccount"    column="volunteer_account"    />
+        <result property="volunteerScore"    column="volunteer_score"    />
+        <result property="volunteerName"    column="volunteer_name"    />
+        <result property="volunteerSex"    column="volunteer_sex"    />
+        <result property="volunteerBir"    column="volunteer_bir"    />
+        <result property="volunteerIdcard"    column="volunteer_idcard"    />
+        <result property="volunteerAddress"    column="volunteer_address"    />
+        <result property="volunteerProfession"    column="volunteer_profession"    />
+        <result property="volunteerSynopsis"    column="volunteer_synopsis"    />
+        <result property="volunteerAvatar"    column="volunteer_avatar"    />
+    </resultMap>
+    
+
+
+    <sql id="selectScPrizesVolunteerVo">
+        select pv.pv_id, pv.volunteer_id, pv.prizes_id, pv.create_by, pv.create_time, pv.update_by, pv.update_time 
+            ,p.prizes_name,p.prizes_num,p.prizes_score
+            ,v.volunteer_name,v.volunteer_avatar,v.volunteer_score
+        from sc_prizes_volunteer pv 
+        join sc_prizes p on p.prizes_id = pv.prizes_id
+        join sc_volunteer v on v.user_id = pv.volunteer_id 
+    </sql>
+
+    <select id="selectScPrizesVolunteerList" parameterType="ScPrizesVolunteer" resultMap="ScPrizesVolunteerResult">
+        <include refid="selectScPrizesVolunteerVo"/>
+        <where>  
+            <if test="volunteerId != null "> and pv.volunteer_id = #{volunteerId}</if>
+            <if test="prizesId != null "> and pv.prizes_id = #{prizesId}</if>
+        </where>
+    </select>
+    
+    <select id="selectScPrizesVolunteerById" parameterType="Long" resultMap="ScPrizesVolunteerResult">
+        <include refid="selectScPrizesVolunteerVo"/>
+        where pv_id = #{pvId}
+    </select>
+        
+    <select id="selectScPrizesVolunteerByPrizesId" parameterType="Long" resultMap="ScPrizesVolunteerResult">
+        <include refid="selectScPrizesVolunteerVo"/>
+        where pv.prizes_id = #{prizesId}
+    </select>
+
+    <select id="selectScPrizesVolunteerByVolunteerId" parameterType="Long" resultMap="ScPrizesVolunteerResult">
+        <include refid="selectScPrizesVolunteerVo"/>
+        where pv.volunteer_id = #{volunteerId}
+    </select>
+
+   
+
+    <insert id="insertScPrizesVolunteer" parameterType="ScPrizesVolunteer">
+        insert into sc_prizes_volunteer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pvId != null ">pv_id,</if>
+            <if test="volunteerId != null ">volunteer_id,</if>
+            <if test="prizesId != null ">prizes_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pvId != null ">#{pvId},</if>
+            <if test="volunteerId != null ">#{volunteerId},</if>
+            <if test="prizesId != null ">#{prizesId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT },</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT },</if>
+         </trim>
+    </insert>
+
+    <update id="updateScPrizesVolunteer" parameterType="ScPrizesVolunteer">
+        update sc_prizes_volunteer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="volunteerId != null ">volunteer_id = #{volunteerId},</if>
+            <if test="prizesId != null ">prizes_id = #{prizesId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT },</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT },</if>
+        </trim>
+        where pv_id = #{pvId}
+    </update>
+
+    <delete id="deleteScPrizesVolunteerById" parameterType="Long">
+        delete from sc_prizes_volunteer where pv_id = #{pvId}
+    </delete>
+
+    <delete id="deleteScPrizesVolunteerByIds" parameterType="String">
+        delete from sc_prizes_volunteer where pv_id in 
+        <foreach item="pvId" collection="array" open="(" separator="," close=")">
+            #{pvId}
+        </foreach>
+    </delete>
+    
+</mapper>

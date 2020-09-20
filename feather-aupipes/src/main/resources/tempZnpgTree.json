@@ -1,0 +1,107 @@
+[
+  {
+    "title": "智能排管測試數據(10/18)",
+    "id": 1,
+    "field": "name1",
+    "checked": true,
+    "spread": true,
+    "children": [
+      {
+        "title": "西苑泵站泵房",
+        "id": 3,
+        "field": "name11",
+        "href": "",
+        "children": [
+          {
+            "title": "测试",
+            "id": 3,
+            "field": "name11",
+            "href": ""
+          }
+        ]
+      },
+      {
+        "title": "西苑泵站泵房入口",
+        "id": 3,
+        "field": "name11",
+        "href": "",
+        "children": ""
+      },
+      {
+        "title": "西苑泵站泵房水池",
+        "id": 3,
+        "field": "name11",
+        "href": "",
+        "children": null
+      }
+    ]
+  },
+  {
+    "title": "荟园中心",
+    "id": 1,
+    "field": "name1",
+    "checked": true,
+    "spread": true,
+    "children": [
+      {
+        "title": "傅园",
+        "id": 3,
+        "field": "name11",
+        "href": ""
+      },
+      {
+        "title": "体育训练馆",
+        "id": 3,
+        "field": "name11",
+        "href": ""
+      },
+      {
+        "title": "工厂区",
+        "id": 3,
+        "field": "name11",
+        "href": ""
+      }
+    ]
+  },
+  {
+    "title": "开发区",
+    "id": 1,
+    "field": "name1",
+    "checked": false,
+    "spread": true,
+    "children": [
+      {
+        "title": "还建楼3箱变",
+        "id": 3,
+        "field": "name11",
+        "href": ""
+      },
+      {
+        "title": "西苑西",
+        "id": 3,
+        "field": "name11",
+        "href": "",
+        "children": [
+          {
+            "title": "T6箱变",
+            "id": 3,
+            "field": "name11",
+            "href": ""
+          },
+          {
+            "title": "T7箱变",
+            "id": 3,
+            "field": "name11",
+            "href": ""
+          },
+          {
+            "title": "T9箱变",
+            "id": 3,
+            "field": "name11",
+            "href": ""
+          }
+        ]
+      }
+    ]
+  }
+]

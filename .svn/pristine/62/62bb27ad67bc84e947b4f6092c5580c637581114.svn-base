@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.system.mapper.SysDeptMapper">
+
+	<resultMap type="SysDept" id="SysDeptResult">
+		<id     property="deptId"     column="dept_id"     />
+		<result property="parentId"   column="parent_id"   />
+		<result property="deptLevel"  column="dept_level"  />
+		<result property="idPath"     column="id_path"     />
+		<result property="deptName"   column="dept_name"   />
+		<result property="namePath"   column="name_path"   />
+		<result property="deptCode"   column="dept_code"   />
+		<result property="orderNum"   column="order_num"   />
+		<result property="leader"     column="leader"      />
+		<result property="phone"      column="phone"       />
+		<result property="email"      column="email"       />
+		<result property="status"     column="status"      />
+		<result property="parentName" column="parent_name" />
+		<result property="createBy"   column="create_by"   />
+		<result property="createTime" column="create_time"    jdbcType="BIGINT" />
+		<result property="updateBy"   column="update_by"   />
+		<result property="updateTime" column="update_time"    jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="selectDeptVo">
+        select d.dept_id, d.parent_id, d.dept_level, d.id_path, d.dept_name, d.name_path, d.dept_code, d.order_num, d.leader, d.phone, d.email, d.status, d.create_by, d.create_time 
+        from sys_dept d
+    </sql>
+    
+	<select id="selectRoleDeptTree" parameterType="Long" resultMap="SysDeptResult">
+		select d.dept_id, d.dept_name
+		from sys_dept d
+		left join sys_role_dept rd on d.dept_id = rd.dept_id
+		where d.status = '0' and rd.role_id = #{roleId}
+		order by d.parent_id, d.order_num
+	</select>
+	
+	<select id="selectDeptList" parameterType="SysDept" resultMap="SysDeptResult">
+        <include refid="selectDeptVo"/>
+        <where>
+	        <if test="parentId != null and parentId != 0">
+				AND parent_id = #{parentId}
+			</if>
+			<if test="deptName != null and deptName != ''">
+				<bind name="_deptName" value="'%'+ deptName +'%'"/>
+				AND dept_name like #{_deptName}
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+		</where>
+		order by d.parent_id, d.order_num
+    </select>
+	
+	<select id="checkDeptExistUser" parameterType="Long" resultType="int">
+		select count(1) from sys_user where dept_id = #{deptId}
+	</select>
+	
+	<select id="selectDeptCount" parameterType="SysDept" resultType="int">
+		select count(1) from sys_dept
+		<where>
+			<if test="deptId != null and deptId != 0"> and dept_id = #{deptId} </if>
+			<if test="parentId != null and parentId != 0"> and parent_id = #{parentId} </if>
+		</where>
+	</select>
+	
+	<select id="checkDeptNameUnique" resultMap="SysDeptResult">
+	    <include refid="selectDeptVo"/>
+		where dept_name=#{deptName} and parent_id = #{parentId}
+	</select>
+	
+	<select id="checkDeptCodeUnique" resultMap="SysDeptResult">
+	    <include refid="selectDeptVo"/>
+		where dept_code=#{deptCode} and parent_id = #{parentId}
+	</select>
+
+	<select id="selectDeptById" parameterType="Long" resultMap="SysDeptResult">
+		select d.dept_id, d.parent_id, d.dept_level, d.id_path, d.dept_name, d.name_path, d.dept_code, d.order_num, d.leader, d.phone, d.email, d.status
+			   ,(select dept_name from sys_dept where dept_id = d.parent_id) parent_name
+		from sys_dept d
+		where d.dept_id = #{deptId}
+	</select>
+
+	<select id="selectDeptByParentId" parameterType="Long" resultMap="SysDeptResult">
+		select d.dept_id, d.parent_id, d.dept_level, d.id_path, d.dept_name, d.name_path, d.dept_code, d.order_num, d.leader, d.phone, d.email, d.status
+			   ,(select dept_name from sys_dept where dept_id = d.parent_id) parent_name
+		from sys_dept d
+		where d.parent_id = #{parentId}
+	</select>
+
+	<select id="selectChildrenDeptById" parameterType="String" resultMap="SysDeptResult">
+		<bind name="_deptId" value="'%,'+ _parameter +',%'"/>
+		select * from sys_dept where id_path like #{_deptId}
+	</select>
+	
+	<insert id="insertDept" parameterType="SysDept">
+ 		insert into sys_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+ 			<if test="deptId != null">dept_id,</if>
+ 			<if test="parentId != null">parent_id,</if>
+ 			<if test="deptLevel != null">dept_level,</if>
+ 			<if test="idPath != null and idPath != ''">id_path,</if>
+ 			<if test="deptName != null and deptName != ''">dept_name,</if>
+ 			<if test="namePath != null and namePath != ''">name_path,</if>
+ 			<if test="deptCode != null and deptCode != ''">dept_code,</if>
+ 			<if test="orderNum != null and orderNum != ''">order_num,</if>
+ 			<if test="leader != null and leader != ''">leader,</if>
+ 			<if test="phone != null and phone != ''">phone,</if>
+ 			<if test="email != null and email != ''">email,</if>
+ 			<if test="status != null">status,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+ 			<if test="createTime != null">create_time,</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by,</if>
+ 			<if test="updateTime != null">update_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+ 			<if test="deptId != null">#{deptId},</if>
+ 			<if test="parentId != null">#{parentId},</if>
+ 			<if test="deptLevel != null">#{deptLevel},</if>
+ 			<if test="idPath != null and idPath != ''">#{idPath},</if>
+ 			<if test="deptName != null and deptName != ''">#{deptName},</if>
+ 			<if test="namePath != null and namePath != ''">#{namePath},</if>
+ 			<if test="deptCode != null and deptCode != ''">#{deptCode},</if>
+ 			<if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+ 			<if test="leader != null and leader != ''">#{leader},</if>
+ 			<if test="phone != null and phone != ''">#{phone},</if>
+ 			<if test="email != null and email != ''">#{email},</if>
+ 			<if test="status != null">#{status},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+ 			<if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+ 			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+ 			<if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateDept" parameterType="SysDept">
+ 		update sys_dept
+		<trim prefix="SET" suffixOverrides=",">
+ 			<if test="parentId != null">parent_id = #{parentId},</if>
+ 			<if test="deptLevel != null">dept_level = #{deptLevel},</if>
+ 			<if test="idPath != null and idPath != ''">id_path = #{idPath},</if>
+ 			<if test="deptName != null and deptName != ''">dept_name = #{deptName},</if>
+ 			<if test="namePath != null and namePath != ''">name_path = #{namePath},</if>
+ 			<if test="deptCode != null">dept_code = #{deptCode},</if>
+ 			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+ 			<if test="leader != null">leader = #{leader},</if>
+ 			<if test="phone != null">phone = #{phone},</if>
+ 			<if test="email != null">email = #{email},</if>
+ 			<if test="status != null and status != ''">status = #{status},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			<if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+ 		</trim>
+ 		where dept_id = #{deptId}
+	</update>
+	
+	<update id="updateDeptPath" parameterType="SysDept">
+	    update sys_dept 
+	    set parent_id = #{parentId},
+	        dept_level = #{deptLevel},
+	        id_path = #{idPath},
+	        name_path = #{namePath}
+	    where dept_id = #{deptId}
+	</update>
+
+	<delete id="deleteDeptById" parameterType="Long">
+		delete from sys_dept where dept_id = #{deptId}
+	</delete>
+	
+	<update id="updateDeptStatus" parameterType="SysDept">
+ 	    update sys_dept
+ 	    <set>
+ 	        <if test="status != null and status != ''">status = #{status},</if>
+ 	        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 	        <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+        </set>
+ 	    where
+ 	    <if test="_databaseId == 'mysql'">
+			#{idPath} like concat(id_path, '%')
+		</if>
+		<if test="_databaseId == 'sqlserver'">
+			#{idPath} like id_path + '%'
+		</if>
+		<if test="_databaseId == 'oracle'">
+			#{idPath} like id_path || '%'
+		</if>
+	</update>
+
+</mapper> 

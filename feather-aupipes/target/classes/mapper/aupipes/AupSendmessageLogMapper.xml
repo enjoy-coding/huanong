@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupSendmessageLogMapper">
+    
+    <resultMap type="AupSendmessageLog" id="AupSendmessageLogResult">
+        <result property="id"    column="id"    />
+        <result property="messagetitle"    column="messageTitle"    />
+        <result property="messagecontent"    column="messageContent"    />
+        <result property="sendtime"    column="sendTime"    />
+        <result property="senduser"    column="sendUser"    />
+        <result property="addtime"    column="addTime"    />
+    </resultMap>
+
+    <sql id="selectAupSendmessageLogVo">
+        select id, messageTitle, messageContent, sendTime, sendUser, addTime from aup_sendmessage_log
+    </sql>
+
+    <select id="selectAupSendmessageLogList" parameterType="AupSendmessageLog" resultMap="AupSendmessageLogResult">
+        <include refid="selectAupSendmessageLogVo"/>
+        <where>
+            <if test="messagetitle != null  and messagetitle != ''"> and messageTitle = #{messagetitle}</if>
+            <if test="messagecontent != null  and messagecontent != ''"> and messageContent = #{messagecontent}</if>
+            <if test="sendtime != null  and sendtime != ''"> and sendTime = #{sendtime}</if>
+            <if test="senduser != null  and senduser != ''"> and sendUser = #{senduser}</if>
+            <if test="addtime != null  and addtime != ''"> and addTime = #{addtime}</if>
+        </where>
+    </select>
+
+    <select id="selectAupSendmessageLogById" parameterType="Long" resultMap="AupSendmessageLogResult">
+        <include refid="selectAupSendmessageLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAupSendmessageLog" parameterType="AupSendmessageLog" useGeneratedKeys="true" keyProperty="id">
+        insert into aup_sendmessage_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="messagetitle != null  and messagetitle != ''">messageTitle,</if>
+            <if test="messagecontent != null  and messagecontent != ''">messageContent,</if>
+            <if test="sendtime != null  and sendtime != ''">sendTime,</if>
+            <if test="senduser != null  and senduser != ''">sendUser,</if>
+            <if test="addtime != null  and addtime != ''">addTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="messagetitle != null  and messagetitle != ''">#{messagetitle},</if>
+            <if test="messagecontent != null  and messagecontent != ''">#{messagecontent},</if>
+            <if test="sendtime != null  and sendtime != ''">#{sendtime},</if>
+            <if test="senduser != null  and senduser != ''">#{senduser},</if>
+            <if test="addtime != null  and addtime != ''">#{addtime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupSendmessageLog" parameterType="AupSendmessageLog">
+        update aup_sendmessage_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="messagetitle != null  and messagetitle != ''">messageTitle = #{messagetitle},</if>
+            <if test="messagecontent != null  and messagecontent != ''">messageContent = #{messagecontent},</if>
+            <if test="sendtime != null  and sendtime != ''">sendTime = #{sendtime},</if>
+            <if test="senduser != null  and senduser != ''">sendUser = #{senduser},</if>
+            <if test="addtime != null  and addtime != ''">addTime = #{addtime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupSendmessageLogById" parameterType="Long">
+        delete from aup_sendmessage_log where id = #{id}
+    </delete>
+
+    <delete id="deleteAupSendmessageLogByIds" parameterType="String">
+        delete from aup_sendmessage_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

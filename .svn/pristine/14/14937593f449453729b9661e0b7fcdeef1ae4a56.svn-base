@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('配电房列表')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+
+                            <li>
+                                <p>类型：</p>
+                                <select name="type" id="type">
+                                    <option value="">所有</option>
+                                    <option value="insert">新增</option>
+                                    <option value="update">修改</option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <label>创建时间： </label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                    name="params[beginTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                    name="params[endTime]" />
+                            </li>
+
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "aupipes/area";
+
+        $(function () {
+            var options = {
+                url: prefix + "/updateLog/list",
+                modalName: "更新日志",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                columns: [
+                    {
+                        field: 'id',
+                        title: '',
+                        visible: false
+                    },
+                    {
+                        field: 'aname',
+                        title: '更新名称',
+                    },
+                    {
+                        field: 'aareaNo',
+                        title: '更新编码'
+                    },
+                    {
+                        field: 'oldName',
+                        title: '原名称',
+                    },
+                    {
+                        field: 'oldAreaNo',
+                        title: '原编码'
+                    },
+                    {
+                        field: 'updateType',
+                        title: '更新类型',
+                        formatter: function (value, row, index) {
+		        		    if(value=="insert"){
+                                return "新增"
+                            }else {
+                                return "修改"
+                            }
+		        	    }
+                    },
+                    {
+                        field: 'updateTime',
+                        title: '更新时间',
+
+                    }
+                ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+</html>

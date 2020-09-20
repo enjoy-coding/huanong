@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpThumbsUpLogMapper">
+
+    <resultMap type="NpThumbsUpLog" id="NpThumbsUpLogResult">
+        <id property="thumbsUpId" column="thumbsUp_id"/>
+        <result property="infoId" column="info_id"/>
+        <result property="ip" column="ip"/>
+        <result property="logTime" column="log_time" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="selectNpThumbsUpLogVo">
+        select thumbsUp_id, info_id, ip, log_time
+		from np_thumbsup_log tl
+    </sql>
+
+    <select id="selectNpThumbsUpLogById" parameterType="Long" resultMap="NpThumbsUpLogResult">
+        <include refid="selectNpThumbsUpLogVo"/>
+        where tl.thumbsUpId = #{thumbsUpId}
+    </select>
+
+    <select id="selectNpThumbsUpLogByIp" parameterType="NpThumbsUpLog" resultMap="NpThumbsUpLogResult">
+        <include refid="selectNpThumbsUpLogVo"/>
+        <where>
+            <if test="infoId != null and infoId != ''">
+                AND tl.info_id = #{infoId}
+            </if>
+            <if test="ip != null and ip != ''">
+                AND tl.ip = #{ip}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpThumbsUpLog" parameterType="NpThumbsUpLog">
+        insert into np_thumbsup_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="thumbsUpId != null and thumbsUpId != 0">thumbsUp_id,</if>
+            <if test="infoId != null and infoId != 0">info_id,</if>
+            <if test="ip != null and ip != ''">ip,</if>
+            <if test="logTime != null">log_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="thumbsUpId != null and thumbsUpId != 0">#{thumbsUpId},</if>
+            <if test="infoId != null and infoId != 0">#{infoId},</if>
+            <if test="ip != null and ip != ''">#{ip},</if>
+            <if test="logTime != null">#{logTime, jdbcType=BIGINT},</if>
+        </trim>
+    </insert>
+</mapper> 

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('服务咨询')"/>
+    <th:block th:include="include :: summernote-css"/>
+    <th:block th:include="include ::  zbtable-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-npInfo" th:object="${npInfo}">
+        <input id="infoId" name="infoId" th:field="*{infoId}" type="hidden"/>
+        <input id="infoType" name="infoType" th:field="*{infoType}" type="hidden"/>
+        <input id="subPics" name="subPics" type="hidden" th:field="*{subPics}"/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">标题：</label>
+            <div class="col-sm-10">
+                <input id="title" name="title" th:field="*{title}" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">图片：</label>
+            <div class="col-sm-10">
+                <div id="zbt-table">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">详情：</label>
+            <div class="col-sm-10">
+                <input id="content" name="content" th:field="*{content}" type="hidden">
+                <div id="editor" class="summernote"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">回复：</label>
+            <div class="col-sm-10">
+                <input id="answer" name="answer" th:field="*{answer}" class="form-control" type="text" required>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+<th:block th:include="include :: zbtable-js"/>
+
+<script th:src="@{/bus/napo/js/info.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "np/info";
+
+    $(function () {
+        initSummernote(180, "content");
+        initAttachesTable("zbt-table", $("#subPics").val(), false);
+        //添加附件删除事件
+        addAttachesDelEvent("subPics");
+    });
+
+    $("#form-npInfo").validate({
+        rules:{
+            hot:{
+                digits:true
+            }
+        },
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#infoId").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#content").val(sHTML);
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-npInfo').serialize(),
+                success: function (result, _option) {
+                    if (isAdd()) {
+                        if (result.data.infoId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.infoId;
+                        } else {
+                            $.modal.msgError("没有返回数据：roleId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

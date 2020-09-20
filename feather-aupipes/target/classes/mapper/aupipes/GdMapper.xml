@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.GdDAO">
+
+    <select id="getFwinfo" parameterType="map" resultType="com.feather.aupipes.domain.query.Fw">
+<!--
+        select a.fwid,a.fwbm,a.fwmc,a.bz,a.mc,a.wzmc,b.hlid,b.pdfid,p.cxid,p.jxid from fw a left join hl_gx b on a.fwid = b.fwid where 1=1
+        -->
+        select b.hlid,b.pdfid,b.fwid,b.cxid,b.jxid from  [LINK_SDE].sde.dbo.hl_gx b where 1 = 1
+        <if test="fwid != null and fwid != ''">
+            and b.fwid = #{fwid}
+        </if>
+    </select>
+
+    <select id="getPdfinfo" parameterType="map" resultType="com.feather.aupipes.domain.query.Fw">
+        select b.hlid,b.pdfid,b.fwid,b.cxid,b.jxid from  [LINK_SDE].sde.dbo.hl_gx b where 1 = 1
+        <if test="pdfid != null and pdfid != ''">
+            and b.pdfid = #{pdfid}
+        </if>
+    </select>
+
+    <select id="getPdfs" parameterType="map" resultType="com.feather.aupipes.domain.query.Pdf">
+        select distinct pdfid,cxid from [LINK_SDE].sde.dbo.hl_gx
+    </select>
+
+    <select id="getFws" parameterType="map" resultType="com.feather.aupipes.domain.query.Fw">
+        select distinct fwid ,jxid from [LINK_SDE].sde.dbo.hl_gx
+    </select>
+
+    <select id="getHlgxs" parameterType="map" resultType="com.feather.aupipes.domain.query.Hlgx">
+        select guid,hlid,pdfid,fwid,cxid,jxid,bz from [LINK_SDE].sde.dbo.hl_gx where 1=1
+        <if test="hlid != null and hlid != ''">
+            and hlid = #{hlid}
+        </if>
+    </select>
+
+</mapper>

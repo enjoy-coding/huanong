@@ -1,0 +1,34 @@
+<!-- 拉闸分析下方详情 -->
+
+<div class="pr vh">
+    <span class="closeBtn pa" onclick="closeBtn()"><i class="iconfont icon-guanbi"></i></span>
+    <!--拉闸分析-->
+    <div class="layui-tab layuiTab2" lay-filter="bottomTab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">拉阀分析详情</li>
+            <li>影响范围详情</li>
+            <li>推送用户详情</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="table moreTable page">
+                    <div id="lffxTable"></div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="table moreTable page">
+                    <div id="yxfwTable"></div>
+                </div>
+            </div>
+            <div class="layui-tab-item pr">
+                <div class="table moreTable page">
+                    <div id="hqyhTabe"></div>
+                </div>
+                <!--消息发送按钮-->
+                <div class="pa xxfsBtn">
+                    <button type="button" class="xxts" onclick="layuiBox()"><i class="iconfont icon-dian"></i>信息推送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>智能安防</title>
+		<link rel="stylesheet" href="js/jquery-ztree/3.5/css/metro/zTreeStyle.css">
+		<link rel="stylesheet" href="js/layui-2.5.5/css/layui.css">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" href="css/font.css" />
+		<link rel="stylesheet" href="font/iconfont/iconfont.css">
+		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="Cesium/Widgets/widgets.css">
+		<link rel="stylesheet" type="text/css" href="css/subPage.css"/>
+	</head>
+
+	<body onload="featherCmsScript._map.startTime();featherCmsScript._map.addLayerPic('SXT','index');">
+		<div class="indexChange">
+			<!--物管公告-->
+			<div class="placardBox">
+				<div id="newsContent" class="newsContent pr">
+					<span class="color_blue font_16 txt"><i class="iconfont icontongzhi color_yellow font_22 mr_10"></i>物管公告：</span>
+					<ul class="swiper-wrapper neswList">
+						<li class="swiper-slide">
+							[13:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+						<li class="swiper-slide">
+							[12:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--地图服务-->
+			<div id="cesiumContainer"></div>
+			<!--<div class="mapImg"></div>-->
+
+			<!--顶部-开始-->
+			<div class="topContent">
+				<div class="pr topTxtBox">
+					<img class="index_logo pa" src="images/logo.png" alt="" />
+					<ul class="navMenu oh">
+						<li>
+							<a href="index.html">综合态势</a>
+						</li>
+						<li>
+							<a href="sqgl.html">社区管理</a>
+						</li>
+						<li class="active">
+							<a href="">智能安防</a>
+						</li>
+						<li>
+							<a href="zhzl.html">综合治理</a>
+						</li>
+						<li>
+							<a href="zhdj.html">智慧党建</a>
+						</li>
+					</ul>
+					<div class="topTxt fr">
+                        <div class="time">
+                            <h4 class="font_22 numberFont" id="time">11:20:00</h4>
+                            <h5>
+                                <span class="color_blue" id="data">2020年6月8日</span>
+                                <!--<span class="color_blue mw_10">星期一</span>-->
+                            </h5>
+                        </div>
+						<div class="weather">
+							<p><span class="letter-spacing">空气质量：</span><i class="kq_bg">优</i></p>
+							<p><span class="letter-spacing">北京：</span><span>14℃~10℃</span></p>
+						</div>
+						<div class="weather">
+							<p><span class="letter-spacing">湿度: </span><span>49%</span></p>
+							<p class="color_blue">PM10:32μg/m3</p>
+						</div>
+					</div>
+					<div class="pa topRight">
+						<!--<div class="infoSelect pr">
+							<span class="iconfont iconyonghu color_white">admin</span>
+							<ul class="Down">
+								<li><a href="">退出</a></li>
+								<li><a href="">全屏</a></li>
+							</ul>
+						</div>-->
+						<a href="" class="iconfont iconyonghu color_white color_blue"></a>
+						<a href="" class="color_blue iconfont icontongzhi4"></a>
+						<a href="javascript:window.open(featherCmsScript.ctx+'index','console');" class="color_blue iconfont iconshezhi"></a>
+					</div>
+				</div>
+			</div>
+			<!--顶部-结束-->
+
+			<!--左侧-开始-->
+			<div class="zhzlLeftContent">
+				<div class="zhzlPersonnelList">
+					<div class="content">
+						<dl class="total">
+							<dt><img src="images/zhzl_icon2.png" alt="" /></dt>
+							<dd>
+								<h5 class="numberFont font_30 color_white">48</h5>
+								<h6 class="color_yellow font_14">设备统计</h6>
+							</dd>
+						</dl>
+						<ul class="list" id="sbtj">
+							<li>
+								视频 <span class="number font_22 color_navy_blue numberFont">724</span>
+							</li>
+							<li>
+								门禁 <span class="number font_22 color_navy_blue numberFont">75</span>
+							</li>
+							<li>
+								闸机 <span class="number font_22 color_navy_blue numberFont">45</span>
+							</li>
+							<li>
+								道杆 <span class="number font_22 color_navy_blue numberFont">45</span>
+							</li>
+						</ul>
+						<h6 class="title2 color_navy_blue ml_10">报警统计</h6>
+						<div class="znaf_bjtj">
+							<p class="oh">治安事件<span class="fr numberFont color_navy_blue font_22">528</span></p>
+							<div class="layui-progress layuiProgress">
+							  	<div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+							  	<div class="layui-progress-text">50%</div>
+							</div>
+							<p class="oh">卫生事件<span class="fr numberFont color_navy_blue font_22">70</span></p>
+							<div class="layui-progress layuiProgress">
+							 	<div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+							 	<div class="layui-progress-text">20%</div>
+							</div>
+							<p class="oh">能源事件<span class="fr numberFont color_navy_blue font_22">80</span></p>
+							<div class="layui-progress layuiProgress">
+							 	<div class="layui-progress-bar layui-bg-red" lay-percent="30%"></div>
+							 	<div class="layui-progress-text">30%</div>
+							</div>
+							<p class="oh">能源事件<span class="fr numberFont color_navy_blue font_22">20</span></p>
+							<div class="layui-progress layuiProgress">
+							  	<div class="layui-progress-bar layui-bg-blue" lay-percent="10%"></div>
+							  	<div class="layui-progress-text">10%</div>
+							</div>
+						</div>
+						<h6 class="title2 color_navy_blue ml_10">报警处置</h6>
+						<p class="font_14 color_white oj mw_10">报警总数 <span class="fr numberFont color_navy_blue font_22">520</span></p>
+						<div id="znaf_bjzs" class="znaf_bjzs"></div>
+					</div>
+				</div>
+			</div>
+			<!--左侧--结束-->
+
+			<!--右侧--开始-->
+			<div class="rightContent CloseRight">
+				<div class="pr indexRightBox">
+					<i class="pa layui-icon layui-icon-close color_white font_22 rightCloseBtn"></i>
+					<!--视频监控-->
+					<div class="znaf_VideoList">
+						<div class="title pr mb_10">
+							<a href="" class="txt color_white">视频监控</a>
+						</div>
+						<div class="layui-tab layui-tab-brief tabLine tabPercentage" lay-filter="test2">
+							<ul class="layui-tab-title">
+								<li class="layui-this" onclick="getSxtList('出口入口')">出口入口</li>
+								<li onclick="getSxtList('重点区域')">重点区域</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<div class="realTimeMonitoring VideoList">
+										<ul id="crList">
+											<li id="VideoListLayerOpen">
+												<div class="oh videoTxt">
+													<p class="fl">翰林小区一号监控摄像</p>
+													<p class="fl">2020/02/24 15:24:12</p>
+												</div>
+												<img src="images/video_img1.png" alt="" />
+											</li>
+										</ul>
+										<div id="crPage" class="layuiPage"></div>
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<div class="realTimeMonitoring VideoList">
+										<ul id="zdList">
+											<li id="VideoListLayerOpen">
+												<div class="oh videoTxt">
+													<p class="fl">翰林小区一号监控摄像</p>
+													<p class="fl">2020/02/24 15:24:12</p>
+												</div>
+												<img src="images/video_img1.png" alt="" />
+											</li>
+										</ul>
+										<div id="zdqyPage" class="layuiPage"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 门禁进出口抓拍 -->
+					<div class="znaf_gateAccessList hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">门禁进出口抓拍</a>
+						</div>
+						<div class="layui-row" id="mjCount">
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">720</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan1 color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">进入人数</h3>
+								</div>
+							</div>
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">82</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">外出人数</h3>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="title3 mh_10"><span class="txt">抓拍列表</span></div>
+							<ul class="gateAccessList" id="mjList">
+								<li class="" id="gateAccessLayerOpen">
+	                                <span class="number pa numberFont">1</span>
+	                                <img class="img" src="images/personneInfo_img.png"/>
+	                               	<span class="btn">进入</span>
+	                                <p>姓名：<span>李洋</span></p>
+							      	<p>进入时间：<span>2020/03/03 12:22:22</span></p>
+							      	<p>抓拍地点：<span>小区入口</span></p>
+	                           </li>
+							</ul>
+							<div id="mjPage" class="layuiPage"></div>
+						</div>
+					</div>
+					<!-- 闸机进出记录 -->
+					<div class="znaf_gateList hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">闸机进出记录</a>
+						</div>
+						<div class="layui-row" id="zjCount">
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">720</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan1 color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">进入人数</h3>
+								</div>
+							</div>
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">82</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">外出人数</h3>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="title3 mh_10"><span class="txt">抓拍列表</span></div>
+							<ul class="gateAccessList" id="zjList">
+								<li>
+	                                <span class="number pa numberFont">1</span>
+	                                <img class="img" src="images/personneInfo_img.png"/>
+	                               	<span class="btn">进入</span>
+	                                <p>姓名：<span>李洋</span></p>
+							      	<p>进入时间：<span>2020/03/03 12:22:22</span></p>
+							      	<p>抓拍地点：<span>小区入口</span></p>
+	                           </li>
+							</ul>
+							<div id="zjPage" class="layuiPage"></div>
+						</div>
+					</div>
+					<!-- 道杆进出记录 -->
+					<div class="znaf_roadPoleList hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">道杆进出记录</a>
+						</div>
+						<div class="layui-row" id="dgCount">
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">720</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan1 color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">进入人数</h3>
+								</div>
+							</div>
+							<div class="layui-col-md6 layui-col-sm6 oh houseInfo mb_10">
+								<h2 class="font_30 color_white numberFont right">82</h2>
+								<div class="txtC txt">
+									<h5><i class="iconfont iconwaichurenyuan color_blue font_22"></i></h5>
+									<h3 class="color_blue font_14">外出人数</h3>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="title3 mh_10"><span class="txt">抓拍列表</span></div>
+							<ul class="gateAccessList" id="dgList">
+								<li>
+	                                <span class="number pa numberFont">1</span>
+	                                <img class="img" src="images/personneInfo_img.png"/>
+	                               	<span class="btn">进入</span>
+	                                <p>姓名：<span>李洋</span></p>
+							      	<p>进入时间：<span>2020/03/03 12:22:22</span></p>
+							      	<p>抓拍地点：<span>小区入口</span></p>
+	                           </li>
+							</ul>
+							<div id="dgPage" class="layuiPage"></div>
+						</div>
+					</div>
+
+					<!--地图按钮-->
+					<div class="mapToolbar pa">
+						<h5 class="mapBtn moreBtn active" id="mapToolbarBtn">
+							<i class="iconfont icongongjuxiang"></i>
+						</h5>
+						<ul class="mapToolbarList">
+							<li class="mapBtn" title="指北">
+								<i class="iconfont iconicon"></i>
+							</li>
+							<li class="mapBtn" title="全屏">
+								<i class="iconfont iconquanping"></i>
+							</li>
+							<li class="mapBtn" title="放大">
+								<i class="iconfont iconjia"></i>
+							</li>
+							<li class="mapBtn" title="缩小">
+								<i class="iconfont iconjian"></i>
+							</li>
+							<li class="mapBtn" title="全图">
+								<i class="iconfont iconquantu"></i>
+							</li>
+							<li class="mapBtn" title="清除">
+								<i class="iconfont iconshanchu-copy-copy"></i>
+							</li>
+						</ul>
+					</div>
+					<!--定位-->
+					<div class="positionSelect pa">
+						<div class="pr">
+							<p class="positionSelectBtn" id="positionSelectBtn">
+								<i class="iconfont iconloc-s font_22 color_blue mr_10"></i>
+								<span id="treeName" value="SQ000001">七宝社区</span>
+							</p>
+							<div class="pa SelectTree hide" id="SelectTree">
+								<div class="ztreeBox">
+									<ul id="zTree" class="ztree"></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--右侧--结束-->
+
+			<!--底部--开始-->
+			<div class="znafBottomContent">
+				<div class="znafNewsContainer" id="znafContainer">
+				    <ul class="znafNewsList swiper-wrapper" id="znafYcList">
+						<li class="swiper-slide">
+							<span>[异常行为]</span>13:00:00 发现人员聚集
+						</li>
+						<li class="swiper-slide">
+							<span>[异常行为]</span>13:00:00 发现人员聚集
+						</li>
+						<li class="swiper-slide">
+							<span>[异常行为]</span>13:00:00 发现人员聚集
+						</li>
+						<li class="swiper-slide">
+							<span>[异常行为]</span>13:00:00 发现人员聚集
+						</li>
+						<li class="swiper-slide">
+							<span>[异常行为]</span>13:00:00 发现人员聚集
+						</li>
+					</ul>
+				    <!-- Add Pagination -->
+				    <!--<div class="swiper-pagination"></div>-->
+				</div>
+			</div>
+			<!--底部--结束-->
+
+			<!--子导航-->
+			<ul class="subpageNavigation">
+				<li id="videoOpenBtn" class="zs-picture" type="SXT" typeObject="index">
+					<i class="iconfont iconjiankong"></i>视频
+				</li>
+				<li id="gateAccessOpenBtn" class="zs-picture" type="MJ" typeObject="znaf">
+					<i class="iconfont iconshijian"></i>门禁
+				</li>
+				<li id="gateListOpenBtn" class="zs-picture" type="ZJ" typeObject="znaf">
+					<i class="iconfont iconzhaji"></i>闸机
+				</li>
+				<li id="roadPoleOpenBtn" class="zs-picture" type="DG" typeObject="znaf">
+					<i class="iconfont icondaogan"></i>道杆
+				</li>
+			</ul>
+
+			<!--摄像头弹框-->
+			<div class="layerBox hide" id="cameraLayer">
+				<h4 class="moveTxt">摄像头01</h4>
+				<div class="layerContent" id="sxtTc">
+					<div class="layui-row mw_10">
+					    <div class="layui-col-md8 layui-col-xs8">
+					      	<span class="color_blue font_14 mr_10">位置:</span>
+					      	<span class="color_white font_14">北门</span>
+					    </div>
+					    <div class="layui-col-md4 layui-col-xs4 txtR">
+					      	<span class="color_blue font_14 mr_10">状态:</span>
+					      	<span class="color_white font_14">在线</span>
+					    </div>
+					</div>
+					<div  class="cameraImg">
+						<img src="images/video_img1.png" alt="" />
+					</div>
+				</div>
+			</div>
+			<!-- 门禁弹框 -->
+			<div class="layerBox AccessControlLayer hide" id="znafGateAccessLayer">
+				<h4 class="moveTxt">门禁01</h4>
+				<div class="layerContent">
+					<div id="znafSwiperWrapper" class="swiperWrapper">
+						<ul class="vehicleList swiper-wrapper">
+							<li class="swiper-slide">
+								<span class="btn TipBtn pa">进入</span>
+								<img class="img" src="images/video_img1.png" alt="" />
+								<p>
+									<span class="color_blue">姓名：</span>
+									<span class="color_white">李花</span>
+								</p>
+								<p>
+									<span class="color_blue">抓拍时间：</span>
+									<span class="color_white">2020-05-10 14:00:00</span>
+								</p>
+								<p>
+									<span class="color_blue">抓拍位置：</span>
+									<span class="color_white">东门闸机</span>
+								</p>
+								<p>
+									<span class="color_blue">住址：</span>
+									<span class="color_white">11栋3单元302</span>
+								</p>
+								<p>
+									<span class="color_blue">标签：</span>
+									<span class="color_white"></span>
+								</p>
+							</li>
+						</ul>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+			</div>
+
+			<!--异常弹框-->
+			<div class="layerBox abnormalLayer hide" id="abnormalLayer">
+				<h4 class="moveTxt">居民上报</h4>
+				<div class="layerContent">
+					<div class="abnormalForm">
+						<ul>
+							<li><label class="color_blue">异常内容：</label><span>消防栓水位报警</span></li>
+							<li><label class="color_blue">异常级别：</label><span class="color_red"><i class="iconfont iconbaojing"></i>一级</span></li>
+							<li><label class="color_blue">异常时间：</label><span>2020-05-12 14：00：00</span></li>
+							<li><label class="color_blue">处置状态：</label><span class="color_yellow">未处置</span></li>
+						</ul>
+						<img width="100%" class="img mt_10" src="images/video_img1.png" alt="" />
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</body>
+	<script src="js/3rd/jquery.min.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.core-3.5.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.js"></script>
+	<script src="js/3rd/featherCmsScript.js"></script>
+	<script src="js/3rd/swiper.min.js"></script>
+	<script src="js/3rd/echarts.js"></script>
+	<script src="js/layui-2.5.5/layui.js"></script>
+	<script src="js/znaf.js"></script>
+	<script src="js/3d/turf.min.js"></script>
+	<script src="Cesium/Cesium.js"></script>
+	<script src="js/3d/map.js"></script>
+	<script src="js/3d/mapViewer3D.js"></script>
+	<script src="js/3d/config.js"></script>
+	<script src="js/3d/mapViewer.js"></script>
+	<script>
+        featherCmsScript.ctx = "/community/";
+	</script>
+
+</html>

@@ -1,0 +1,368 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/insidePage.css}">
+    <link rel="stylesheet" th:href="@{/def/libs/swiper/css/swiper.min.css}">
+    <script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+    <style>
+        .layuiForm .layui-p-block {
+            margin-left: 2.7vw;
+            min-height: 3.2vh;
+        }
+        .layuiForm .noborder{
+            background:none;
+            border:none;
+            line-height:3.2vh;
+            height:3.2vh;
+            color:#fff;
+            font-size:1.7vh;
+        }
+        .wxjlFrom .position .span{
+            top:0;
+            width:3.2vw;
+            font-size:0.7vw;
+            color:#fff;
+            border-radius:2px;
+            background:#0e9584;
+            text-align: center;
+            line-height: 3.2vh;
+            height: 3.2vh;
+            cursor: pointer;
+        }
+        .AttributesList .tableHeader {
+             text-align: center;
+             background: none;
+             border: none;
+         }
+        .cl-5{
+            text-align: center;
+            width:50%;
+        }
+        .cl-3{
+            width:30%;
+        }
+        .cl-2{
+            text-align: center;
+            width:20%;
+        }
+        .cl-5 input{
+            text-align: center;
+        }
+        .cl-3 input{
+            text-align: center;
+        }
+        .cl-2 input{
+            text-align: center;
+        }
+        li button {
+            top: 0;
+            width: 2.2vw;
+            font-size: 0.7vw;
+            color: #fff;
+            border-radius: 2px;
+            background: #0e9584;
+            text-align: center;
+            line-height: 2.2vh;
+            height: 2.2vh;
+            cursor: pointer;
+        }
+
+        .spanBtn {
+            /*position: relative;*/
+            /*border-top: 1px solid #1e817c;*/
+            /*border-bottom: 1px solid #1e817c;*/
+            /*padding: 0.8vh 0vw;*/
+            float: left;
+            line-height: 3vh;
+            cursor: pointer;
+            border: 1px solid #54dad9;
+            background-color: #0f9887;
+            -webkit-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+            -moz-box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+            box-shadow: inset 0 0 0.5vw rgba(80,255,245,.8);
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.8vw;
+            padding: 0 0.5vw;
+            margin-right: 0.5vw;
+        }
+        .layui-layer-btn {
+            display: block;
+        }
+
+        .singleButton {
+            cursor: pointer;
+            padding: 0 0.4vw;
+            margin-left: 0.4vw;
+            border-radius: 4px;
+            background: #31b6a5;
+            border: 1px solid #31b6a5;
+            line-height: 3.2vh;
+            height: 3.2vh;
+            color: #fff;
+            font-size: 1.3vh;
+        }
+    </style>
+</head>
+<!--右侧内容-->
+<div id="wxxqId" class="title sgfxTitle">新增维修</div>
+<div id="readOnlyWxDiv">
+    <form class="layui-form layuiForm pw15 ph15 wxjlFrom">
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修名称：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_name" class="noborder"></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修人员：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_userName" class="noborder"></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修时间：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_repairTime" class="noborder"></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">详细位置：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_address" class="noborder"></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">坐标位置：</label>
+            <div class="layui-p-block">
+                <!--<p id="r_wx_location" class="noborder"style="font-size:1.1vh"></p>-->
+                <button id="r_wx_location" class="singleButton" type="button" style="font-size:1.1vh" onclick="RYXJ.location(this.value)"></button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">故障类型：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_faultType" class="noborder"></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">详细描述：</label>
+            <div class="layui-p-block">
+                <p id="r_wx_description" class="noborder"></p>
+            </div>
+        </div>
+<!--        <div id="r_pipe_lable" class="czList AttributesList">
+            <div class="tableHeader">
+                <span class="cl-3 fl">序号</span>
+                <span class="cl-5 fl">名称</span>
+            </div>
+            <ul class="tableBody" id="r_pipeListDiv">
+                &lt;!&ndash;      <li>
+                         <span class="cl-3 fl txtC">1</span>
+                         <span class="cl-5 fl">
+                            <input type="text" value="供水管线" autocomplete="off"/>
+                         </span>
+                         <span class="cl-2 fl">
+                            <button type="button" onclick="RYXJ.delPipelineInit(this)">删除</button>
+                         </span>
+                     </li>&ndash;&gt;
+            </ul>
+        </div>-->
+        <div id="r_wx_pic_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">图片：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="r_wxPic">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <div id="r_wx_video_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">视频：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="r_wxVideo">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <div id="r_wx_file_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">文件：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="r_wxFile">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <div class="layui-form-item timeLimit" style="margin-top: 1em">
+            <div class="layui-input-block">
+                <button id="updateWxBtn" type="button" onclick="RYXJ.changeWXDiv()">修改</button>
+                <button id="delWxBtn" type="button" onclick="RYXJ.delWx()">删除</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="updateWxDiv" style="display: none">
+    <form id="formWx" class="layui-form layuiForm pw15 ph15 wxjlFrom" method="POST" lay-filter="formWx">
+        <input id="wx_id" name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修名称：</label>
+            <div class="layui-input-block">
+                <input id="wx_name" type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入维修名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修人员：</label>
+            <div class="layui-input-block">
+                <input id="wx_userName" type="text" name="userName" lay-verify="required" autocomplete="off" placeholder="请输入维修人员" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">维修时间：</label>
+            <div class="layui-input-block">
+                <input id="wx_repairTime" type="text" name="repairTime" lay-verify="required" autocomplete="off" placeholder="请选择维修时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">详细位置：</label>
+            <div class="layui-input-block">
+                <input id="wx_address" type="text" name="address" lay-verify="required" autocomplete="off" placeholder="请输入详细位置" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">坐标位置：</label>
+            <div class="layui-input-block pr position">
+                <!--<input id="wx_location" type="text" name="location" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+                --><span class="spanBtn" onclick="RYXJ.getLocation()">开始采集</span>
+                <span class="spanBtn" onclick="RYXJ.stopPick()">停止采集</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 0;">
+                <input id="wx_location" type="text" name="location" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">故障类型：</label>
+            <div class="layui-input-block">
+                <select id="wx_faultSelect" name="faultId">
+                </select>
+            </div>
+        </div>
+<!--        <div class="oh AttributesBtn">
+            <p class="txt fl">关联管线设备：</p>
+            <span onclick="RYXJ.getPipeline()">开始采集</span>
+            <span onclick="RYXJ.stopFeaturePick()">停止采集</span>
+            &lt;!&ndash;<span>添加</span>&ndash;&gt;
+        </div>
+        <div class="czList AttributesList">
+            <div class="tableHeader">
+                <span class="cl-3 fl">序号</span>
+                <span class="cl-5 fl">名称</span>
+                <span class="cl-2 fl">操作</span>
+            </div>
+           <ul class="tableBody" id="pipeListDiv">
+               &lt;!&ndash;      <li>
+                        <span class="cl-3 fl txtC">1</span>
+                        <span class="cl-5 fl">
+                           <input type="text" value="供水管线" autocomplete="off"/>
+                        </span>
+                        <span class="cl-2 fl">
+                           <button type="button" onclick="RYXJ.delPipelineInit(this)">删除</button>
+                        </span>
+                    </li>&ndash;&gt;
+            </ul>
+        </div>-->
+        <div class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">详细描述：</label>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 0;">
+                <textarea id="wx_description"  name="description" placeholder="请输入详细描述" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    <!--    <div class="layui-form-item">
+            <label class="layui-form-label">选择文件进行上传：</label>
+        </div>-->
+        <button id="wx_selectFile" type="button" class="layui-btn formBtn"><i class="iconfont icon-shangchuan"></i>选择文件</button>
+        <button style="display: none" id="wx_upload" type="button" class="layui-btn formBtn"><i></i>上传</button>
+
+        <!--    <div class="UploadImgBox">
+                <div class="pr col">
+                    <img src="../../lib/images/spjk_img1.png" alt="" />
+                    <i class="iconfont icon-guanbi2 pa close"></i>
+                </div>
+                <div class="pr col">
+                    <img src="../../lib/images/spjk_img1.png" alt="" />
+                    <i class="iconfont icon-guanbi2 pa close"></i>
+                </div>
+            </div>-->
+    <!--    <div class="txtC">
+            <button id="saveWxBtn" type="button" class="formBtn" lay-submit lay-filter="saveWx">提交</button>
+            <button id="delWxBtn" type="button" class="formBtn">删除</button>
+        </div>-->
+        <div id="wx_pic_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">图片：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="wxPic">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <div id="wx_video_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">视频：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="wxVideo">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <div id="wx_file_lable" class="layui-form-item" style="margin-bottom:0">
+            <label class="layui-form-label">文件：</label>
+        </div>
+        <div class="exceptionDetails">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="wxFile">
+                </ul>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <div class="layui-form-item timeLimit" style="margin-top:1em;text-align: center" >
+            <div class="layui-input-block" style="margin-left: 0">
+                <button id="saveWxBtn" type="button" lay-submit lay-filter="saveWx">提交</button>
+                <!--<button id="test" type="button" onclick="RYXJ.uploadPipe()">获取待提交的</button>-->
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    RYXJ.location = function (value) {
+        var arr = value.split(",");
+        if(arr.length == 3){
+            layerTree.flyToPoint(arr[0],arr[1],arr[2]);
+        }else{
+            layer.alert("坐标值不规范");
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWarringMapper">
+    
+    <resultMap type="AupWarring" id="AupWarringResult">
+        <result property="id"    column="Id"    />
+        <result property="categorycode"    column="CategoryCode"    />
+        <result property="author"    column="Author"    />
+        <result property="content"    column="Content"    />
+        <result property="datetime"    column="DateTime"    />
+        <result property="pccallbackurl"    column="PcCallbackUrl"    />
+        <result property="mobilecallbackurl"    column="MobileCallbackUrl"    />
+        <result property="imageurl1"    column="ImageUrl1"    />
+        <result property="imageurl2"    column="ImageUrl2"    />
+        <result property="imageurl3"    column="ImageUrl3"    />
+        <result property="imageurl4"    column="ImageUrl4"    />
+        <result property="imageurl5"    column="ImageUrl5"    />
+        <result property="state"    column="State"    />
+        <result property="longitude"    column="Longitude"    />
+        <result property="latitude"    column="Latitude"    />
+        <result property="name"    column="Name"    />
+        <result property="path"    column="Path"    />
+        <result property="code"    column="Code"    />
+        <result property="level"    column="Level"    />
+        <result property="sendtype"    column="SendType"    />
+        <result property="sendusers"    column="SendUsers"    />
+        <result property="noreadsend"    column="NoReadSend"    />
+        <result property="template"    column="Template"    />
+        <result property="formsysname"    column="FormSysName"    />
+        <result property="sendusernames"    column="SendUserNames"    />
+    </resultMap>
+    <resultMap type="AupWarring1" id="AupWarringResult1">
+        <result property="author"    column="Author"    />
+        <result property="content"    column="Content"    />
+        <result property="dateTime"    column="DateTime"    />
+        <result property="state"    column="State"    />
+        <result property="name"    column="Name"    />
+        <result property="code"    column="Code"    />
+        <result property="level"    column="Level"    />
+        <result property="formSysName"    column="FormSysName"    />
+    </resultMap>
+
+    <sql id="selectAupWarringVo">
+        select Id, CategoryCode, Author, Content, DateTime, PcCallbackUrl, MobileCallbackUrl, ImageUrl1, ImageUrl2, ImageUrl3, ImageUrl4, ImageUrl5, State, Longitude, Latitude, Name, Path, Code, Level, SendType, SendUsers, NoReadSend, Template, FormSysName, SendUserNames from aup_warring
+    </sql>
+
+    <select id="selectAupWarringList" parameterType="AupWarring" resultMap="AupWarringResult">
+        <include refid="selectAupWarringVo"/>
+        <where>  
+            <if test="categorycode != null  and categorycode != ''"> and CategoryCode = #{categorycode}</if>
+            <if test="author != null  and author != ''"> and Author = #{author}</if>
+            <if test="content != null  and content != ''"> and Content = #{content}</if>
+            <if test="datetime != null  and datetime != ''"> and DateTime = #{datetime}</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''"> and PcCallbackUrl = #{pccallbackurl}</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''"> and MobileCallbackUrl = #{mobilecallbackurl}</if>
+            <if test="imageurl1 != null  and imageurl1 != ''"> and ImageUrl1 = #{imageurl1}</if>
+            <if test="imageurl2 != null  and imageurl2 != ''"> and ImageUrl2 = #{imageurl2}</if>
+            <if test="imageurl3 != null  and imageurl3 != ''"> and ImageUrl3 = #{imageurl3}</if>
+            <if test="imageurl4 != null  and imageurl4 != ''"> and ImageUrl4 = #{imageurl4}</if>
+            <if test="imageurl5 != null  and imageurl5 != ''"> and ImageUrl5 = #{imageurl5}</if>
+            <if test="state != null  and state != ''"> and State = #{state}</if>
+            <if test="longitude != null  and longitude != ''"> and Longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''"> and Latitude = #{latitude}</if>
+            <if test="name != null  and name != ''">
+            	<bind name="_name" value="'%'+ name +'%'"/>
+            	and Name like #{_name}
+            </if>
+            <if test="path != null  and path != ''"> and Path = #{path}</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="level != null  and level != ''"> and Level = #{level}</if>
+            <if test="sendtype != null  and sendtype != ''"> and SendType = #{sendtype}</if>
+            <if test="sendusers != null  and sendusers != ''"> and SendUsers = #{sendusers}</if>
+            <if test="noreadsend != null  and noreadsend != ''"> and NoReadSend = #{noreadsend}</if>
+            <if test="template != null  and template != ''"> and Template = #{template}</if>
+            <if test="formsysname != null  and formsysname != ''">
+            	<bind name="_formsysname" value="'%'+ formsysname +'%'"/>
+            	and FormSysName like #{_formsysname}
+            </if>
+            <if test="sendusernames != null  and sendusernames != ''"> and SendUserNames = #{sendusernames}</if>
+        </where>
+        order by DateTime desc
+    </select>
+    
+    <select id="selectAupWarringById" parameterType="String" resultMap="AupWarringResult">
+        <include refid="selectAupWarringVo"/>
+        where Id = #{id}
+    </select>
+    
+    <select id="selectAllWithOuterPic" resultMap="AupWarringResult">
+        <include refid="selectAupWarringVo"/>
+        where imageurl1 like 'http%'
+    </select>
+        
+    <insert id="insertAupWarring" parameterType="AupWarring">
+        insert into aup_warring
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">Id,</if>
+            <if test="categorycode != null  and categorycode != ''">CategoryCode,</if>
+            <if test="author != null  and author != ''">Author,</if>
+            <if test="content != null  and content != ''">Content,</if>
+            <if test="datetime != null  and datetime != ''">DateTime,</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''">PcCallbackUrl,</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''">MobileCallbackUrl,</if>
+            <if test="imageurl1 != null  and imageurl1 != ''">ImageUrl1,</if>
+            <if test="imageurl2 != null  and imageurl2 != ''">ImageUrl2,</if>
+            <if test="imageurl3 != null  and imageurl3 != ''">ImageUrl3,</if>
+            <if test="imageurl4 != null  and imageurl4 != ''">ImageUrl4,</if>
+            <if test="imageurl5 != null  and imageurl5 != ''">ImageUrl5,</if>
+            <if test="state != null  and state != ''">State,</if>
+            <if test="longitude != null  and longitude != ''">Longitude,</if>
+            <if test="latitude != null  and latitude != ''">Latitude,</if>
+            <if test="name != null  and name != ''">Name,</if>
+            <if test="path != null  and path != ''">Path,</if>
+            <if test="code != null  and code != ''">Code,</if>
+            <if test="level != null  and level != ''">Level,</if>
+            <if test="sendtype != null  and sendtype != ''">SendType,</if>
+            <if test="sendusers != null  and sendusers != ''">SendUsers,</if>
+            <if test="noreadsend != null  and noreadsend != ''">NoReadSend,</if>
+            <if test="template != null  and template != ''">Template,</if>
+            <if test="formsysname != null  and formsysname != ''">FormSysName,</if>
+            <if test="sendusernames != null  and sendusernames != ''">SendUserNames,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="categorycode != null  and categorycode != ''">#{categorycode},</if>
+            <if test="author != null  and author != ''">#{author},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="datetime != null  and datetime != ''">#{datetime},</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''">#{pccallbackurl},</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''">#{mobilecallbackurl},</if>
+            <if test="imageurl1 != null  and imageurl1 != ''">#{imageurl1},</if>
+            <if test="imageurl2 != null  and imageurl2 != ''">#{imageurl2},</if>
+            <if test="imageurl3 != null  and imageurl3 != ''">#{imageurl3},</if>
+            <if test="imageurl4 != null  and imageurl4 != ''">#{imageurl4},</if>
+            <if test="imageurl5 != null  and imageurl5 != ''">#{imageurl5},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="path != null  and path != ''">#{path},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="level != null  and level != ''">#{level},</if>
+            <if test="sendtype != null  and sendtype != ''">#{sendtype},</if>
+            <if test="sendusers != null  and sendusers != ''">#{sendusers},</if>
+            <if test="noreadsend != null  and noreadsend != ''">#{noreadsend},</if>
+            <if test="template != null  and template != ''">#{template},</if>
+            <if test="formsysname != null  and formsysname != ''">#{formsysname},</if>
+            <if test="sendusernames != null  and sendusernames != ''">#{sendusernames},</if>
+         </trim>
+
+    </insert>
+
+    <update id="updateAupWarring" parameterType="AupWarring">
+        update aup_warring
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categorycode != null  and categorycode != ''">CategoryCode = #{categorycode},</if>
+            <if test="author != null  and author != ''">Author = #{author},</if>
+            <if test="content != null  and content != ''">Content = #{content},</if>
+            <if test="datetime != null  and datetime != ''">DateTime = #{datetime},</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''">PcCallbackUrl = #{pccallbackurl},</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''">MobileCallbackUrl = #{mobilecallbackurl},</if>
+            <if test="imageurl1 != null  and imageurl1 != ''">ImageUrl1 = #{imageurl1},</if>
+            <if test="imageurl2 != null  and imageurl2 != ''">ImageUrl2 = #{imageurl2},</if>
+            <if test="imageurl3 != null  and imageurl3 != ''">ImageUrl3 = #{imageurl3},</if>
+            <if test="imageurl4 != null  and imageurl4 != ''">ImageUrl4 = #{imageurl4},</if>
+            <if test="imageurl5 != null  and imageurl5 != ''">ImageUrl5 = #{imageurl5},</if>
+            <if test="state != null  and state != ''">State = #{state},</if>
+            <if test="longitude != null  and longitude != ''">Longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">Latitude = #{latitude},</if>
+            <if test="name != null  and name != ''">Name = #{name},</if>
+            <if test="path != null  and path != ''">Path = #{path},</if>
+            <if test="code != null  and code != ''">Code = #{code},</if>
+            <if test="level != null  and level != ''">Level = #{level},</if>
+            <if test="sendtype != null  and sendtype != ''">SendType = #{sendtype},</if>
+            <if test="sendusers != null  and sendusers != ''">SendUsers = #{sendusers},</if>
+            <if test="noreadsend != null  and noreadsend != ''">NoReadSend = #{noreadsend},</if>
+            <if test="template != null  and template != ''">Template = #{template},</if>
+            <if test="formsysname != null  and formsysname != ''">FormSysName = #{formsysname},</if>
+            <if test="sendusernames != null  and sendusernames != ''">SendUserNames = #{sendusernames},</if>
+        </trim>
+        where Id = #{id}
+    </update>
+
+    <delete id="deleteAupWarringById" parameterType="String">
+        delete from aup_warring where Id = #{id}
+    </delete>
+
+    <delete id="deleteAupWarringByIds" parameterType="String">
+        delete from aup_warring where Id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="downWarringList" resultMap="AupWarringResult1">
+        select id,
+        case when level = 1 then '一级预警'
+        when LEVEL = 2 then '二级预警'
+        when LEVEL = 3 then '三级预警'
+        end as LEVEL,
+        case when state = 1 then '已处置'
+        when state = 0  then  '未处置'
+        when state is null  then  '未处置'
+        end as state,name,
+         author,content,datetime,formsysname,code
+        from [view_warring]
+        <where>
+            <if test="content!=null and content !=''">content LIKE '%'+#{content}+'%'</if>
+            <if test="level!=null and level !=''">and level = #{level}</if>
+            <if test="state!='' and state !=null and state==0">
+                and (state=0 or state is null)
+            </if>
+            <if test="state!='' and state !=null and state==1">
+                and (state=1)
+            </if>
+            <if test="author!=null and author !=''">and author =#{author}</if>
+            <if test="dateTime1!='' and dateTime1 !=null">and datetime &gt;= #{dateTime1}</if>
+            <if test="dateTime2!='' and dateTime2 !=null">and datetime &lt;=#{dateTime2}</if>
+            <if test="name!='' and name !=null">and name = #{name}</if>
+            <if test="formSysName!='' and formSysName !=null">and formSysName =#{formSysName}</if>
+        </where>
+    </select>
+
+    <select id="localWarring" resultType="map">
+        select count(k.id)as total,m.formSysName,m.num ,m.state as statenum from (select DISTINCT(t.formSysName) as formSysName,count(t.formSysName) as num,k.state  from view_warring t LEFT JOIN
+        (select DISTINCT(m.formSysName) as formSysName,count(*)as state from view_warring m where m.state=0 or m.state is null  GROUP BY m.formSysName)k
+        on t.formSysName = k.formSysName
+
+         GROUP BY t.formSysName,k.state) m,view_warring k
+        GROUP BY m.formSysName,m.num,m.state
+    </select>
+    <select id="getlocalWarring" resultType="map">
+        select * from aup_warring
+        <where>
+            <if test="formSysName!='' and formSysName !=null">formSysName=#{formSysName}</if>
+            <if test="state !=null">and state=#{state}</if>
+            <if test="id!='' and id !=null">and id=#{id}</if>
+        </where>
+    </select>
+
+    <select id="getPosition" resultType="map" statementType="STATEMENT">
+        select * from ${table} where ${col}='${name}'
+    </select>
+
+    <select id="getAreaNo" resultType="map">
+        select No from aup_building where  Latitude=#{lont} and Longitude=#{lat}
+    </select>
+     <select id="getInfoBySn" resultType="map">
+         SELECT top 1 * FROM [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[NT_AgriculturalUniversity_MeterRead]
+         where meterSn=#{sn}
+         order by readTime desc;
+     </select>
+
+
+
+
+
+</mapper>

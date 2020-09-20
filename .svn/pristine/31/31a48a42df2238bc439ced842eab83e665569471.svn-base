@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>报名信息</title>
+		<link rel="stylesheet" type="text/css" href="css/mobiscroll.custom.min.css"/>
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="css/css.css"/>
+	</head>
+	<body>
+		<div class="box">
+			<div class="topTitle">
+				<span>会议管理</span>
+			</div>
+			<form class="form signApForm" name="myForm" id="myForm">
+				<div class="display-block">
+					<label for="">标<span class="space"></span>题：</label>
+					<textarea type="text" style="height:80px" name="title" id="title"></textarea>
+					<i class="required">*</i>
+				</div>
+				<div class="display-block">
+					<label for="">时<span class="space" name="time"></span>间：</label>
+					<input type="txt" name="beginTimeStr" id="beginTimeStr"/>
+					<i class="required">*</i>
+				</div>
+				<div class="display-block">
+					<label for="">地<span class="space" name=""></span>点：</label>
+					<input type="txt" name="place" id="place"/>
+					<i class="required">*</i>
+				</div>
+				<div class="display-block">
+					<label for="">二维码：</label>
+					<button type="button" class="signApBtn mb10" id="my-img">上传/修改文件</button>
+					<i style="color:#fa831b;">*</i>
+					<!--<span>上传失败</span>-->
+					<input type="file" id="img-upload" name="qrCode" accept="image/*" />
+					<div class="ewmImg">
+						<img id="img" src="" alt="" />
+					</div>
+				</div>
+				<div class="display-block">
+					<button type="button" class="signApBtn btngreen1" onclick="return validateForm(this.form)">发布会议</button>
+				</div>
+				<div id="downbox" class="display-block" style="display:none">
+					<a id="downhz" href="#" class="signApBtn btnYellow mr5 hide">导出报名汇总</a>
+					<a id="downtxl" href="#" class="signApBtn btnYellow hide" style="margin-top:15px">导出报名通讯录</a>
+				</div>
+			</form>
+		</div>
+	</body>
+	<!--验证表单弹框-->
+	<div class="modal formAlert txtC hide" id="formAlert"></div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/hygl.js"></script>
+	<script src="js/mobiscroll.custom.min.js"></script>
+	<script type="text/javascript">
+        var theme = "ios";
+        var mode = "scroller";
+        var display = "bottom";
+        var lang="zh";
+        var newdate = new Date()
+        var currYear = newdate.getFullYear();
+	    var currMonth = newdate.getMonth();
+	    var currDay = newdate.getDate();
+	    var currHours = newdate.getHours();
+	    var currMinutes = newdate.getMinutes()
+	    currMonth = currMonth>9?currMonth:'0'+currMonth;
+	    currDay = currDay>9?currDay:'0'+currDay;
+	    currHours = currHours>9?currHours:'0'+currHours;
+	    currMinutes = currMinutes>9?currMinutes:'0'+currMinutes;
+		//console.log(currYear,currMonth,currDay,currHours,currMinutes)
+
+        // Date & Time demo initialization
+        $('#beginTimeStr').mobiscroll().datetime({
+            theme: theme,
+            mode: mode,
+            display: display,
+            lang: lang,
+            dateFormat:"yyyy-mm-dd",
+            minDate: new Date(currYear,currMonth,currDay,currHours,currMinutes),
+            maxDate: new Date(2099,7,30,15,44),
+            stepMinute: 1
+        });
+
+    </script>
+</html>

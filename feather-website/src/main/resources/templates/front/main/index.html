@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sys="">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>攀枝花市公安局东区分局</title>
+    <link rel="stylesheet" type="text/css" href="/bus/cms/css/main.css"  />
+    <link rel="stylesheet" type="text/css" href="/bus/cms/css/font-awesome.css">
+    <script type="text/javascript" src="/bus/cms/js/jquery-1.8.3.min.js"></script>
+    <script>
+        <!--
+        /*第一种形式 第二种形式 更换显示样式*/
+        function setTab(name,cursel,n){
+            for(i=1;i<=n;i++){
+                var menu=document.getElementById(name+i);
+                var con=document.getElementById("con_"+name+"_"+i);
+                menu.className=i==cursel?"hover":"";
+                con.style.display=i==cursel?"block":"none";
+            }
+        }
+        //-->
+    </script>
+</head>
+
+<body>
+<!--top-->
+<div class="top_bg overflow">
+    <div class="top_r1 overflow">
+        <p class="fl">欢迎您来到攀枝花市公安局东区分局~</p>
+        <span class="fr"><a href="#">设为首页</a> 丨 <a href="#">加入收藏</a> </span>
+    </div>
+</div>
+<!--log-->
+<div class="log_bg clearfix overflow"></div>
+<!--nav-->
+<div class="nav_bg clearfix overflow">
+    <div class="nav_nav">
+        <cms:navbar siteAlias="pzh" method="navBar" articleColumnAlias="dhl"/>
+    </div>
+</div>
+<!--xinxi-->
+<div class="main_bg overflow clearfix">
+    <div class="mian_index overflow">
+        <!--ad-->
+        <div class="wrap overflow pt15">
+            <img src="/bus/cms/img/index_r4_c3.jpg">
+        </div>
+        <div class="wrap overflow pt15 clearfix">
+            <!--动态-->
+            <div class="w499 fl overflow">
+                <cms:carousel siteAlias="pzh" method="carousel" articleColumnAlias="lbt"/>
+            </div>
+            <div class="w683 fr overflow">
+                <cms:top-news siteAlias="pzh" method="topNews" articleColumnAlias="fjdt"/>
+            </div>
+        </div>
+        <!--end-->
+        <!--ad-->
+        <div class="wrap overflow pt15">
+            <img src="/bus/cms/img/index_r8_c3.jpg">
+        </div>
+        <!--信息1-->
+        <div class="wrap overflow pt15 clearfix">
+            <!--1-->
+            <cms:article-column siteAlias="pzh" method="articleColumn" articleColumnAlias="tzgg"/>
+            <!--2-->
+            <cms:article-column siteAlias="pzh" method="articleColumn" articleColumnAlias="lddt" class="w392 overflow fl ml10"/>
+            <!--3-->
+            <cms:article-column siteAlias="pzh" method="articleColumn" articleColumnAlias="djgz" class="w392 overflow fr"/>
+        </div>
+        <!--end-->
+        <!--two-->
+        <div class="wrap overflow pt10 clearfix">
+            <!--1-->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="gzkx" class="w392 overflow fl"/>
+            <!--2--->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="jqfx" />
+            <!--3-->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="gzwj" class="w392 overflow fr" />
+            <!--end-->
+        </div>
+        <!--end-->
+        <!--信息3-->
+        <div class="wrap overflow pt10 clearfix">
+            <!--1-->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="fzgz" class="w392 overflow fl"/>
+            <!--2--->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="xszc" />
+            <!--3-->
+            <cms:multi-article-column siteAlias="pzh" method="multiArticleColumns" articleColumnAlias="zagl" class="w392 overflow fr" />
+
+        </div>
+        <!--end-->
+        <!--专栏-->
+        <div class="wrap overflow pt30 clearfix">
+            <div class="w100"><img src="/bus/cms/img/n_r28_c2.jpg"></div>
+            <div class="w100 pt20 overflow zl_img">
+                <ul>
+                    <li><a href="#"><img src="/bus/cms/img/020.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/023.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/index_r12_c15.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/index_r12_c21.jpg"></a></li>
+                </ul>
+            </div>
+        </div>
+        <!--专栏-->
+        <div class="wrap overflow pt30 clearfix">
+            <div class="w100"><img src="/bus/cms/img/news_r28_c2.jpg"></div>
+            <div class="w100 pt20 overflow zll_img">
+                <ul>
+                    <li><a href="#"><img src="/bus/cms/img/index_r14_c2.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/index_r14_c11.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/index_r14_c19.jpg"></a></li>
+                    <li><a href="#"><img src="/bus/cms/img/index_r14_c25.jpg"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--底部导航-->
+<div class="bot_nav clearfix  mt40 overflow">
+    <div class="wrap" >
+        <a href="#">公安导航</a>        丨       <a href="#"> 设为首页</a>        丨      <a href="#">  加入收藏 </a>       丨      <a href="#">  免责申明</a>        丨     <a href="#">   网站地图 </a>       丨        你是第123456位访问者
+    </div>
+</div>
+<div class="copy_bg  clearfix   overflow">
+    Copyright © 2018 攀枝花市公安局东区分局  版权所有  蜀ICP备XXXXX号   信息上报
+</div>
+<script type="text/javascript" src="/bus/cms/js/slide.js"></script>
+</body>
+</html>

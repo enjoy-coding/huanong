@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('水分区列表')" />
+    <th:block th:include="include :: ztree-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用水分区</h5>
+                    </div>
+                   <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <a class="btn btn-success" id="add" shiro:hasPermission="aupipes:waterSide:add">
+                                <i class="fa fa-plus"></i> 新增
+                            </a>
+                            <a class="btn btn-danger" remove="remove" shiro:hasPermission="aupipes:waterSide:remove">
+                                <i class="fa fa-remove"></i> 删除
+                            </a>
+                            <a class="btn btn-info" refresh="refresh" shiro:hasPermission="aupipes:waterSide:remove">
+                                <i class="fa fa-refresh"></i> 刷新
+                            </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="tree" class="ztree"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><a class="btn btn-warning"><span style="color: white;" id="showSelected">根节点</span></a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" id="waterSideForm" class="form-horizontal m-t">
+                            <div th:fragment="aupWaterSideFragment" id="aupWaterSideFragment">
+                               <input type="hidden" id="id" name="id" th:field="${waterSide.id}">
+                                <input type="hidden" name="pid" th:field="${waterSide.pid}">
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">地区名称:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" class="form-control" th:field="${waterSide.name}"
+                                            placeholder="请输入地区名称" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">所属地区:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="parentName" name="parentName" th:field="${waterSide.parentName}"
+                                            class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">类型:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="type"
+                                            th:disabled="${waterSide.type=='rootw'}">
+                                            <option th:selected="${waterSide.type=='rootw'}" value="rootw" disabled>根地区
+                                            </option>
+                                            <option th:selected="${waterSide.type=='area'}" value="area">区域</option>
+                                            <option th:selected="${waterSide.type=='zone'}" value="zone">片区</option>
+                                            <option th:selected="${waterSide.type=='building'}" value="building">楼栋
+                                            </option>
+                                            <option th:selected="${waterSide.type=='house'}" value="house">房屋</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">表号:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="tableid" th:field="${waterSide.tableid}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">行政编码:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="typeno" th:field="${waterSide.typeno}"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">建筑面积:</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="text" name="buildArea" th:field="${waterSide.buildArea}"
+                                                class="form-control">
+                                            <span class="input-group-addon">m²</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">人数:</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="text" name="personCount" th:field="${waterSide.personCount}"
+                                                class="form-control">
+                                            <span class="input-group-addon">人</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group draggable">
+                                    <div class="col-sm-12 col-sm-offset-3">
+                                        <button type="button" onclick="saveWaterSide()" class="btn btn-primary"><i
+                                                class="fa fa-check"></i>&nbsp;保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: ztree-js" />
+    <th:block th:include="include :: ztree-async-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "aupipes/waterSide";
+        var fragment = "aupWaterSideFragment";
+        var ztree = "tree";
+        var selectTreeNode;//选中的树节点 
+        var selectTreeId; 
+        var selectTreeName;
+
+        var control = {
+            prefix :prefix,
+            fragment: fragment,
+            formId : "waterSideForm"
+        }
+        var controlFn = new ztreeControl(control);
+
+        $(function () {
+            /**新增*/
+            $("#add").click(function(){
+                controlFn.add(selectTreeId,selectTreeName)
+            });
+            /**删除*/
+            $("#remove").click(function(){
+                controlFn.remove(selectTreeId,selectTreeNode)
+            });
+            /**刷新*/
+            $("#refesh").click(function(){
+                controlFn.refresh(selectTreeId,selectTreeName)
+            });
+            queryWaterSideList();
+        });
+
+
+
+        /**
+         * 获取用水分区结构
+         */
+        function queryWaterSideList() {
+            var option = {
+                treeId: "tree",
+                isSearch: false,
+                inputId: "",
+                url: ctx + "aupipes/nhjg/jdxx/water/tree",
+                zTreeOnClick: function (event, treeId, treeNode) {
+                    selectTreeNode = treeNode;
+                    selectTreeId = treeNode.id;
+                    selectTreeName = treeNode.name;
+                    $("#showSelected").text(treeNode.name+"——【编辑】");
+                    controlFn.queryRightDetail(treeNode.id);
+                }
+
+            }
+            new ztreeAsync(option);
+        }
+
+
+        /**
+         *  保存
+         */
+        function saveWaterSide() {
+            var id = $("#id").val();
+            controlFn.saveRight(id,function(result){
+                if(result.code == 0){
+                    //刷新当前父节点
+                    $.modal.msgSuccess(result.msg);
+                    if(isAddOrEdit(id)) {
+                        refreshNode(ztree,result.data.id);
+                    }else{
+                        refreshParentNode(ztree);
+                    }
+                    controlFn.editSaveDetail(result.data.id,result.data.name);
+
+                }else{
+                    $.modal.msgError(result.msg);
+                }
+            })
+        }
+        
+
+    </script>
+</body>
+
+</html>

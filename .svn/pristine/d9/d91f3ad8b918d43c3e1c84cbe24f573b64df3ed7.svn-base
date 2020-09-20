@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupRegionCameraMapper">
+
+    <resultMap type="AupRegionCamera" id="AupRegionCameraResult">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="cameraName" column="cameraName"/>
+        <result property="cameraIndexCode" column="cameraIndexCode"/>
+        <result property="cameraType" column="cameraType"/>
+        <result property="capabilitySet" column="capabilitySet"/>
+        <result property="regionName" column="regionName"/>
+        <result property="regionIndexCode" column="regionIndexCode"/>
+        <result property="parentIndexCode" column="parentIndexCode"/>
+        <result property="bimId" column="bimId"/>
+    </resultMap>
+
+
+    <sql id="selectAupRegionCameraVo">
+        select id, type, cameraName, cameraIndexCode, cameraType, cameraTypeName, capabilitySet, regionName, regionIndexCode, parentIndexCode, bimId from aup_region_camera
+    </sql>
+
+    <select id="selectAupRegionCameraAll" resultMap="AupRegionCameraResult">
+        <include refid="selectAupRegionCameraVo"/>
+        order by id
+    </select>
+
+    <select id="selectAupRegionCameraBycameraIndexCode" resultMap="AupRegionCameraResult">
+        <include refid="selectAupRegionCameraVo"/>
+       where cameraIndexCode = #{cameraIndexCode}
+    </select>
+
+    <select id="selectAupRegionCameraList" parameterType="AupRegionCamera" resultMap="AupRegionCameraResult">
+        <include refid="selectAupRegionCameraVo"/>
+        <where>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+        </where>
+    </select>
+
+    <insert id="insertAupRegionCamera" parameterType="AupRegionCamera">
+        insert into AupAccount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="type != null">type,</if>
+            <if test="cameraName != null and cameraName != ''">cameraName,</if>
+            <if test="cameraIndexCode != null and cameraIndexCode != ''">cameraIndexCode,</if>
+            <if test="cameraType != null">cameraType,</if>
+            <if test="cameraTypeName != null and cameraTypeName != ''">cameraTypeName,</if>
+            <if test="capabilitySet != null and capabilitySet != ''">capabilitySet,</if>
+            <if test="regionName != null and regionName != ''">regionName,</if>
+            <if test="regionIndexCode != null and regionIndexCode != ''">regionIndexCode,</if>
+            <if test="parentIndexCode != null and parentIndexCode != ''">parentIndexCode,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="type != null">#{type},</if>
+            <if test="cameraName != null and cameraName != ''">#{cameraName},</if>
+            <if test="cameraIndexCode != null and cameraIndexCode != ''">#{cameraIndexCode},</if>
+            <if test="cameraType != null">#{cameraType},</if>
+            <if test="cameraTypeName != null and cameraTypeName != ''">#{cameraTypeName},</if>
+            <if test="capabilitySet != null and capabilitySet != ''">#{capabilitySet},</if>
+            <if test="regionName != null and regionName != ''">#{regionName},</if>
+            <if test="regionIndexCode != null and regionIndexCode != ''">#{regionIndexCode},</if>
+            <if test="parentIndexCode != null and parentIndexCode != ''">#{parentIndexCode},</if>
+        </trim>
+    </insert>
+
+    <select id="selectAupRegionCameraByBIM_ID" resultMap="AupRegionCameraResult">
+        <include refid="selectAupRegionCameraVo"/>
+        where bimId = #{bimId}
+    </select>
+
+</mapper>

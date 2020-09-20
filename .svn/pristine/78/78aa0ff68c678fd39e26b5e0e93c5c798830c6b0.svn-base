@@ -1,0 +1,20 @@
+
+<div class="title sgfxTitle">预案分类</div>
+<div class="zs_mapEdit">
+    <ul>
+        <li th:each="obj:${listNew}" th:switch="${obj.id}">
+            <i th:case="2" class="iconfont icon-zhuangjirongliang"></i>
+            <i th:case="3" class="iconfont icon-humidity"></i>
+            <i th:case="4" class="iconfont icon-fanwei1"></i>
+            <i th:case="5" class="iconfont icon-famen"></i>
+            <i th:case="6" class="iconfont icon-weixiu"></i>
+            <i th:case="7" class="iconfont icon-baojing"></i>
+            <h6>[[${obj.yatype}]]
+            </h6>
+        </li>
+    </ul>
+</div>
+<div class="zs_yalb">
+
+</div>
+

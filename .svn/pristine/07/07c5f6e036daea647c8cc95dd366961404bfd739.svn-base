@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupPlansManageMapper">
+
+    <resultMap type="AupPlansManage" id="AupPlansManageResult">
+        <result property="id" column="ID"/>
+        <result property="pid" column="pid"/>
+        <result property="filename" column="fileName"/>
+        <result property="fileurl" column="fileUrl"/>
+        <result property="plansName1" column="plans_name1"/>
+        <result property="plansName2" column="plans_name2"/>
+        <result property="plansName3" column="plans_name3"/>
+        <result property="editTime" column="editTime"/>
+    </resultMap>
+
+    <sql id="selectAupPlansManageVo">
+        select ID, pid, fileName, fileUrl, plans_name1, plans_name2, plans_name3,editTime from aup_plans_manage
+    </sql>
+
+    <!-- 区域实体类 -->
+    <resultMap type="AupBuildingArea" id="AupBuildingAreaResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nodetype" column="nodetype"/>
+        <result property="xy" column="xy"/>
+        <result property="mapid" column="mapid"/>
+        <result property="code" column="code"/>
+        <result property="parentCode" column="parentCode"/>
+        <result property="areaNo" column="areaNo"/>
+        <result property="level" column="level"/>
+    </resultMap>
+
+    <!-- 预警类型实体类 -->
+    <resultMap type="AupWarringCategory" id="AupWarringCategoryResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="pid" column="pid"/>
+        <result property="level" column="level"/>
+        <result property="categoryid" column="categoryid"/>
+        <result property="categoryparentid" column="categoryParentid"/>
+    </resultMap>
+
+    <sql id="selectAupWarringCategoryVo">
+        select id, name, code, pid, level, categoryid, categoryParentid from aup_warring_category
+    </sql>
+
+    <select id="selectAupPlansManageCount" parameterType="AupPlansManage" resultType="long">
+        select count(*) from aup_plans_manage
+        <where>
+            <if test="filename != null  and filename != ''">
+                <bind name="_filename" value="'%'+ filename +'%'"/>
+                and fileName like #{_filename}
+            </if>
+            <if test="pid != null  and pid != ''">
+                and pId = #{pid}
+            </if>
+            <if test="fileurl != null  and fileurl != ''">
+                <bind name="_fileurl" value="'%'+ fileurl +'%'"/>
+                and fileUrl like #{_fileurl}
+            </if>
+            <if test="plansName1 != null  and plansName1 != ''">
+                <bind name="_plansName1" value="'%'+ plansName1 +'%'"/>
+                and plans_name1 like #{_plansName1}
+            </if>
+            <if test="plansName2 != null  and plansName2 != ''">
+                <bind name="_plansName2" value="'%'+ plansName2 +'%'"/>
+                and plans_name2 like #{_plansName2}
+            </if>
+            <if test="plansName3 != null  and plansName3 != ''">
+                <bind name="_plansName3" value="'%'+ plansName3 +'%'"/>
+                and plans_name3 like #{_plansName3}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupPlansManageList" parameterType="AupPlansManage" resultMap="AupPlansManageResult">
+        <include refid="selectAupPlansManageVo"/>
+        <where>
+            <if test="filename != null  and filename != ''">
+                <bind name="_filename" value="'%'+ filename +'%'"/>
+                and fileName like #{_filename}
+            </if>
+            <if test="pid != null  and pid != ''">
+                and pId = #{pid}
+            </if>
+            <if test="fileurl != null  and fileurl != ''">
+                <bind name="_fileurl" value="'%'+ fileurl +'%'"/>
+                and fileUrl like #{_fileurl}
+            </if>
+            <if test="plansName1 != null  and plansName1 != ''">
+                <bind name="_plansName1" value="'%'+ plansName1 +'%'"/>
+                and plans_name1 like #{_plansName1}
+            </if>
+            <if test="plansName2 != null  and plansName2 != ''">
+                <bind name="_plansName2" value="'%'+ plansName2 +'%'"/>
+                and plans_name2 like #{_plansName2}
+            </if>
+            <if test="plansName3 != null  and plansName3 != ''">
+                <bind name="_plansName3" value="'%'+ plansName3 +'%'"/>
+                and plans_name3 like #{_plansName3}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupPlansManageById" parameterType="Long" resultMap="AupPlansManageResult">
+        <include refid="selectAupPlansManageVo"/>
+        where Id = #{id}
+    </select>
+
+    <insert id="insertAupPlansManage" parameterType="AupPlansManage">
+        insert into aup_plans_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">ID,</if>
+            <if test="pid != null ">pid,</if>
+            <if test="filename != null  and filename != ''">fileName,</if>
+            <if test="fileurl != null  and fileurl != ''">fileUrl,</if>
+            <if test="plansName1 != null  and plansName1 != ''">plans_name1,</if>
+            <if test="plansName2 != null  and plansName2 != ''">plans_name2,</if>
+            <if test="plansName3 != null  and plansName3 != ''">plans_name3,</if>
+            <if test="editTime != null  and editTime != ''">editTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="pid != null ">#{pid},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="fileurl != null  and fileurl != ''">#{fileurl},</if>
+            <if test="plansName1 != null  and plansName1 != ''">#{plansName1},</if>
+            <if test="plansName2 != null  and plansName2 != ''">#{plansName2},</if>
+            <if test="plansName3 != null  and plansName3 != ''">#{plansName3},</if>
+            <if test="editTime != null  and editTime != ''">#{editTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupPlansManage" parameterType="AupPlansManage">
+        update aup_plans_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="filename != null  and filename != ''">fileName = #{filename},</if>
+            <if test="fileurl != null  and fileurl != ''">fileUrl = #{fileurl},</if>
+            <if test="plansName1 != null  and plansName1 != ''">plans_name1 = #{plansName1},</if>
+            <if test="plansName2 != null  and plansName2 != ''">plans_name2 = #{plansName2},</if>
+            <if test="plansName3 != null  and plansName3 != ''">plans_name3 = #{plansName3},</if>
+            <if test="editTime != null  and editTime != ''">editTime = #{editTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteAupPlansManageById" parameterType="Long">
+        delete from aup_plans_manage where ID = #{id}
+    </delete>
+
+    <delete id="deleteAupPlansManageByIds" parameterType="String">
+        delete from aup_plans_manage where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 查询树 -->
+    <select id="selectAupWarringCategoryList" parameterType="AupWarringCategory" resultMap="AupWarringCategoryResult">
+        <include refid="selectAupWarringCategoryVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="code != null  and code != ''">
+                <bind name="_code" value="'%'+ code +'%'"/>
+                and code like #{_code}
+            </if>
+            <if test="pid != null  and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="level != null ">
+                <bind name="_level" value="'%'+ level +'%'"/>
+                and level like #{_level}
+            </if>
+            <if test="categoryid != null  and categoryid != ''">
+                <bind name="_categoryid" value="'%'+ categoryid +'%'"/>
+                and categoryid like #{_categoryid}
+            </if>
+            <if test="categoryparentid != null  and categoryparentid != ''">
+                <bind name="_categoryparentid" value="'%'+ categoryparentid +'%'"/>
+                and categoryParentid like #{_categoryparentid}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询区域树结构  暂时未使用-->
+    <select id="selectAupBuildingAreaList" parameterType="AupBuildingArea"  resultMap="AupBuildingAreaResult">
+        select id, name, nodetype, xy, mapid, code,parentCode,areaNo,level from aup_building_area
+        where level <![CDATA[ <= ]]> 3;
+    </select>
+
+    <!-- 查询推送用户全部数据 -->
+    <select id="selectAupUsersList" parameterType="string" resultType="map">
+ SELECT m.pid as ldNum,k.buildingType,n.id as userId,n.name as username,n.mobileNumber,n.idCard as stafferCode,n.openId,c.id,c.parentid,c.SortCode,c.DataType,c.fullName as ldName,c.keyId
+FROM
+[zhapp].[dbo].[aup_area] m, [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AccountMonthUseView] n,[zhapp].[dbo].[aup_building] k,[LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AreaBuildingHouse] c
+where  m.name = n.houseName and k.no = m.pid and m.name= c.fullName
+and m.pid=#{code}
+
+
+    </select>
+    <select id="selectAupUsersListArr" parameterType="java.util.ArrayList" resultType="map">
+         SELECT m.pid as ldNum,k.buildingType,n.id as userId,n.name as username,n.mobileNumber,n.idCard as stafferCode,n.openId,c.id,c.parentid,c.SortCode,c.DataType,c.fullName as ldName,c.keyId
+FROM
+[zhapp].[dbo].[aup_area] m, [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AccountMonthUseView] n,[zhapp].[dbo].[aup_building] k,[LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AreaBuildingHouse] c
+where  m.name = n.houseName and k.no = m.pid and m.name= c.fullName
+and m.pid  in
+        <foreach item="str" collection="array" open="(" close=")" separator=",">
+            #{str}
+        </foreach>
+    </select>
+
+    <select id="selectAupUsersListArrAll" parameterType="java.util.ArrayList" resultType="map">
+        SELECT m.pid as ldNum,k.buildingType,n.id as userId,n.name as username,n.mobileNumber,n.idCard as stafferCode,n.openId,c.id,c.parentid,c.SortCode,c.DataType,c.fullName as ldName,c.keyId
+        FROM
+        [zhapp].[dbo].[aup_area] m, [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AccountMonthUseView] n,[zhapp].[dbo].[aup_building] k,[LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AreaBuildingHouse] c
+        where  m.name = n.houseName and k.no = m.pid and m.name= c.fullName
+    </select>
+
+
+ <!--   <select id="selectAupUsersList" parameterType="string" resultType="map">
+        select SUBSTRING((s1.parentid),11 ,6) ldNum,ab.buildingType, s.stafferName as username,s.mobileNumber,s.wxUser,s.stafferCode,s.openId,s1.* from [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_Platform_SysUser s LEFT JOIN (SELECT   'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) + '-' + house.[no] AS id,
+                    'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) AS parentid,
+                    house.[name] AS [name], areas.sortCode * 1000000 + building.sortCode * 1000 + house.sortCode AS SortCode,
+                    '房产' DataType, '' xy, '' mapId,SUBSTRING((house.[name]),0 ,6) fullName, house.id keyId
+    FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House house INNER JOIN
+                    [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building ON building.[no] = house.buildingno INNER JOIN
+                        (SELECT   [name], [no], sortCode
+                         FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+                         WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no]
+    UNION ALL
+    SELECT DISTINCT
+                    'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) AS id,
+                    'root-' + areas.[no] + '-' + building.[no] AS parentid, CONVERT(NVARCHAR(20), house.floor) + '楼层' [name],
+                    areas.sortCode * 1000000 + building.sortCode * 1000 + 0.1 AS SortCode, '楼层' DataType, '' xy, '' mapId,
+                    REPLACE(REPLACE(areas.[name], '公共区域水', '') , '公共区域电', '')  + building.[name] + CONVERT(NVARCHAR(20), house.floor) + '楼层' fullName,
+                    '' keyId
+    FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House house INNER JOIN
+                    [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building ON building.[no] = house.buildingno INNER JOIN
+                        (SELECT   [name], [no], sortCode
+                         FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+                         WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no]
+    UNION ALL
+    SELECT DISTINCT
+                    'root-' + areas.[no] + '-' + building.[no] AS id, 'root-' + areas.[no] AS parentid, building.[name] [name],
+                    areas.sortCode * 1000000 + building.sortCode * 1000 AS SortCode, '楼栋' DataType, '' xy,
+                    CAST(ISNULL(houseNum.houseCount, 0) AS NVARCHAR(100)) mapId, REPLACE(REPLACE(areas.[name], '公共区域水', '') , '公共区域电', '')
+                    + building.[name] fullName, building.id keyId
+    FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building INNER JOIN
+                        (SELECT   [name], [no], sortCode
+                         FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+                         WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no] LEFT JOIN
+                        (SELECT   building, COUNT(1) houseCount
+                         FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House
+                         GROUP BY building) houseNum ON houseNum.building = building.id
+    UNION ALL
+    SELECT DISTINCT
+                    'root-' + areas.[no] AS id, 'root' AS parentid, areas.[name] [name], areas.sortCode * 1000000 AS SortCode,
+                    '区域' DataType, '' xy, '' mapId, areas.[name] fullName, areas.id keyId
+    FROM      (SELECT   [name], [no], sortCode, [id]
+                     FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+                     WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas) s1 on s.id=s1.keyId left join aup_building ab on SUBSTRING((s1.parentid),11 ,6)=ab.[No]
+                     where
+                        SUBSTRING((s1.parentid),11 ,6) = #{code}
+    </select>-->
+
+
+
+
+
+
+<!--    <select id="selectAupUsersListArr" parameterType="java.util.ArrayList" resultType="map">
+        select (kqab.AreaName+kqab.Name) as ldName,SUBSTRING((s1.parentid),11 ,6) ldNum,ab.buildingType, s.stafferName as username,s.mobileNumber,s.wxUser,s.stafferCode,s.openId,s1.* from [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_Platform_SysUser s LEFT JOIN (SELECT   'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) + '-' + house.[no] AS id,
+        'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) AS parentid,
+        house.[name] AS [name], areas.sortCode * 1000000 + building.sortCode * 1000 + house.sortCode AS SortCode,
+        '房产' DataType, '' xy, '' mapId,SUBSTRING((house.[name]),0 ,6) fullName, house.id keyId
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House house INNER JOIN
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building ON building.[no] = house.buildingno INNER JOIN
+        (SELECT   [name], [no], sortCode
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+        WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no]
+        UNION ALL
+        SELECT DISTINCT
+        'root-' + areas.[no] + '-' + building.[no] + '-' + CONVERT(NVARCHAR(20), house.floor) AS id,
+        'root-' + areas.[no] + '-' + building.[no] AS parentid, CONVERT(NVARCHAR(20), house.floor) + '楼层' [name],
+        areas.sortCode * 1000000 + building.sortCode * 1000 + 0.1 AS SortCode, '楼层' DataType, '' xy, '' mapId,
+        REPLACE(REPLACE(areas.[name], '公共区域水', '') , '公共区域电', '')  + building.[name] + CONVERT(NVARCHAR(20), house.floor) + '楼层' fullName,
+        '' keyId
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House house INNER JOIN
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building ON building.[no] = house.buildingno INNER JOIN
+        (SELECT   [name], [no], sortCode
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+        WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no]
+        UNION ALL
+        SELECT DISTINCT
+        'root-' + areas.[no] + '-' + building.[no] AS id, 'root-' + areas.[no] AS parentid, building.[name] [name],
+        areas.sortCode * 1000000 + building.sortCode * 1000 AS SortCode, '楼栋' DataType, '' xy,
+        CAST(ISNULL(houseNum.houseCount, 0) AS NVARCHAR(100)) mapId, REPLACE(REPLACE(areas.[name], '公共区域水', '') , '公共区域电', '')
+        + building.[name] fullName, building.id keyId
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Building building INNER JOIN
+        (SELECT   [name], [no], sortCode
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+        WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas ON building.areaNo = areas.[no] LEFT JOIN
+        (SELECT   building, COUNT(1) houseCount
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House
+        GROUP BY building) houseNum ON houseNum.building = building.id
+        UNION ALL
+        SELECT DISTINCT
+        'root-' + areas.[no] AS id, 'root' AS parentid, areas.[name] [name], areas.sortCode * 1000000 AS SortCode,
+        '区域' DataType, '' xy, '' mapId, areas.[name] fullName, areas.id keyId
+        FROM      (SELECT   [name], [no], sortCode, [id]
+        FROM      [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup
+        WHERE   type = 'AreaLine' AND parent = 'AreaLine0000') areas) s1 on s.id=s1.keyId left join aup_building ab on SUBSTRING((s1.parentid),11 ,6)=ab.[No]
+        left join aup_building kqab on SUBSTRING((s1.parentid),11 ,6)=kqab.[No]
+        where
+                        SUBSTRING((s1.parentid),11 ,6) in
+                        <foreach item="str" collection="array" open="(" close=")" separator=",">
+                            #{str}
+                        </foreach>
+    </select>-->
+
+    <select id="selectJcbaManager" parameterType="string" resultType="map">
+    <!--<select id="selectJcbaManagers" parameterType="java.util.ArrayList" resultType="map">-->
+        /*SELECT DISTINCT
+        s.*
+        FROM
+        aup_jcbz_manager s
+        LEFT JOIN aup_building_area s1 ON s.parentCode = SUBSTRING (s1.parentCode, 0, 10) left join aup_building ab on s1.areaNo=ab.[No]
+        WHERE
+        ab.[No] in*/
+        <!--SELECT DISTINCT
+        s.*
+        FROM
+        aup_jcbz_manager s
+        left  JOIN view_building s1 ON s.parentCode = SUBSTRING (s1.parentCode, 0, 10)
+        WHERE
+        s1.code in ( SELECT
+        &#45;&#45;列名
+        &#45;&#45;ROW_NUMBER() over(order by (select 1)) as id,
+        c.value('.', 'varchar(50)') AS list
+        FROM     aup_jcbz_manager a
+        CROSS APPLY ( SELECT    CAST(<![CDATA['<row>']]> + REPLACE(a.code, ',',
+        <![CDATA['</row><row>']]>)
+        + <![CDATA['</row>']]> AS XML) AS xmlcode
+        ) C1
+        CROSS APPLY xmlcode.nodes('*') t ( c ))
+        and s1.[No] in
+        <foreach item="str" collection="array" open="(" close=")" separator=",">
+            #{str}
+        </foreach>-->
+        select * from  aup_jcbz_manager s where s.code like '%'+#{lzArr}+'%'
+    </select>
+
+    <select id="selectLdPersonNum" parameterType="string" resultType="map">
+        SELECT
+        COUNT (*) adminUserNum
+        FROM
+        [zhapp].[dbo].[aup_area] m,
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AccountMonthUseView] n,
+        [zhapp].[dbo].[aup_building] k,
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AreaBuildingHouse] c
+        WHERE
+        m.name = n.houseName
+        AND k. NO = m.pid
+        AND m.name = c.fullName
+        AND m.pid = #{ldNum}
+        UNION ALL
+        select count(*) adminNum from aup_jcbz_manager s where s.code like '%'+#{ldNum}+'%'
+
+        <!--SELECT
+        COUNT (*) adminUserNum
+        FROM
+        [zhapp].[dbo].[aup_area] m,
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AccountMonthUseView] n,
+        [zhapp].[dbo].[aup_building] k,
+        [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].[动态数据_AreaBuildingHouse] c
+        WHERE
+        m.name = n.houseName
+        AND k. NO = m.pid
+        AND m.name = c.fullName
+        AND m.pid IN
+        <foreach item="str" collection="array" open="(" close=")" separator=",">
+            #{str}
+        </foreach>
+        UNION ALL
+        SELECT
+        COUNT (DISTINCT s.id) adminNum
+        FROM
+        aup_jcbz_manager s
+        left  JOIN view_building s1 ON s.parentCode = SUBSTRING (s1.parentCode, 0, 10)
+        WHERE
+        s1.code in ( SELECT
+        &#45;&#45;列名
+        &#45;&#45;ROW_NUMBER() over(order by (select 1)) as id,
+        c.value('.', 'varchar(50)') AS list
+        FROM     aup_jcbz_manager a
+        CROSS APPLY ( SELECT    CAST(<![CDATA['<row>']]> + REPLACE(a.code, ',',
+        <![CDATA['</row><row>']]>)
+        + <![CDATA['</row>']]> AS XML) AS xmlcode
+        ) C1
+        CROSS APPLY xmlcode.nodes('*') t ( c ))
+        and s1.[No] in
+        <foreach item="str" collection="array" open="(" close=")" separator=",">
+            #{str}
+        </foreach>-->
+    </select>
+
+
+    
+
+</mapper>

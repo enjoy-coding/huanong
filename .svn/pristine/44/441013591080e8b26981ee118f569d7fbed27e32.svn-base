@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('配电房列表')" />
+    <th:block th:include="include :: ztree-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>行政区域</h5>
+                        <div class="box-tools pull-right">
+                            <a type="button" class="btn btn-box-tool" href="javascript:void(0)" onclick="updateLog()" title="更新日志"><i class="fa fa-history"></i></a>
+                        </div>
+                    </div>
+                   <div class="ibox-content">
+                        <div class="row">
+                                <div class="form-group draggable">
+                                  <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="text" id="search" class="form-control" placeholder="搜索地区">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div id="tree" class="ztree"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><a class="btn btn-warning"><span style="color: white;" id="showSelected">根节点</span></a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" id="areaForm" class="form-horizontal m-t">
+                            <div th:fragment="aupAreaFragment" id="aupAreaFragment">
+                               <input type="hidden" id="id" name="id" th:field="${area.id}">
+                                <input type="hidden" name="pid" th:field="${area.pid}">
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">地区名称:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" class="form-control" th:field="${area.name}" disabled
+                                            placeholder="请输入地区名称">
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">所属地区:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="parentName" name="parentName" th:field="${area.parentName}"
+                                            class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">类型:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="type" disabled>
+                                            <option th:selected="${area.type=='roota'}" value="roota" >根地区</option>
+                                            <option th:selected="${area.type=='AreaLine'}" value="AreaLine">区域</option>
+                                            <option th:selected="${area.type=='building'}" value="building">楼栋</option>
+                                            <option th:selected="${area.type=='house'}" value="house">房屋</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">行政编码:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="typeno" th:field="${area.areaNo}" disabled
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">建筑面积:</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="text" name="buildArea" th:field="${area.useArea}" disabled
+                                                class="form-control">
+                                            <span class="input-group-addon">m²</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group draggable">
+                                    <label class="col-sm-3 control-label">更新时间:</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="text" name="updateTime" th:field="${area.updateTime}" disabled
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: ztree-js" />
+    <th:block th:include="include :: ztree-async-js" />
+    <script>
+        var selectTreeNode;//选中的树节点 
+        var selectTreeId; 
+        var selectTreeName;
+        var prefix = ctx+"aupipes/area";
+
+        function updateLog(){
+            var url = prefix + '/updateLog';
+			$.modal.openTab("更新日志", url);
+        }
+        
+
+        $(function () {
+            queryAreaList();
+
+        });
+
+        function queryAreaList(){
+            var option = {
+                treeId: "tree",
+                isSearch: true,
+                isStringId:true,
+                inputId:"search",
+                url: ctx + "screen/yxjk/meterTree",
+                zTreeOnClick: function (event, treeId, treeNode) {
+                    selectTreeNode = treeNode;
+                    selectTreeId = treeNode.id_;
+                    selectTreeName = treeNode.name;
+                    $("#showSelected").text(treeNode.name);
+                    queryAreaDetail(selectTreeId);
+                }
+
+            }
+            new ztreeAsync(option);
+        }
+
+        function queryAreaDetail(id){
+            $("#aupAreaFragment").load(prefix + '/fragment?id=' + id);
+        }
+    </script>
+</body>
+
+</html>

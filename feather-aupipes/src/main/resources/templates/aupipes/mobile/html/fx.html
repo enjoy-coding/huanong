@@ -1,0 +1,156 @@
+<span class="open hide">展开</span>
+<div class="bottomLayer searchResult">
+    <div class="shrink">
+        <span class="close zs-closeOpen" id="shrinkClose" onclick="closeResultMore()">
+            <i class="iconfont iconshousuoxiajiantou"></i>
+        </span>
+        <span class="zs-close" onclick="closeInfo()">
+            <i class="iconfont iconguanbi pa clearBtn"></i>
+        </span>
+    </div>
+    <div class="layui-form fxLayer">
+        <div class="layui-collapse foldPanels">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">分析图层</h2>
+                <div class="formBox formBoxs">
+                    <div class="layui-form-item fl w50">
+                        <label class="layui-form-label" style="padding-left: 30px;">全选</label>
+                        <div class="layui-input-block">
+                            <input class="pa layerSwichBtn switchKwfxAll" type="checkbox" name="all" lay-skin="switch" lay-filter="switchKwfxAll" lay-text="ON|OFF">
+                        </div>
+                    </div>
+                    <div class="layui-form-item fl w50">
+                        <label class="layui-form-label">全不选</label>
+                        <div class="layui-input-block">
+                            <input class="pa layerSwichBtn switchKwfxNone" type="checkbox" name="none" lay-skin="switch" lay-filter="switchKwfxNone" lay-text="ON|OFF">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-colla-content layui-show" id="fxtcBox">
+                    <div class="formBox formBoxs">
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">给水管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="js" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">天然气管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="trq" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">供电管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="gd" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">污水管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="ws" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">路灯管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="ld" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                        <div class="layui-form-item fl w50">
+                            <label class="layui-form-label">雨水管线</label>
+                            <div class="layui-input-block">
+                                <input class="pa layerSwichBtn switchBtn" name="ys" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottomLayerFrom">
+                        <div class="layui-row layui-col-space5">
+                            <!--<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">绘制方式:</label>
+                                    <div class="layui-input-block">
+                                        <select name="geoType" lay-filter="geoType">
+                                            <option value="0">圆形</option>
+                                            <option value="1">矩形</option>
+                                            <option value="2">多边形</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">开挖深度:</label>
+                                    <div class="layui-input-block fxKwsd" style="display: flex;">
+                                        <input type="text" name="depth" lay-verify="depth" autocomplete="off" placeholder="请输入深度" class="layui-input">
+                                        <span class="dw">米</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-form-item txtC fxBtn">
+                        <button class="layui-btn bg_green" onclick="kwfx.draw()">绘制</button>
+                        <!--<button class="layui-btn bg_green" onclick="kwfx.end()">结束</button>-->
+                        <button class="layui-btn bg_green" id="analysisBtn" onclick="kwfx.startWd()">分析</button>
+                        <button class="layui-btn bg_green" onclick="kwfx.clear()">清除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottomLayerFrom" style="display:none;" id="analysisResult">
+            <div class="titleStyle1">工程开挖详情</div>
+            <div class="layui-row layui-col-space5 fxtj" style="display: none;">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                        <label class="layui-form-label xs">深度:</label>
+                        <div class="layui-input-block fxKwsd fx_zs">
+                            <span class="dw" id="sd"></span>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+                        <label class="layui-form-label xs">面积:</label>
+                        <div class="layui-input-block fxKwsd fx_zs">
+                            <span class="dw" id="mj"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-col-xs4 layui-col-sm4 layui-col-md4">
+                        <label class="layui-form-label xs">体积:</label>
+                        <div class="layui-input-block fxKwsd fx_zs">
+                            <span class="dw" id="tj"> </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="searchResultContent" id="searchResult" style="display:none;">
+                <div class="searchResultTab searchResultTab_kw" id="searchResultTab" style="clear: both;">
+                    <span class="active">监控</span>
+                    <span>控制器</span>
+                </div>
+                <div class="searchResultList">
+                    <ul id="searchResultList">
+                        <li>
+                            <span class="number">1</span>
+                            <p>
+                                <span>OLD: <i>490</i></span>
+                                <span class="txtC">区域: <i>总配电房</i></span>
+                                <span class="txtR">位置: <i>正大门</i></span>
+                            </p>
+                            <div class="pr txt">
+                                名称: <i>总配电房操作区</i>
+                                <div class="more">
+                                    <a href="#" >查看详情</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

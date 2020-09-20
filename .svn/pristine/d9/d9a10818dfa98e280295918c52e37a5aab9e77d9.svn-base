@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('编辑文章')"/>
+    <th:block th:include="include :: select2-css"/>
+    <th:block th:include="include :: summernote-css" />
+    <th:block th:include="include :: jasny-bootstrap-css"/>
+</head>
+<body>
+<div class="main-content">
+    <form class="form-horizontal" id="form-article-edit" th:object="${article}">
+        <input name="id" type="hidden" th:field="*{id}" id="id"/>
+        <input name="content"  type="hidden" th:field="*{content}" id="content">
+        <input name="publishAt" type="hidden" th:field="*{publishAt}" id="publishAt"/>
+        <input name="coverImage" type="hidden" th:field="*{coverImage}" id="coverImage"/>
+        <input name="publisherId" type="hidden" th:field="*{publisherId}" id="publisherId"/>
+        <h4 class="form-header h4">文章信息</h4>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="requiredstar">*</span>文章类型：</label>
+                    <div class="col-sm-8">
+                        <div class="radio-box" th:each="dict : ${@dict.getType('cms_article_type')}">
+                            <input type="radio" th:id="type" name="type" th:value="${dict.dictValue}" th:field="*{type}">
+                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="requiredstar">*</span>显示封面：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_yes')}">
+                                <input type="radio" th:id="showCoverImage" name="showCoverImage" th:value="${dict.dictValue}"  th:field="*{showCoverImage}">
+                                <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="requiredstar">*</span>附件可下载：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_yes')}">
+                                <input type="radio" th:id="canDownload" name="canDownload" th:value="${dict.dictValue}"  th:field="*{canDownload}">
+                                <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><span class="requiredstar">*</span>文章标题：</label>
+                    <div class="col-sm-10">
+                        <input name="title" class="form-control" type="text" th:field="*{title}"  id="title" required/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">文章副标题：</label>
+                    <div class="col-sm-10">
+                        <input name="subTitle" class="form-control" type="text" th:field="*{subTitle}" id="subTitle"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">栏目名称：</label>
+                    <div class="col-sm-6">
+                        <input name="articleColumnId" type="hidden" th:field="*{articleColumnId}" id="articleColumnId"/>
+                        <input name="articleColumnName" class="form-control" type="text" th:field="*{articleColumnName}" id="articleColumnName"  onclick="selectArticleColumnTree()" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发布人：</label>
+                    <div class="col-sm-6">
+                            <input name="publisher" class="form-control" type="text" th:field="*{publisher}" id="publisher"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发布时间：</label>
+                    <div class="col-sm-6">
+                            <input name="publishAtStr" class="form-control" type="text" th:field="*{publishAtStr}" id="publishAtStr" readonly/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="uploadDiv" th:style="'display:' + @{(${article.showCoverImage eq 0} ? 'none' : 'block')} + ''">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">封面：</label>
+                    <div class="col-sm-10">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="fileinput fileinput-new" style="text-align:center;">
+                                <!--<div class="fileinput-new thumbnail">
+                                    <img id="picImg" th:if="content.coverImage" th:src="@{*{coverImage}}">
+                                </div>-->
+                                <div class="fileinput-preview thumbnail iconImage img-preview-self"
+                                     data-trigger="fileinput">
+                                    <img id="picImg"  th:src="@{*{coverImage}}">
+                                </div>
+                                <div>
+                                        <span class="btn btn-primary btn-file">
+                                            <span class="fileinput-new ">选择图片</span>
+                                            <input type="file" id="file" name="file" onchange="uploadPic()"/>
+                                        </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" style="padding-left:73px;">内容：</label>
+                    <div class="col-sm-10" style="padding-left:3px;padding-right:3px;">
+                        <div id="editor" class="summernote"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存
+        </button>&nbsp;
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+        </button>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: select2-js"/>
+<th:block th:include="include :: summernote-js" />
+<script type="text/javascript">
+    var prefix = ctx + "cms/article";
+
+    <!--初始化编辑器-->
+    $(function () {
+        $.common.initSummernote(ctx, 300, "content");
+        $("input:radio[name='showCoverImage']").on('ifChecked', function(event){
+            var show = $(this).val();
+            if (show == 1) {
+                $("#uploadDiv").show();
+            }else{
+                $("#uploadDiv").hide();
+            }
+        });
+    });
+
+    function selectArticleColumnTree() {
+        $.common.selectArticleColumnTree(ctx, "articleColumnId", "articleColumnName");
+    }
+
+    function uploadPic() {
+        $.common.uploadCoverImage("file", "picImg", "coverImage")
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#content").val(sHTML);
+            var data = $("#form-article-edit").serializeArray();
+            $.operate.saveTab({
+                url: prefix + "/editDo",
+                data: data,
+                success: "close"
+            });
+        }
+    }
+</script>
+</body>
+</html>

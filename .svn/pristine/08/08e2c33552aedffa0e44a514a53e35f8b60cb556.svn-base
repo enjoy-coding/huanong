@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>搜索</title>
+
+		<link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+		<link th:href="@{/bus/aupipes/mobile/font/iconfont.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css">
+		<link th:href="@{/bus/aupipes/mobile/css/css.css(v=${staticResourcesVersion})}" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="searchBox layui-form formBox">
+			<div class="pr searchContent">
+				<div class="searchHead pa">
+					<h5>搜周边</h5>
+					<div class="layui-form-item radiuLabel">
+					    <label class="layui-form-label">搜索半径 (m):</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+					    </div>
+					</div>
+					<div class="layui-form-item fl w50">
+					    <label class="layui-form-label">全选</label>
+					    <div class="layui-input-block">
+					      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+					    </div>
+					</div>
+					<div class="layui-form-item fl w50">
+					    <label class="layui-form-label">全不选</label>
+					    <div class="layui-input-block">
+					      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+					    </div>
+					</div>
+				</div>
+				<div class="searchList">
+					<div class="layui-collapse foldPanel" lay-filter="test">
+						<div class="layui-colla-item">
+						    <h2 class="layui-colla-title">地下管线</h2>
+						    <div class="layui-colla-content layui-show of">
+						      	<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">给水管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">雨水管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">供电管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">污水管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">路灯管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">天然气管线</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+						    </div>
+						</div>
+						<div class="layui-colla-item">
+						    <h2 class="layui-colla-title">智能设备</h2>
+						    <div class="layui-colla-content layui-show of">
+						      	<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">水表</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">门禁</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">电表</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">烟感</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">路灯</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">探漏</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">控制器</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">泵房</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">摄像头</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+								<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">配电房</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+						    </div>
+						</div>
+						<div class="layui-colla-item">
+						    <h2 class="layui-colla-title">维修档案</h2>
+						    <div class="layui-colla-content layui-show of">
+						      	<div class="layui-form-item fl w50">
+								    <label class="layui-form-label">维修记录</label>
+								    <div class="layui-input-block">
+								      <input class="pa layerSwichBtn" type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
+								    </div>
+								</div>
+						    </div>
+						</div>
+					</div>
+				</div>
+				<div class="searchBtn pa txtC">
+					<button type="submit" class="layui-btn" id="searchSubmit">立即提交</button>
+					<button type="submit" class="layui-btn">取消</button>
+				</div>
+			</div>
+		</div>
+		<!--搜索结果弹框-->
+		<div class="searchResult hide" id="searchResult">
+			<div class="shrink">
+				<span class="close" id="shrinkClose"><i class="iconfont iconshousuoxiajiantou"></i></span>
+			</div>
+			<div class="searchResultContent">
+				<div class="searchResultTab">
+					<span class="active">给水管线段</span>
+					<span>给水管线点</span>
+					<span>路灯</span>
+					<span>渗漏</span>
+					<span>维修档案</span>
+				</div>
+				<div class="searchResultList">
+					<ul>
+						<li>
+							<span class="number">1</span>
+							<p>
+								<span>OLD: <i>490</i></span>
+								<span class="txtC">材质: <i>铸铁</i></span>
+								<span class="txtR">管径: <i>400</i></span>
+							</p>
+							<div class="pr txt">
+								道路名称: <i>狮子山大道</i>
+								<a href="#" class="more">查看详情</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script th:src="@{/bus/aupipes/mobile/js/jquery.min.js}"></script>
+    <script th:src="@{/def/js/ajaxhook.min.js}"></script>
+	<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+	<script th:src="@{/bus/aupipes/mobile/js/common.js(v=${staticResourcesVersion})}"></script>
+	<script>
+		function searchResultHeight(){
+			var searchTab = $(".searchResultTab").height()
+			var searchResultListHeight = $("#searchResult").height() - searchTab - 42 + 'px'
+			$(".searchResultList").height(searchResultListHeight)
+		}
+		// 点击图层按钮
+		$("#shrinkClose").on("click", function() {
+			if($(".searchResult").hasClass("searchResultClose")){
+				$(".searchResult").removeClass("searchResultClose")
+				$(this).find('i').removeClass('iconshousuoshangjiantou').addClass('iconshousuoxiajiantou')
+			} else {
+				$(".searchResult").addClass('searchResultClose')
+				$(this).find('i').removeClass('iconshousuoxiajiantou').addClass('iconshousuoshangjiantou')
+			}
+		})
+		//
+		$("#searchSubmit").on("click", function (){
+			$('.searchBox').addClass("hide")
+			$('.searchResult').removeClass("hide")
+			searchResultHeight()
+		})
+	</script>
+</html>

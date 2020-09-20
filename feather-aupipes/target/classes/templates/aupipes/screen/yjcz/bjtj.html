@@ -1,0 +1,41 @@
+<!-- 报警统计 -->
+
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>报警统计</li>
+    </ul>
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item nhtjContent layui-show">
+            <div class="layui-row layui-col-space10 pd15 zs_yxjk yjczBox">
+
+                <div th:each="map:${list}" th:id="${map.icon}"
+                     class="layui-col-md4 layui-col-sm4 pr sbtjProgress progressTxt" th:classappend="${map.icon=='icon-peidianfang'}?active:'' "
+                     th:onclick="YJCZ.getbjxx([[${map.name}]],[[${map.icon}]])">
+                    <span><i class="iconfont" th:classappend="${map.icon}">[(${map.name})]</i></span>
+                    <h5><i>[(${map.pubcurtatal})]</i>/<i>[(${map.pubtatal})]</i></h5>
+                </div>
+
+
+            </div>
+            <div class="lineBlue"></div>
+            <h5 class="title3 oh">报警信息
+                <i class="iconfont icon-xiangqing fr clGreen detailBtn" onclick="YJCZ.bjxxMoreBtn1()">详情</i>
+            </h5>
+            <!--未处置-->
+            <div class="layui-tab layuiTab2" id="bjxx">
+
+            </div>
+            <div id="bjxx0" class="page yjcz-page"> </div>
+            <div id="bjxx1" class="page yjcz-page" style="display: none"> </div>
+            <div class="pageC txtC">
+                <div id="demo1"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

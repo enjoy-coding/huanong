@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/feather.iml" filepath="$PROJECT_DIR$/feather.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-admin/feather-admin.iml" filepath="$PROJECT_DIR$/feather-admin/feather-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-aupipes/feather-aupipes.iml" filepath="$PROJECT_DIR$/feather-aupipes/feather-aupipes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-cms/feather-cms.iml" filepath="$PROJECT_DIR$/feather-cms/feather-cms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-common/feather-common.iml" filepath="$PROJECT_DIR$/feather-common/feather-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-common4nutz/feather-common4nutz.iml" filepath="$PROJECT_DIR$/feather-common4nutz/feather-common4nutz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-generator/feather-generator.iml" filepath="$PROJECT_DIR$/feather-generator/feather-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-health/feather-health.iml" filepath="$PROJECT_DIR$/feather-health/feather-health.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-hikvision/feather-hikvision.iml" filepath="$PROJECT_DIR$/feather-hikvision/feather-hikvision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-hikvnetsdk/feather-hikvnetsdk.iml" filepath="$PROJECT_DIR$/feather-hikvnetsdk/feather-hikvnetsdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-lpscommunity/feather-lpscommunity.iml" filepath="$PROJECT_DIR$/feather-lpscommunity/feather-lpscommunity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-meeting/feather-meeting.iml" filepath="$PROJECT_DIR$/feather-meeting/feather-meeting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-patrol/feather-patrol.iml" filepath="$PROJECT_DIR$/feather-patrol/feather-patrol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-quartz/feather-quartz.iml" filepath="$PROJECT_DIR$/feather-quartz/feather-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-smartcommunity/feather-smartcommunity.iml" filepath="$PROJECT_DIR$/feather-smartcommunity/feather-smartcommunity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-system/feather-system.iml" filepath="$PROJECT_DIR$/feather-system/feather-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-website/feather-website.iml" filepath="$PROJECT_DIR$/feather-website/feather-website.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feather-wx/feather-wx.iml" filepath="$PROJECT_DIR$/feather-wx/feather-wx.iml" />
+    </modules>
+  </component>
+</project>

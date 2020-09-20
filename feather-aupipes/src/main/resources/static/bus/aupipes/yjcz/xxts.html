@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>决策保障--管网分析</title>
+    <link rel="stylesheet" href="/def/libs/layui-2.5.5/css/layui.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/font.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/font/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/common.css">
+    <link rel="stylesheet" href="/bus/aupipes/lib/css/insidePage.css">
+</head>
+<body>
+    <div class="xxtsBox">
+        <h5>停电通知</h5>
+        <h6 class="underline clGreen"><input value="1-8号宿舍" type="text" autocomplete="off"/>：</h6>
+        <p>兹因
+            <span class="underline clGreen">
+                <input value="路线维修" type="text" autocomplete="off"/>
+            </span>
+            需要：预定于
+            <span class="underline clGreen">
+                <input type="text" class="layui-input" id="dataTime1" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off">
+            </span>
+            至
+            <span class="underline clGreen">
+                <input type="text" class="layui-input" id="dataTime2" placeholder="yy-MM-dd HH:mm:ss" autocomplete="off">
+                <!--<input value="2019-02-12 8:30:00" type="text" autocomplete="off"/>-->
+            </span>
+            止，你所处
+            <span class="underline clGreen">
+                <input value="华北路至梅园路" type="text" autocomplete="off"/>
+            </span>，将停止供电。
+        </p>
+        <p>请用户相互转告，早做准备，感谢您对后勤工作的支持。</p>
+        <h6>后勤管理中心</h6>
+        <h6>2019-01-30</h6>
+        <div class="fsBox">
+            发送至：
+            <input type="checkbox" name="dx"> 微信
+            <input type="checkbox" name="dx"> 短信
+        </div>
+        <div class="btuGrounp">
+            <button type="button" class="Btn bgGreen">重置</button>
+            <button type="button" class="Btn bgGreen2">发送</button>
+        </div>
+    </div>
+</body>
+<script src="/def/js/jquery.min.js"></script>
+<script src="/def/libs/layui-2.5.5/layui.js"></script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#dataTime1'
+            ,type: 'datetime'
+        });
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#dataTime2'
+            ,type: 'datetime'
+        });
+
+    });
+</script>
+</html>

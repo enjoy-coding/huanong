@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增App版本')" />
+	<th:block th:include="include :: jasny-bootstrap-css" />
+	<style>
+		.hideBtn { display:none; }
+		.iconImage { width: 200px; height: 150px; }
+	</style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-appversion-add" enctype="multipart/form-data">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span class="requiredstar">*</span>名称：</label>
+                <div class="col-sm-8">
+                    <input id="versionName" name="versionName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">系统类型：</label>
+                <div class="col-sm-8">
+                	<select id="versionOs" name="versionOs" class="form-control m-b" th:with="type=${@dict.getType('prd_appversion_os')}">
+		                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+		            </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span class="requiredstar">*</span>包名：</label>
+                <div class="col-sm-8">
+                    <input id="versionPackage" name="versionPackage" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span class="requiredstar">*</span>版本号：</label>
+                <div class="col-sm-8">
+                    <input id="versionNumber" name="versionNumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span class="requiredstar">*</span>应用文件：</label>
+                <div class="col-sm-8">
+                    <input type="file" id="file_app" name="file_app" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应用图标：</label>
+                <div class="col-sm-8">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="fileinput-preview thumbnail iconImage" data-trigger="fileinput"></div>
+						<div>
+							<span class="btn btn-white btn-file">
+								<span class="fileinput-new">选择图片</span>
+								<span class="fileinput-exists">更改</span>
+								<input type="file" id="file_icon" name="file_icon" />
+							</span>
+							<a href="#" class="btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+						</div>
+					</div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">特性：</label>
+                <div class="col-sm-8">
+                    <input id="versionSpecial" name="versionSpecial" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input id="remark" name="remark" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: jasny-bootstrap-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "prd/appversion"
+        
+        $("#form-appversion-add").validate({
+            focusCleanup: true,
+            rules: {
+                versionName: "required",
+                versionPackage: "required",
+                versionNumber: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                file_app: "required"
+            }
+        });
+        
+        $(function () {
+	        
+	    });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+            	uploadFile();
+            }
+        }
+        function uploadFile() {
+		    /*if ($('#file_app')[0].files[0] == null) {
+		        $.modal.alertWarning("请选择App应用安装文件");
+		        return false;
+		    }*/
+		    var formData = new FormData();
+		    formData.append('file_app', $('#file_app')[0].files[0]);
+		    formData.append('file_icon', $('#file_icon')[0].files[0]);
+		    formData.append('versionName', $('#versionName').val());
+		    formData.append('versionOs', $('#versionOs').val());
+		    formData.append('versionPackage', $('#versionPackage').val());
+		    formData.append('versionNumber', $('#versionNumber').val());
+		    formData.append('versionSpecial', $('#versionSpecial').val());
+		    formData.append('remark', $('#remark').val());
+		    $.operate.save({
+				url: prefix + "/add",
+				data: formData,
+		        processData: false,
+		        contentType: false,
+				success: "close"
+			});
+		}
+    </script>
+</body>
+</html>

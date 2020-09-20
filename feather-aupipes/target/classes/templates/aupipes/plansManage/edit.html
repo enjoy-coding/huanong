@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改预案管理')"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-manage-edit" th:object="${aupPlansManage}">
+        <input id="id" name="id" th:field="*{id}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">预案管理类型：</label>
+            <div class="col-sm-8">
+                <select placeholder="预案管理类型" id="plansName1"
+                        class="form-control" disabled="disabled">
+                    <option>[(*{plansName1})]</option>
+                </select>
+                <input type="hidden" name="plansName1" id="plansName1_" value=""/>
+                <!--<input name="plansName1" th:field="*{plansName1}" class="form-control" type="text">-->
+            </div>
+        </div>
+        <div class="form-group" style="display: none">
+            <label class="col-sm-3 control-label">父节点ID：</label>
+            <div class="col-sm-8">
+                <input name="pid" class="form-control" type="text" id="pid" th:field="*{pid}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">文件名称：</label>
+            <div class="col-sm-8">
+                <input name="filename" th:field="*{filename}" id="filename" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">文件路径：</label>
+            <div class="col-sm-8">
+                <input name="fileurl" th:field="*{fileurl}" class="form-control" type="text" id="oldFile"
+                       disabled="disabled">
+                <input type="file" name="file" id="newfile" class="form-control myfile" style="display: none"/>
+                <button type="button" onclick="editFile();" id="editBtn"></i>修改文件
+                </button>&nbsp;
+                <button type="button" onclick="downFile();" id="downBtn"></i>下载文件
+                </button>
+
+            </div>
+        </div>
+
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/javascript">
+    var prefix = ctx + "aupipes/plansManage";
+
+    var filePath;
+    $("#form-manage-edit").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#id").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            filePath=$("#oldFile").val();
+            upFile();
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit")+"?fileurl="+ctx + filePath,
+                async: false,
+                data: $('#form-manage-edit').serialize(),
+                success: function (result, _option) {
+                    if (!(isAdd())) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);//关闭当前页
+                        window.location.href = prefix;
+                        /*if (result.data.id) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.id;
+                        } else {
+                            $.modal.msgError("没有返回数据：id");
+                        }*/
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+
+    //上传文件
+    function upFile() {
+        var formData = new FormData();
+        for (var i = 0; i < $("#newfile")[0].files.length; i++) {
+            formData.append("file", $("#newfile")[0].files[i]);
+        }
+        var extLen = ($("#newfile")[0].value).lastIndexOf(".");//取到文件名开始到最后一个点的长度
+        var fileNameLength = ($("#newfile")[0].value).length;//取到文件名长度
+        var ext = ($("#newfile")[0].value).substring(extLen + 1, fileNameLength);//截
+        if(ext=="txt"||ext=="TXT"){
+            alert("不支持该类型");
+            return;
+        }else{
+            if (($("#newfile")[0].files.length > 0)) {
+                $.ajax({
+                    url: ctx + 'prd/attachment/api/uploadAttachment?thumb=true',
+                    type: "POST",
+                    data: formData,
+                    async: false,
+                    contentType: false,
+                    /**
+                     * 必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对
+                     * formdata 进行正确的处理
+                     */
+                    processData: false,
+                    success: function (data) {
+                        filePath=data.data[0].filePath;
+                        console.log("文件上传成功")
+                    }
+                });
+            }
+        }
+
+    }
+
+    function editFile() {
+        $("#oldFile").css("display", "none");
+        $("#downBtn").css("display", "none");
+        $("#editBtn").css("display", "none");
+        $("#newfile").css("display", "block");
+    }
+
+    function downFile() {
+        var url = $("#oldFile").val();
+        var fileName = $("#filename").val();
+        url = prefix + '/downLoads?fileUrl=' + url + '&oldName=' + fileName;//下载文件url
+        window.location.href = url;
+
+    }
+
+</script>
+</body>
+</html>

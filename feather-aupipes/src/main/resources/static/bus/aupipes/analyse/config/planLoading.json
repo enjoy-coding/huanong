@@ -1,0 +1,94 @@
+{
+    "initialflyTo":{
+        "time":3,
+        "position":{
+            "x":114.34649,
+            "y":30.47788,
+            "z":100
+        }
+    },
+    "changetime":8000,
+    "kuaijinchangetime":5000,
+    "kuaituichangetime":11000,
+    "waterStopAlarm": {
+        "title":"中心泵房1号设备",
+        "label": {
+            "text": "泵房进水压力变小，发出报警"
+        },
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/planloadingcontent1.gif"
+        }
+    },
+    "informStaff": {
+        "title":"后勤部",
+        "label": {
+            "text": "通知工作人员",
+            "texttwo":"通过微信或者短信自动将预警信息发送给工作人员"
+        },
+        "image":{
+            "background":"bus/aupipes/analyse/images/img/planloadingcontentbg.png",
+            "weixin":"bus/aupipes/analyse/images/img/weixin.png",
+            "duanxin":"bus/aupipes/analyse/images/img/duanxin.png",
+            "jiantou1":"bus/aupipes/analyse/images/img/jiantouxia.png",
+            "jiantou2":"bus/aupipes/analyse/images/img/jiantoushang.png",
+            "man":"bus/aupipes/analyse/images/img/man.png",
+            "leftphone":"bus/aupipes/analyse/images/img/leftphone.png",
+            "rightphone":"bus/aupipes/analyse/images/img/rightphone.png"
+        },
+        "houqinposition":{
+            "x":114.34923,
+            "y":30.479,
+            "z":100
+        }
+    },
+    "inflowTime": {
+        "label": {
+            "text": "工作人员与市政水务集团进行沟通",
+            "texttwo":"核实停水情况，确定来水时间。"
+        },
+        "image": {
+            "background": "bus/aupipes/analyse/images/img/planloadingcontentbg.png",
+            "man":"bus/aupipes/analyse/images/img/man2.png",
+            "phone":"bus/aupipes/analyse/images/img/phone3.png",
+            "texttop":"bus/aupipes/analyse/images/img/texttop.png",
+            "textbottom":"bus/aupipes/analyse/images/img/textbottom.png"
+
+        },
+        "label2": {
+            "text": "正在拨打电话",
+            "text2":"市政水务集团"
+        },
+        "houqinposition":{
+            "x":114.34923,
+            "y":30.479,
+            "z":100
+        }
+    },
+    "noticeOfWaterSupplyTime":{
+        "label":{
+            "text":"通知用户供水时间",
+            "texttwo":"工作人员向用户通知停水及恢复供水时间。",
+            "textthree":"市政水务集团"
+        },
+        "image":{
+            "background":"bus/aupipes/analyse/images/img/planloadingcontentbg.png",
+            "phone":"bus/aupipes/analyse/images/img/shoudaoweixin.png",
+            "text":"bus/aupipes/analyse/images/img/textcenter.png"
+        }
+    },
+    "recoveryOfWaterSupply":{
+        "title":"中心泵房1号设备",
+        "label":{
+            "text":"恢复供水",
+            "texttwo":"进水压力恢复正常，市政恢复供水。"
+        },
+        "image":{
+            "background":"bus/aupipes/analyse/images/img/planloadingcontent2.gif"
+        },
+        "position":{
+            "x":114.34649,
+            "y":30.47788,
+            "z":100
+        }
+    }
+}

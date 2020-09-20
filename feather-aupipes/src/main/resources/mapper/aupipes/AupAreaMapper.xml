@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupAreaMapper">
+    <resultMap id="AupAreaResult" type="AupArea">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="areaNo" column="areaNo" />
+        <result property="level" column="level" />
+        <result property="pid" column="pid" />
+        <result property="useArea" column="useArea" />
+        <result property="dingweiCode" column="dingweiCode" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    <sql id="selectAupAreaVo">
+        SELECT id,pid,type,name,level,areaNo,useArea,dingweiCode,updateTime FROM aup_area
+    </sql>
+
+    <select id="selectAupAreaList" parameterType="AupArea" resultMap="AupAreaResult">
+        <include refid="selectAupAreaVo" />
+        <where>
+            <if test="name !=null and name !='' ">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+             <if test="pid !=null and pid !='' ">
+                and pid = #{pid}
+            </if>
+            <if test="type !=null and type !='' ">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and type like #{_name}
+            </if>
+            <if test="areaNo !=null and areaNo !='' ">
+                <bind name="_areaNo" value="'%'+ areaNo +'%'"/>
+                and areaNo like #{_areaNo}
+            </if>
+        </where>
+        order by id
+    </select>
+    <select id="selectAupAreaById" resultMap="AupAreaResult">
+        <include refid="selectAupAreaVo" />
+        where id = #{id}
+    </select>
+
+    <select id="selectAupAreaUpdateHistoryList" parameterType="AupArea" resultType="Map">
+        SELECT id,aid,aname,aareaNo,atype,oldId,oldName,oldType,oldAreaNo,updateTime,updateType 
+        FROM aup_area_updateHistory
+        <where>
+            <if test="name !=null and name !='' ">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="type !=null and type !='' ">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and updateType like #{_type}
+            </if>
+            <if test="areaNo !=null and areaNo !='' ">
+                <bind name="_areaNo" value="'%'+ areaNo +'%'"/>
+                and areaNo like #{_areaNo}
+            </if>
+            <if test="params.beginTime !=null and params.beginTime !='' ">
+                and updateTime &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime !=null and params.endTime !='' ">
+                and updateTime  &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+     <!--查询水电表区域列表树-->
+    <select id="queryMeterArea" parameterType="AupArea" resultMap="AupAreaResult">
+        SELECT m.id,m.pid,m.type,m.name,m.level,m.areaNo,m.useArea,m.dingweiCode,m.updateTime 
+        FROM aup_area m
+        <where>
+            <if test="pid !=null">
+                and m.pid = #{pid}
+            </if>
+            <if test="params.meterState !=null">
+                AND EXISTS (SELECT 1  FROM aup_TjHouseMeterInfo l 
+                WHERE (m.type ='roota') 
+                    OR (m.type ='AreaLine' AND l.areaNo = m.areaNo AND l.meterStatus = 0) 
+                    OR (m.type ='building' AND l.buildNo = m.areaNo AND l.meterStatus = 0) 
+                    OR (m.type ='house' AND l.houseNo = m.areaNo AND l.meterStatus = 0) 
+                )
+            </if>
+        </where>
+        order by m.name
+    </select>
+       <!--查询水电表区域详情-->
+      <select id="queryMeterInfo" statementType="CALLABLE" resultType="map">
+           {
+          CALL yxjk_queryMeterInfo(
+              #{typeid,jdbcType=VARCHAR,mode = IN}
+              ,#{queryType,jdbcType =VARCHAR,mode = IN}
+              )
+            }
+      </select>
+</mapper>

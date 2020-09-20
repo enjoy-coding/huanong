@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.hikvision.mapper.AupWarringMapper">
+    
+    <resultMap type="AupWarring" id="AupWarringResult">
+        <result property="id"    column="Id"    />
+        <result property="categorycode"    column="CategoryCode"    />
+        <result property="author"    column="Author"    />
+        <result property="content"    column="Content"    />
+        <result property="datetime"    column="DateTime"    />
+        <result property="pccallbackurl"    column="PcCallbackUrl"    />
+        <result property="mobilecallbackurl"    column="MobileCallbackUrl"    />
+        <result property="imageurl1"    column="ImageUrl1"    />
+        <result property="imageurl2"    column="ImageUrl2"    />
+        <result property="imageurl3"    column="ImageUrl3"    />
+        <result property="imageurl4"    column="ImageUrl4"    />
+        <result property="imageurl5"    column="ImageUrl5"    />
+        <result property="state"    column="State"    />
+        <result property="longitude"    column="Longitude"    />
+        <result property="latitude"    column="Latitude"    />
+        <result property="name"    column="Name"    />
+        <result property="path"    column="Path"    />
+        <result property="code"    column="Code"    />
+        <result property="level"    column="Level"    />
+        <result property="sendtype"    column="SendType"    />
+        <result property="sendusers"    column="SendUsers"    />
+        <result property="noreadsend"    column="NoReadSend"    />
+        <result property="template"    column="Template"    />
+        <result property="formsysname"    column="FormSysName"    />
+        <result property="sendusernames"    column="SendUserNames"    />
+    </resultMap>
+
+    <insert id="insertAupWarring" parameterType="AupWarring">
+        insert into aup_warring
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">Id,</if>
+            <if test="categorycode != null  and categorycode != ''">CategoryCode,</if>
+            <if test="author != null  and author != ''">Author,</if>
+            <if test="content != null  and content != ''">Content,</if>
+            <if test="datetime != null  and datetime != ''">DateTime,</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''">PcCallbackUrl,</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''">MobileCallbackUrl,</if>
+            <if test="imageurl1 != null  and imageurl1 != ''">ImageUrl1,</if>
+            <if test="imageurl2 != null  and imageurl2 != ''">ImageUrl2,</if>
+            <if test="imageurl3 != null  and imageurl3 != ''">ImageUrl3,</if>
+            <if test="imageurl4 != null  and imageurl4 != ''">ImageUrl4,</if>
+            <if test="imageurl5 != null  and imageurl5 != ''">ImageUrl5,</if>
+            <if test="state != null  and state != ''">State,</if>
+            <if test="longitude != null  and longitude != ''">Longitude,</if>
+            <if test="latitude != null  and latitude != ''">Latitude,</if>
+            <if test="name != null  and name != ''">Name,</if>
+            <if test="path != null  and path != ''">Path,</if>
+            <if test="code != null  and code != ''">Code,</if>
+            <if test="level != null  and level != ''">Level,</if>
+            <if test="sendtype != null  and sendtype != ''">SendType,</if>
+            <if test="sendusers != null  and sendusers != ''">SendUsers,</if>
+            <if test="noreadsend != null  and noreadsend != ''">NoReadSend,</if>
+            <if test="template != null  and template != ''">Template,</if>
+            <if test="formsysname != null  and formsysname != ''">FormSysName,</if>
+            <if test="sendusernames != null  and sendusernames != ''">SendUserNames,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="categorycode != null  and categorycode != ''">#{categorycode},</if>
+            <if test="author != null  and author != ''">#{author},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="datetime != null  and datetime != ''">#{datetime},</if>
+            <if test="pccallbackurl != null  and pccallbackurl != ''">#{pccallbackurl},</if>
+            <if test="mobilecallbackurl != null  and mobilecallbackurl != ''">#{mobilecallbackurl},</if>
+            <if test="imageurl1 != null  and imageurl1 != ''">#{imageurl1},</if>
+            <if test="imageurl2 != null  and imageurl2 != ''">#{imageurl2},</if>
+            <if test="imageurl3 != null  and imageurl3 != ''">#{imageurl3},</if>
+            <if test="imageurl4 != null  and imageurl4 != ''">#{imageurl4},</if>
+            <if test="imageurl5 != null  and imageurl5 != ''">#{imageurl5},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="path != null  and path != ''">#{path},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="level != null  and level != ''">#{level},</if>
+            <if test="sendtype != null  and sendtype != ''">#{sendtype},</if>
+            <if test="sendusers != null  and sendusers != ''">#{sendusers},</if>
+            <if test="noreadsend != null  and noreadsend != ''">#{noreadsend},</if>
+            <if test="template != null  and template != ''">#{template},</if>
+            <if test="formsysname != null  and formsysname != ''">#{formsysname},</if>
+            <if test="sendusernames != null  and sendusernames != ''">#{sendusernames},</if>
+         </trim>
+
+    </insert>
+    
+    <update id="updateAupWarring" parameterType="String">
+    	update aup_warring set state = '1' where code = #{code}
+    </update>
+
+</mapper>

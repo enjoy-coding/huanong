@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('查看消息发送详情')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-msg-edit" th:object="${msg}">
+            <input id="msgId" name="msgId" th:field="*{msgId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">应用类型：</label>
+                <div class="col-sm-8">
+                    <input name="msgAppName" th:field="*{msgAppName}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">消息分类：</label>
+                <div class="col-sm-8">
+                    <input name="msgTypeName" th:field="*{msgTypeName}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">消息标题：</label>
+                <div class="col-sm-8">
+                    <input name="msgTitle" th:field="*{msgTitle}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">消息链接：</label>
+                <div class="col-sm-8">
+                    <input name="msgUrl" th:field="*{msgUrl}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">发送人数：</label>
+                <div class="col-sm-8">
+                    <input name="sendCount" th:field="*{sendCount}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">成功人数：</label>
+                <div class="col-sm-8">
+                    <input name="okCount" th:field="*{okCount}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">消息内容：</label>
+                <div class="col-sm-8">
+                	<textarea name="msgContent" class="form-control" rows="5" readonly>[[*{msgContent}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+</body>
+</html>

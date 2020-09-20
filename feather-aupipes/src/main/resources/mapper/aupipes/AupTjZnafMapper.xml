@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupTjZnafMapper">
+
+    <resultMap type="AupTjZnaf" id="AupTjZnafResult">
+        <result property="mj"    column="mj"    />
+        <result property="hwxbj"    column="hwxbj"    />
+        <result property="yg"    column="yg"    />
+        <result property="sxt"    column="sxt"    />
+        <result property="xdwrq"    column="xdwrq"    />
+    </resultMap>
+
+    <sql id="selectAupTjZnafVo">
+        select mj, hwxbj, yg, sxt, xdwrq from aup_tj_znaf
+    </sql>
+
+    <select id="selectAupTjZnafList" parameterType="AupTjZnaf" resultMap="AupTjZnafResult">
+        <include refid="selectAupTjZnafVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectAupTjZnafById" parameterType="Long" resultMap="AupTjZnafResult">
+    </select>
+
+    <insert id="insertAupTjZnaf" parameterType="AupTjZnaf">
+        insert into aup_tj_znaf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mj != null ">mj,</if>
+            <if test="hwxbj != null ">hwxbj,</if>
+            <if test="yg != null ">yg,</if>
+            <if test="sxt != null ">sxt,</if>
+            <if test="xdwrq != null ">xdwrq,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mj != null ">#{mj},</if>
+            <if test="hwxbj != null ">#{hwxbj},</if>
+            <if test="yg != null ">#{yg},</if>
+            <if test="sxt != null ">#{sxt},</if>
+            <if test="xdwrq != null ">#{xdwrq},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupTjZnaf" parameterType="AupTjZnaf">
+        update aup_tj_znaf
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hwxbj != null ">hwxbj = #{hwxbj},</if>
+            <if test="yg != null ">yg = #{yg},</if>
+            <if test="sxt != null ">sxt = #{sxt},</if>
+            <if test="xdwrq != null ">xdwrq = #{xdwrq},</if>
+        </trim>
+        where mj = #{mj}
+    </update>
+
+    <delete id="deleteAupTjZnafById" parameterType="Long">
+        delete from aup_tj_znaf where mj = #{mj}
+    </delete>
+
+    <delete id="deleteAupTjZnaf">
+        delete from aup_tj_znaf
+    </delete>
+
+
+    <delete id="deleteAupTjZnafByIds" parameterType="String">
+        delete from aup_tj_znaf where mj in
+        <foreach item="mj" collection="array" open="(" separator="," close=")">
+            #{mj}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('巡检记录详情')" />
+    <link th:href="@{/def/libs/viewer/viewer.min.css}" rel="stylesheet"/>
+    <style type="text/css">
+    	.ptr-facades {
+    		padding-right: 15px;
+    	}
+    	.ptr-facades img {
+    		max-width: 150px;
+    		max-height: 150px
+    	}
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-log-edit" th:object="${log}">
+            <input id="logId" name="logId" th:field="*{logId}" type="hidden">
+            
+            <h4 class="form-header h4">巡检结果</h4>
+	        <div class="row" th:if="*{issues.size()}">
+                <div class="col-sm-12">
+		            <div class="form-group">
+		                <label class="col-sm-2 control-label">异常：</label>
+		                <div class="col-sm-10">
+		                	<label th:each="issue:*{issues}" style="padding-right:15px">
+		                    	<span class="badge badge-danger" th:text="${issue.issueLabel}"></span>
+		                	</label>
+		                </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="row" th:if="*{facades.size()}">
+                <div class="col-sm-12">
+		            <div class="form-group">
+		                <label class="col-sm-2 control-label">照片：</label>
+		                <div class="col-sm-10" id="div-facades">
+		                	<label class="ptr-facades">
+		                		<img th:src="*{logMap}" />
+		                	</label>
+		                	<label class="ptr-facades" th:each="facade:*{facades}">
+								<img th:src="${facade.facadeUrl}" />
+							</label>
+		                </div>
+		            </div>
+		        </div>
+	        </div>
+            <div class="row">
+            	<div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{logQrcode}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">定位偏移（米）：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{logOffset}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+	        </div>
+            <div class="row">
+            	<div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">坐标：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{logCoordinate}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">地名：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{logAddress}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="row">
+                <div class="col-sm-12">
+		            <div class="form-group">
+		                <label class="col-sm-2 control-label">评估：</label>
+		                <div class="col-sm-10">
+                            <textarea name="remark" maxlength="255" class="form-control" rows="3">[[*{remark}]]</textarea>
+		                </div>
+		            </div>
+		        </div>
+	        </div>
+            <h4 class="form-header h4">巡点信息</h4>
+            <div class="row">
+            	<div class="col-sm-6">
+            		<div class="form-group">
+		                <label class="col-sm-4 control-label">类型：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{@dict.getLabel('patrol_card_type', card.cardType)}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">所属部门：</label>
+		                <div class="col-sm-8">
+		                    <input class="form-control" type="text" th:field="*{card.deptName}" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">线名：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{card.cardLine}" class="form-control" type="text" readonly>
+		                    <!-- input th:value="*{@dict.getLabel('patrol_line_type', card.cardLine)}" class="form-control" type="text" readonly -->
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-sm-6">
+                	<div class="form-group">
+		                <label class="col-sm-4 control-label">行别：</label>
+		                <div class="col-sm-8">
+		                	<input th:value="*{@dict.getLabel('patrol_side_type', card.cardSide)}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">里程：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{card.cardMileage}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">周期（天）：</label>
+		                <div class="col-sm-8">
+		                	<input th:field="*{card.patrolPlan}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">线名：</label>
+		                <div class="col-sm-8">
+		                    <input th:field="*{card.cardLine}" class="form-control" type="text" readonly>
+		                    <!-- input th:value="*{@dict.getLabel('patrol_line_type', card.cardLine)}" class="form-control" type="text" readonly -->
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码1：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{card.cardQrcode1}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码2：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{card.cardQrcode2}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码3：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{card.cardQrcode3}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码4：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{card.cardQrcode4}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-6">
+		            <div class="form-group">
+		                <label class="col-sm-4 control-label">二维码5：</label>
+		                <div class="col-sm-8">
+		                    <input th:value="*{card.cardQrcode5}" class="form-control" type="text" readonly>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+                <div class="col-sm-12">
+		            <div class="form-group">
+		                <label class="col-sm-2 control-label">说明：</label>
+		                <div class="col-sm-10">
+		                    <textarea class="form-control" rows="3" readonly>[[*{card.remark}]]</textarea>
+		                </div>
+		            </div>
+		        </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()" shiro:hasPermission="patrol:log:edit"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:src="@{/def/libs/viewer/viewer.min.js}"></script>
+    <script type="text/javascript">
+        var prefix = ctx + "patrol/log";
+        $("#form-log-edit").validate({
+            focusCleanup: true
+        });
+        
+        new Viewer(document.getElementById('div-facades'));
+
+	    function isAdd() {
+			return $("#logId").val() ? false : true;
+		}
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.saveTab({
+                	url: prefix + (isAdd() ? "/add" : "/edit"), 
+                	data: $('#form-log-edit').serialize(),
+	        		success: function(result, _option) {
+	        			if (isAdd()) {
+	        				if (result.data.logId) {
+	        					top.formmsg = result.msg;
+	        					location.href = prefix + "/edit/" + result.data.logId;
+	        				} else {
+	        					$.modal.msgError("没有返回数据：logId");
+	        				}
+	        			} else {
+	        				$.modal.msgSuccess(result.msg);
+	        			}
+	        		}
+                });
+            }
+        }
+    </script>
+</body>
+</html>

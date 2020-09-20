@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.patrol.mapper.PtrLogMapper">
+    
+    <resultMap type="PtrLog" id="PtrLogResult">
+        <result property="logId"            column="log_id"    />
+        <result property="createBy"         column="create_by" />
+        <result property="createTime"       column="create_time" />
+        <result property="updateBy"         column="update_by" />
+        <result property="updateTime"       column="update_time" />
+        <result property="logCard"          column="log_card" />
+	    <result property="logQrcode"        column="log_qrcode" />
+        <result property="logCoordinate"    column="log_coordinate" />
+        <result property="logCoordinateGd"  column="log_coordinate_gd" />
+        <result property="logAddress"       column="log_address"  />
+        <result property="logAltitude"      column="log_altitude" />
+        <result property="logMap"           column="log_map" />
+        <result property="logOffset"        column="log_offset" />
+        <result property="remark"           column="remark" />
+        <result property="logIssue"         column="log_issue" />
+        <association property="card"  javaType="com.feather.patrol.domain.PtrCard">
+        	<result property="cardId"        column="card_id"      />
+        	<result property="cardDept"      column="card_dept"    />
+	        <result property="deptName"      column="dept_name"    />
+	        <result property="deptNamePath"  column="name_path"    />
+	        <result property="cardType"      column="card_type"    />
+	        <result property="cardQrcode1"    column="card_qrcode1"  />
+	        <result property="cardQrcode2"    column="card_qrcode2"  />
+	        <result property="cardQrcode3"    column="card_qrcode3"  />
+	        <result property="cardQrcode4"    column="card_qrcode4"  />
+	        <result property="cardQrcode5"    column="card_qrcode5"  />
+	        <result property="cardLine"      column="card_line"    />
+	        <result property="cardMileage"   column="card_mileage" />
+	        <result property="cardSide"      column="card_side"    />
+	        <result property="remark"        column="card_remark"  />
+	        <result property="patrolPlan"    column="patrol_plan"  />
+        </association>
+        <collection  property="issues"  javaType="java.util.List"  resultMap="PtrIssueResult" />
+        <collection  property="facades"  javaType="java.util.List"  resultMap="PtrFacadeResult" />
+    </resultMap>
+    
+	<resultMap id="PtrIssueResult" type="PtrIssue">
+		<id     property="issueId"        column="issue_id"        />
+		<result property="issueLog"       column="issue_log"      />
+		<result property="issueStandard"  column="issue_standard" />
+		<result property="issueLabel"     column="dict_label"     />
+	</resultMap>
+    
+	<resultMap id="PtrFacadeResult" type="PtrFacade">
+		<id     property="facadeId"   column="facade_id"  />
+		<result property="entityId"   column="facade_log" />
+		<result property="facadeUrl"  column="facade_url" />
+	</resultMap>
+
+    <sql id="selectPtrLogVo">
+        select log_id, l.create_by, l.create_time, l.update_by, l.update_time, log_card, log_qrcode, log_coordinate, log_coordinate_gd, log_address, log_altitude, log_map, log_offset, l.remark, 
+               card_id, card_dept, card_type, card_qrcode1, card_qrcode2, card_qrcode3, card_qrcode4, card_qrcode5, card_line, card_mileage, card_side, c.card_coordinate, c.remark as card_remark,
+               d.id_path, d.dept_name, d.name_path, 
+               (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type) as patrol_plan, 
+               case when exists(SELECT 1 from ptr_issue where issue_log = l.log_id) then '1' else '0' end as log_issue, 
+               i.issue_id, i.issue_log, i.issue_standard, s.dict_label, 
+               f.facade_id, f.facade_log, f.facade_url
+        from ptr_log l
+        join ptr_card c on l.log_card = c.card_id
+        left join (select dept_id, id_path, dept_name, name_path from sys_dept) d on d.dept_id = c.card_dept
+        left join ptr_issue i on i.issue_log = l.log_id
+        left join sys_dict_data s on s.dict_type = 'patrol_standard_'+ c.card_type and s.dict_code = i.issue_standard
+        left join ptr_log_facade f on f.facade_log = l.log_id
+    </sql>
+
+    <select id="selectPtrLogList" parameterType="PtrLog" resultMap="PtrLogResult">
+    	select * from(
+          select log_id, l.create_by, l.create_time, l.update_by, l.update_time, log_card, log_qrcode, log_coordinate, log_coordinate_gd, log_address, log_altitude, log_map, log_offset, l.remark, 
+                 card_id, card_dept, card_type, card_qrcode1, card_qrcode2, card_qrcode3, card_qrcode4, card_qrcode5, card_line, card_mileage, card_side, card_coordinate, card_remark,
+                 d.id_path, d.dept_name, d.name_path, 
+                 (SELECT dict_value from sys_dict_data where dict_type = 'patrol_plan' and dict_label = c.card_type) as patrol_plan, 
+                 case when exists(SELECT 1 from ptr_issue where issue_log = l.log_id) then '1' else '0' end as log_issue
+          from ptr_log l
+          join (select card_id, card_dept, card_type, card_qrcode1, card_qrcode2, card_qrcode3, card_qrcode4, card_qrcode5, card_line, card_mileage, card_side, card_coordinate, remark as card_remark from ptr_card) c on l.log_card = c.card_id
+          left join (select dept_id, id_path, dept_name, name_path from sys_dept) d on d.dept_id = c.card_dept  
+        ) d
+        <where>
+            <if test="logCard != null "> and log_card = #{logCard}</if>
+			<if test="logIssue != null and logIssue != ''">
+				and log_issue = #{logIssue}
+			</if>
+            <if test="params.cardType != null and params.cardType != ''">
+				AND card_type = #{params.cardType}
+			</if>
+			<if test="params.logQrcode != null and params.logQrcode != ''">
+			    <bind name="_logQrcode" value="'%'+ params.logQrcode +'%'"/>
+				AND log_qrcode like #{_logQrcode}
+			</if>
+			<if test="params.cardLine != null and params.cardLine != ''">
+			    <bind name="_cardLine" value="'%'+ params.cardLine +'%'"/>
+				AND card_line like #{_cardLine}
+			</if>
+			<if test="params.cardMileage != null and params.cardMileage != ''">
+			    <bind name="_cardMileage" value="'%'+ params.cardMileage +'%'"/>
+				AND card_mileage like #{_cardMileage}
+			</if>
+			<if test="params.cardSide != null and params.cardSide != ''">
+				AND card_side = #{cardSide}
+			</if>
+        	<if test="params.deptId != null and params.deptId != 0">
+				<if test="_databaseId == 'mysql'">
+					AND (d.id_path like concat( (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{params.deptId}) ,'%') )
+				</if>
+				<if test="_databaseId == 'sqlserver'">
+					AND (d.id_path like (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{params.deptId}) + '%' )
+				</if>
+				<if test="_databaseId == 'oracle'">
+					AND (d.id_path like (SELECT t.id_path FROM sys_dept t WHERE dept_id = #{params.deptId}) || '%' )
+				</if>
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and create_time &gt;= #{params.beginTime}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and create_time &lt;= #{params.endTime}
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectPtrLogById" parameterType="Long" resultMap="PtrLogResult">
+    	<include refid="selectPtrLogVo"/>
+        where log_id = #{logId}
+    </select>
+    
+    <select id="selectTopFacadeUrls" resultType="String">
+	    SELECT TOP 12 f.facade_url 
+	    FROM ptr_log_facade f 
+	    JOIN ptr_log l on l.log_id = f.facade_log 
+	    ORDER BY l.create_time DESC
+    </select>
+        
+    <insert id="insertPtrLog" parameterType="PtrLog">
+        insert into ptr_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null ">log_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="logCard != null ">log_card,</if>
+            <if test="logQrcode != null ">log_qrcode,</if>
+            <if test="logCoordinate != null  and logCoordinate != ''">log_coordinate,</if>
+            <if test="logCoordinateGd != null  and logCoordinateGd != ''">log_coordinate_gd,</if>
+            <if test="logAddress != null  and logAddress != ''">log_address,</if>
+            <if test="logAltitude != null  and logAltitude != ''">log_altitude,</if>
+            <if test="logMap != null  and logMap != ''">log_map,</if>
+            <if test="logOffset != null">log_offset,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null ">#{logId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="logCard != null ">#{logCard},</if>
+            <if test="logQrcode != null ">#{logQrcode},</if>
+            <if test="logCoordinate != null  and logCoordinate != ''">#{logCoordinate},</if>
+            <if test="logCoordinateGd != null  and logCoordinateGd != ''">#{logCoordinateGd},</if>
+            <if test="logAddress != null  and logAddress != ''">#{logAddress},</if>
+            <if test="logAltitude != null  and logAltitude != ''">#{logAltitude},</if>
+            <if test="logMap != null  and logMap != ''">#{logMap},</if>
+            <if test="logOffset != null ">#{logOffset},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+    
+    <insert id="insertLogIssue" parameterType="PtrIssue">
+    	insert into ptr_issue(issue_id, issue_log, issue_standard)
+    	values(#{issueId}, #{issueLog}, #{issueStandard})
+    </insert>
+    
+    <insert id="insertLogFacade" parameterType="PtrFacade">
+    	insert into ptr_log_facade(facade_id, facade_log, facade_url)
+    	values(#{facadeId}, #{entityId}, #{facadeUrl})
+    </insert>
+
+    <update id="updatePtrLog" parameterType="PtrLog">
+        update ptr_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="logCard != null ">log_card = #{logCard},</if>
+            <if test="logCoordinate != null  and logCoordinate != ''">log_coordinate = #{logCoordinate},</if>
+            <if test="logCoordinateGd != null  and logCoordinateGd != ''">log_coordinate_gd = #{logCoordinateGd},</if>
+            <if test="logAddress != null">log_address = #{logAddress},</if>
+            <if test="logAltitude != null">log_altitude = #{logAltitude},</if>
+            <if test="logMap != null  and logMap != ''">log_map = #{logMap},</if>
+            <if test="logOffset != null ">log_offset = #{logOffset},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deletePtrLogById" parameterType="Long">
+        delete from ptr_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deletePtrLogByIds" parameterType="String">
+        delete from ptr_log where log_id in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+    
+</mapper>

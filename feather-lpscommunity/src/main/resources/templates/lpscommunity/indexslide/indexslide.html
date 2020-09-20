@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('首页轮播图列表')" />
+    <style type="text/css">
+		.listslide {
+			height: auto;
+			width: auto;
+			max-height: 100px;
+			max-width: 100px;
+			border-radius: 0;
+		}
+    </style>
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="sc:indexslide:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="sc:indexslide:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="sc:indexslide:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:indexslide:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('sc:indexslide:remove')}]];
+        var prefix = ctx + "sc/indexslide";
+        var baseUrl = [[${#httpServletRequest.getContextPath()}]];
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+		        showSearch: false,
+		        showColumns: false,
+		        pagination: false,
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                modalName: "首页轮播图",
+		        sortName: "slideSort",
+		        sortOrder: "asc",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'slideId', 
+                    visible : false
+                },
+				{
+                    field : 'slidePath', 
+				    title : '图片',
+				    formatter: function(value, row, index) {
+				    	return $.table.imageView({
+				    		url: baseUrl + value,
+				    		className: "listslide"
+				    	});
+				    }
+				},
+                {
+                    field : 'slideSort', 
+                    title : '顺序'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.slideId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.slideId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

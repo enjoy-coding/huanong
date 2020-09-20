@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScParkrentMapper">
+
+    <resultMap type="ScParkrent" id="ScParkrentResult">
+        <result property="parkrentId"    column="parkrent_id"    />
+        <result property="parkrentName"    column="parkrent_name"    />
+        <result property="parkrentTitle"    column="parkrent_title"    />
+        <result property="parkrentType"    column="parkrent_type"    />
+        <result property="parkrentTel"    column="parkrent_tel"    />
+        <result property="parkrentContent"    column="parkrent_content"    />
+        <result property="parkrentFile"    column="parkrent_file"    />
+        <result property="parkrentStatus"    column="parkrent_status"    />
+        <result property="parkrentScore"    column="parkrent_score"    />
+        <result property="parkentAuditState"    column="parkent_audit_state"    />
+        <result property="equipmentId"    column="equipment_id"    />
+        <result property="beginTime"    column="begin_Time"  jdbcType="BIGINT"     />
+        <result property="endTime"    column="end_Time"    jdbcType="BIGINT"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="auditPassState"    column="audit_pass_state"    />
+        <result property="auditContent"    column="audit_content"    />
+        <result property="auditTime"    column="audit_time"   jdbcType="BIGINT"    />
+        <result property="auditBy"    column="audit_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT"     />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT"     />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+       
+        <collection  property="files"   javaType="java.util.List"        resultMap="ScFileInfoResult" />
+    </resultMap>
+
+
+    <resultMap type="ScFileInfo" id="ScFileInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <sql id="selectScParkrentVo">
+        select p.parkrent_id, p.parkrent_name, p.parkrent_title, p.parkrent_type,p.parkent_audit_state, p.parkrent_tel
+             ,p.parkrent_content,p.parkrent_file,p.parkrent_status,p.create_by,p.create_time, p.update_by, p.update_time, p.remark
+                ,p.audit_state, p.audit_pass_state, p.audit_content, p.audit_time, audit_by,p.del_flag
+        from sc_parkrent p
+
+     </sql>
+
+    <sql id="selectScParkrentFileVo">
+       select p.parkrent_id, p.parkrent_name, p.parkrent_title, p.parkrent_type,p.parkent_audit_state, p.parkrent_tel
+            ,p.parkrent_content,p.parkrent_file,p.parkrent_status,p.create_by,p.create_time, p.update_by, p.update_time, p.remark
+            ,p.begin_time,p.end_time,p.del_flag
+            ,p.audit_state, p.audit_pass_state, p.audit_content, p.audit_time, audit_by
+            ,f.file_id,f.file_name,f.file_path
+        from sc_parkrent p
+        left join sc_file_info f on f.file_target = p.parkrent_id and f.file_code = 'parkrent'
+
+    </sql>
+
+    <select id="selectScParkrentList" parameterType="ScParkrent" resultMap="ScParkrentResult">
+        <include refid="selectScParkrentVo"/>
+        <where>
+            <if test="parkrentName != null  and parkrentName != ''">
+            	<bind name="_parkrentName" value="'%'+ parkrentName +'%'"/>
+            	and p.parkrent_name like #{_parkrentName}
+            </if>
+            <if test="parkrentTitle != null  and parkrentTitle != ''">
+            	<bind name="_parkrentTitle" value="'%'+ parkrentTitle +'%'"/>
+            	and p.parkrent_title like #{_parkrentTitle}
+            </if>
+            <if test="parkrentType != null  and parkrentType != ''"> and parkrent_type = #{parkrentType}</if>
+            <if test="parkrentTel != null  and parkrentTel != ''">
+            	<bind name="_parkrentTel" value="'%'+ parkrentTel +'%'"/>
+            	and p.parkrent_tel like #{_parkrentTel}
+            </if>
+            <if test="parkrentContent != null  and parkrentContent != ''">
+            	<bind name="_parkrentContent" value="'%'+ parkrentContent +'%'"/>
+            	and p.parkrent_content like #{_parkrentContent}
+            </if>
+            <if test="parkrentFile != null  and parkrentFile != ''"> and p.parkrent_file = #{parkrentFile}</if>
+            <if test="parkrentStatus != null  and parkrentStatus != ''"> and p.parkrent_status = #{parkrentStatus}</if>
+            <if test="parkentAuditState != null  and parkentAuditState != ''"> and p.parkent_audit_state = #{parkentAuditState}</if>
+            <if test="equipmentId != null  and equipmentId != ''"> and p.equipment_id = #{equipmentId}</if>
+            <if test="beginTime != null "> and p.begin_Time = #{beginTime,jdbcType=BIGINT}</if>
+            <if test="endTime != null "> and p.end_Time = #{endTime,jdbcType=BIGINT}</if>
+            <if test="auditState != null  and auditState != ''"> and p.audit_state = #{auditState}</if>
+            <if test="auditPassState != null  and auditPassState != ''"> and p.audit_pass_state = #{auditPassState}</if>
+            <if test="auditContent != null  and auditContent != ''"> and p.audit_content = #{auditContent}</if>
+            <if test="auditTime != null "> and p.audit_time = #{auditTime,jdbcType=BIGINT}</if>
+            <if test="auditBy != null  and auditBy != ''"> and p.audit_by = #{auditBy}</if>
+            <if test="delFlag == null  or delFlag == ''"> and p.del_flag = '0' </if>
+            <if test="delFlag != null  and delFlag != ''"> and p.del_flag = #{delFlag}</if>
+        </where>
+    </select>
+
+    <select id="selectScParkrentById" parameterType="Long" resultMap="ScParkrentResult">
+        <include refid="selectScParkrentVo"/>
+        where parkrent_id = #{parkrentId}
+    </select>
+
+    <select id="selectScParkrentFileById" parameterType="Long" resultMap="ScParkrentResult">
+        <include refid="selectScParkrentFileVo"/>
+        where parkrent_id = #{parkrentId}
+    </select>
+
+    <insert id="insertScParkrent" parameterType="ScParkrent">
+        insert into sc_parkrent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parkrentId != null ">parkrent_id,</if>
+            <if test="parkrentName != null  and parkrentName != ''">parkrent_name,</if>
+            <if test="parkrentTitle != null  and parkrentTitle != ''">parkrent_title,</if>
+            <if test="parkrentType != null  and parkrentType != ''">parkrent_type,</if>
+            <if test="parkrentTel != null  and parkrentTel != ''">parkrent_tel,</if>
+            <if test="parkrentContent != null  and parkrentContent != ''">parkrent_content,</if>
+            <if test="parkrentFile != null  and parkrentFile != ''">parkrent_file,</if>
+            <if test="parkrentStatus != null  and parkrentStatus != ''">parkrent_status,</if>
+            <if test="parkrentScore != null  and parkrentScore != ''">parkrent_score,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="parkentAuditState != null  and parkentAuditState != ''">parkent_audit_state,</if>
+            <if test="equipmentId != null  and equipmentId != ''">equipment_id,</if>
+            <if test="beginTime != null ">begin_Time,</if>
+            <if test="endTime != null ">end_Time,</if>
+            <if test="auditState != null  and auditState != ''">audit_state,</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state,</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content,</if>
+            <if test="auditTime != null ">audit_time,</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parkrentId != null ">#{parkrentId},</if>
+            <if test="parkrentName != null  and parkrentName != ''">#{parkrentName},</if>
+            <if test="parkrentTitle != null  and parkrentTitle != ''">#{parkrentTitle},</if>
+            <if test="parkrentType != null  and parkrentType != ''">#{parkrentType},</if>
+            <if test="parkrentTel != null  and parkrentTel != ''">#{parkrentTel},</if>
+            <if test="parkrentContent != null  and parkrentContent != ''">#{parkrentContent},</if>
+            <if test="parkrentFile != null  and parkrentFile != ''">#{parkrentFile},</if>
+            <if test="parkrentStatus != null  and parkrentStatus != ''">#{parkrentStatus},</if>
+            <if test="parkrentScore != null  and parkrentScore != ''">#{parkrentScore},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="parkentAuditState != null  and parkentAuditState != ''">#{parkentAuditState},</if>
+            <if test="equipmentId != null  and equipmentId != ''">#{equipmentId},</if>
+            <if test="beginTime != null ">#{beginTime,jdbcType=BIGINT},</if>
+            <if test="endTime != null ">#{endTime,jdbcType=BIGINT},</if>
+            <if test="auditState != null  and auditState != ''">#{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">#{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">#{auditContent},</if>
+            <if test="auditTime != null ">#{auditTime,jdbcType=BIGINT},</if>
+            <if test="auditBy != null  and auditBy != ''">#{auditBy},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+    
+    <update id="updateScParkrent" parameterType="ScParkrent">
+        update sc_parkrent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parkrentName != null  and parkrentName != ''">parkrent_name = #{parkrentName},</if>
+            <if test="parkrentTitle != null  and parkrentTitle != ''">parkrent_title = #{parkrentTitle},</if>
+            <if test="parkrentType != null  and parkrentType != ''">parkrent_type = #{parkrentType},</if>
+            <if test="parkrentTel != null  and parkrentTel != ''">parkrent_tel = #{parkrentTel},</if>
+            <if test="parkrentContent != null  and parkrentContent != ''">parkrent_content = #{parkrentContent},</if>
+            <if test="parkrentFile != null  and parkrentFile != ''">parkrent_file = #{parkrentFile},</if>
+            <if test="parkrentStatus != null  and parkrentStatus != ''">parkrent_status = #{parkrentStatus},</if>
+            <if test="parkrentScore != null  and parkrentScore != ''">parkrent_score = #{parkrentScore},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime,jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime,jdbcType=BIGINT},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="parkentAuditState != null  and parkentAuditState != ''">parkent_audit_state = #{parkentAuditState},</if>
+            <if test="equipmentId != null  and equipmentId != ''">equipment_id = #{equipmentId},</if>
+            <if test="beginTime != null ">begin_Time = #{beginTime,jdbcType=BIGINT},</if>
+            <if test="endTime != null ">end_Time = #{endTime,jdbcType=BIGINT},</if>
+            <if test="auditState != null  and auditState != ''">audit_state = #{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state = #{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content = #{auditContent},</if>
+            <if test="auditTime != null ">audit_time = #{auditTime,jdbcType=BIGINT},</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by = #{auditBy},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where parkrent_id = #{parkrentId}
+    </update>
+
+    <!--逻辑删除-->
+    <update id="updateScParkrentDelFlagById" parameterType="String">
+        update sc_parkrent SET del_flag  = 1 where parkrent_id in 
+        <foreach item="parkrentId" collection="array" open="(" separator="," close=")">
+            #{parkrentId}
+        </foreach>
+    </update>
+
+    <delete id="deleteScParkrentById" parameterType="Long">
+        delete from sc_parkrent where parkrent_id = #{parkrentId}
+    </delete>
+
+    <delete id="deleteScParkrentByIds" parameterType="String">
+        delete from sc_parkrent where parkrent_id in
+        <foreach item="parkrentId" collection="array" open="(" separator="," close=")">
+            #{parkrentId}
+        </foreach>
+    </delete>
+
+</mapper>

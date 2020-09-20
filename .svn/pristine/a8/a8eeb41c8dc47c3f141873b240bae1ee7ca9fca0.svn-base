@@ -1,0 +1,10 @@
+<ul class="layui-tab-title" id="searchTab">
+
+</ul>
+<div class="layui-tab-content" id="searchTabList">
+    <div class="layui-tab-item layui-show">
+        <div class="table moreTable page">
+            <div id="lffxTable" lay-filter="lffxFilter"></div>
+        </div>
+    </div>
+</div>

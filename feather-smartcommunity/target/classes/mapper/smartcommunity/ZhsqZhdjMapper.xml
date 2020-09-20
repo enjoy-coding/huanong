@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqZhdjMapper">
+
+    <!--党政队伍统计-->
+    <select id="selectDjdwCount" parameterType="map" resultType="map">
+        SELECT
+        count(*) as dy,
+        count(case when jc.SFZYZ = '是' then 1 else null end) as zyz,
+        (SELECT count(*) FROM [dbo].[ZHSQ_DZZ]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>) as dzz
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+        </where>) as jc
+    </select>
+
+    <!--党组织列表-->
+    <select id="getDzzList" parameterType="map" resultType="map">
+       SELECT * FROM [dbo].[ZHSQ_DZZ]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="mc != null  and mc != ''">
+                <bind name="_mc" value="'%'+ mc +'%'"/>
+                and MC like #{_mc}
+            </if>
+        </where>
+    </select>
+
+    <!--党组织弹框-->
+    <select id="getDzzInfo" parameterType="map" resultType="map">
+        SELECT
+        COUNT(*) AS dyrs,
+        count(case when jc.SFZYZ = '是' then 1 else null end) as zyzrs,
+        (SELECT WZ FROM [dbo].[ZHSQ_DZZ]
+        <where>
+            <if test="dzzid != null  and dzzid != ''"> and DZZID = #{dzzid}</if>
+        </where>) as wz
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="dzzid != null  and dzzid != ''"> and DZZID = #{dzzid}</if>
+        </where>) AS jc
+    </select>
+
+    <!--党员列表-->
+    <select id="getDyZyzList" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+
+            <if test="xm != null  and xm != ''">
+                <bind name="_xm" value="'%'+ xm +'%'"/>
+                and (XM like #{_xm} OR XL like #{_xm} OR DYLX like #{_xm})
+            </if>
+        </where>
+    </select>
+
+    <!--志愿者列表-->
+    <select id="getZyzList" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+
+            <if test="zyzxx != null  and zyzxx != ''">
+                <bind name="_zyzxx" value="'%'+ zyzxx +'%'"/>
+                and (XM like #{_zyzxx} OR XL like #{_zyzxx} OR DYLX like #{_zyzxx})
+            </if>
+        </where>
+    </select>
+
+    <!--党员学历分布-->
+    <select id="getDyxlFb" parameterType="map" resultType="map">
+        SELECT TOP 5 XL ,count(*) as MUN FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+        </where>
+         GROUP BY XL ORDER BY MUN DESC
+    </select>
+
+    <!--党员年龄分布-->
+    <select id="getDyNlFb" parameterType="map" resultType="map">
+        SELECT
+        count(case when jc.[NL] <![CDATA[ < ]]> N'30' then 1 else null end) as a,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'30' and jc.[NL] <![CDATA[ < ]]> N'50' then 1 else null end) as b,
+        count(case when jc.[NL] <![CDATA[ >= ]]> N'50' then 1 else null end) as c
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+        </where>) as jc
+    </select>
+
+    <!--党员年龄分布-->
+    <select id="getDyNl" parameterType="map" resultType="map">
+        SELECT
+        count(case when jc.[DL] <![CDATA[ > ]]> N'0' and jc.[DL] <![CDATA[ <= ]]> N'10' then 1 else null end) as a,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'10' and jc.[DL] <![CDATA[ <= ]]> N'20' then 1 else null end) as b,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'20' and jc.[DL] <![CDATA[ <= ]]> N'30' then 1 else null end) as c,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'30' and jc.[DL] <![CDATA[ <= ]]> N'40' then 1 else null end) as d,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'40' and jc.[DL] <![CDATA[ <= ]]> N'50' then 1 else null end) as e,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'50' and jc.[DL] <![CDATA[ <= ]]> N'60' then 1 else null end) as f,
+        count(case when jc.[DL] <![CDATA[ > ]]> N'60' and jc.[DL] <![CDATA[ <= ]]> N'70' then 1 else null end) as g
+        FROM
+        (SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+        </where>) as jc
+    </select>
+
+    <!--党员性别比例-->
+    <select id="getDyXb" parameterType="map" resultType="map">
+        SELECT XB ,count(1) as MUN FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+        </where>
+        GROUP BY XB
+    </select>
+
+    <!--党员民族比例-->
+    <select id="getDyMz" parameterType="map" resultType="map">
+        SELECT MZ,count(1) as MUN FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+            <if test="sqid != null  and sqid != ''"> and SQID = #{sqid}</if>
+            <if test="zyz != null  and zyz != ''"> and SFZYZ = #{zyz}</if>
+        </where>
+        GROUP BY MZ
+    </select>
+
+    <!--党员民族比例-->
+    <select id="getDyZyzTk" parameterType="map" resultType="map">
+        SELECT * FROM [dbo].[ZHSQ_DY]
+        <where>
+            <if test="dyid != null  and dyid != ''"> and DYID = #{dyid}</if>
+        </where>
+    </select>
+</mapper>

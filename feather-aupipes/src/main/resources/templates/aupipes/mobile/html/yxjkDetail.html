@@ -1,0 +1,57 @@
+<div class="listDetail">
+	<div class="pr content">
+		<h5 class="topHead pa"><i class="back" onclick="backTo()">返回</i>属性信息</h5>
+		<div class="txt">
+			<div class="titleStyle1">详细信息</div>
+			<ul class="list">
+				<li>
+					<label class="left fl">设备名称:</label>
+					<p class="right fr">{{ list.name }}</p>
+				</li>
+			</ul>
+			<div class="titleStyle1">泵组信息</div>
+			<div v-for="item in arr">
+				<p class="yjjk_title">{{ item.name }}: <span>{{ item.num }}</span>个
+					<span>市政压力: </span>{{ item.szyl }}Mpa
+				</p>
+				<ul class="list">
+					<div v-for="(item,key) in item.pump" style="width:50%;float:left;">
+						<div v-for="(v,k) in item" >
+							<li>
+								<label class="lefts fl">{{ k }}:</label>
+								<p class="rights fr">{{ v }}</p>
+							</li>
+						</div>
+					</div>
+				</ul>
+
+				<div class="wxdaTableList txtC">
+					<div class="layui-row layui-col-space5">
+						<div class="layui-col-xs2 layui-col-md2 layui-col-md2 color_green">
+							名称
+						</div>
+						<div class="layui-col-xs5 layui-col-md5 layui-col-md5 color_green">
+							状态
+						</div>
+						<div class="layui-col-xs5 layui-col-md5 layui-col-md5 color_green">
+							读取时间
+						</div>
+					</div>
+					<div class="wxdaTableBody">
+						<div class="layui-row layui-col-space5" v-for="key in item.list">
+							<div class="layui-col-xs2 layui-col-md2 layui-col-md2">
+								{{ key.statusName }}
+							</div>
+							<div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+								{{ key.status }}
+							</div>
+							<div class="layui-col-xs5 layui-col-md5 layui-col-md5">
+								{{ key.readTime }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

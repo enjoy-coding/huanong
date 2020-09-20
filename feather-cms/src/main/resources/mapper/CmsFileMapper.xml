@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.cms.mapper.CmsFileMapper">
+    
+    <resultMap type="CmsFile" id="CmsFileResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="createTime"    column="create_time"  jdbcType="BIGINT" />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"  jdbcType="BIGINT" />
+        <result property="updateBy"    column="update_by"    />
+        <result property="fileDomain"    column="file_domain"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileAttr"    column="file_attr"    />
+        <result property="fileSort"    column="file_sort"    />
+        <result property="fileManual"    column="file_manual"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+
+    <sql id="selectCmsFileVo">
+        select file_id, create_time, create_by, update_time, update_by, file_domain, file_name, file_attr, file_sort, file_manual, remark 
+        from cms_file
+    </sql>
+
+    <select id="selectCmsFileList" parameterType="CmsFile" resultMap="CmsFileResult">
+        <include refid="selectCmsFileVo"/>
+        <where>  
+            <if test="fileName != null  and fileName != ''">
+            	<bind name="_fileName" value="'%'+ fileName +'%'"/>
+            	and file_name like #{_fileName}
+            </if>
+            <if test="fileAttr != null  and fileAttr != ''">
+            	<bind name="_fileAttr" value="'%'+ fileAttr +'%'"/>
+            	and file_attr like #{_fileAttr}
+            </if>
+            <if test="fileSort != null ">
+            	<bind name="_fileSort" value="'%'+ fileSort +'%'"/>
+            	and file_sort like #{_fileSort}
+            </if>
+            <if test="fileManual != null  and fileManual != ''">
+            	<bind name="_fileManual" value="'%'+ fileManual +'%'"/>
+            	and file_manual like #{_fileManual}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectCmsFileById" parameterType="String" resultMap="CmsFileResult">
+        <include refid="selectCmsFileVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertCmsFile" parameterType="CmsFile">
+        insert into cms_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">file_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="fileDomain != null ">file_domain,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="fileAttr != null  and fileAttr != ''">file_attr,</if>
+            <if test="fileSort != null ">file_sort,</if>
+            <if test="fileManual != null  and fileManual != ''">file_manual,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileId != null ">#{fileId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="fileDomain != null ">#{fileDomain},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="fileAttr != null  and fileAttr != ''">#{fileAttr},</if>
+            <if test="fileSort != null ">#{fileSort},</if>
+            <if test="fileManual != null  and fileManual != ''">#{fileManual},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsFile" parameterType="CmsFile">
+        update cms_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="fileDomain != null ">file_domain = #{fileDomain},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileAttr != null  and fileAttr != ''">file_attr = #{fileAttr},</if>
+            <if test="fileSort != null ">file_sort = #{fileSort},</if>
+            <if test="fileManual != null  and fileManual != ''">file_manual = #{fileManual},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteCmsFileById" parameterType="String">
+        delete from cms_file where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteCmsFileByIds" parameterType="String">
+        delete from cms_file where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+    
+</mapper>

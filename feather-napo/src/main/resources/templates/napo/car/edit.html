@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改车辆信息')"/>
+    <th:block th:include="include :: summernote-css"/>
+    <th:block th:include="include :: jasny-bootstrap-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-npCar" th:object="${npCar}">
+        <input id="carId" name="carId" th:field="*{carId}" type="hidden"/>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar">*</span>名称：</label>
+                    <div class="col-sm-10">
+                        <input name="name" class="form-control" type="text" th:field="*{name}" id="name" required/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">牌照：</label>
+                    <div class="col-sm-8">
+                        <input name="license" class="form-control" type="text" th:field="*{license}" id="license"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">状态：</label>
+                    <div class="col-sm-8">
+                        <select name="state" id="state" class="form-control m-b"
+                                th:with="type=${@dict.getType('np_car_state')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{state}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">车辆所有权：</label>
+                    <div class="col-sm-10">
+                        <input name="ownerUnit" class="form-control" type="text" th:field="*{ownerUnit}" id="ownerUnit"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">责任人电话：</label>
+                    <div class="col-sm-8">
+                        <input name="telephone" class="form-control" type="text" th:field="*{telephone}" id="telephone"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">邮箱：</label>
+                    <div class="col-sm-8">
+                        <input name="email" class="form-control" type="text" th:field="*{email}" id="email"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+
+<script th:src="@{/bus/napo/js/info.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "np/car";
+    $("#form-npCar").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#carId").val() ? false : true;
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save({
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                data: $('#form-npCar').serialize(),
+                success: function(result, _option) {
+                    if (isAdd()) {
+                        if (result.data.carId) {
+                            top.formmsg = result.msg;
+                            location.href = prefix + "/edit/" + result.data.carId;
+                        } else {
+                            $.modal.msgError("没有返回数据：carId");
+                        }
+                    } else {
+                        $.modal.msgSuccess(result.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

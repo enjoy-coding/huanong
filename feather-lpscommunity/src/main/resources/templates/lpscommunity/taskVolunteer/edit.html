@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('修改志愿者任务表')" />
+    <link th:href="@{/bus/lpscommunity/css/uploadImg.css}" rel="stylesheet" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TaskVolunteer-edit" th:object="${scTaskVolunteer}">
+        <input id="tvId" name="tvId" th:field="${scTaskVolunteer.tvId}" type="hidden">
+        <h4 class="form-header h4">任务信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>标题：</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" th:field="${scTaskVolunteer.parkrent.parkrentTitle}"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>类型：</label>
+                    <div class="col-sm-8">
+                        <select class="form-control m-b" th:with="type=${@dict.getType('sc_task_state1')}" disabled>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                                th:field="${scTaskVolunteer.parkrent.parkrentType}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>姓名：</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" th:field="${scTaskVolunteer.parkrent.parkrentName}"
+                            readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>联系电话：</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" th:field="${scTaskVolunteer.parkrent.parkrentTel}"
+                            readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar"></span>图片：</label>
+                    <div class="col-sm-10">
+                        <div id="Pic_pass">
+                            <div class="picDiv">
+                                <div class='imageDiv' th:each="f:${scFileInfoList}">
+                                    <img th:src="${f.filePath}" class="img" onclick="imageView(this)" style="cursor:pointer;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="form-header h4">志愿者信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>头像：</label>
+                    <div class="col-sm-8">
+                        <img th:src="@{${sysFilePath}}" class="img_head" alt="User Image">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>姓名：</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" th:field="${scTaskVolunteer.volunteer.volunteerName}"
+                            readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="requiredstar"></span>性别</label>
+                    <div class="col-sm-8">
+                        <select class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}" disabled>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                                th:field="${scTaskVolunteer.volunteer.volunteerSex}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">电话：</label>
+                    <div class="col-sm-6">
+                        <input th:field="${scTaskVolunteer.volunteer.volunteerTel}" class="form-control" type="text"
+                            disabled>
+                    </div>
+                    <label class="col-sm-4 control-label">出生日期：</label>
+                    <div class="col-sm-6">
+                        <input th:field="${scTaskVolunteer.volunteer.volunteerBir}" class="form-control" type="text"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-8">
+                        <input th:field="${scTaskVolunteer.volunteer.volunteerAddress}" class="form-control" type="text"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">职业：</label>
+                    <div class="col-sm-8">
+                        <input th:field="${scTaskVolunteer.volunteer.volunteerProfession}" class="form-control"
+                            type="text" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">个人简介：</label>
+                    <div class="col-sm-8">
+                        <textarea disabled
+                            class="form-control">[[${scTaskVolunteer.volunteer.volunteerSynopsis}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="form-header h4">审核信息</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="requiredstar">*是否通过</span>：</label>
+                    <div class="col-sm-8">
+                        <select name="auditPassState" class="form-control m-b"
+                            th:with="type=${@dict.getType('sc_audit_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">内容：</label>
+                    <div class="col-xs-10">
+                        <textarea name="auditContent" maxlength="500" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "sc/taskVolunteer";
+        $(function (){
+             //图片预览
+            $(".img").click(function(){
+                imageView(this,prefix+"/audit/detail/pic?parkrentId = "+$("#parkrentId").val());
+            });
+        })
+        $("#form-TaskVolunteer-edit").validate({
+            focusCleanup: true
+        });
+
+        function isAdd() {
+            return $("#tvId").val() ? false : true;
+        }
+
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save({
+                    url: prefix + "/edit/audit",
+                    data: $('#form-TaskVolunteer-edit').serialize(),
+                    success: function (result, _option) {
+                        if (isAdd()) {
+                            if (result.data.tvId) {
+                                top.formmsg = result.msg;
+                            } else {
+                                $.modal.msgError("没有返回数据：tvId");
+                            }
+                        } else {
+                            location.href = prefix + "/audit/detail/" + result.data.tvId;
+                        }
+                    }
+                });
+            }
+        }
+
+
+    // /**
+    //  * 多图预览
+    //  * @param e
+    //  */
+    // function imageView(e){
+    //     var url = auditDetaiPiclUrl+"?parkrentId="+$("#parkrentId").val();
+    //     $.getJSON(url, function(json){
+    //         layer.photos({
+    //             photos: json,
+    //             anim: 0,
+    //             closeBtn:1,
+    //             shade:0.3
+    //         });
+    //     });
+    // }
+    </script>
+</body>
+
+</html>

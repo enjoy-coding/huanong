@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改人员巡检')"/>
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+    <link th:href="@{/def/libs/layui-2.5.5/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/bus/aupipes/lib/font/iconfont/iconfont.css}" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-task-edit" th:object="${inspect}">
+        <input id="id" th:field="*{id}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">任务名称：</label>
+            <div class="col-sm-8">
+                <input th:field="*{inspectName}" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">巡检人员：</label>
+            <div class="col-sm-8">
+                <!--<input th:field="*{inspectWorker}" class="form-control" type="text" required>-->
+                <select id="inspectWorkerList" class="form-control select2-multiple" lay-verify="required" multiple>
+                </select>
+            </div>
+            <input id="curInspectWorkerId" th:value="${inspect.inspectWorkerId}" type="hidden">
+            <!--<input th:field="*{inspectWorker}" type="hidden">-->
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">巡检区域：</label>
+            <div class="col-sm-8">
+                <textarea id="inspectArea" name="inspectArea" class="form-control" required>[[*{inspectArea}]]</textarea>
+            </div>
+        </div>
+<!--        <div class="form-group">
+            <label class="col-sm-3 control-label">下发时间：</label>
+            <div class="col-sm-8">
+                <input id="distributeTime" name="distributeTime" th:value="${#dates.format(inspect.distributeTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" type="text" required>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">发布人员：</label>
+            <div class="col-sm-8">
+                <input th:field="*{distributeWorker}" class="form-control" type="text" required readonly="readonly">
+                <!--<select id="distributeWorkerList"  class="form-control" name="thirdLevelId" lay-filter="third_level" lay-verify="required">
+                </select>-->
+            </div>
+            <input th:field="*{distributeWorkerId}" type="hidden">
+        </div>
+        <div class="form-group" id="inspectStatusDiv">
+            <label class="col-sm-3 control-label">巡检状态：</label>
+            <div class="col-sm-8">
+                <select id="inspectStatus" class="form-control" name="inspectStatus" th:with="type=${@dict.getType('aup_inspect_status')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{inspectStatus}"></option>
+                </select>
+            </div>
+        </div>
+<!--        <div class="form-group">
+            <label class="col-sm-3 control-label">开始时间：</label>
+            <div class="col-sm-8">
+                <input id="startTime" name="startTime" th:value="${#dates.format(inspect.startTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">结束时间：</label>
+            <div class="col-sm-8">
+                <input id="endTime" name="endTime" th:value="${#dates.format(inspect.endTime, 'yyyy-MM-dd HH:mm:ss')}" class="form-control" type="text" required>
+            </div>
+        </div>-->
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js" />
+<script th:src="@{/def/libs/layui-2.5.5/layui.all.js}"></script>
+<th:block th:include="include :: select2-js" />
+<th:block th:include="include :: bootstrap-select-js" />
+<script type="text/javascript" th:inline="javascript">
+    var loginId = [[${loginId}]];
+    var loginName = [[${loginName}]];
+</script>
+
+<script type="text/javascript">
+    var prefix = ctx + "aupipes/inspect";
+    // var userListApi = ctx + "system/user/list";
+    var userListApi = ctx + "system/role/api/selectUserByKeys";
+
+
+    $("#form-task-edit").validate({
+        focusCleanup: true
+    });
+
+    function isAdd() {
+        return $("#id").val() ? false : true;
+    }
+
+    function submitHandler() {
+
+        if ($.validate.form()) {
+
+            var data = $("#form-task-edit").serializeArray();
+
+            var inspectWorkerIds = $.form.selectSelects("inspectWorkerList");
+
+            if(inspectWorkerIds.split(",").length > 10){
+                $.modal.msgError("您选择的巡检人员过多");
+                return;
+            }
+
+            data.push({"name": "inspectWorkerId", "value": inspectWorkerIds});
+
+            var config = {
+                url: prefix + (isAdd() ? "/add" : "/edit"),
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function () {
+                    $.modal.loading("正在处理中，请稍后...");
+                    $.modal.disable();
+                },
+                success: function (result) {
+                    $.operate.successCallback(result);
+                    $.modal.close();
+                    // $.modal.closeAll();
+                }
+            };
+            $.ajax(config)
+        }
+    }
+
+    $(function(){
+        if(isAdd()){
+            // $("#inspectStatusDiv").hide();
+            $("#distributeWorkerId").val(loginId);
+            $("#distributeWorker").val(loginName);
+        }
+
+        inspectWorkerInit();
+        $("#distributeTime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii:ss",
+            autoclose: true,
+            todayBtn:  true,
+        });
+
+        $("#startTime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii:ss",
+            autoclose: true,
+            todayBtn:  true,
+        });
+
+        $("#endTime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii:ss",
+            autoclose: true,
+            todayBtn:  true,
+        });
+    })
+
+    function inspectWorkerInit(){
+
+        var curInspectWorkerId = $("#curInspectWorkerId").val().split(',');
+
+        $.ajax({
+            type: "GET",
+            url: userListApi,
+            data: {"keys": "inspect_man"},
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: "json",
+            success: function (result) {
+                // $("#inspectWorkerId").empty();
+
+                if (result.code == 0) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        // if(item.userId == curInspectWorkerId){
+                        //     $("#inspectWorkerList").append('<option value="' + item.userId + '" selected>' + item.userName + '</option>');
+                        //
+                        // }else{
+                            $("#inspectWorkerList").append('<option value="' + item.userId + '">' + item.userName + '</option>');
+                        // }
+                    }
+                    $('#inspectWorkerList').val(curInspectWorkerId).trigger("change");
+                    // if($.common.isEmpty(curInspectWorkerId)){
+                    //     $("#inspectWorker").val($('#inspectWorkerList option:first').text());
+                    //     $("#inspectWorkerId").val($('#inspectWorkerList option:first').val());
+                    // }
+                }
+            }
+        });
+
+        // $("#inspectWorkerList").change(function(){
+        //     $("#inspectWorkerId").val($('#inspectWorkerList option:selected').val());
+        //     $("#inspectWorker").val($('#inspectWorkerList option:selected').text());
+        // })
+    }
+
+</script>
+</body>
+</html>

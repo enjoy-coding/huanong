@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.smart.mapper.ZhsqZcMapper">
+
+    <resultMap type="ZhsqZc" id="ZhsqZcResult">
+        <result property="zcid"    column="ZCID"    />
+        <result property="sblx"    column="SBLX"    />
+        <result property="sbmc"    column="SBMC"    />
+        <result property="ppmc"    column="PPMC"    />
+        <result property="sbxh"    column="SBXH"    />
+        <result property="sbzt"    column="SBZT"    />
+        <result property="x"    column="X"    />
+        <result property="y"    column="Y"    />
+        <result property="z"    column="Z"    />
+        <result property="wz"    column="WZ"    />
+        <result property="xqid"    column="XQID"    />
+    </resultMap>
+
+    <sql id="selectZhsqZcVo">
+        select ZCID, SBLX, SBMC, PPMC, SBXH, SBZT, X, Y, Z, WZ, XQID from ZHSQ_ZC
+    </sql>
+
+    <select id="selectZhsqZcList" parameterType="ZhsqZc" resultMap="ZhsqZcResult">
+        <include refid="selectZhsqZcVo"/>
+        <where>
+            <if test="sblx != null  and sblx != ''"> and SBLX = #{sblx}</if>
+            <if test="sbmc != null  and sbmc != ''">
+                <bind name="_sbmc" value="'%'+ sbmc +'%'"/>
+                and SBMC like #{_sbmc}
+            </if>
+            <if test="ppmc != null  and ppmc != ''"> and PPMC = #{ppmc}</if>
+            <if test="sbxh != null  and sbxh != ''"> and SBXH = #{sbxh}</if>
+            <if test="sbzt != null  and sbzt != ''"> and SBZT = #{sbzt}</if>
+            <if test="x != null  and x != ''"> and X = #{x}</if>
+            <if test="y != null  and y != ''"> and Y = #{y}</if>
+            <if test="z != null  and z != ''"> and Z = #{z}</if>
+            <if test="wz != null  and wz != ''">
+                <bind name="_wz" value="'%'+ wz +'%'"/>
+                and WZ like #{_wz}
+            </if>
+            <if test="xqid != null  and xqid != ''"> and XQID = #{xqid}</if>
+        </where>
+    </select>
+
+    <select id="selectZhsqZcById" parameterType="String" resultMap="ZhsqZcResult">
+        <include refid="selectZhsqZcVo"/>
+        where ZCID = #{zcid}
+    </select>
+
+    <insert id="insertZhsqZc" parameterType="ZhsqZc">
+        insert into ZHSQ_ZC
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="zcid != null  and zcid != ''">ZCID,</if>
+            <if test="sblx != null  and sblx != ''">SBLX,</if>
+            <if test="sbmc != null  and sbmc != ''">SBMC,</if>
+            <if test="ppmc != null  and ppmc != ''">PPMC,</if>
+            <if test="sbxh != null  and sbxh != ''">SBXH,</if>
+            <if test="sbzt != null  and sbzt != ''">SBZT,</if>
+            <if test="x != null  and x != ''">X,</if>
+            <if test="y != null  and y != ''">Y,</if>
+            <if test="z != null  and z != ''">Z,</if>
+            <if test="wz != null  and wz != ''">WZ,</if>
+            <if test="xqid != null  and xqid != ''">XQID,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="zcid != null  and zcid != ''">#{zcid},</if>
+            <if test="sblx != null  and sblx != ''">#{sblx},</if>
+            <if test="sbmc != null  and sbmc != ''">#{sbmc},</if>
+            <if test="ppmc != null  and ppmc != ''">#{ppmc},</if>
+            <if test="sbxh != null  and sbxh != ''">#{sbxh},</if>
+            <if test="sbzt != null  and sbzt != ''">#{sbzt},</if>
+            <if test="x != null  and x != ''">#{x},</if>
+            <if test="y != null  and y != ''">#{y},</if>
+            <if test="z != null  and z != ''">#{z},</if>
+            <if test="wz != null  and wz != ''">#{wz},</if>
+            <if test="xqid != null  and xqid != ''">#{xqid},</if>
+        </trim>
+    </insert>
+
+    <update id="updateZhsqZc" parameterType="ZhsqZc">
+        update ZHSQ_ZC
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sblx != null  and sblx != ''">SBLX = #{sblx},</if>
+            <if test="sbmc != null  and sbmc != ''">SBMC = #{sbmc},</if>
+            <if test="ppmc != null  and ppmc != ''">PPMC = #{ppmc},</if>
+            <if test="sbxh != null  and sbxh != ''">SBXH = #{sbxh},</if>
+            <if test="sbzt != null  and sbzt != ''">SBZT = #{sbzt},</if>
+            <if test="x != null  and x != ''">X = #{x},</if>
+            <if test="y != null  and y != ''">Y = #{y},</if>
+            <if test="z != null  and z != ''">Z = #{z},</if>
+            <if test="wz != null  and wz != ''">WZ = #{wz},</if>
+            <if test="xqid != null  and xqid != ''">XQID = #{xqid},</if>
+        </trim>
+        where ZCID = #{zcid}
+    </update>
+
+    <delete id="deleteZhsqZcById" parameterType="String">
+        delete from ZHSQ_ZC where ZCID = #{zcid}
+    </delete>
+
+    <delete id="deleteZhsqZcByIds" parameterType="String" >
+        delete from ZHSQ_ZC where ZCID in
+        <foreach item="zcid" collection="array" open="(" separator="," close=")">
+            #{zcid}
+        </foreach>
+    </delete>
+
+    <select id="getSbJc" resultType="map" statementType="STATEMENT">
+          select * from ZHSQ_ZC m left JOIN ${table1} n on m.ZCID = n.${col}
+           where m.ZCID='${name}'
+    </select>
+    <!--与居民相关信息-->
+    <select id="getSbJcAndJm" resultType="map" statementType="STATEMENT">
+          select * from ZHSQ_ZC m left JOIN ${table1} n on m.ZCID = n.${col}
+          LEFT JOIN ZHSQ_JM q on n.JMID = q.JMID
+           where m.ZCID='${name}'
+    </select>
+
+    <!--设备信息统计-->
+    <select id="getSbxxCount" resultType="map">
+        SELECT count(*)as num,sblx,sbzt FROM [dbo].[ZHSQ_ZC]
+         <where>
+             <choose>
+                 <when test="xqid!=null and xqid!=''">XQID=#{xqid}</when>
+                 <otherwise>XQID in (select XQID from ZHSQ_XQ where sqid=#{sqid})</otherwise>
+             </choose>
+         </where>
+        GROUP BY sblx,sbzt
+    </select>
+
+
+
+
+
+  <select id="getAreaTree" resultType="map">
+      select * from ZHSQ_XQ where SQID=#{sqid}
+  </select>
+  <select id="getSqAreaTree" resultType="map">
+      select * from ZHSQ_SQ
+  </select>
+
+    <select id="getSblxYcCount" resultType="map">
+         select n.sblx,n.zs,m.yc from
+            (SELECT count(*) as zs,sblx from zhsq_zc
+            <where>
+                <choose>
+                    <when test="xqid!=null and xqid!=''">and XQID=#{xqid}</when>
+                    <otherwise>and sqid=#{sqid}</otherwise>
+                </choose>
+            </where>
+            GROUP BY sblx ) n
+            LEFT JOIN
+            (SELECT count(*) as yc,sblx from zhsq_zc
+            <where>
+                sbzt='离线'
+                <choose>
+                    <when test="xqid!=null and xqid!=''">and XQID=#{xqid}</when>
+                    <otherwise>and sqid=#{sqid}</otherwise>
+                </choose>
+            </where>
+
+            GROUP BY sblx)m
+          on m.sblx = n.sblx
+
+    </select>
+
+    <select id="getListSb" resultType="map">
+        SELECT  * from zhsq_zc
+        <where>
+            sblx!='闸机' and sblx!='车辆道杆' and sblx !='摄像头' and sblx!='门禁'
+            <if test="sblx!=null and sblx!=''">and sblx=#{sblx}</if>
+            <if test="sbmc!=null and sbmc!=''">and sbmc like '%'+#{sbmc}+'%'</if>
+            <if test="zcid!=null and zcid!=''">and sbzt=#{zcid}</if>
+            <if test="sqid!=null and sqid!=''">and sqid=#{sqid}</if>
+            <if test="xqid!=null and xqid!=''">and xqid=#{xqid}</if>
+
+        </where>
+    </select>
+
+
+    <!--车辆类型-->
+    <select id="getClList" resultType="map">
+        select * from ZHSQ_CL
+        <where>
+            <if test="sqid!=null and sqid!=''">and sqid=#{sqid}</if>
+            <if test="xqid!=null and xqid!=''">and xqid=#{xqid}</if>
+            <if test="clhm!=null and clhm!=''">and clhm like '%'+#{clhm} +'%'</if>
+            <if test="id!=null and id!=''">and clid=#{id}</if>
+            <if test="cx!=null and cx!=''">and cx=#{cx}</if>
+        </where>
+    </select>
+    <!--车辆进出-->
+    <select id="getCljcList" resultType="map">
+        select * from ZHSQ_DGJC
+        <where>
+            <if test="sqid!=null and sqid!=''">and sqid=#{sqid}</if>
+            <if test="xqid!=null and xqid!=''">and xqid=#{xqid}</if>
+            <if test="clhm!=null and clhm!=''">and cphm like '%'+#{clhm}+'%'</if>
+            <if test="id!=null and id!=''">and jcid=#{id}</if>
+            <if test="cllx!=null and cllx!=''">and cllx=#{cllx}</if>
+        </where>
+    </select>
+
+
+</mapper>

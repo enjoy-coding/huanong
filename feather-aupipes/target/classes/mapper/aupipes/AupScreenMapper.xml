@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupScreenMapper">
+
+
+    <!--设备统计在线个数-->
+    <select id="sbtjZx" resultType="com.feather.aupipes.domain.AupSbtj">
+        select * from aup_tj_sbtj where category=0
+    </select>
+    <!--设备统计总数-->
+    <select id="sbtjZs" resultType="com.feather.aupipes.domain.AupSbtj">
+        select * from aup_tj_sbtj where category=1
+    </select>
+
+    <!--设备统计总数-->
+    <select id="znaf" resultType="com.feather.aupipes.domain.AupZnaf">
+        select * from aup_tj_znaf
+    </select>
+
+
+    <!--统计总的用水用电量-->
+    <select id="queryIndexTotalUseNumber" resultType="Map" parameterType="String">
+        SELECT * FROM aup_TjMeterTotal WHERE cacheId = {#cacheId}
+    </select>
+
+    <!--统计用量分区-->
+    <select id="useNumberByAreaSide" statementType="CALLABLE" resultType="Map">
+        {CALL index_querySideUseNumber( #{cacheId,jdbcType=VARCHAR,mode = IN})}
+    </select>
+
+
+
+     <!--查询泵房-->
+     <select id="queryPumpNumber" resultType="Map">
+        SELECT p.id,p.name,o.attrName,o.attrValue,o.id as point_id,o.point_name,r.workCount
+        FROM aup_pump p
+        OUTER apply(
+            SELECT po.id,b.attrName,b.attrValue,po.point_name 
+            FROM aup_pump_point po
+            JOIN aup_pump_point_base b on b.point_id = po.id
+            WHERE po.pump_id = p.id
+        )o
+        OUTER apply(
+			SELECT ISNULL(SUM(case WHEN s.status = '停止' or s.status is null  THEN 0 ELSE 1 END), 0) as workCount
+			FROM aup_pump_point_status s 
+			WHERE s.pump_id = p.id AND s.point_id = o.id
+		)r
+        WHERE o.id is not null 
+    </select>
+
+
+</mapper>

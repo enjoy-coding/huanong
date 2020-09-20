@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>报名成功</title>
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="css/css.css"/>
+	</head>
+	<body>
+		<div class="box">
+			<div class="topTitle">
+				<span>报名信息</span>
+				<div class="right">
+					<a href="index.html"><i class="iconfont icon-shouye"></i></a>
+				</div>
+			</div>
+			<div class="successBox">
+				<div class="formBox">
+					<div class="txtC">
+						<span class="tit1">报名成功</span>
+						<p class="pd10">扫描二维码入群</p>
+						<img id="qrCode" class="ewm" src="" alt="" />
+					</div>
+					<div class="tit2"><span>报名信息</span></div>
+					<div class="info">
+						<div class="display-block">
+							<label>姓<span class="space2"></span>名：</label>
+							<p id="name"></p>
+						</div>
+						<div class="display-block">
+							<label>学<span class="space2"></span>校：</label>
+							<p id="school"></p>
+						</div>
+						<div class="display-block">
+							<label>工作部门：</label>
+							<p id="produce"></p>
+						</div>
+						<div class="display-block">
+							<label>职<span class="space2"></span>务：</label>
+							<p id="job"></p>
+						</div>
+						<div class="display-block">
+							<label>地<span class="space2"></span>址：</label>
+							<p id="address"></p>
+						</div>
+						<div class="display-block">
+							<label>邮<span class="space2"></span>编：</label>
+							<p id="code"></p>
+						</div>
+						<div class="display-block">
+							<label>手机号码：</label>
+							<p id="mobile"></p>
+						</div>
+						<div class="display-block">
+							<label>固定电话：</label>
+							<p id="telephone"></p>
+						</div>
+						<div class="display-block">
+							<label>照<span class="space2"></span>片：</label>
+							<p><img class="img" src="" alt="" id="imgPer"/></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/common.js"></script>
+	<script>
+		$(document).ready(function () {
+//			var id = window.location.href.split("?")[1].split("=")[1]
+			//console.log(participationId,meetingID)
+			$.ajax({
+				type: 'GET',
+				url: url + '/api/meeting/showMeetingPersonnel',
+				data: {
+					"id": participationId
+				},
+				dataType: 'json',
+				success: function(data) {
+					//console.log(data)
+					var data = data.data,
+					    meetingInfo = data.meetingInfo,
+					    meetingPersonnel = data.meetingPersonnel
+					$("#name")[0].innerText=meetingPersonnel.userName;
+					$("#school")[0].innerText=meetingPersonnel.school;
+					$("#produce")[0].innerText=meetingPersonnel.unit;
+					$("#job")[0].innerText=meetingPersonnel.job;
+					$("#address")[0].innerText=meetingPersonnel.address;
+					$("#code")[0].innerText=meetingPersonnel.code;
+					$("#mobile")[0].innerText=meetingPersonnel.mobile;
+					$("#telephone")[0].innerText=meetingPersonnel.telephone;
+					$("#imgPer").attr("src",url + meetingPersonnel.photo);
+					$("#qrCode").attr("src", url + meetingInfo.qrCode);
+				},
+			})
+		})
+		// 2寸照片的高
+		imgHeight ()
+		window.onresize = function() {
+			imgHeight ()
+		};
+		function imgHeight () {
+			var imgHeight = ($("#imgPer").width())/0.66; 
+			$("#imgPer").height(imgHeight);
+		}
+	</script>
+</html>

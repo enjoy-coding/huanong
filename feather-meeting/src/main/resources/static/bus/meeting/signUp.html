@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>报名信息</title>
+		<link rel="stylesheet" type="text/css" href="font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/css.css" />
+	</head>
+
+	<body>
+		<div class="box">
+			<div class="topTitle">
+				<span>报名信息</span>
+			</div>
+			<form class="form signApForm" name="signApForm" action="" id="signApForm">
+				<div class="formBox">
+					<div class="display-block">
+						<label for="">姓<span class="space2"></span>名：</label>
+						<input type="text" name="userName" id="userName"/>
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">学<span class="space2"></span>校：</label>
+						<input type="txt" name="school" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">工作部门：</label>
+						<input type="txt" name="unit" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">职<span class="space2"></span>务：</label>
+						<input type="txt" name="job" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">地<span class="space2"></span>址：</label>
+						<input type="txt" name="address" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">邮<span class="space2"></span>编：</label>
+						<input type="number" name="code" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">手机号码：</label>
+						<input type="number" name="mobile" placeholder="" />
+						<i class="required">*</i>
+					</div>
+					<div class="display-block">
+						<label for="">固定电话：</label>
+						<input type="number" name="telephone" placeholder="" />
+					</div>
+					<div class="display-block">
+						<label for="">照<span class="space2"></span>片：</label>
+						<div class="fileBox of">
+							<div class="fileImg" id="fileImg">
+								<img id="photoImg" src="" alt="" />
+								<span class="file" type="button" id="my-img">上传照片</span>
+								<input type="file" accept="image/*" id="img-upload" name="photo" />
+							</div>
+							<div class="fileTxt" id="fileTxt">
+								<p>备注：请上传2寸照片</p>
+							</div>
+						</div>
+						<i class="required">*</i>
+					</div>
+					<!--<div class="display-block">
+						<button id="bm" type="button" class="signApBtn btngreen1" onclick="return signupform(this.form)">报名</button>
+					</div>-->
+				</div>
+				<div class="signApBtnBox">
+					<button type="button" class="signApBtn btngreen1" onclick="return signupform(this.form)">报名</button>
+				</div>
+			</form>
+		</div>
+		<!--验证表单弹框-->
+		<div class="modal formAlert txtC hide" id="formAlert"></div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/signUp.js"></script>
+
+</html>

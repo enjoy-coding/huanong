@@ -1,0 +1,8 @@
+@font-face{
+    font-family: "jixieziti"; 
+	src: url('../font/ziti/jixieziti.eot');
+    src: url('../font/ziti/jixieziti.eot?#iefix') format('embedded-opentype'),
+         url('../font/ziti/jixieziti.woff') format('woff'),
+         url('../font/ziti/jixieziti.ttf') format('truetype'),
+         url('../font/ziti/jixieziti.svg#webfont34M5alKg') format('svg');
+}

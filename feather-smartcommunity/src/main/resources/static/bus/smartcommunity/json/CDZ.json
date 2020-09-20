@@ -1,0 +1,5 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[121.3429532,31.1533185,18.212,-1.7976931348623157e+308]},"properties":{"OBJECTID":1,"SBLX":"充电桩","SBMC":"充电桩01","PPMC":"","SBXH":"","SBZT":"在线","X":121.3429532,"Y":31.1533185,"Z":18.212,"WZ":"","XQID":"XQ000004","SQID":"SQ000001","CDZID":"CDZ000001"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[121.3432409,31.1534342,18.212,-1.7976931348623157e+308]},"properties":{"OBJECTID":2,"SBLX":"充电桩","SBMC":"充电桩02","PPMC":"","SBXH":"","SBZT":"在线","X":121.3432409,"Y":31.1534342,"Z":18.212,"WZ":"","XQID":"XQ000004","SQID":"SQ000001","CDZID":"CDZ000002"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[121.3431506,31.1547386,18.212,-1.7976931348623157e+308]},"properties":{"OBJECTID":3,"SBLX":"充电桩","SBMC":"充电桩03","PPMC":"","SBXH":"","SBZT":"在线","X":121.3431506,"Y":31.1547386,"Z":18.212,"WZ":"","XQID":"XQ000008","SQID":"SQ000001","CDZID":"CDZ000003"}}
+]}

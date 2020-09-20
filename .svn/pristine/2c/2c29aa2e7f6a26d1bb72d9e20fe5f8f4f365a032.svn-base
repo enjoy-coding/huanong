@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupWaterqualityMapper">
+
+    <resultMap type="AupWaterquality" id="AupWaterqualityResult">
+        <result property="oid"    column="oid"    />
+        <result property="sname"    column="sname"    />
+        <result property="sid"    column="sid"    />
+        <result property="lat"    column="lat"    />
+        <result property="lng"    column="lng"    />
+        <result property="hight"    column="hight"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectAupWaterqualityVo">
+        select oid, sname, sid, lat, lng, hight, type_id, type from aup_waterQuality
+    </sql>
+
+    <select id="selectAupWaterqualityList" parameterType="AupWaterquality" resultMap="AupWaterqualityResult">
+        <include refid="selectAupWaterqualityVo"/>
+        <where>
+            <if test="sname != null  and sname != ''">
+                <bind name="_sname" value="'%'+ sname +'%'"/>
+                and sname like #{_sname}
+            </if>
+            <if test="sid != null  and sid != ''">
+                <bind name="_sid" value="'%'+ sid +'%'"/>
+                and sid like #{_sid}
+            </if>
+            <if test="lat != null  and lat != ''">
+                <bind name="_lat" value="'%'+ lat +'%'"/>
+                and lat like #{_lat}
+            </if>
+            <if test="lng != null  and lng != ''">
+                <bind name="_lng" value="'%'+ lng +'%'"/>
+                and lng like #{_lng}
+            </if>
+            <if test="hight != null  and hight != ''">
+                <bind name="_hight" value="'%'+ hight +'%'"/>
+                and hight like #{_hight}
+            </if>
+            <if test="typeId != null  and typeId != ''">
+                <bind name="_typeId" value="'%'+ typeId +'%'"/>
+                and type_id like #{_typeId}
+            </if>
+            <if test="type != null  and type != ''">
+                <bind name="_type" value="'%'+ type +'%'"/>
+                and type like #{_type}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupWaterqualityById" parameterType="Long" resultMap="AupWaterqualityResult">
+        <include refid="selectAupWaterqualityVo"/>
+        where oid = #{oid}
+    </select>
+
+    <insert id="insertAupWaterquality" parameterType="AupWaterquality">
+        insert into aup_waterQuality
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">oid,</if>
+            <if test="sname != null  and sname != ''">sname,</if>
+            <if test="sid != null  and sid != ''">sid,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="hight != null  and hight != ''">hight,</if>
+            <if test="typeId != null  and typeId != ''">type_id,</if>
+            <if test="type != null  and type != ''">type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oid != null ">#{oid},</if>
+            <if test="sname != null  and sname != ''">#{sname},</if>
+            <if test="sid != null  and sid != ''">#{sid},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="lng != null  and lng != ''">#{lng},</if>
+            <if test="hight != null  and hight != ''">#{hight},</if>
+            <if test="typeId != null  and typeId != ''">#{typeId},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupWaterquality" parameterType="AupWaterquality">
+        update aup_waterQuality
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sname != null  and sname != ''">sname = #{sname},</if>
+            <if test="sid != null  and sid != ''">sid = #{sid},</if>
+            <if test="lat != null  and lat != ''">lat = #{lat},</if>
+            <if test="lng != null  and lng != ''">lng = #{lng},</if>
+            <if test="hight != null  and hight != ''">hight = #{hight},</if>
+            <if test="typeId != null  and typeId != ''">type_id = #{typeId},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+        </trim>
+        where oid = #{oid}
+    </update>
+
+    <delete id="deleteAupWaterqualityById" parameterType="Long">
+        delete from aup_waterQuality where oid = #{oid}
+    </delete>
+
+    <delete id="deleteAupWaterqualityByIds" parameterType="String">
+        delete from aup_waterQuality where oid in
+        <foreach item="oid" collection="array" open="(" separator="," close=")">
+            #{oid}
+        </foreach>
+    </delete>
+
+
+
+
+
+</mapper>

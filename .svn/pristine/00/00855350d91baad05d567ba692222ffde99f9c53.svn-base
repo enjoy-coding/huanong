@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('App版本列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>名称：</p>
+                                <input type="text" name="versionName"/>
+                            </li>
+                            <li>
+                                <p>包名：</p>
+                                <input type="text" name="versionPackage"/>
+                            </li>
+							<li>
+								系统类型：<select name="versionOs" th:with="type=${@dict.getType('prd_appversion_os')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="prd:appversion:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="prd:appversion:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+	</div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+    	var detailFlag = [[${@permission.hasPermi('prd:appversion:list')}]];
+        var removeFlag = [[${@permission.hasPermi('prd:appversion:remove')}]];
+        var datas = [[${@dict.getType('prd_appversion_os')}]];
+        var prefix = ctx + "prd/appversion";
+
+		$(function() {
+		    queryVersionList();
+		});
+		
+		function queryVersionList() {
+            var options = {
+                url: prefix + "/list",
+		        detailUrl: prefix + "/detail/{id}",
+                createUrl: prefix + "/add",
+                removeUrl: prefix + "/remove",
+                modalName: "App版本",
+		        sortName: "versionNumber",
+		        sortOrder: "desc",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'versionId', 
+                    visible: false
+                },
+                {
+                    field : 'versionName', 
+                    title : '名称'
+                },
+                {
+                    field : 'versionOs', 
+                    title : '系统类型',
+                    formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(datas, value);
+		            }
+                },
+                {
+                    field : 'versionNumber', 
+                    title : '版本号'
+                },
+                {
+                    field : 'versionPackage', 
+                    title : '包名'
+                },
+                {
+                    title: '操作',
+                    width: '115',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-warning btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.versionId + '\')"><i class="fa fa-search"></i>详细</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.versionId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        }
+    </script>
+</body>
+</html>

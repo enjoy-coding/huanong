@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupBuildingAreaMapper">
+
+    <resultMap type="AupBuildingArea" id="AupBuildingAreaResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nodetype" column="nodetype"/>
+        <result property="xy" column="xy"/>
+        <result property="mapid" column="mapid"/>
+        <result property="code" column="code"/>
+        <result property="parentCode" column="parentCode"/>
+        <result property="areaNo" column="areaNo"/>
+        <result property="level" column="level"/>
+        <result property="acreage" column="acreage"/>
+        <result property="peopleCounting" column="peopleCounting"/>
+        <result property="parentName" column="parentName"/>
+        <result property="no" column="no"/>
+        <result property="buildName" column="buildName"/>
+        <result property="buildingType" column="buildingType"/>
+    </resultMap>
+
+    <sql id="selectAupBuildingAreaVo">
+        select id, name, nodetype, xy, mapid, code,parentCode,areaNo,level,acreage,peopleCounting from aup_building_area
+    </sql>
+
+
+    <select id="selectAupBuildingAreaList" parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        <where>
+            <if test="id != null  and id != ''">
+                and id = #{id}
+            </if>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="areaNo != null  and areaNo != ''">
+                and areaNo = #{areaNo}
+            </if>
+            <if test="mapid != null  and mapid != ''">
+                and mapid = #{mapid}
+            </if>
+            <if test="level != null  and level != 0">
+                and level = #{level}
+            </if>
+            <if test="nodetype != null  and nodetype != ''">
+                <bind name="_nodetype" value="'%'+ nodetype +'%'"/>
+                and nodetype like #{_nodetype}
+            </if>
+            <if test="xy != null  and xy != ''">
+                <bind name="_xy" value="'%'+ xy +'%'"/>
+                and xy like #{_xy}
+            </if>
+            <if test="mapid != null ">and mapid = #{mapid}</if>
+            <if test="code != null  and code != ''">
+                <bind name="_code" value="'%'+ code +'%'"/>
+                and code like #{_code}
+            </if>
+            <if test="parentCode != null  and parentCode != ''">
+                <bind name="_parentCode" value="'%'+ parentCode +'%'"/>
+                and parentCode like #{_parentCode}
+            </if>
+            <if test="important != null  and important != ''">
+                <bind name="_important" value="'%'+ important +'%'"/>
+                and important like #{_important}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupBuildingAreaListSd" parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and name like #{_name}
+            </if>
+            <if test="areaNo != null  and areaNo != ''">
+                and areaNo = #{areaNo}
+            </if>
+            <if test="mapid != null  and mapid != ''">
+                and mapid = #{mapid}
+            </if>
+            <!--<if test="level != null  and level != 0">-->
+                <!--and level = #{level}-->
+            <!--</if>-->
+
+            <if test="level != null  and level != 0">
+                <![CDATA[and level <= cast(#{level} as datetime)]]>
+            </if>
+
+            <if test="nodetype != null  and nodetype != ''">
+                <bind name="_nodetype" value="'%'+ nodetype +'%'"/>
+                and nodetype like #{_nodetype}
+            </if>
+            <if test="xy != null  and xy != ''">
+                <bind name="_xy" value="'%'+ xy +'%'"/>
+                and xy like #{_xy}
+            </if>
+            <if test="mapid != null ">and mapid = #{mapid}</if>
+            <if test="code != null  and code != ''">
+                <bind name="_code" value="'%'+ code +'%'"/>
+                and code like #{_code}
+            </if>
+            <if test="parentCode != null  and parentCode != ''">
+                <bind name="_parentCode" value="'%'+ parentCode +'%'"/>
+                and parentCode like #{_parentCode}
+            </if>
+            <if test="important != null  and important != ''">
+                <bind name="_important" value="'%'+ important +'%'"/>
+                and important like #{_important}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBuildingAppointParentCodeList" parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        <where>
+            <if test="parentCode != null  and parentCode != ''">
+                and parentCode = #{parentCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectAupBuildingAreaById" parameterType="Long" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAupBuildingLessThanLevelList" parameterType="String" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        where level &lt;= #{level}
+    </select>
+
+    <select id="selectAupBuildingAreaByPid" parameterType="Long" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        where mapid = #{mapid}
+    </select>
+
+    <select id="selectAupBuildingAreaByCode" parameterType="String" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        where code = #{code}
+    </select>
+
+    <select id="selectAupBuildingAreaByAreaNo" parameterType="String" resultMap="AupBuildingAreaResult">
+        <include refid="selectAupBuildingAreaVo"/>
+        where areaNo = #{areaNo}
+    </select>
+
+    <insert id="insertAupBuildingArea" parameterType="AupBuildingArea">
+        insert into aup_building_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="nodetype != null  and nodetype != ''">nodetype,</if>
+            <if test="xy != null  and xy != ''">xy,</if>
+            <if test="mapid != null ">mapid,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="parentCode != null  and parentCode != ''">parentCode,</if>
+            <if test="areaNo != null  and areaNo != ''">areaNo,</if>
+            <if test="level != null  and level != ''">level,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="nodetype != null  and nodetype != ''">#{nodetype},</if>
+            <if test="xy != null  and xy != ''">#{xy},</if>
+            <if test="mapid != null ">#{mapid},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="parentCode != null  and parentCode != ''">#{parentCode},</if>
+            <if test="areaNo != null  and areaNo != ''">#{areaNo},</if>
+            <if test="level != null  and level != ''">#{level},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupBuildingArea" parameterType="AupBuildingArea">
+        update aup_building_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="nodetype != null  and nodetype != ''">nodetype = #{nodetype},</if>
+            <if test="xy != null  and xy != ''">xy = #{xy},</if>
+            <if test="mapid != null ">mapid = #{mapid},</if>
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="parentCode != null  and parentCode != ''">parentCode = #{parentCode},</if>
+            <if test="level != null  and level != ''">level = #{level},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupBuildingAreaById" parameterType="Long">
+        delete from aup_building_area where id = #{id}
+    </delete>
+
+    <delete id="deleteAupBuildingAreaByIds" parameterType="String">
+        delete from aup_building_area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="selectAupBuildingAreaListInfo"  parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult" >
+        select s.id, s.name, s.nodetype, s.xy, s.mapid, s.code,s.parentCode,s.areaNo,level,acreage
+        ,peopleCounting,(select name from aup_building_area s1 where s1.code=s.parentCode)parentName,s2.BuildingType
+        from aup_building_area s LEFT JOIN aup_building s2 on s.areaNo=s2.[No]
+        /*SELECT
+        DISTINCT s.id,
+        s.name,
+        s.nodetype,
+        s.xy,
+        s.mapid,
+        s.code,
+        s.parentCode,
+        s.areaNo,
+        s.[LEVEL],
+        acreage,
+        peopleCounting,
+        (
+        SELECT
+        name
+        FROM
+        aup_building_area s1
+        WHERE
+        s1.code = s.parentCode
+        ) parentName,
+        c.name as 'BuildingType'
+        FROM
+        aup_building_area s
+        JOIN aup_building b ON s.areaNo = b.[No]
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup g on g.no = b.areaNo
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House h on h.buildingno = b.no
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Account a on a.house = h.id
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NTAccountCategory c on c.id = a.accountCategory*/
+        <where>
+            <if test="id != null  and id != ''">
+                and s.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 6-30号后修改为下面一个查询，未验证其他地方是否引用 -->
+    <select id="selectAupBuildingAreaListInfoForLdno"  parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult" >
+        SELECT
+        DISTINCT s.id,
+        s.name,
+        s.nodetype,
+        s.xy,
+        s.mapid,
+        s.code,
+        s.parentCode,
+        s.areaNo,
+        s.[LEVEL],
+        acreage,
+        peopleCounting,
+        (
+        SELECT
+        name
+        FROM
+        aup_building_area s1
+        WHERE
+        s1.code = s.parentCode
+        ) parentName,
+        c.name as 'BuildingType'
+        FROM
+        aup_building_area s
+        JOIN aup_building b ON s.areaNo = b.[No]
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_BuildingGroup g on g.no = b.areaNo
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_House h on h.buildingno = b.no
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NT_AgriculturalUniversity_Account a on a.house = h.id
+        JOIN [LINK_NT].[NT.AgriculturalUniversity.Logistics].[dbo].NTAccountCategory c on c.id = a.accountCategory
+        <where>
+            <if test="areaNo != null  and areaNo != ''">
+                and s.areaNo = #{areaNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAupBuildingTypeListInfoForLdno"  parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult" >
+        select * from view_building s
+        <where>
+            <if test="id != null  and id != ''">
+                and s.id = #{id}
+            </if>
+        </where>
+        order by s.id
+    </select>
+
+    <select id="selectAupBuildingAreaViewList" parameterType="AupBuildingArea" resultMap="AupBuildingAreaResult">
+        select * from view_building s
+        <where>
+            <if test="id != null  and id != ''">
+                and s.id = #{id}
+            </if>
+            <if test="id_ != null  and id_ != ''">
+                and s.id_ = #{id_}
+            </if>
+            <if test="pid_ != null  and pid_ != ''">
+                and s.pid_ = #{pid_}
+            </if>
+            <if test="name != null  and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                and s.name like #{_name}
+            </if>
+            <if test="areaNo != null  and areaNo != ''">
+                and s.areaNo = #{areaNo}
+            </if>
+            <if test="mapid != null ">and mapid = #{mapid}</if>
+            <if test="code != null  and code != ''">
+                <bind name="_code" value="'%'+ code +'%'"/>
+                and s.code like #{_code}
+            </if>
+            <if test="parentCode != null  and parentCode != ''">
+                and s.parentCode = #{parentCode}
+            </if>
+        </where>
+        order by s.id
+    </select>
+
+    <select id="selectAllLdNums" parameterType="String" resultMap="AupBuildingAreaResult" >
+        <include refid="selectAupBuildingAreaVo"/>
+         where  areaNo  in
+        <foreach item="areaNo" collection="array" open="(" separator="," close=")">
+            #{areaNo}
+        </foreach>
+    </select>
+
+   
+
+</mapper>

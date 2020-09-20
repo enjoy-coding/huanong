@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.aupipes.mapper.AupInspectDetailMapper">
+
+    <resultMap type="AupInspectDetail" id="AupInspectDetailResult">
+        <result property="id"    column="id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="serviceAddress"    column="service_address"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="serviceTypeId"    column="service_type_id"    />
+        <result property="serviceStatus"    column="service_status"    />
+        <result property="inspectWorker"    column="inspect_worker"    />
+        <result property="inspectWorkerId"    column="inspect_worker_id"    />
+        <result property="exceptionType"    column="exception_type"    />
+        <result property="exceptionTypeId"    column="exception_type_id"    />
+        <result property="description"    column="description"    />
+        <result property="result"    column="result"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="serviceName"    column="service_name"    />
+    </resultMap>
+
+    <sql id="selectAupInspectDetailVo">
+        select id, service_id, service_address, service_type, service_type_id, service_status, inspect_worker, inspect_worker_id, exception_type, exception_type_id, description, result, task_id, create_time, update_time, task_name, service_name from aup_inspect_detail
+    </sql>
+
+    <sql id="selectAupInspectDetailVoJo">
+        select aid.id, aid.service_id, aid.service_address, sde.dict_label as service_type, aid.service_type_id, aid.service_status, aid.inspect_worker, aid.inspect_worker_id,
+        aid.exception_type, aid.exception_type_id, aid.description, aid.result, aid.task_id, aid.create_time, aid.update_time, aid.task_name, aid.service_name,  sdd.dict_label as serviceStatusText
+        from aup_inspect_detail aid
+        left join sys_dict_data sdd on sdd.dict_type = 'aup_service_status' and sdd.dict_value = aid.service_status
+        left join sys_dict_data sde on sde.dict_type = 'aup_inspect_type' and sde.dict_value = aid.service_type_id
+    </sql>
+
+<!--    <select id="selectAupInspectDetailList" parameterType="AupInspectDetail" resultMap="AupInspectDetailResult">-->
+<!--        <include refid="selectAupInspectDetailVo"/>-->
+<!--        <where>-->
+<!--            <if test="serviceName != null  and serviceName != ''">-->
+<!--                <bind name="_serviceName" value="'%'+ serviceName +'%'"/>-->
+<!--                and service_name like #{_serviceName}-->
+<!--            </if>-->
+<!--            <if test="taskName != null  and taskName != ''">-->
+<!--                <bind name="_taskName" value="'%'+ taskName +'%'"/>-->
+<!--                and task_name like #{_taskName}-->
+<!--            </if>-->
+<!--            <if test="taskId != null  and taskId != ''">-->
+<!--                and task_id = #{taskId}-->
+<!--            </if>-->
+<!--            <if test="serviceTypeId != null  and serviceTypeId != ''">-->
+<!--                and service_type_id = #{serviceTypeId}-->
+<!--            </if>-->
+<!--            <if test="exceptionTypeId != null  and exceptionTypeId != ''">-->
+<!--                and exception_type_id = #{exceptionTypeId}-->
+<!--            </if>-->
+<!--            <if test="serviceStatus != null  and serviceStatus != ''">-->
+<!--                and service_status = #{serviceStatus}-->
+<!--            </if>-->
+<!--            <if test="inspectWorker != null  and inspectWorker != ''">-->
+<!--                <bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>-->
+<!--                and inspect_worker like #{_inspectWorker}-->
+<!--            </if>-->
+<!--            <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;-->
+<!--                and create_time &gt;= #{params.beginTime}-->
+<!--            </if>-->
+<!--            <if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;-->
+<!--                and create_time &lt;= #{params.endTime}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <select id="selectAupInspectDetailList" parameterType="AupInspectDetail" resultMap="AupInspectDetailResult">
+        <include refid="selectAupInspectDetailVoJo"/>
+        <where>
+            <if test="serviceName != null  and serviceName != ''">
+                <bind name="_serviceName" value="'%'+ serviceName +'%'"/>
+                and aid.service_name like #{_serviceName}
+            </if>
+            <if test="taskName != null  and taskName != ''">
+                <bind name="_taskName" value="'%'+ taskName +'%'"/>
+                and aid.task_name like #{_taskName}
+            </if>
+            <if test="taskId != null  and taskId != ''">
+                and aid.task_id = #{taskId}
+            </if>
+            <if test="serviceTypeId != null  and serviceTypeId != ''">
+                and aid.service_type_id = #{serviceTypeId}
+            </if>
+            <if test="serviceStatus != null  and serviceStatus != ''">
+                and aid.service_status = #{serviceStatus}
+            </if>
+            <if test="inspectWorker != null  and inspectWorker != ''">
+                <bind name="_inspectWorker" value="'%'+ inspectWorker +'%'"/>
+                and aid.inspect_worker like #{_inspectWorker}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and aid.create_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and aid.create_time &lt;= #{params.endTime}
+            </if>
+        </where>
+        order by aid.create_time desc
+    </select>
+
+    <select id="selectAupInspectDetailById" parameterType="Long" resultMap="AupInspectDetailResult">
+        <include refid="selectAupInspectDetailVoJo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAupInspectDetailByTaskIds" resultMap="AupInspectDetailResult" parameterType="String">
+        <include refid="selectAupInspectDetailVoJo"/>
+
+        <where>
+            <if test="taskIdList != null">
+                and task_id in
+                <foreach item="item" index="index" open="(" separator="," close=")" collection="taskIdList">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertAupInspectDetail" parameterType="AupInspectDetail">
+        insert into aup_inspect_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="serviceId != null ">service_id,</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">service_address,</if>
+            <if test="serviceType != null  and serviceType != ''">service_type,</if>
+            <if test="serviceTypeId != null  and serviceTypeId != ''">service_type_id,</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status,</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">inspect_worker,</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">inspect_worker_id,</if>
+            <if test="exceptionType != null  and exceptionType != ''">exception_type,</if>
+            <if test="exceptionTypeId != null  and exceptionTypeId != ''">exception_type_id,</if>
+            <if test="description != null  and description != ''">description,</if>
+            <if test="result != null  and result != ''">result,</if>
+            <if test="taskId != null  and taskId != ''">task_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="taskName != null  and taskName != ''">task_name,</if>
+            <if test="serviceName != null  and serviceName != ''">service_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="serviceId != null ">#{serviceId},</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">#{serviceAddress},</if>
+            <if test="serviceType != null  and serviceType != ''">#{serviceType},</if>
+            <if test="serviceTypeId != null  and serviceTypeId != ''">#{serviceTypeId},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">#{serviceStatus},</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">#{inspectWorker},</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">#{inspectWorkerId},</if>
+            <if test="exceptionType != null  and exceptionType != ''">#{exceptionType},</if>
+            <if test="exceptionTypeId != null  and exceptionTypeId != ''">#{exceptionTypeId},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="result != null  and result != ''">#{result},</if>
+            <if test="taskId != null  and taskId != ''">#{taskId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="taskName != null  and taskName != ''">#{taskName},</if>
+            <if test="serviceName != null  and serviceName != ''">#{serviceName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAupInspectDetail" parameterType="AupInspectDetail">
+        update aup_inspect_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceId != null ">service_id = #{serviceId},</if>
+            <if test="serviceAddress != null  and serviceAddress != ''">service_address = #{serviceAddress},</if>
+            <if test="serviceType != null  and serviceType != ''">service_type = #{serviceType},</if>
+            <if test="serviceTypeId != null  and serviceTypeId != ''">service_type_id = #{serviceTypeId},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status = #{serviceStatus},</if>
+            <if test="inspectWorker != null  and inspectWorker != ''">inspect_worker = #{inspectWorker},</if>
+            <if test="inspectWorkerId != null  and inspectWorkerId != ''">inspect_worker_id = #{inspectWorkerId},</if>
+            <if test="exceptionType != null  and exceptionType != ''">exception_type = #{exceptionType},</if>
+            <if test="exceptionTypeId != null  and exceptionTypeId != ''">exception_type_id = #{exceptionTypeId},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+            <if test="result != null  and result != ''">result = #{result},</if>
+            <if test="taskId != null  and taskId != ''">task_id = #{taskId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="taskName != null  and taskName != ''">task_name = #{taskName},</if>
+            <if test="serviceName != null  and serviceName != ''">service_name = #{serviceName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAupInspectDetailById" parameterType="Long">
+        delete from aup_inspect_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteAupInspectDetailByIds" parameterType="String">
+        delete from aup_inspect_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAupInspectDetailByTaskIds" parameterType="String">
+        delete from aup_inspect_detail where task_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

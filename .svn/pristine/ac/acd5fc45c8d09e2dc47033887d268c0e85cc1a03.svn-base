@@ -1,0 +1,371 @@
+<!-- 预警详情 -->
+
+<div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+    <ul class="layui-tab-title title2 nhtjTitle">
+        <li class="layui-this"><i class="iconfont icon-houtaiguanli"></i>预警详情</li>
+        <li lay-id="yjczd" id="yjczd"><i class="iconfont icon-tuceng" ></i>预警处置</li>
+    </ul>
+    <div class="layui-tab-content rightTabContent">
+        <!--预警详情 水电-->
+        <div class="layui-tab-item nhtjContent layui-show" id="yjxq" th:if="${not #lists.isEmpty(list)}" th:switch="${list.formSysName}">
+
+            <!--预警详情视频-->
+            <div id="sp" class="yjxqdetail" style="display: none" th:case="监控">
+               <!-- <div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3">监测信息</div>
+                <div class="pw15" id="spxx">
+                    <div class="title4">实时视频</div>
+                    <div id="hkCamera" style="height: 200px;width: 293px;border: 1px solid rgba(59,184,183,.8);"></div>
+                </div>
+                <div class="pw15" id="zptp">
+                    <div class="title4">抓拍图片</div>
+                    <div id="imgtp" th:onclick="YJCZ.amplificationImg([[${list.ImageUrl1}]])">
+                        <img th:src="@{${list.ImageUrl1}}" style="width: 293px;height: 200px" >
+                    </div>
+                </div>
+            </div>
+            <!--路灯详情视频-->
+            <div id="ld" class="yjxqdetail" style="display: none" th:case="路灯">
+                <!--<div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3">监测信息</div>
+              <!--  <div class="pw15">
+                    <div class="title4">电灯参数</div>
+                    <form class="layui-form yjczDdcsFrom pr">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" >开关：</label>
+                            <div class="layui-input-block" th:onclick="YJCZ.changeKg()">
+                                <input type="checkbox" lay-skin="switch" lay-filter="switchTest">
+                                <div id="kg" class="layui-unselect layui-form-switch" lay-skin="_switch"><em></em><i></i></div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">亮度：</label>
+                        </div>
+                        <div class="pa ldIcon" id="ldIcon">
+                            <i class="iconfont icon-deng"></i>
+                        </div>
+                    </form>
+                    <div id="slideTest7" class="demo-slider"></div>
+                    <div class="yjczLdNumber">
+                        <span>0%</span>
+                        <span>20%</span>
+                        <span>40%</span>
+                        <span>60%</span>
+                        <span>80%</span>
+                        <span>100%</span>
+                    </div>
+                </div>-->
+                <div class="title3 clGreen">数据查询</div>
+                <ul class="sbxxList" id="ldsj">
+                    <li><span class="clGreen">灯头：</span><span>1</span></li>
+                    <li><span class="clGreen">电流(A)：</span><span>0</span></li>
+                    <li><span class="clGreen">电压(V)：</span><span>0</span></li>
+                    <li><span class="clGreen">功率(W)：</span><span>0</span></li>
+                    <li><span class="clGreen">功率因数：</span><span>0</span></li>
+                    <li><span class="clGreen">电量：</span><span>0</span></li>
+                </ul>
+            </div>
+
+            <!--探漏详情-->
+            <div id="tl" class="yjxqdetail" style="display: none" th:case="探漏">
+               <!-- <div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3">监测信息</div>
+                <div class="rcxjXxxx">
+                    <!-- 信号波动振幅 -->
+                    <div id="xhbd_Charts"></div>
+                    <!-- 异常系数 -->
+                    <div id="ycxs_Charts"></div>
+                </div>
+
+            </div>
+            <div id="sz" class="yjxqdetail" style="display: block" th:case="水质">
+               <!-- <div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div id="szDetail">
+
+                </div>
+
+            </div>
+            <div id="bf" class="yjxqdetail" style="display: block" th:case="泵房">
+                <!--<div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3 clGreen">监测信息</div>
+               <!-- <ul class="sbxxList" id="bfDetail">
+                    <li><span class="clGreen">名称：</span><span>1</span></li>
+                </ul>-->
+                <div id = "bfjc"></div>
+            </div>
+
+            <div id="sb" class="yjxqdetail" style="display: block" th:case="水电">
+               <!-- <div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>-->
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3">监测信息</div>
+                <div class="sbxxList" id="sbxx">
+                    <li>时间：<span>2020-3-10 8:00</span></li>
+                    <li>水表值：<span>1.5A</span></li>
+                </div>
+
+            </div>
+
+
+            <div id="db" class="yjxqdetail" style="display: block" th:case="电表">
+                <div class="title3">设备信息</div>
+                <ul class="sbxxList">
+                    <li>设备名称：<span>[(${list.formSysName})]</span></li>
+                    <li>设备位置：<span>[(${list.path})]</span></li>
+                    <li>设备类型：<span>[(${list.formSysName})]</span></li>
+                    <li>设备ID：<span>[(${list.code})]</span></li>
+                </ul>
+                <div class="title3">预警信息</div>
+                <ul class="sbxxList">
+                    <li>预警名称：<span>[(${list.formSysName})]</span></li>
+                    <li>预警内容：<span>[(${list.content})]</span></li>
+                    <li>预警原因：<span>[(${list.name})]</span></li>
+                    <li>预警时间：<span>[(${list.dateTime})]</span></li>
+                    <li>预警状态：
+                        <span th:if="${list.state eq 0}">未处理</span>
+                        <span th:if="${list.state eq 1}">已处理</span>
+                    </li>
+                    <li>预警等级：
+                        <span th:if="${list.level eq 1}">一级预警</span>
+                        <span th:if="${list.level eq 2}">二级预警</span>
+                        <span th:if="${list.level eq 3}">三级预警</span>
+                    </li>
+                    <li>预警来源：<span>[(${list.author})]</span></li>
+                </ul>
+                <div class="title3">监测信息</div>
+                <div class="sbxxList" id="dbxx">
+                    <li>时间：<span>2020-3-10 8:00</span></li>
+                    <li>电压值：<span>220V</span></li>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-tab-item nhtjContent" th:if="${not #lists.isEmpty(list)}" th:switch="${list.formSysName}">
+            <!--  <div class="flex-between yjczTabTitle">
+                   <span class="btn-shadow active" onclick="yackLayuiBox()">预案查看</span>
+                  <span class="btn-shadow" onclick="lsgzLayuiBox()">历史故障</span>
+                  <span class="btn-shadow" onclick="yjhcLayuiBox()">预警核查</span>
+                  <span class="btn-shadow" onclick="hcczLayuiBox()">核查处置</span>
+              </div>
+              <div class="fxBtn flex-between tabBtnGroup">
+                  <i>分析：</i>
+                  <span class="btn-shadow tabBtn">拉闸分析</span>
+                  <span class="btn-shadow tabBtn">影响范围</span>
+                  <span class="btn-shadow tabBtn">获取用户</span>
+              </div>-->
+            <div class="title3">维修记录</div>
+            <div class="table wxjlTabe1 page">
+                <table class="layui-hide" id="wxjlTable" lay-filter="clickWxEvent"></table>
+            </div>
+
+           <!-- <div class="title3">拉闸分析</div>
+            <ul class="yjtjList lzfxNumber" th:case="探漏">
+                <li class="active">
+                    <p>变电箱</p>
+                    <h6>25</h6>
+                    <i class="iconfont icon-dian1"></i>
+                </li>
+                <li class="active">
+                    <p>供电管线</p>
+                    <h6>1800</h6>
+                    <i class="iconfont icon-guanxian"></i>
+                </li>
+            </ul>-->
+            <button   th:onclick="YJCZ.gffx()">进行分析</button>
+            <div id="leftFxList" th:case="探漏" >
+                <div class="title3">关阀分析</div>
+                <ul class="yjtjList lzfxNumber">
+                    <li class="active">
+                        <p>关闭阀门</p>
+                        <h6>[(${rightBox.bdx})]</h6> <i class="iconfont icon-humidity"></i>
+                    </li>
+                    <li class="active">
+                        <p>影响阀门</p>
+                        <h6>[(${rightBox.gdgx})]</h6> <i class="iconfont icon-guanxian"></i>
+                    </li>
+                </ul>
+            <div class="title3">影响范围</div>
+            <div class="yxfwNumber pr">
+                <div class="jml pa">
+                    <h5>[(${rightBox.jml})]</h5>
+                    <p>居民楼</p>
+                </div>
+                <div class="ssl pa">
+                    <h5>[(${rightBox.ssl})]</h5>
+                    <p>宿舍楼</p>
+                </div>
+                <div class="jxl pa">
+                    <h5>[(${rightBox.jxl})]</h5>
+                    <p>教学楼</p>
+                </div>
+                <div class="syl pa">
+                    <h5>[(${rightBox.syl})]</h5>
+                    <p>商业楼</p>
+                </div>
+            </div>
+            <div class="title3">推送用户</div>
+            <ul class="pd15 ldqkList tsyhList">
+                <li>
+                    <h5><span id="number5">[(${rightBox.ssgly})]</span></h5>
+                    <p class="clGreen"><i class="iconfont icon-ren"></i>宿舍管理员</p>
+                </li>
+                <li>
+                    <h5><span id="number6">[(${rightBox.hqb})]</span></h5>
+                    <p class="clGreen"><i class="iconfont icon-admin"></i>后勤部</p>
+                </li>
+                <li>
+                    <h5><span id="number7">[(${rightBox.jmgly})]</span></h5>
+                    <p class="clGreen"><i class="iconfont icon-guanliyuan"></i>居民管理员</p>
+                </li>
+                <li>
+                    <h5><span id="number8">[(${rightBox.jxgly})]</span></h5>
+                    <p class="clGreen"><i class="iconfont icon-ren1"></i>教学管理员</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    </div>
+        <!--预警处置-->
+
+</div>
+
+
+
+

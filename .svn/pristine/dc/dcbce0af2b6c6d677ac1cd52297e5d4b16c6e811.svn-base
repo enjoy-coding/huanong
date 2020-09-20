@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpInfoReadLogMapper">
+
+    <resultMap type="NpInfoReadLog" id="NpInfoReadLogResult">
+        <id property="readId" column="read_id"/>
+        <result property="infoId" column="info_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="readFlag" column="read_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpInfoReadLogVo">
+        select read_id, info_id, device_id, read_flag, create_by, create_time, update_time, remark
+		from np_info_read_log r
+    </sql>
+
+    <select id="selectNpInfoReadLogById" parameterType="Long" resultMap="NpInfoReadLogResult">
+        <include refid="selectNpInfoReadLogVo"/>
+        where r.read_id = #{readId}
+    </select>
+
+    <select id="selectNpInfoReadLogList" parameterType="NpInfoReadLog" resultMap="NpInfoReadLogResult">
+        <include refid="selectNpInfoReadLogVo"/>
+        <where>
+            <if test="readId != null">
+                AND read_id = #{readId}
+            </if>
+            <if test="infoId != null">
+                AND info_id = #{infoId}
+            </if>
+            <if test="deviceId != null">
+                AND device_id = #{deviceId}
+            </if>
+            <if test="readFlag != null">
+                AND read_flag = #{readFlag}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND create_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND create_time &lt;= #{params.endTime, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpInfoReadLog" parameterType="NpInfoReadLog">
+        insert into np_info_read_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="readId != null and readId != 0">read_id,</if>
+            <if test="infoId != null and infoId != 0">info_id,</if>
+            <if test="deviceId != null and deviceId != 0">device_id,</if>
+            <if test="readFlag != null">read_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="readId != null and readId != 0">#{readId},</if>
+            <if test="infoId != null and infoId != 0">#{infoId},</if>
+            <if test="deviceId != null and deviceId != 0">#{deviceId},</if>
+            <if test="readFlag != null">#{readFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertNpInfoReadLogBatch" parameterType="list">
+        insert into np_info_read_log (read_id, info_id, device_id, read_flag, create_by, create_time)
+        values
+        <foreach collection="list" item="npInfoReadLog" separator=",">
+            (#{npInfoReadLog.readId}, #{npInfoReadLog.infoId}, #{npInfoReadLog.deviceId}, #{npInfoReadLog.readFlag}, #{npInfoReadLog.createBy}, #{npInfoReadLog.createTime, jdbcType=BIGINT} )
+        </foreach>
+    </insert>
+
+    <update id="updateNpInfoReadLog" parameterType="NpDevice">
+        update np_info_read_log
+        <set>
+            <if test="readFlag != null">read_flag = #{readFlag},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where read_id = #{readId}
+    </update>
+
+    <delete id="deleteNpInfoReadLogById" parameterType="Long">
+	    delete from np_info_read_log where read_id = #{readId}
+	</delete>
+
+    <delete id="deleteNpInfoReadLogByIds" parameterType="Long">
+        delete from np_info_read_log where read_id in
+        <foreach collection="array" item="readId" open="(" separator="," close=")">
+            #{readId}
+        </foreach>
+    </delete>
+</mapper> 

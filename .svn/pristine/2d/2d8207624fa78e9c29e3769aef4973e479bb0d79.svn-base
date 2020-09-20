@@ -1,0 +1,11 @@
+
+# 代码生成
+gen: 
+  # 作者
+  author: fancy
+  # 生成包路径(模块名称 如 system monitor tool)
+  packageName: com.feather.${spring.profiles.active}
+  # 自动去除表前缀，默认是false
+  autoRemovePre: false
+  # 表前缀(类名不会包含表前缀)
+  tablePrefix: sys_

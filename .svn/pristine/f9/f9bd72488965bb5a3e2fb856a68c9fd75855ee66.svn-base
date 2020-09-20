@@ -1,0 +1,275 @@
+{
+  "id": "1717622",
+  "name": "华农手机端",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "手机端页面",
+  "glyphs": [
+    {
+      "icon_id": "3531885",
+      "name": "水",
+      "font_class": "shui",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "11372772",
+      "name": "闪电",
+      "font_class": "shandian",
+      "unicode": "e8c5",
+      "unicode_decimal": 59589
+    },
+    {
+      "icon_id": "9504312",
+      "name": "开挖分析",
+      "font_class": "kaiwafenxi",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "15436842",
+      "name": "搜周边",
+      "font_class": "souzhoubian1",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "4059926",
+      "name": "搜周边",
+      "font_class": "souzhoubian",
+      "unicode": "e7bf",
+      "unicode_decimal": 59327
+    },
+    {
+      "icon_id": "5334575",
+      "name": "循环",
+      "font_class": "xunhuan",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "8153443",
+      "name": "收费",
+      "font_class": "charge",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "13601366",
+      "name": "监管",
+      "font_class": "jianguan",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "798634",
+      "name": "日历",
+      "font_class": "calender",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "3248410",
+      "name": "完成",
+      "font_class": "wancheng1",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "7195480",
+      "name": "水泵",
+      "font_class": "shuibeng",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "12462957",
+      "name": "巡检 ",
+      "font_class": "xunjian2",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "1045181",
+      "name": "箭头",
+      "font_class": "jiantou-copy",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "1045940",
+      "name": "箭头",
+      "font_class": "jiantou-copy1",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "4025624",
+      "name": "水",
+      "font_class": "humidity",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "4822726",
+      "name": "灯泡 ",
+      "font_class": "dengpao",
+      "unicode": "e75a",
+      "unicode_decimal": 59226
+    },
+    {
+      "icon_id": "5958265",
+      "name": "监控",
+      "font_class": "jiankong",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "7770373",
+      "name": "配电房",
+      "font_class": "peidianfang",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "8629971",
+      "name": "摄像头 (1)",
+      "font_class": "shexiangtou",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "1727588",
+      "name": "405雷达、探测",
+      "font_class": "leidatance",
+      "unicode": "e901",
+      "unicode_decimal": 59649
+    },
+    {
+      "icon_id": "14221319",
+      "name": "开始巡检",
+      "font_class": "kaishixunjian",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "5953047",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "6707938",
+      "name": "减",
+      "font_class": "jian",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "1115083",
+      "name": "位置",
+      "font_class": "weizhi",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "9509948",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "8242394",
+      "name": "运单轨迹",
+      "font_class": "yundanguiji",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "10392628",
+      "name": "详情-",
+      "font_class": "xiangqing-",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "12175513",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "6056164",
+      "name": "收缩上箭头",
+      "font_class": "shousuoshangjiantou",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "6056176",
+      "name": "收缩下箭头",
+      "font_class": "shousuoxiajiantou",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "2340707",
+      "name": "3d",
+      "font_class": "d",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6406662",
+      "name": "2d",
+      "font_class": "d1",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "8560067",
+      "name": "关 闭",
+      "font_class": "guanbi",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "8315482",
+      "name": "图层",
+      "font_class": "tuceng",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "7514123",
+      "name": "详情",
+      "font_class": "xiangqing",
+      "unicode": "e82d",
+      "unicode_decimal": 59437
+    },
+    {
+      "icon_id": "9922204",
+      "name": "全屏",
+      "font_class": "quantu",
+      "unicode": "e83c",
+      "unicode_decimal": 59452
+    },
+    {
+      "icon_id": "12372038",
+      "name": "地上浏览",
+      "font_class": "dishangliulan",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "9512618",
+      "name": "地点",
+      "font_class": "position-fill",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    }
+  ]
+}

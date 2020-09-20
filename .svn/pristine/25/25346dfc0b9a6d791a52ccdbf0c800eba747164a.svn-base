@@ -1,0 +1,60 @@
+<div class='pa spczBox'>
+    <ul>
+        <h5>视频操作：</h5>
+        <li><i class="iconfont icon-iconeye"></i>播放</li>
+        <li><i class="iconfont icon-iconeye"></i>暂停</li>
+        <li><i class="iconfont icon-iconeye"></i>快进</li>
+        <li><i class="iconfont icon-iconeye"></i>快退</li>
+    </ul>
+</div>
+<h5 class="title_yagl">步骤示意</h5>
+<div class="bzsyBox">
+    <div>
+        <div class="vertical-circle"></div>
+        <div class="vertical-text">
+            <div class="stepBox">
+                <h4>1</h4>
+                <h6>步骤一</h6>
+            </div>
+            <div class="stepBox_text">
+                <p>[[${m}]]</p>
+            </div>
+        </div>
+        <div class="vertical-line"></div>
+    </div>
+
+
+<!--    <div class="vertical-circle"></div>-->
+<!--    <div class="vertical-text">-->
+<!--        <div class="stepBox">-->
+<!--            <h4>2</h4>-->
+<!--            <h6>步骤二</h6>-->
+<!--        </div>-->
+<!--        <div class="stepBox_text">-->
+<!--            <p>负责人查明原因，安排事宜，禁烧人员伤亡，处理相关事宜等，做好相应的措施和行动</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="vertical-line"></div>-->
+<!--    <div class="vertical-circle"></div>-->
+<!--    <div class="vertical-text">-->
+<!--        <div class="stepBox">-->
+<!--            <h4>3</h4>-->
+<!--            <h6>步骤三</h6>-->
+<!--        </div>-->
+<!--        <div class="stepBox_text">-->
+<!--            <p>负责人查明原因，安排事宜，禁烧人员伤亡，处理相关事宜等，做好相应的措施和行动</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="vertical-line"></div>-->
+<!--    <div class="vertical-circle"></div>-->
+<!--    <div class="vertical-text">-->
+<!--        <div class="stepBox">-->
+<!--            <h4>4</h4>-->
+<!--            <h6>步骤四</h6>-->
+<!--        </div>-->
+<!--        <div class="stepBox_text">-->
+<!--            <p>负责人查明原因，安排事宜，禁烧人员伤亡，处理相关事宜等，做好相应的措施和行动</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="vertical-line"></div>-->
+</div>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('房屋列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+
+                        <li>
+                            <p>楼栋名称：</p>
+                            <input type="text" name="ldmc"/>
+                        </li>
+                        <li>
+                            <p>单元：</p>
+                            <input type="text" name="dy"/>
+                        </li>
+                        <li>
+                            <p>层：</p>
+                            <input type="text" name="c"/>
+                        </li>
+                        <li>
+                            <p>产权状态：</p>
+                            <input type="text" name="cqzt"/>
+                        </li>
+                        <li>
+                            <p>用途：</p>
+                            <input type="text" name="fwlylx"/>
+                        </li>
+
+                        <li>
+                            <p>房屋地址：</p>
+                            <input type="text" name="fwdz"/>
+                        </li>
+                        <li>
+                            <p>房屋面积：</p>
+                            <input type="text" name="fwmj"/>
+                        </li>
+                        <li>
+                            <p>户主姓名：</p>
+                            <input type="text" name="hzxm"/>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="smartcommunity:FW:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="smartcommunity:FW:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="smartcommunity:FW:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="smartcommunity:FW:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('smartcommunity:FW:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('smartcommunity:FW:remove')}]];
+    var prefix = ctx + "smartcommunity/FW";
+
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "房屋",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'fwid',
+                    title : '房屋id',
+                    visible:false,
+                },
+                {
+                    field : 'ldid',
+                    title : '楼栋id',
+                    visible:false,
+                },
+                {
+                    field : 'ldmc',
+                    title : '楼栋名称'
+                },
+                {
+                    field : 'dy',
+                    title : '单元'
+                },
+                {
+                    field : 'c',
+                    title : '层'
+                },
+                {
+                    field : 'mph',
+                    title : '门牌号'
+                },
+                {
+                    field : 'fwdz',
+                    title : '房屋地址'
+                },
+                {
+                    field : 'fwmj',
+                    title : '房屋面积'
+                },
+                {
+                    field : 'fwrzqk',
+                    title : '房屋入住情况'
+                },
+                {
+                    field : 'fwlylx',
+                    title : '房屋使用用途'
+                },
+                {
+                    field : 'cqzt',
+                    title : '产权状态'
+                },
+                {
+                    field : 'hzid',
+                    title : '户主id',
+                    visible:false,
+                },
+                {
+                    field : 'hzxm',
+                    title : '户主姓名'
+                },
+                {
+                    field : 'xqid',
+                    title : '小区id',
+                    visible:false,
+                },
+                {
+                    field : 'sqid',
+                    title : '社区id',
+                    visible:false,
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.fwid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.fwid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

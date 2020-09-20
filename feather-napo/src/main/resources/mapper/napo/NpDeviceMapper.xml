@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.napo.mapper.NpDeviceMapper">
+
+    <resultMap type="NpDevice" id="NpDeviceResult">
+        <id property="deviceId" column="device_id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="state" column="state"/>
+        <result property="address" column="address"/>
+        <result property="ownerUnit" column="owner_unit"/>
+        <result property="telephone" column="telephone"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectNpDeviceVo">
+        select device_id, name, type, state, address, owner_unit, telephone, create_by, create_time, update_time
+		from np_device d
+    </sql>
+
+    <select id="selectNpDeviceById" parameterType="Long" resultMap="NpDeviceResult">
+        <include refid="selectNpDeviceVo"/>
+        where d.device_id = #{deviceId}
+    </select>
+
+    <select id="selectNpDeviceList" parameterType="NpDevice" resultMap="NpDeviceResult">
+        <include refid="selectNpDeviceVo"/>
+        <where>
+            <if test="name != null and name != ''">
+                <bind name="_name" value="'%'+ name +'%'"/>
+                AND name like #{_name}
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="state != null and state != ''">
+                AND state = #{state}
+            </if>
+            <if test="address != null and address != ''">
+                <bind name="_address" value="'%'+ address +'%'"/>
+                AND address like #{_address}
+            </if>
+            <if test="ownerUnit != null and ownerUnit != ''">
+                <bind name="_ownerUnit" value="'%'+ ownerUnit +'%'"/>
+                AND owner_unit like #{_ownerUnit}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                <bind name="_telephone" value="'%'+ telephone +'%'"/>
+                AND telephone like #{_telephone}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND create_time &gt;= #{params.beginTime, jdbcType=BIGINT}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND create_time &lt;= #{params.endTime, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNpDevice" parameterType="NpDevice">
+        insert into np_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != 0">device_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="state != null and state != ''">state,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="ownerUnit != null and ownerUnit != ''">owner_unit,</if>
+            <if test="telephone != null and telephone != ''">telephone,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != 0">#{deviceId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="state != null and state != ''">#{state},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="ownerUnit != null and ownerUnit != ''">#{ownerUnit},</if>
+            <if test="telephone != null and telephone != ''">#{telephone},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNpDevice" parameterType="NpDevice">
+        update np_device
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="type != null and type !=''">type = #{type},</if>
+            <if test="state != null and state != ''">state = #{state},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="ownerUnit != null and ownerUnit != ''">owner_unit = #{ownerUnit},</if>
+            <if test="telephone != null and telephone != ''">telephone = #{telephone},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where device_id = #{deviceId}
+    </update>
+
+    <delete id="deleteNpDeviceById" parameterType="Long">
+	    delete from np_device where device_id = #{deviceId}
+	</delete>
+
+    <delete id="deleteNpDeviceByIds" parameterType="Long">
+        delete from np_device where device_id in
+        <foreach collection="array" item="deviceId" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper> 

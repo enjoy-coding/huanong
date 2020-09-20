@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商品信息表列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>商家：</p>
+                                <input type="hidden" id="shopId" name="params[shopId]" th:value="*{shop.shopId}"/>
+                                <input type="text" name="params[shopName]" th:value="*{shop.shopName}" disabled="disabled"/>
+                            </li>
+                            <li>
+                                <p>商品名称：</p>
+                                <input type="text" name="goodsName"/>
+                            </li>
+                            <li>
+                                <p>商品品牌：</p>
+                                <input type="text" name="goodsBrand"/>
+                            </li>
+                            <li>
+                                <p>商品描述：</p>
+                                <input type="text" name="goodsContent"/>
+                            </li>
+                            <li>
+                                <p>商品价格：</p>
+                                <input type="text" name="goodsPrice"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="addFull()" shiro:hasPermission="sc:goods:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.editFull()" shiro:hasPermission="sc:goods:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="sc:goods:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="sc:goods:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('sc:goods:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('sc:goods:remove')}]];
+        var prefix = ctx + "sc/goods/";
+        var addUrl = prefix + '/add/' + $("#shopId").val();
+        $(function() {
+            var options = {
+                url: prefix + "/list/",
+                createUrl: addUrl,
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商品信息表",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'goodsId', 
+                    title : 'null',
+                    visible: false
+                },
+                {
+                    field : 'shopId', 
+                    title : '商家名称',
+                    formatter:function(value,row,index){
+                        return row.shop.shopName
+                    }
+                },
+                {
+                    field : 'goodsName', 
+                    title : '商品名称'
+                },
+                {
+                    field : 'goodsBrand', 
+                    title : '商品品牌'
+                },
+                {
+                    field : 'goodsPrice', 
+                    title : '商品价格'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.goodsId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.goodsId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        /**
+         *  结项页面
+         */
+        function addFull(){
+            $.modal.openFull("结束任务", addUrl);
+        }
+    </script>
+</body>
+</html>

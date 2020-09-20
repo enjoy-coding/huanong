@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('菜单树选择')" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+<style>
+	body{height:auto;font-family: "Microsoft YaHei";}
+	button{font-family: "SimSun","Helvetica Neue",Helvetica,Arial;}
+	.treeRoot {
+		padding-left: 20px;
+		font-size: 12px;
+		color: #333;
+		z-index: 3;
+	}
+</style>
+<body class="hold-transition box box-main">
+	<input id="treeId"   name="treeId"    type="hidden" th:value="${menu.menuId}"/>
+	<input id="treeName" name="treeName"  type="hidden" th:value="${menu.menuName}"/>
+	<div class="wrapper"><div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
+		<label id="btnShow" title="显示搜索" style="display:none;">︾</label>
+		<label id="btnHide" title="隐藏搜索">︽</label>
+	</div>
+	<div class="treeSearchInput" id="search">
+		<label for="keyword">关键字：</label><input type="text" class="empty" id="keyword" maxlength="50">
+		<button class="btn" id="btn" onclick="$.tree.searchNode()"> 搜索 </button>
+	</div>
+		<div class="treeRoot" id="root">
+			<a href="#" >根节点</a>
+		</div>
+	<div class="treeExpandCollapse">
+		<a href="#" onclick="$.tree.expand()">展开</a> /
+		<a href="#" onclick="$.tree.collapse()">折叠</a>
+	</div>
+	<div id="tree" class="ztree treeselect"></div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: ztree-js" />
+	<script th:inline="javascript">
+		var selectedTreeNode = null;
+		
+		$(function() {
+			var url = ctx + "system/menu/menuTreeData";
+			var options = {
+		        url: url,
+		        expandLevel: 1,
+		        onClick : zOnClick,
+				onDrop:onDrop,
+		    };
+			$.tree.init(options);
+
+			$("#root a").hover(
+					function(){
+						$(this).css('text-decoration','underline');
+					},
+					function(){
+						$(this).css('text-decoration','none');
+			});
+			$("#root a").click(function ()
+			{
+				$(this).css('background-color','#e5e5e5');
+				selectedTreeNode = {
+					id:0,
+					name:"无",
+				}
+				$("#treeId").val(0);
+				$("#treeName").val("无");
+			});
+		});
+		
+		function zOnClick(event, treeId, treeNode) {
+			selectedTreeNode = treeNode;
+		    var treeId = treeNode.id;
+		    var treeName = treeNode.name;
+		    $("#treeId").val(treeId);
+		    $("#treeName").val(treeName);
+			$("#root a").css('background-color','#ffffff');
+		}
+
+
+			//用于捕获节点拖拽操作结束的事件回调函数  默认值： null
+			function onDrop (event, treeId, treeNodes, targetNode, moveType) {
+				//拖拽成功时，修改被拖拽节点的pid
+				var fomdDate = {
+					menuId:treeNodes[0].id,
+					parentId:treeNodes[0].pId==null?"0":treeNodes[0].pId
+				}
+				$.ajax({
+					type: 'post',
+					url: ctx + "system/menu/tree/edit",
+					dataType: "text",
+					data:fomdDate,
+					async: false,
+					success: function (data) {
+
+					},
+					error: function (msg) {
+
+					}
+				});
+			}
+	</script>
+</body>
+</html>

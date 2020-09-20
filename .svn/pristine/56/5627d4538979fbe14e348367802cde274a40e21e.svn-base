@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScRegisterMapper">
+
+    <resultMap type="ScRegister" id="ScRegisterResult">
+        <result property="registerId"    column="register_id"    />
+        <result property="registerName"    column="register_name"    />
+        <result property="registerTel"    column="register_tel"    />
+        <result property="registerIDCard"    column="register_idcard"    />
+        <result property="registerSex"    column="register_sex"    />
+        <result property="registerBir"    column="register_bir"    />
+        <result property="registerAddress"    column="register_address"    />
+        <result property="registerProfession"    column="register_profession"    />
+        <result property="registerSynopsis"    column="register_synopsis"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="auditPassState"    column="audit_pass_state"    />
+        <result property="auditContent"    column="audit_content"    />
+        <result property="auditBy"    column="audit_by"    />
+        <result property="auditTime"    column="audit_time"   jdbcType="BIGINT"   />
+        <result property="equipmentId"    column="equipmentId"   />
+        <result property="updateBy"    column="update_by"   />
+
+   </resultMap>
+
+    <sql id="selectScRegisterVo">
+        select register_id, register_name,register_idcard, register_tel, register_sex, register_bir, register_address, register_profession, register_synopsis,equipmentId, audit_state, audit_pass_state,audit_content, audit_by, audit_time,update_by from sc_register
+    </sql>
+
+    <select id="selectScRegisterList" parameterType="ScRegister" resultMap="ScRegisterResult">
+        <include refid="selectScRegisterVo"/>
+        <where>
+            <if test="registerName != null  and registerName != ''">
+                <bind name="_registerName" value="'%'+ registerName +'%'"/>
+                and register_name like #{_registerName}
+            </if>
+            <if test="registerTel != null  and registerTel != ''">
+                <bind name="_registerTel" value="'%'+ registerTel +'%'"/>
+             and register_tel like  #{_registerTel}</if>
+            <if test="registerSex != null  and registerSex != ''"> and register_sex = #{registerSex}</if>
+            <if test="registerIDCard != null  and registerIDCard != ''">
+                <bind name="_registerIDCard" value="'%'+ registerIDCard +'%'"/>
+             and register_idcard like #{_registerIDCard}</if>
+            <if test="registerBir != null  and registerBir != ''">
+                <bind name="_registerBir" value="'%'+ registerBir +'%'"/>
+                and register_bir like #{registerBir}</if>
+            <if test="registerAddress != null  and registerAddress != ''">
+                <bind name="_registerAddress" value="'%'+ registerAddress +'%'"/>
+                and register_address like #{_registerAddress}</if>
+            <if test="registerProfession != null  and registerProfession != ''">
+                <bind name="_registerProfession" value="'%'+ registerProfession +'%'"/>
+                and register_profession like #{_registerProfession}</if>
+            <if test="registerSynopsis != null  and registerSynopsis != ''">
+                <bind name="_registerSynopsis" value="'%'+ registerSynopsis +'%'"/>
+                and register_synopsis like #{_registerSynopsis}</if>
+            <if test="auditState != null  and auditState != ''"> and audit_state = #{auditState}</if>
+            <if test="auditPassState != null  and auditPassState != ''"> and audit_pass_state = #{auditPassState}</if>
+            <if test="auditBy != null  and auditBy != ''"> and audit_by = #{auditBy}</if>
+            <if test="auditTime != null "> and audit_time = #{auditTime,jdbcType="BIGINT"}</if>
+            <if test="equipmentId != null "> and equipmentId = #{equipmentId}</if>
+        </where>
+    </select>
+
+    <select id="selectScRegisterById" parameterType="Long" resultMap="ScRegisterResult">
+        <include refid="selectScRegisterVo"/>
+        where register_id = #{registerId} 
+    </select>
+
+    <insert id="insertScRegister" parameterType="ScRegister">
+        insert into sc_register
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerId != null ">register_id,</if>
+            <if test="registerName != null  and registerName != ''">register_name,</if>
+            <if test="registerTel != null  and registerTel != ''">register_tel,</if>
+            <if test="registerIDCard != null  and registerIDCard != ''">register_idcard,</if>
+            <if test="registerSex != null  and registerSex != ''">register_sex,</if>
+            <if test="registerBir != null  and registerBir != ''">register_bir,</if>
+            <if test="registerAddress != null  and registerAddress != ''">register_address,</if>
+            <if test="registerProfession != null  and registerProfession != ''">register_profession,</if>
+            <if test="registerSynopsis != null  and registerSynopsis != ''">register_synopsis,</if>
+            <if test="auditState != null  and auditState != ''">audit_state,</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state,</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content,</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by,</if>
+            <if test="auditTime != null ">audit_time,</if>
+            <if test="equipmentId != null ">equipmentId,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerId != null ">#{registerId},</if>
+            <if test="registerName != null  and registerName != ''">#{registerName},</if>
+            <if test="registerTel != null  and registerTel != ''">#{registerTel},</if>
+            <if test="registerIDCard != null  and registerIDCard != ''">#{registerIDCard},</if>
+            <if test="registerSex != null  and registerSex != ''">#{registerSex},</if>
+            <if test="registerBir != null  and registerBir != ''">#{registerBir},</if>
+            <if test="registerAddress != null  and registerAddress != ''">#{registerAddress},</if>
+            <if test="registerProfession != null  and registerProfession != ''">#{registerProfession},</if>
+            <if test="registerSynopsis != null  and registerSynopsis != ''">#{registerSynopsis},</if>
+            <if test="auditState != null  and auditState != ''">#{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">#{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">#{auditContent},</if>
+            <if test="auditBy != null  and auditBy != ''">#{auditBy},</if>
+            <if test="auditTime != null ">#{auditTime, jdbcType=BIGINT},</if>
+            <if test="equipmentId != null ">#{equipmentId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime, jdbcType=BIGINT},</if>
+        </trim>
+    </insert>
+
+    <update id="updateScRegister" parameterType="ScRegister">
+        update sc_register
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="registerName != null  and registerName != ''">register_name = #{registerName},</if>
+            <if test="registerTel != null  and registerTel != ''">register_tel = #{registerTel},</if>
+            <if test="registerIDCard != null  and registerIDCard != ''">register_idcard = #{registerIDCard},</if>
+            <if test="registerSex != null  and registerSex != ''">register_sex = #{registerSex},</if>
+            <if test="registerBir != null  and registerBir != ''">register_bir = #{registerBir},</if>
+            <if test="registerAddress != null  and registerAddress != ''">register_address = #{registerAddress},</if>
+            <if test="registerProfession != null  and registerProfession != ''">register_profession = #{registerProfession},</if>
+            <if test="registerSynopsis != null  and registerSynopsis != ''">register_synopsis = #{registerSynopsis},</if>
+            <if test="auditState != null  and auditState != ''">audit_state = #{auditState},</if>
+            <if test="auditPassState != null  and auditPassState != ''">audit_pass_state = #{auditPassState},</if>
+            <if test="auditContent != null  and auditContent != ''">audit_content = #{auditContent},</if>
+            <if test="auditBy != null  and auditBy != ''">audit_by = #{auditBy},</if>
+            <if test="auditTime != null ">audit_time = #{auditTime,jdbcType=BIGINT},</if>
+            <if test="equipmentId != null ">equipmentId = #{equipmentId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime, jdbcType=BIGINT},</if>
+        </trim>
+        where register_id = #{registerId}
+    </update>
+
+    <select id="checkAccountUnique" parameterType="String" resultMap="ScRegisterResult">
+        <include refid="selectScRegisterVo"/>
+        where (register_tel = #{registerTel} and audit_state = '0' ) 
+            or (register_tel = #{registerTel} and audit_state = '1' and audit_pass_state = '0' ) 
+    </select>
+
+   
+
+    <delete id="deleteScRegisterById" parameterType="Long">
+        delete from sc_register where register_id = #{registerId}
+    </delete>
+
+    <delete id="deleteScRegisterByIds" parameterType="String">
+        delete from sc_register where register_id in
+        <foreach item="registerId" collection="array" open="(" separator="," close=")">
+            #{registerId}
+        </foreach>
+    </delete>
+
+</mapper>

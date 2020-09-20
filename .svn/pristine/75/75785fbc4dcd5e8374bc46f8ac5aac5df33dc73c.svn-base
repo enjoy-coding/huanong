@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feather.lpscommunity.mapper.ScPartyBuildMapper">
+
+    <resultMap type="ScPartyBuild" id="ScPartyBuildResult">
+        <result property="partyBuildId"    column="partybuild_id"    />
+        <result property="partyBuildTitle"    column="partybuild_title"    />
+        <result property="partyBuildContent"    column="partybuild_content"    />
+        <result property="partyBuildCover" column="partybuild_cover"/>
+        <result property="partyBuildFile"    column="partybuild_file"    />
+        <result property="partyBuildStatus"    column="partybuild_status"    />
+        <result property="partyBuildType"    column="partybuild_type"    />
+        <result property="videoUpdateType"    column="video_update_type"    />
+        <result property="partyBuildSource" column="partybuild_source"/>
+        <result property="partyBuildTime" column="partybuild_time"  />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    jdbcType="BIGINT"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    jdbcType="BIGINT"    />
+        <collection  property="files"   javaType="java.util.List"        resultMap="ScFileInfoResult" />
+    </resultMap>
+
+    <resultMap type="ScFileInfo" id="ScFileInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileTarget"    column="file_target"    />
+        <result property="fileCode"    column="file_code"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <sql id="selectScPartyBuildVo">
+        select partybuild_id, partybuild_title, partybuild_status,partybuild_content,partybuild_source,partybuild_time,partybuild_file, partybuild_type,video_update_type,create_by, create_time, update_by, update_time, remark
+        from sc_partybuild
+    </sql>
+
+    <sql id="selectScPartyBuildFileVo">
+        select p.partybuild_id, p.partybuild_title, p.partybuild_status,p.partybuild_content,p.partybuild_source,p.partybuild_time
+		    ,p.partybuild_file, p.partybuild_type,p.video_update_type,p.create_by, p.create_time, p.update_by, p.update_time
+		    ,f.file_id,f.file_name,f.file_path
+		from sc_partybuild p 
+		left join sc_file_info f on f.file_target = p.partybuild_id and f.file_code = 'partybuild' 
+    </sql>
+
+    <select id="selectScPartyBuildByList" parameterType="ScPartyBuild" resultMap="ScPartyBuildResult">
+        <include refid="selectScPartyBuildVo"/>
+        <where>
+            <if test="partyBuildId != null  and partyBuildId != ''"> and partybuild_id = #{partyBuildId}</if>
+            <if test="partyBuildTitle != null  and partyBuildTitle != ''">
+                <bind name="_partyBuildTitle" value="'%'+ partyBuildTitle +'%'"/>
+                and partybuild_title like #{_partyBuildTitle}</if>
+            <if test="partyBuildStatus != null  and partyBuildStatus != ''"> and partybuild_status = #{partyBuildStatus}</if>
+            <if test="partyBuildType != null  and partyBuildType != ''"> and partybuild_type = #{partyBuildType}</if>
+            <if test="partyBuildSource != null  and partyBuildSource != ''">
+            	<bind name="_partyBuildSource" value="'%'+ partyBuildSource +'%'"/>
+            	and partybuild_source like #{_partyBuildSource}
+            </if>
+        </where>
+        order by partybuild_time desc ,update_time desc
+    </select>
+
+    <select id="selectScPartyBuildFileByList" parameterType="ScPartyBuild" resultMap="ScPartyBuildResult">
+        <include refid="selectScPartyBuildFileVo"/>
+        <where>
+            <if test="partyBuildId != null  and partyBuildId != ''"> and partybuild_id = #{partyBuildId}</if>
+            <if test="partyBuildTitle != null  and partyBuildTitle != ''">
+                <bind name="_partyBuildTitle" value="'%'+ partyBuildTitle +'%'"/>
+                and partybuild_title like #{_partyBuildTitle}</if>
+            <if test="partyBuildStatus != null  and partyBuildStatus != ''"> and partybuild_status = #{partyBuildStatus}</if>
+            <if test="partyBuildType != null  and partyBuildType != ''"> and partybuild_type = #{partyBuildType}</if>
+            <if test="partyBuildSource != null  and partyBuildSource != ''">
+            	<bind name="_partyBuildSource" value="'%'+ partyBuildSource +'%'"/>
+            	and partybuild_source like #{_partyBuildSource}
+            </if>
+        </where>
+        order by partybuild_time desc ,update_time desc
+    </select>
+
+    <select id="selectScPartyBuildById" parameterType="Long" resultMap="ScPartyBuildResult">
+        <include refid="selectScPartyBuildFileVo"/>
+        where partybuild_id = #{partyBuildId}
+    </select>
+
+    <select id="selectScPartyBuildFileById" parameterType="Long" resultMap="ScPartyBuildResult">
+        <include refid="selectScPartyBuildVo"/>
+        where partybuild_id = #{partyBuildId}
+    </select>
+
+    <insert id="insertScPartyBuild" parameterType="ScPartyBuild">
+        insert into sc_partybuild
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="partyBuildId != null ">partybuild_id,</if>
+            <if test="partyBuildTitle != null  and partyBuildType != ''">partybuild_title,</if>
+            <if test="partyBuildContent != null  and partyBuildContent != ''">partybuild_content,</if>
+            <if test="partyBuildCover != null and partyBuildCover !=''" >partybuild_cover,</if>
+            <if test="partyBuildFile != null  and partyBuildFile != ''">partybuild_file,</if>
+            <if test="partyBuildStatus != null  and partyBuildStatus != ''">partybuild_status,</if>
+            <if test="partyBuildType != null  and partyBuildType != ''">partybuild_type,</if>
+            <if test="videoUpdateType != null  and videoUpdateType != ''">video_update_type,</if>
+            <if test="partyBuildSource != null  and partyBuildSource != ''">partyBuild_source,</if>
+            <if test="partyBuildTime != null  and partyBuildTime != ''">partyBuild_time,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="partyBuildId != null ">#{partyBuildId},</if>
+            <if test="partyBuildTitle != null  and partyBuildType != ''">#{partyBuildTitle},</if>
+            <if test="partyBuildContent != null  and partyBuildContent != ''">#{partyBuildContent},</if>
+            <if test="partyBuildCover != null  and partyBuildCover != ''">#{partyBuildCover},</if>
+            <if test="partyBuildFile != null  and partyBuildFile != ''">#{partyBuildFile},</if>
+            <if test="partyBuildStatus != null  and partyBuildStatus != ''">#{partyBuildStatus},</if>
+            <if test="partyBuildType != null  and partyBuildType != ''">#{partyBuildType},</if>
+            <if test="videoUpdateType != null  and videoUpdateType != ''">#{videoUpdateType},</if>
+            <if test="partyBuildSource != null  and partyBuildSource != ''">#{partyBuildSource},</if>
+            <if test="partyBuildTime != null  and partyBuildTime != ''">#{partyBuildTime},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime, jdbcType=BIGINT},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateScPartyBuild" parameterType="ScPartyBuild">
+        update sc_partyBuild
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="partyBuildTitle != null  and partyBuildTitle != ''">partybuild_title = #{partyBuildTitle},</if>
+            <if test="partyBuildContent != null  and partyBuildContent != ''">partybuild_content = #{partyBuildContent},</if>
+            <if test="partyBuildFile != null  and partyBuildFile != ''">partybuild_file = #{partyBuildFile},</if>
+            <if test="partyBuildCover != null  and partyBuildCover != ''">partybuild_cover = #{partyBuildCover},</if>
+            <if test="partyBuildStatus != null  and partyBuildStatus != ''">partybuild_status = #{partyBuildStatus},</if>
+            <if test="partyBuildType != null  and partyBuildType != ''">partybuild_type = #{partyBuildType},</if>
+            <if test="videoUpdateType != null  and videoUpdateType != ''">video_update_type = #{videoUpdateType},</if>
+            <if test="partyBuildSource != null  and partyBuildSource != ''">partybuild_source = #{partyBuildSource},</if>
+            <if test="partyBuildTime != null  and partyBuildTime != ''">partybuild_time = #{partyBuildTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime, jdbcType=BIGINT},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where partybuild_id = #{partyBuildId}
+    </update>
+
+    <delete id="deleteScPartyBuildById" parameterType="Long">
+        delete from sc_partybuild where partybuild_id = #{partyBuildId}
+    </delete>
+
+    <delete id="deleteScPartyBuildByIds" parameterType="String">
+        delete from sc_partybuild where partybuild_id in
+        <foreach item="partyBuildId" collection="array" open="(" separator="," close=")">
+            #{partyBuildId}
+        </foreach>
+    </delete>
+
+</mapper>

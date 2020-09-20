@@ -1,0 +1,53 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <link rel="stylesheet" th:href="@{/bus/aupipes/lib/css/insidePage.css}">
+    <link rel="stylesheet" th:href="@{/def/libs/swiper/css/swiper.min.css}">
+    <script th:src="@{/def/libs/swiper/js/swiper.min.js}"></script>
+    <style>
+
+        .layui-table-grid-down{
+            display:none;
+        }
+/*        .xjlbTabe{
+            height:30vh;
+        }*/
+/*        .table .layui-table-cell {
+            height: 3vh;
+            line-height: 3vh;
+            padding: 0 0.5vw;
+            font-size: 1.4vh;
+            min-width: 3.5vw;
+        }*/
+    </style>
+</head>
+<div class="title sgfxTitle">巡检详情</div>
+<div class="pw15">
+    <div class="title3 oh timeLimit" style="margin-top: 5pt;margin-bottom: 5pt">
+        <button type="button" onclick="RYXJ.trackStart()" style="margin-left: 0">轨迹开始</button>
+        <button type="button" onclick="RYXJ.trackPause(this)">轨迹暂停</button>
+        <button type="button" onclick="RYXJ.trackStop()">清除轨迹</button>
+    </div>
+    <div class="title3 oh timeLimit" style="margin-top: 5pt;margin-bottom: 5pt">巡检记录列表</div>
+    <div class="table xjlbTabe page">
+        <div id="xjlbTable" lay-filter="clickDetailEvent"></div>
+    </div>
+    <div class="lineBlue mh15"></div>
+    <div class="title3">巡检结果</div>
+    <div class="exceptionDetails">
+        <div class="swiper-container xjzkImgSwitch" style="margin-top:10px">
+            <ul class="swiper-wrapper" id="ycxqSwiper">
+            </ul>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <div class="exceptionDetailsTxt" style="height:22vh;margin-top:10px" id="ycxqList">
+        </div>
+    </div>
+</div>
+<script type="text/html" id="gjhf">
+    <button type="button" class="xjhfBtn fr" lay-event="detail">
+        <i class="iconfont icon-feiji"></i>轨迹回放
+    </button>
+</script>
+</html>

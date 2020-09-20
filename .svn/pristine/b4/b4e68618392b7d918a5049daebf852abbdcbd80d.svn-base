@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>综合治理</title>
+		<link rel="stylesheet" href="js/jquery-ztree/3.5/css/metro/zTreeStyle.css">
+		<link rel="stylesheet" href="js/layui-2.5.5/css/layui.css">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" href="css/font.css" />
+		<link rel="stylesheet" href="font/iconfont/iconfont.css">
+		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="Cesium/Widgets/widgets.css">
+		<link rel="stylesheet" type="text/css" href="css/subPage.css"/>
+	</head>
+
+	<body onload="featherCmsScript._map.startTime()">
+		<div class="indexChange">
+			<!--物管公告-->
+			<div class="placardBox">
+				<div id="newsContent" class="newsContent pr">
+					<span class="color_blue font_16 txt"><i class="iconfont icontongzhi color_yellow font_22 mr_10"></i>物管公告：</span>
+					<ul class="swiper-wrapper neswList">
+						<li class="swiper-slide">
+							[13:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+						<li class="swiper-slide">
+							[12:08]全社区在明天上午之前做好物业缴费核对上午之前做好物业缴费核对
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--地图服务-->
+			<div id="cesiumContainer"></div>
+			<!--<div class="mapImg"></div>-->
+
+			<!--顶部-开始-->
+			<div class="topContent">
+				<div class="pr topTxtBox">
+					<img class="index_logo pa" src="images/logo.png" alt="" />
+					<ul class="navMenu oh">
+						<li>
+							<a href="index.html">综合态势</a>
+						</li>
+						<li>
+							<a href="sqgl.html">社区管理</a>
+						</li>
+						<li>
+							<a href="znaf.html">智能安防</a>
+						</li>
+						<li class="active">
+							<a href="">综合治理</a>
+						</li>
+						<li >
+							<a href="zhdj.html">智慧党建</a>
+						</li>
+					</ul>
+					<div class="topTxt fr">
+						<div class="time">
+							<h4 class="font_22 numberFont" id="time">11:20:00</h4>
+							<h5>
+								<span class="color_blue" id="data">2020年6月8日</span>
+								<!--<span class="color_blue mw_10">星期一</span>-->
+							</h5>
+						</div>
+						<div class="weather">
+							<p><span class="letter-spacing">空气质量：</span><i class="kq_bg">优</i></p>
+							<p><span class="letter-spacing">北京：</span><span>14℃~10℃</span></p>
+						</div>
+						<div class="weather">
+							<p><span class="letter-spacing">湿度: </span><span>49%</span></p>
+							<p class="color_blue">PM10:32μg/m3</p>
+						</div>
+					</div>
+					<div class="pa topRight">
+						<!--<div class="infoSelect pr">
+							<span class="iconfont iconyonghu color_white">admin</span>
+							<ul class="Down">
+								<li><a href="">退出</a></li>
+								<li><a href="">全屏</a></li>
+							</ul>
+						</div>-->
+						<a href="" class="iconfont iconyonghu color_white color_blue"></a>
+						<a href="" class="color_blue iconfont icontongzhi4"></a>
+						<a href="javascript:window.open(featherCmsScript.ctx+'index','console');" class="color_blue iconfont iconshezhi"></a>
+					</div>
+				</div>
+			</div>
+			<!--顶部-结束-->
+
+			<!--左侧-开始-->
+			<div class="zhzlLeftContent">
+				<div class="zhzlPersonnelList">
+					<div class="content">
+						<!--重点人员-->
+						<div class="zdryLeftBox" id="zdry">
+							<dl class="total">
+								<dt><img src="images/zhzl_icon1.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_14">重点人员人数</h6>
+								</dd>
+							</dl>
+							<ul class="list">
+								<li id="livingAloneBtn">
+									独居老人 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									空巢老人 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									低保人员 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									残疾老人 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									退役军人 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									刑满释放 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+							</ul>
+						</div>
+						<!--重点事件-->
+						<div class="zdsjLeftBox hide">
+							<dl class="total" id="sjzs">
+								<dt><img src="images/zhzl_icon3.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_14">事件总数</h6>
+								</dd>
+							</dl>
+							<ul class="list border_b_gray" id="czzt">
+								<li id="zdsjRightOpen">
+									末处置 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									处置中 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									已处置 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+							</ul>
+							<h6 class="title2 color_navy_blue ml_10">事件类型</h6>
+							<div class="znaf_bjtj" style="padding-top:0;" id="sjlx">
+								<p class="oh">治安事件<span class="fr numberFont color_navy_blue font_22">528</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+									<div class="layui-progress-text">50%</div>
+								</div>
+								<p class="oh">卫生事件<span class="fr numberFont color_navy_blue font_22">70</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+									<div class="layui-progress-text">20%</div>
+								</div>
+								<p class="oh">能源事件<span class="fr numberFont color_navy_blue font_22">80</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-red" lay-percent="30%"></div>
+									<div class="layui-progress-text">30%</div>
+								</div>
+								<p class="oh">事件类型<span class="fr numberFont color_navy_blue font_22">80</span></p>
+								<div class="layui-progress layuiProgress">
+									<div class="layui-progress-bar layui-bg-blue" lay-percent="30%"></div>
+									<div class="layui-progress-text">30%</div>
+								</div>
+							</div>
+							<div id="sjlxEchart" class="znaf_bjzs"></div>
+						</div>
+						<!--巡检任务-->
+						<div class="xjrwLeftBox hide" id="xjrw">
+							<dl class="total">
+								<dt><img src="images/zhzl_icon4.png" alt="" /></dt>
+								<dd>
+									<h5 class="numberFont font_30 color_white">5741</h5>
+									<h6 class="color_yellow font_14">任务总数</h6>
+								</dd>
+							</dl>
+							<ul class="list">
+								<li id="xjrwRightOpen">
+									末巡 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									在巡 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+								<li>
+									已巡 <span class="number font_22 color_navy_blue numberFont">724</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--左侧--结束-->
+
+			<!--右侧--开始-->
+			<div class="rightContent CloseRight">
+				<div class="pr indexRightBox">
+					<i id="zhzlRightCloseBtn" class="pa layui-icon layui-icon-close color_white font_22 rightCloseBtn"></i>
+					<!--人员列表-->
+					<div class="zdryRightList">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">重点人员信息</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="searchZdry">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('ZDRY')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">搜索结果</span></div>
+						<ul class="searchResult" id="ryList">
+							<li class="layui-row">
+								<span class="number numberFont">1</span>
+								<div class="layui-col-md5">
+							    	<span class="font_14 color_green">姓名：</span><span class="font_14 color_white">李梨园</span>
+							    </div>
+							    <div class="layui-col-md4">
+							    	<span class="font_14 color_green">性别：</span><span class="font_14 color_white">男</span>
+							    </div>
+							    <div class="layui-col-md3">
+							    	<span class="font_14 color_green">年龄：</span><span class="font_14 color_white"><i class="iconfont "></i>34</span>
+							    </div>
+							    <div class="layui-col-md12">
+							    	<span class="font_14 color_green">标签：</span><span class="font_14 color_white"><i class="iconfont iconrenyuan-shi"></i>低保人员</span>
+							    </div>
+							</li>
+						</ul>
+						<div id="ryPage" class="layuiPage"></div>
+					</div>
+					<!--事件列表-->
+					<div class="zdsjRightList hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">事件列表</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="searchZdsj">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('ZDSJ')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">搜索结果</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">事件类型</span>
+						    </div>
+						    <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+						      	<span title="">事件内容</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">状态</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="sjList">
+							<div class="layui-row colum" id="zdsjLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">卫生事件</span>
+							    </div>
+							    <div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+							      	<span title="">垃圾末处置</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">末处置</span>
+							    </div>
+							</div>
+						</div>
+						<div id="sjPage" class="layuiPage"></div>
+					</div>
+					<!--巡检任务-->
+					<div class="xjrwRightList hide">
+						<div class="title mb_10">
+							<a href="" class="txt color_white">任务列表</a>
+						</div>
+						<div class="SearchBox2">
+							<input type="text" id="searchXjrw">
+							<i class="iconfont iconsousuo pa searchIco" onclick="searchLB('XJRW')"></i>
+						</div>
+						<div class="title3 mh_10"><span class="txt">搜索结果</span></div>
+						<div class="layui-row tabThead">
+							<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span>序号</span>
+						    </div>
+							<div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+						      	<span title="">任务名称</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">巡检人员</span>
+						    </div>
+						    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+						      	<span title="">状态</span>
+						    </div>
+						</div>
+						<div class="tabBody" id="xjrwList">
+							<div class="layui-row colum" id="xjrwLayerOpen">
+								<div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span>1</span>
+							    </div>
+								<div class="layui-col-md6 layui-col-sm6 layui-col-xs6">
+							      	<span title="">巡检任务</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">李云迪</span>
+							    </div>
+							    <div class="layui-col-md2 layui-col-sm2 layui-col-xs2">
+							      	<span title="">末巡</span>
+							    </div>
+							</div>
+						</div>
+						<div id="xjrwPage" class="layuiPage"></div>
+					</div>
+					<!--地图按钮-->
+					<div class="mapToolbar pa">
+						<h5 class="mapBtn moreBtn active" id="mapToolbarBtn">
+							<i class="iconfont icongongjuxiang"></i>
+						</h5>
+						<ul class="mapToolbarList">
+							<li class="mapBtn" title="指北">
+								<i class="iconfont iconicon"></i>
+							</li>
+							<li class="mapBtn" title="全屏">
+								<i class="iconfont iconquanping"></i>
+							</li>
+							<li class="mapBtn" title="放大">
+								<i class="iconfont iconjia"></i>
+							</li>
+							<li class="mapBtn" title="缩小">
+								<i class="iconfont iconjian"></i>
+							</li>
+							<li class="mapBtn" title="全图">
+								<i class="iconfont iconquantu"></i>
+							</li>
+                            <li class="mapBtn" title="清除">
+                                <i class="iconfont iconshanchu-copy-copy"></i>
+                            </li>
+						</ul>
+					</div>
+					<!--定位-->
+					<div class="positionSelect pa">
+						<div class="pr">
+							<p class="positionSelectBtn" id="positionSelectBtn">
+								<i class="iconfont iconloc-s font_22 color_blue mr_10"></i>
+								<span id="treeName" value="SQ000001">七宝社区</span>
+							</p>
+							<div class="pa SelectTree hide" id="SelectTree">
+								<div class="ztreeBox">
+									<ul id="zTree" class="ztree"></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--右侧--结束-->
+
+			<!--底部--开始-->
+			<div class="zhzlBottomContent">
+				<div class="contentTxt">
+					<div class="layui-row">
+					    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 zhzlBottomColum pr">
+					      	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">重点人员分布TOP5</span>
+							</div>
+							<div class="layui-row">
+							    <div class="layui-col-md6 layui-col-sm6">
+							      	<div id="staffDistribution" class="zhzlBottomEcharts"></div>
+							    </div>
+							    <div class="layui-col-md6 layui-col-sm6 staffDistributionTxt" id="zdryfb">
+							      	<p>1.翰林小区10栋<span class="fr">50人</span></p>
+							      	<p>1.翰林小区11栋<span class="fr">24人</span></p>
+							      	<p>1.翰林小区11栋<span class="fr">12人</span></p>
+							      	<p>1.翰林小区12栋<span class="fr">31人</span></p>
+							      	<p>1.翰林小区13栋<span class="fr">25人</span></p>
+							    </div>
+							</div>
+					    </div>
+					    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 zhzlBottomColum pr">
+					    	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">年龄结构</span>
+							</div>
+							<div id="ageStructure" class="zhzlBottomEcharts"></div>
+					    </div>
+					    <div class="layui-col-md3 layui-col-sm3 layui-col-xs3 zhzlBottomColum pr">
+					      	<div class="line pa"></div>
+					      	<div class="title">
+								<span class="txt color_white">男女比例</span>
+							</div>
+							<div class="layui-row">
+							    <div class="layui-col-md6 layui-col-sm6">
+							      	<div id="lNScale" class="zhzlBottomEcharts"></div>
+							    </div>
+							    <div class="layui-col-md6 layui-col-sm6 lNScaleTxt" id="nnrs">
+							      	<p class="woman"><i class="iconfont iconwomen"></i>女 <span class="fr color_white numberFont font_30">3247</span></p>
+							      	<p class="color_blue man"><i class="iconfont iconnancesuo"></i>男 <span class="fr color_white numberFont font_30">3478</span></p>
+							    </div>
+							</div>
+					    </div>
+					    <div class="layui-col-md3 layui-col-sm3">
+					      	<div class="title">
+								<span class="txt color_white">民族比例</span>
+							</div>
+							<div id="MZScale" class="zhzlBottomEcharts"></div>
+					    </div>
+					</div>
+				</div>
+			</div>
+			<!--底部--结束-->
+
+			<!--子导航-->
+			<ul class="subpageNavigation">
+				<li class="active" id="zdrySubNav">
+					<i class="iconfont iconrenyuan-shi"></i>重点人员
+				</li>
+				<li id="zdsjSubNav">
+					<i class="iconfont iconshijian"></i>重点事件
+				</li>
+				<li id="xjrwSubNav">
+					<i class="iconfont iconposition-mark"></i>巡检任务
+				</li>
+			</ul>
+
+
+			<!--人员信息弹框-->
+			<div class="layerBox hide" id="personnelInfoLayer">
+				<h4 class="moveTxt">序号02</h4>
+				<div class="layerContent">
+					<ul class="personnelInfoListLayer">
+						<li>
+							<img class="img" src="images/video_img1.png" alt="" />
+							<div class="layui-row">
+								<div class="layui-col-md7">
+									<p><span class="color_blue">姓名：</span><span class="color_white" id="name">李花</span></p>
+									<p><span class="color_blue">民族：</span><span class="color_white" id="nation">汉</span></p>
+									<p><span class="color_blue">居住地址：</span><span class="color_white" id="address">翰林小区11-2-201</span></p>
+
+								</div>
+								<div class="layui-col-md5">
+									<p><span class="color_blue">性别：</span><span class="color_white" id="sex">女</span></p>
+									<p><span class="color_blue">年龄：</span><span class="color_white" id="age">67</span></p>
+									<p><span class="color_blue">电话：</span><span class="color_white" id="tel">15100000000</span></p>
+								</div>
+								<div class="layui-col-md12">
+									<p><span class="color_blue">标签：</span><span class="color_white" id="label"><i class="iconfont iconrenyuan-shi color_red"></i>重点监控人员</span></p>
+								</div>
+								<div class="layui-col-md12 wristband">
+									<p><span class="color_blue">手环：</span><span class="btn TipBtn" id="wristbandDetailBtn" onclick="aa(this)">详情</span></p>
+								</div>
+								<div class="wristbandDetailBox">
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">温度：</span><span class="color_white" id="sbattr1">67</span></p>
+										</div>
+										<div class="layui-col-md5">
+											<p><span class="color_blue">心率：</span><span class="color_white" id="sbattr2">2020-08-32 09：41</span></p>
+										</div>
+									</div>
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">血氧：</span><span class="color_white" id="sbattr3">133~80</span></p>
+										</div>
+										<div class="layui-col-md5">
+											<p><span class="color_blue">血糖：</span><span class="color_white" id="sbattr4">2020-08-32 09：41</span></p>
+										</div>
+									</div>
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">时间：</span><span class="color_white" id="sbattr5">滑到</span></p>
+										</div>
+									</div>
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">定位：</span><span class="color_white" id="sbattr6">滑到</span></p>
+										</div>
+										<div class="layui-col-md7">
+											<p><span class="color_blue">时间：</span><span class="color_white" id="sbattr7">滑到</span></p>
+										</div>
+									</div>
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">电量：</span><span class="color_white" id="sbattr8">100</span></p>
+										</div>
+										<div class="layui-col-md7">
+											<p><span class="color_blue">步数：</span><span class="color_white" id="sbattr9">677</span></p>
+										</div>
+									</div>
+									<div class="layui-row">
+										<div class="layui-col-md7">
+											<p><span class="color_blue">温度计量器：</span><span class="color_white" id="sbattr10">0</span></p>
+										</div>
+										<div class="layui-col-md7">
+											<p><span class="color_blue">时间：</span><span class="color_white" id="sbattr11">2020-09-04 13:22:11</span></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--事件信息强框-->
+			<div class="layerBox abnormalLayer hide" id="abnormalLayer">
+				<h4 class="moveTxt">居民上报</h4>
+				<div class="layerContent">
+					<div class="abnormalForm">
+						<ul>
+							<li><label class="color_blue">异常内容：</label><span>消防栓水位报警</span></li>
+							<li><label class="color_blue">异常级别：</label><span class="color_red"><i class="iconfont iconbaojing"></i>一级</span></li>
+							<li><label class="color_blue">异常时间：</label><span>2020-05-12 14：00：00</span></li>
+							<li><label class="color_blue">处置状态：</label><span class="color_yellow">未处置</span></li>
+						</ul>
+						<img width="100%" class="img mt_10" src="images/video_img1.png" alt="" />
+					</div>
+				</div>
+			</div>
+
+            <!--巡检任务弹框-->
+            <div class="layerBox hide" id="xjrwLayer">
+                <h4 class="moveTxt">巡检详情</h4>
+                <div class="layerContent">
+                    <div class="abnormalForm">
+                        <ul>
+                            <li><label class="color_blue">巡检任务名称：</label><span>消防栓水位报警</span></li>
+                            <li><label class="color_blue">巡检时间：</label><span>2020-05-12 14：00：00</span></li>
+                            <li><label class="color_blue">巡检状态：</label><span>已巡</span></li>
+                            <li><label class="color_blue">是否异常：</label><span>是</span></li>
+                            <li><label class="color_blue">巡检记录：</label><span class="color_orange">从大门开始巡检</span></li>
+                            <li><label class="color_blue">巡检附件：</label><span></span></li>
+                        </ul>
+                        <img width="100%" class="img mt_10" src="images/video_img1.png" alt="" />
+                    </div>
+                </div>
+            </div>
+		</div>
+	</body>
+	<script src="js/3rd/jquery.min.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.core-3.5.js"></script>
+	<script src="js/jquery-ztree/3.5/js/jquery.ztree.excheck-3.5.js"></script>
+	<script src="js/3rd/featherCmsScript.js"></script>
+	<script src="js/3rd/swiper.min.js"></script>
+	<script src="js/3rd/echarts.js"></script>
+	<script src="js/layui-2.5.5/layui.js"></script>
+	<script src="js/zhzl.js"></script>
+	<script src="js/3d/turf.min.js"></script>
+	<script src="Cesium/Cesium.js"></script>
+	<script src="js/3d/config.js"></script>
+	<script src="js/3d/mapViewer.js"></script>
+	<script>
+        featherCmsScript.ctx = "/community/";
+	</script>
+
+</html>

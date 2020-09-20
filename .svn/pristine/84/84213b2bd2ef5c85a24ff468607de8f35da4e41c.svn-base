@@ -1,0 +1,135 @@
+<!--巡检概况-->
+<head>
+    <style>
+        .bjxxSearch{
+            height:3.2vh;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            float:left;
+            width:55%;
+            overflow: hidden;
+        }
+        .searchEditBtn{
+            float: right;
+            width:45%;
+        }
+        .searchEditBtn button{
+            cursor: pointer;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            float:left;
+            width:40%;
+            margin-left:4%;
+            font-size:0.7vw;
+            border:none;
+            padding:0;
+            background: #31b6a5;
+            border: 1px solid #31b6a5;
+            line-height: 3.2vh;
+            height: 3.2vh;
+            color: #fff;
+            font-size: 1.3vh;
+            border-radius: 4px;
+        }
+        .searchEditBtn button:hover,.searchEditBtn button.active{
+            background-color:#36c06a;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="layui-tab layui-tab-brief layuiTab1" lay-filter="nhtjTitle">
+        <ul id="left_ul" class="layui-tab-title title2 nhtjTitle">
+            <li id="xj" class="layui-this"><i class="iconfont icon-houtaiguanli"></i>巡检概况</li>
+            <li id="wx"><i class="iconfont icon-weixiu"></i>维修档案</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item nhtjContent layui-show">
+                <form class="layui-form layuiForm" action="">
+<!--                    <div class="layui-form-item timeLimit">
+                        <label class="layui-form-label clGreen">时间范围：</label>
+                        <div class="layui-input-block">
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="selectTime" placeholder="开始 到 结束" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item timeLimit">
+                        <button type="button" onclick="RYXJ.xjjlSituation()" style="margin-left: 0">按时间范围检索</button>
+                        <button type="button" onclick="RYXJ.xjjlLayerBox()">巡检记录</button>
+                        &lt;!&ndash;<button type="button" onclick="RYXJ.xjtjLayerBox()">巡检统计</button>&ndash;&gt;
+                    </div>-->
+
+                    <div class="oh">
+                        <div class="bjxxSearch pr">
+                            <input id="xjSearchValue" type="text" autocomplete="off">
+                            <i class="iconfont icon-sousuo pa" onclick="RYXJ.xjjlSituation()"></i>
+                        </div>
+                        <div class="searchEditBtn">
+                            <button type="button" style="width: 45%" onclick="RYXJ.xjjlLayerBox()">巡检管理</button>
+                            <button type="button" style="width: 45%" onclick="RYXJ.addInspect()">下发任务</button>
+<!--                            <button type="button" style="width: 100%" onclick="RYXJ.inspectForm()">巡检记录</button>-->
+                        </div>
+                    </div>
+                </form>
+                <div id="xjgkEcharts"></div>
+                <div class="layui-tab layuiTab2">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">在巡</li>
+                        <li>已巡</li>
+                        <li>未巡</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="table ryxjTabe page">
+                                <!--<div id="ryxjTable"></div>-->
+                                <table id="ryxjTable" class="layui-table" lay-filter="clickEvent"></table>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="table ryxjTabe page">
+                                <!--<div id="ryxjTable"></div>-->
+                                <table id="ryxjEndTable" class="layui-table" lay-filter="clickEvent"></table>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="table ryxjTabe page">
+                                <!--<div id="ryxjTable"></div>-->
+                                <table id="ryxjStartTable" class="layui-table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--维修记录-->
+            <div class="layui-tab-item nhtjContent">
+    <!--            <div class="layui-form-item timeLimit">
+                    <div class="layui-input-block">
+                        <button onclick="RYXJ.addWx()">新增</button>
+                        <button onclick="RYXJ.detailWx()">详情</button>
+                    </div>
+                </div>
+                <div class="bjxxSearch pr">
+                    <input id="wxSearchValue" type="text" autocomplete="off">
+                    <i class="iconfont icon-sousuo pa" onclick="RYXJ.wxSearch()"></i>
+                </div>-->
+                <div class="oh">
+                    <div class="bjxxSearch pr">
+                        <input id="wxSearchValue" type="text" autocomplete="off">
+                        <i class="iconfont icon-sousuo pa" onclick="RYXJ.wxSearch()"></i>
+                    </div>
+                    <div class="searchEditBtn">
+                        <button type="button" onclick="RYXJ.addWx()">新增</button>
+                        <button type="button" onclick="RYXJ.detailWx()">详情</button>
+                    </div>
+                </div>
+
+                <div class="table wxjlTabe page">
+                    <table class="layui-hide" id="wxjlTable" lay-filter="clickWxEvent"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

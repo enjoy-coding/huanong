@@ -1,0 +1,806 @@
+/*首页修改*/
+.homePage .topBox .logo{
+    width:29vw;
+    /*height:5vh;*/
+}
+.homePage .topBox .left{
+    left:0.7vw;
+    top:1.2vh;
+}
+.homePage .topBox .left img{
+    display:block;
+    width:12vw;
+    /*max-height:5vh;*/
+}
+.indexTitle i{
+    font-size: 0.8vw;
+}
+.indexTitle{
+    padding-left:1vw;
+    font-weight:700;
+    line-height:2.7vh;
+    color:#fff;
+    background:url("../images/titleBg.png") no-repeat right;
+    background-size:8.8vw;
+    font-size:1vw;
+    letter-spacing:2px;
+}
+.indexTitle a{
+    color:#fff;
+}
+.indexTitle span{
+    font-size:0.8vw;
+    color:#5efffd;
+}
+.indexTitle.bg2{
+    background:url("../images/titleBg2.png") no-repeat right;
+    background-size:5.5vw;
+}
+.sbtjTxt{
+    text-align: center;
+    height:11vh;
+    margin-bottom:0.5vh;
+}
+.sbtjTxt >.icon{
+    animation:mymove 5s infinite;
+    -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+    animation-direction:alternate;/*轮流反向播放动画。*/
+    animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    /* Safari 和 Chrome */
+    -webkit-animation:mymove 5s infinite;
+    -webkit-animation-direction:alternate;/*轮流反向播放动画。*/
+    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    margin:0 auto;
+    width:2.2vw;
+    height:2.2vw;
+    display:block;
+    line-height:2.2vw;
+    background: url("../images/jkBg.gif") no-repeat center;
+    background-size:100% 100%;
+    text-align: center;
+    color:#ffffdb;
+}
+.sbtjTxt >.icon .iconfont{
+    font-size: 1vw;
+    width:100%;
+}
+.sbtjTxt p{
+    font-size:0.72vw;
+    color:#8df7f3;
+}
+.sbtjTxt p a{
+    color:#8df7f3;
+}
+
+.sbtjTxt h5{
+    color:#fff;
+    font-size:1vw;
+    font-family: "jixieziti";
+}
+/*离线数值的字体改为红色*/
+.sbtjTxt h5:first-child i{
+    color:#fe7431;
+}
+.allNumber i{
+	display:block;
+	margin:0.5vh auto;
+	color:#fff;
+	width:90%;
+	background: -webkit-linear-gradient(left, #13ffeb , #1c4d45); /* Safari 5.1 - 6.0 */ 
+	background: -o-linear-gradient(right, #13ffeb , #1c4d45); /* Opera 11.1 - 12.0 */ 
+	background: -moz-linear-gradient(right, #13ffeb , #1c4d45); /* Firefox 3.6 - 15 */ 
+	background: linear-gradient(to right, #13ffeb , #1c4d45); /* 标准的语法 */ 
+}
+
+.online{
+    color:#fe7431
+}
+.indexTitle{
+    padding-left:0.7vw;
+}
+.layerTree{
+    top:0;
+    left:21vw;
+}
+.topTreeList{
+    width:15vw;
+    height:60vh;
+}
+.indexYjczList{
+    width:18vw;
+    height:12.6vh;
+    overflow:hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding:0 0.52vw;
+}
+.indexYjczList li{
+    padding:1vh 0.72vw 0 2.6vw;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position:relative;
+    margin-bottom:0.5vh;
+    height:5.8vh!important;
+    background:url("../images/yjczTxtBg.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexYjczList li .icon{
+    position:absolute;
+    left:0.72vw;
+    top:1.8vh;
+}
+.indexYjczList li .icon img{
+    display:block;
+    width:1.25vw;
+}
+.indexYjczList li p{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    color:#fff;
+    font-size:0.72vw;
+}
+#review_box{
+    height:14.8vh;
+    overflow: hidden;
+}
+.indexYamnTxt{
+    padding:0 0.52vw;
+}
+.indexYamnTxt .left,.indexYamnTxt .right{
+    width:50%;
+    text-align: center;
+}
+.indexYamnTxt .left h5{
+    color:#fdc82e;
+    font-size:0.92vw;
+}
+.indexYamnTxt .left h5 .iconfont{
+    font-size:1.2vw;
+    margin-right:0.4vw;
+}
+.indexYamnTxt .left h2{
+    width:6.6vw;
+    height:5.5vh;
+    background:url("../images/txtBg.png") no-repeat;
+    background-size: 100% 100%;
+    margin:0.4vh auto;
+    color:#fff;
+    line-height:5.5vh;
+    font-size:1.6vw;
+    font-family: jixieziti;
+}
+.indexYamnTxt .right ul > li{
+    margin:0.4vh auto;
+    width:6.5vw;
+    height:3vh;
+    line-height:3vh;
+    cursor:pointer;
+    display:block;
+    color:#fff;
+    font-size:0.72vw;
+}
+.indexYamnTxt .right ul > li>.iconfont{
+    font-size:0.93vw;
+    margin-right:0.5vw;
+}
+.indexYamnTxt .right ul > li:nth-child(1){
+    background:url("../images/yamnBtnBg1.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexYamnTxt .right ul > li:nth-child(2){
+    background:url("../images/yamnBtnBg2.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexYamnTxt .right ul > li:nth-child(3){
+    background:url("../images/yamnBtnBg3.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexTime>.left,.indexTime>.right{
+    text-align: center;
+    width:50%;
+    font-size:0.73vw;
+}
+.indexTime .txt{
+    font-size:1vw;
+    font-family: jixieziti;
+    color:#fff;
+}
+.indexTimeNumber{
+    text-align: center;
+    padding:0.4vh 0;
+}
+.indexTimeNumber .left{
+    float:left;
+    width:60%;
+    height:10vh;
+    background:url("../images/txtBg3.png") no-repeat;
+    background-size: 100% 100%;
+}
+.indexTimeNumber .left >dl{
+    float:left;
+    width:50%;
+    text-align: center;
+    color:#4eede8;
+}
+.indexTimeNumber .left >dl dt img{
+    width:1.8vw;
+}
+.indexTimeNumber .left >dl dd span{
+    font-size:0.52vw;
+}
+.indexTimeNumber .left >dl p{
+    color:#fff;
+    font-size:1vw;
+    font-family: jixieziti;
+}
+.indexTimeNumber .left dd h5{
+    font-size:0.62vw;
+}
+.indexTimeNumber .right h5{
+    color:#fff;
+    font-size:1vw;
+    font-family: jixieziti;
+}
+.indexTimeNumber .right p{
+    font-size:0.62vw;
+}
+.indexTimeNumber .right span{
+    font-size:0.52vw;
+}
+
+.indexSecurity .iconGroup{
+    text-align: center;
+    overflow:hidden;
+}
+.indexSecurity .iconGroup li{
+    float:left;
+    width:25%;
+    text-align: center;
+    color:#f1da3c;
+    font-size:0.52vw;
+}
+.indexSecurity .iconGroup li i{
+    font-size:2vw;
+    color:#f5ac3b;
+}
+.indexSecurity .iconGroup li  h5{
+    font-family: jixieziti;
+    font-size:1.2vw;
+    color:#fff;
+}
+.indexSecurity .txtList{
+    padding:0.52vh 1vw;
+    overflow:hidden;
+    text-align: center;
+}
+.indexSecurity .txtList dl{
+    width:49%;
+}
+.indexSecurity .txtList dt{
+    color:#fff;
+    font-size:0.82vw;
+    height:3vh;
+    line-height:3vh;
+    background:url("../images/indexTitleBg2.png") no-repeat left center;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexSecurity .txtList dd{
+    font-size:0.72vw;
+    line-height:2.2vh;
+    color:#3dfafc;
+}
+.indexSecurity .txtList dd span{
+    font-family: jixieziti;
+    color:#fff;
+}
+.indexSecurity .txtList dl:nth-child(2) dt{
+    background:url("../images/indexTitleBg3.png") no-repeat left center;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.indexSecurity .txtList dl:nth-child(2) dd{
+    color:#00ffba;
+}
+
+/*首页右边内容*/
+.indexNhjg{
+    /*padding:0 0.7vw;*/
+}
+.indexNhjg .ldqkList{
+    margin-top:0;
+}
+.indexNhjg .ldqkList p{
+    font-size:0.72vw;
+    color:#e7ed7f;
+}
+.indexNhjg .ldqkList p span{
+    font-size:0.52vw;
+}
+.indexNhjg .ldqkList li h5{
+    margin-bottom:0.5vh;
+    height:3.7vh;
+    line-height:3.7vh;
+}
+.indexNhjg .percentage{
+    display:-webkit-flex;
+    display: -webkit-box;
+    display: flex;
+    justify-content:space-between;
+}
+.indexNhjg .percentage dl{
+    color:#fff;
+    font-size:0.62vw;
+    text-align: center;
+    display:inline-block;
+    width:23%;
+}
+.indexNhjg .percentage dl dd span{
+    display:block;
+    line-height:2.7vh;
+    border-radius:4px;
+    color:#fff;
+    font-family: jixieziti;
+}
+.indexNhjg .percentage dd span.green{
+    background:#31a169;
+}
+.indexNhjg .percentage dd span.blue{
+    background:#3eb8b9;
+}
+.indexNhjg .percentage dd span i{
+    font-size:1vw;
+    margin-right:0.2vw;
+}
+.indexNhjg .percentage dl dt.clYellow{
+    color:#e7ed7f;
+}
+.fqxxWaterEcharts{
+    height:14vh;
+}
+.indexNhjg .layuiTab1{
+    margin:0.52vh 0;
+}
+.bfxxTxt{
+    padding:0 0.7vw;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width:18vw;
+    height:27vh;
+    overflow:hidden;
+}
+.bfxxTxt > ul>li{
+    width:18vw;
+}
+.bfxxTxt > ul>li .zxbfTxt{
+    position:relative;
+    padding-left:1.2vw;
+}
+.bfxxTxt > ul>li .zxbfTxt h5{
+    font-size:0.72vw;
+    color:#58e2e2;
+    width:1.2vw;
+    position:absolute;
+    left:0;
+    top:1vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number{
+    height:12.5vh;
+    background:url("../images/txtBg3.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+#flxxEcharts, #flxxEchartsElectricity{
+    height:13vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number dl{
+    float:left;
+    width:50%;
+    text-align: center;
+    height:6.25vh;
+    color:#fff;
+    font-size:0.72vw;
+}
+.bfxxTxt > ul>li .zxbfTxt {
+    margin-bottom:0.92vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number dl dt{
+    margin-top:0.4vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number .line{
+    float:left;
+    width:100%;
+    height:1px;
+    background:#158285;
+}
+.zxbfEcharts{
+    padding-right:4.2vw;
+}
+.zxbfEcharts .right{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top:2vh;
+    right:0;
+    top:0;
+    width:3.6vw;
+    height:12vh;
+    background:url("../images/bfxxTxtBg.png") no-repeat;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+.zxbfEcharts .echarts {
+    height:12vh;
+}
+.zxbfEcharts .right{
+    text-align: center;
+}
+.zxbfEcharts .right h5{
+    color:#fff;
+    font-size:0.72vw;
+}
+.zxbfEcharts .right h6{
+    margin-bottom:0.2vh;
+    color:#ea942d;
+    font-size:0.62vw;
+}
+.zxbfEcharts .right h2{
+    margin:0 auto;
+    width:80%;
+    border-radius:4px;
+    line-height:2.7vh;
+    color:#fff;
+    font-size:1vw;
+    font-family: jixieziti;
+    -webkit-box-shadow: inset 0 0 0.5vw rgba(57,209,212,.6);
+    -moz-box-shadow: inset 0 0 0.5vw rgba(57,209,212,.6);
+    box-shadow:inset 0 0 0.5vw rgba(57,209,212,.6);
+}
+
+@keyframes mymove
+{
+    0%{
+        transform: scale(1);  /*开始为原始大小*/
+    }
+    25%{
+        transform: scale(1.1); /*放大1.1倍*/
+    }
+    50%{
+        transform: scale(1);
+    }
+    75%{
+        transform: scale(1.1);
+    }
+
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+    0%{
+        transform: scale(1);  /*开始为原始大小*/
+    }
+    25%{
+        transform: scale(1.1); /*放大1.1倍*/
+    }
+    50%{
+        transform: scale(1);
+    }
+    75%{
+        transform: scale(1.1);
+    }
+}
+.bfxxTxt .swiper-pagination{
+    bottom:0;
+}
+.bfxxTxt .swiper-pagination-bullet{
+    width:1.8vw;
+    height:0.2vh;
+    background-color:#ffffff;
+}
+.bfxxTxt .swiper-pagination-bullet-active{
+    background:#5bfee9;
+}
+.indexNhjg .nhtjContent{
+    height:34vh;
+}
+.indexSecurity .txtList dt a{
+    color:#fff;
+    display:block;
+}
+.indexYamnTxt .right ul > li a{
+    color:#fff;
+}
+.zhswList{
+	margin:0.5vh 0.3vw;
+}
+.zhswList li{
+	text-align: center;
+	width:30%;
+	color: #fff;
+    font-size: 0.8vw;
+    line-height: 3.2vh;
+    border-radius: 4px;
+    margin-bottom: 0.4vh;
+    background:none;
+    /*background:rgba(2, 24, 47, .4);*/
+    -webkit-box-shadow: inset 0 0 1.2vw rgba(30,187,194,.8);
+    -moz-box-shadow: inset 0 0 1.2vw rgba(30,187,194,.8);
+    box-shadow:inset 0 0 1.2vw rgba(30,187,194,.8);
+}
+.zhswList li:hover{
+	background:rgba(2, 24, 47, .4);
+}
+.zhswList li a{
+	display:block;
+	color: #fff;
+}
+
+/*css首页配电房*/
+.distributionRoom{
+	padding:0.5vh 1.5vw;
+	position:relative;
+	overflow:hidden;
+}
+
+.distributionRoom .swiper-button-next:after,.distributionRoom .swiper-button-prev:after{
+	content:' ';
+}
+.distributionRoom .swiper-button-next{
+	background: url(../images/swiperRightBtn.png) no-repeat;
+	background-size: 100% 100%;
+}
+.distributionRoom .swiper-button-prev{
+	background: url(../images/swiperLeftBtn.png) no-repeat;
+	background-size: 100% 100%;
+}
+.distributionRoom .swiper-button-next,.distributionRoom .swiper-button-prev{
+	width:0.7vw;
+	height:2vh;
+	top:50%;
+	margin-top:-1vh;
+
+}
+.distributionRoom .swiper-button-prev,.distributionRoom  .swiper-container-rtl .swiper-button-next{
+	left:0.5vw;
+}
+.distributionRoom ul li .left,.distributionRoom ul li .right{
+	width:43%;
+	margin:0 1%;
+	padding:0.4vh 0.2vw;
+}
+.distributionRoom ul li .left{
+	background: url(../images/txtBg.png) no-repeat;
+    background-size: 100% 100%;
+	text-align: center;
+	height: 7vh;
+}
+.distributionRoom ul li .left i{
+	color:#eedb3b;
+	font-size:1.2vw;
+}
+.distributionRoom ul li .left h5{
+	color:#fff;
+	font-size:0.7vw;
+}
+.distributionRoom ul li .right{
+	padding:1.2vh 0;
+}
+.distributionRoom ul li .right h6{
+	overflow: hidden;
+	font-size:0.8vw;
+	margin-bottom:0.5vh;
+}
+.distributionRoom ul li .right h6 span{
+	float:left;
+	width:50%;
+	color:#4eda9c;
+}
+.distributionRoom ul li .right h6 i{
+	float:right;
+	width:40%;
+	text-align: center;
+	font-family: "jixieziti";
+	color:#fff;
+	font-size:1.2vw;
+}
+
+.searchLabel{
+    display: block;
+    color: #fff;
+    width: 9.5vw;
+    background: rgba(22, 45, 52, .4);
+    -webkit-box-shadow: inset 0 0 4vw rgba(59,184,183,1);
+    -moz-box-shadow: inset 0 0 4vw rgba(59,184,183,1);
+    box-shadow: inset 0 0 4vw rgba(59,184,183,1);
+}
+.searchLabel label{
+    display: block;
+    margin-left: 0.5vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vh;
+}
+
+/*泵房信息*/
+.bfxxTxt > ul>li .zxbfTxt .number dl dt{
+    margin-top:0;
+}
+.bfxxTxt > ul>li .zxbfTxt .number dl{
+    height:auto;
+}
+.bfxxTxt > ul>li .zxbfTxt .number{
+    height:14vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number .name{
+    width:50%;
+    margin-left:1vw;
+    font-size:0.72vw;
+    color:#4eda9c;
+}
+.bfxxTxt > ul>li .zxbfTxt h5{
+    top:2vh;
+}
+
+/*首页决策保障修改*/
+.yamnChange .right{
+    width:100%;
+    margin:1vh 0;
+}
+.yamnChange .right ul{
+    overflow: hidden;
+}
+.yamnChange .right ul li{
+    line-height:4vh;
+    height:4vh;
+    margin:0;
+    float:left;
+    width:32%;
+    margin-right:2%;
+}
+.yamnChange .right ul li .iconfont{
+    font-size:1vw;
+    margin-right:0.2vw;
+}
+.yamnChange .right ul li:last-child{
+    margin-right:0;
+}
+
+.swiper-container .swiper-button-next:after,.swiper-container .swiper-button-prev:after{
+    content:' ';
+}
+.swiper-container .swiper-button-next{
+    left:auto;
+    right:0;
+    background: url(../images/swiperRightBtn.png) no-repeat;
+    background-size: 100% 100%;
+}
+.swiper-container .swiper-button-prev{
+    left:0;
+    background: url(../images/swiperLeftBtn.png) no-repeat;
+    background-size: 100% 100%;
+}
+.swiper-container .swiper-button-next,.swiper-container .swiper-button-prev{
+    width:0.7vw;
+    height:2vh;
+    top:50%;
+    margin-top:-1vh;
+
+}
+
+bfxxTxt{
+    padding:0;
+}
+.bfxxTxt > ul>li .zxbfTxt{
+    padding: 0 0.7vw 0 2vw;
+}
+.bfxxTxt > ul>li .zxbfTxt h5{
+    left:0.7vw;
+}
+.zxbfEcharts{
+    padding:0 4.9vw 0 0.7vw;
+}
+.zxbfEcharts .right{
+    right:0.7vw;
+}
+
+/*巡检维修*/
+.indexNhjg .nhtjContent{
+    height:18vh;
+}
+.indexXjwx .content{
+    margin:1vh 0.8vw;
+    height:10.05vh;
+    background:url(../images/indexXjwxBg.png) no-repeat;
+    background-size:100% 100%;
+}
+.indexXjwx h4{
+    padding-left:1vw;
+    font-size:0.82vw;
+    line-height:3vh;
+    color:#fff;
+    margin-bottom:1vh;
+}
+.indexXjwx .content .numberList{
+    text-align: center;
+    color:#fff;
+    font-size:0.72vw;
+}
+.indexXjwx .content .numberList h5{
+    line-height:3vh;
+}
+.indexXjwx .content .numberList h5 i{
+    font-weight: 700;
+    font-size:0.82vw;
+    margin-right:0.2vw;
+}
+.color_orange{
+    color:#f49d4f;
+}
+.color_yellow{
+    color:#f0dd3d;
+}
+.color_green{
+    color:#6dde53;
+}
+
+/*巡检维修修改*/
+.indexXjwx h4 span i{
+    font-family: "jixieziti";
+    font-size:1vw;
+}
+.indexXjwx .content{
+    margin:0 0.8vw;
+}
+.indexXjwx{
+    margin:1vh 0;
+}
+
+
+/* 202009824首页修改 */
+.bfxxTxt > ul>li .zxbfTxt .number dl{
+    padding:0 0.4vw;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.bfxxTxt > ul>li .zxbfTxt .number dl dd{
+    font-size:0.7vw;
+    float:left;
+    /* width:50%; */
+    line-height:4vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number dl dd:first-child{
+    margin-right:0.4vw;
+}
+.bfxxTxt > ul > li .zxbfTxt .number .name{
+    margin-top:0.6vh;
+}
+.bfxxTxt > ul>li .zxbfTxt .number .line{
+    margin:0.4vh 0;
+}
+.zxbfEcharts .right{
+    padding:2vh 0.2vw 0 0.2vw;
+    width:4vw;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height:14vh;
+}
+.zxbfEcharts .right h5{
+    font-size:0.62vw;
+}
+
+.bfxxTxt{
+    height:32vh;
+}
+.zxbfEcharts .echarts{
+    height:14vh;
+}

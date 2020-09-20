@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增会议')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
+    <th:block th:include="include :: summernote-css"/>
+    <th:block th:include="include :: jasny-bootstrap-css"/>
+    <th:block th:include="include ::  zbtable-css"/>
+</head>
+<body>
+<div class="main-content">
+    <form class="form-horizontal" id="form-meeting-edit" th:object="${meetingInfo}">
+        <input name="id" type="hidden" th:field="*{id}" id="id"/>
+        <h4 class="form-header h4">会议信息</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><span class="requiredstar">*</span>文章标题：</label>
+                    <div class="col-sm-10">
+                        <input name="title" class="form-control" type="text" th:field="*{title}" id="title" required />
+                        <input id="qrCode" name="qrCode" type="hidden" th:field="*{qrCode}"/>
+                        <input id="attaches" name="attaches" type="hidden" th:field="*{attaches}"/>
+                        <input id="content" name="content" type="hidden" th:field="*{content}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">会议编号：</label>
+                    <div class="col-sm-10">
+                        <input name="code" class="form-control" type="text" th:field="*{code}" id="code"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">会议地址：</label>
+                    <div class="col-sm-10">
+                        <input name="place" class="form-control" type="text" th:field="*{place}" id="place"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">开始时间：</label>
+                    <div class="col-sm-8">
+                        <input name="beginTimeStr" class="form-control" type="text" th:field="*{beginTimeStr}"
+                               id="beginTimeStr"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">结束时间：</label>
+                    <div class="col-sm-8">
+                        <input name="endTimeStr" class="form-control" type="text" th:field="*{endTimeStr}"
+                               id="endTimeStr"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">附件：</label>
+                    <div class="col-sm-10">
+                        <div id="zbt-table">
+
+                        </div>
+                        <div style="height:10px;width:100%;"></div>
+                        <form id="uploadAttachForm" enctype="multipart/form-data">
+                            <div class="fileinput fileinput-new" style="text-align:center;">
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <span class="fileinput-new ">选择附件</span>
+                                        <input type="file" id="attachesBtn" name="attachesBtn" onchange="uploadAttaches()" multiple="multiple"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">二维码：</label>
+                    <div class="col-sm-10">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="fileinput fileinput-new" style="text-align:center;">
+                                <div class="fileinput-preview thumbnail iconImage img-preview-self"
+                                     data-trigger="fileinput">
+                                    <img id="picImg" th:src="@{*{qrCode}}">
+                                </div>
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <span class="fileinput-new ">选择二维码</span>
+                                        <input type="file" id="file" name="file" onchange="uploadPic()"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" style="padding-left:73px;">内容：</label>
+                    <div class="col-sm-10 multi-column-3-padding" style="padding-left:3px;padding-right:3px;">
+                        <div id="editor" class="summernote"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存
+        </button>&nbsp;
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+        </button>
+    </div>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<th:block th:include="include :: datetimepicker-zh-js"/>
+<th:block th:include="include :: summernote-js"/>
+<th:block th:include="include :: zbtable-js"/>
+
+<script th:src="@{/bus/meeting/js/info.js}"></script>
+<script type="text/javascript">
+    var prefix = ctx + "meeting/info";
+
+
+    $(function () {
+        <!--初始化编辑器-->
+        initSummernote(ctx, 300, "content");
+        debugger
+        initDatePicker({
+            domId: "beginTimeStr"
+        });
+        initDatePicker({
+            domId: "endTimeStr"
+        });
+        initAttachesTable("zbt-table", $("#attaches").val());
+
+        addAttachesDelEvent("attaches");
+    });
+
+    function uploadPic() {
+        uploadCoverImage("file", "picImg", "qrCode")
+    }
+
+    function uploadAttaches() {
+        uploadAttaches({
+            ctx: ctx
+        });
+    }
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#content").val(sHTML);
+            debugger;
+            var data = $("#form-meeting-edit").serializeArray();
+            $.operate.saveTab({
+                url: prefix + "/editDo",
+                data: data,
+                success: "close"
+            });
+        }
+    }
+</script>
+</body>
+</html>

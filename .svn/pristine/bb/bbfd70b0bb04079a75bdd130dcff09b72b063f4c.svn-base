@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('预警信息详情列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>预警名称：</p>
+                                <input type="text" name="yjname"/>
+                            </li>
+                            <li class="select-time">
+                                <p>预警时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginYjtime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endYjtime]"/>
+                            </li>
+                            <li>
+                                <p>预警等级：</p>
+                                <input type="text" name="yjlevel"/>
+                            </li>
+                            <li>
+                                <p>预警来源：</p>
+                                <input type="text" name="yori"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="aupipes:yjinfotables:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="aupipes:yjinfotables:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="aupipes:yjinfotables:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('aupipes:yjinfotables:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('aupipes:yjinfotables:remove')}]];
+        var itidDatas = [[${@dict.getType('null')}]];
+        var tidDatas = [[${@dict.getType('null')}]];
+        var areanoDatas = [[${@dict.getType('null')}]];
+        var nameDatas = [[${@dict.getType('null')}]];
+        var contentDatas = [[${@dict.getType('null')}]];
+        var snameDatas = [[${@dict.getType('null')}]];
+        var sareaDatas = [[${@dict.getType('null')}]];
+        var stypeDatas = [[${@dict.getType('null')}]];
+        var sidDatas = [[${@dict.getType('null')}]];
+        var yjnameDatas = [[${@dict.getType('null')}]];
+        var yjtimeDatas = [[${@dict.getType('null')}]];
+        var yjstatusDatas = [[${@dict.getType('null')}]];
+        var yjlevelDatas = [[${@dict.getType('null')}]];
+        var yoriDatas = [[${@dict.getType('null')}]];
+        var lightDatas = [[${@dict.getType('null')}]];
+        var aDatas = [[${@dict.getType('null')}]];
+        var vDatas = [[${@dict.getType('null')}]];
+        var wDatas = [[${@dict.getType('null')}]];
+        var pwDatas = [[${@dict.getType('null')}]];
+        var plDatas = [[${@dict.getType('null')}]];
+        var presureDatas = [[${@dict.getType('null')}]];
+        var prefix = ctx + "aupipes/yjinfotables";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "预警信息详情",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'itid', 
+                    title : '预警详情id'
+
+                },
+                {
+                    field : 'tid', 
+                    title : '预警统计设备id'
+                },
+                {
+                    field : 'areano', 
+                    title : '地址编号'
+                },
+                {
+                    field : 'name', 
+                    title : '预警名称'
+                },
+                {
+                    field : 'content', 
+                    title : '预警信息'
+                },
+                {
+                    field : 'sname', 
+                    title : '设备名称'
+                },
+                {
+                    field : 'sarea', 
+                    title : '设备位置'
+                },
+                {
+                    field : 'stype', 
+                    title : '设备类型'
+                },
+                {
+                    field : 'sid', 
+                    title : '设备id'
+                },
+                {
+                    field : 'yjname', 
+                    title : '预警名称'
+                },
+                {
+                    field : 'yjtime', 
+                    title : '预警时间'
+                },
+                {
+                    field : 'yjstatus', 
+                    title : '预警状态'
+                },
+                {
+                    field : 'yjlevel', 
+                    title : '预警等级'
+                },
+                {
+                    field : 'yori', 
+                    title : '预警来源'
+                },
+                {
+                    field : 'light', 
+                    title : '灯头'
+                },
+                {
+                    field : 'a', 
+                    title : '电流'
+                },
+                {
+                    field : 'v', 
+                    title : '电压'
+                },
+                {
+                    field : 'w', 
+                    title : '功率'
+                },
+                {
+                    field : 'pw', 
+                    title : '功率因素'
+                },
+                {
+                    field : 'pl', 
+                    title : '电流'
+                },
+                {
+                    field : 'presure', 
+                    title : '压力值'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.itid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.itid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
